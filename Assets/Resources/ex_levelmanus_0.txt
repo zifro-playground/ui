@@ -1,0 +1,60 @@
+
+clearprecode
+
+// First need to set some settings
+bubblesettings:
+>target = sb-foo()
+>action = clicktarget
+
+bubble: Click <b>that</b> button!
+>Yes! <i>The one I'm pointing at!</i>
+>The <color=green>green</color> highlighted one!
+>
+>Go on! Click it!!
+
+// Assigns some code
+precode:
+>x = 1
+>x = 2
+>x = 3
+>x = 4
+>x = 5
+>x = 6
+>x = 7
+>for i in range(4):
+>	x += x**i
+
+// Testing out ability to have code in demo bubbles
+bubblesettings:
+>target = (2)
+>action = clicknext
+
+bubble: Here's some precode
+>In this precode, theres a for loop.
+>We can have for loop in here too:
+><code>for i in range(4):
+>	x += x**i</code>
+
+// Waits 2 seconds
+wait: 2
+
+// Play 3 steps of code
+step: 3
+
+bubblesettings:
+>target = (3)
+>action = clicknext
+
+bubble: It played 3 times
+>Well, actually, 3 steps;
+>therefore, <b><color=#DE5170>x = 3</color></b>.
+>
+>Now it will do a full cycle and then it's over.
+
+// Changes speed.
+// Equal to PMWrapper.speedMultiplier, so default is 0.5, max is 1, min is 0
+speed: .8
+
+// Plays all code from start
+stop
+finish
