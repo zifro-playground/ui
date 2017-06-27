@@ -251,7 +251,7 @@ Prefab:
     - target: {fileID: 224748551206991216, guid: a76b2cd08b102b541a320e5b5e4a1c23,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.00000035762787
       objectReference: {fileID: 0}
     - target: {fileID: 224603228407730556, guid: a76b2cd08b102b541a320e5b5e4a1c23,
         type: 2}
@@ -316,6 +316,11 @@ Prefab:
     - target: {fileID: 114926137486329432, guid: a76b2cd08b102b541a320e5b5e4a1c23,
         type: 2}
       propertyPath: m_Interactable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114856117184946090, guid: a76b2cd08b102b541a320e5b5e4a1c23,
+        type: 2}
+      propertyPath: devBuild
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
