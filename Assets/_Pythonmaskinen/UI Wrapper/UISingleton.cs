@@ -51,7 +51,8 @@ namespace PM {
 
 			// Load error api config
 			TextAsset file = Resources.Load<TextAsset>("game_token");
-			if (file == null) return;
+			if (file == null) 
+				gameToken = "1234";
 
 			try {
 				gameToken = file.text.Trim();

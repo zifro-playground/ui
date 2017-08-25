@@ -27,8 +27,8 @@ namespace PM {
 			TrySendExceptionToDatabase(exceptionType, exceptionMsg);
 		}
 
-		private const string api_url = "http://kalle.jillheden.se/api/pmerror.php";
-		private static string TrySendExceptionToDatabase(string exType, string exMsg) {
+		private const string api_url = "http://jontebackis4.pythonanywhere.com/";
+		public static string TrySendExceptionToDatabase(string exType, string exMsg) {
 			
 			try {
 				if (Application.internetReachability == NetworkReachability.NotReachable) return "no internet";

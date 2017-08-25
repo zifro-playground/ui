@@ -67,6 +67,7 @@ namespace PM {
 
 			theErrorBubble.SetErrorMessage(message);
 			UISingleton.instance.compiler.stopCompiler(HelloCompiler.StopStatus.RuntimeError);
+			ExceptionHandler.TrySendExceptionToDatabase ("error", message);
 			throw new PMRuntimeException(message);
 		}
 
