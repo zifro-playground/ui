@@ -88,6 +88,10 @@ public static class PMWrapper {
 		UISingleton.instance.textField.InsertText(code, smartButtony);
 	}
 
+	public static void AddCodeAtStart(string code){
+		UISingleton.instance.textField.insertMainCodeAtStart (code);
+	}
+
 	/// <summary>
 	/// Scrolls so that the <paramref name="lineNumber"/> is visible in the IDE.
 	/// </summary>

@@ -18,8 +18,6 @@ namespace PM {
 		public Text visibleText;
 		public Text postText;
 		public IDESpeciallCommands theSpeciallCommands;
-		[Obsolete("Please refer to PMWrapper.codeRowsLimit instead.", true), NonSerialized]
-		public int amountOfRows;
 		public int codeRowsLimit = 32;
 		public bool devBuild = false;
 
@@ -269,9 +267,9 @@ namespace PM {
 				int end = Mathf.Max(theInputField.selectionAnchorPosition, theInputField.selectionFocusPosition);
 				string checkText;
 
-				if (start == end)
+				if (start == end) 
 					// No selection
-					checkText = theInputField.text.Insert(start, newText);
+					checkText = theInputField.text.Insert (start, newText);
 				else
 					// Yes selection
 					checkText = theInputField.text.Substring(0, start) + newText + theInputField.text.Substring(end);
@@ -310,6 +308,13 @@ namespace PM {
 			}
 		}
 
+		public void insertMainCodeAtStart (string code){
+			if (theInputField.text.Length == 0) {
+				theInputField.text = code;
+				inserting = true;
+			}
+		}
+
 		private void webTabSupport() {
 			if (Input.GetKeyDown(KeyCode.Tab))
 				InsertText("\t");
@@ -336,7 +341,7 @@ namespace PM {
 			theFocusLord.stealFocus = true;
 			theInputField.interactable = true;
 		}
-#endregion
+		#endregion
 
 		void IPMCompilerStarted.OnPMCompilerStarted() {
 			if (!PMWrapper.isDemoingLevel)
