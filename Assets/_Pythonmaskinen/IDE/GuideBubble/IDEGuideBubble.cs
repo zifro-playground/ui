@@ -5,10 +5,12 @@ using UnityEngine.UI;
 
 namespace PM {
 
-	public class IDEGuideBubble : AbstractPopupBubble {
+	public class IDEGuideBubble : AbstractPopupBubble, IPMLevelChanged {
 
 		[Header("GuideBubble fields")]
 		public Text theGuideText;
+		public VerticalLayoutGroup theBodyGroup;
+		public CanvasGroup okayButton;
 
 		private IDELineMarker theMarker;
 
@@ -26,11 +28,13 @@ namespace PM {
 			HideMessage();
 		}
 
-		protected override void OnShowMessage() {}
+		protected override void OnShowMessage() {
+			okayButton.interactable = true;
+			okayButton.blocksRaycasts = true;
+			okayButton.alpha = 1;
+		}
 
 		protected override void OnHideMessage() {
-			theMarker.SetState(IDELineMarker.State.Hidden);
-			UISingleton.instance.textField.theLineMarker.removeErrorMessage();
 		}
 	}
 }

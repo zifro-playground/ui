@@ -30,6 +30,7 @@ namespace PM {
 		public RectTransform tooltipParent;
 		public IDEPrintBubble printBubble;
 		public IDEManusBubble manusBubble;
+		public IDEGuideBubble guideBubble;
 		public CanvasGroup uiCanvasGroup;
 		[Header("Misc")]
 		public Camera uiCamera;

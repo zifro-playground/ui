@@ -7,7 +7,6 @@ public class TestScript : MonoBehaviour, IPMLevelChanged {
 	// Use this for initialization
 	void Start () {
 		PMWrapper.numOfLevels = 2;
-		PMWrapper.SetLevelCompleted ();
 	}
 	
 	// Update is called once per frame
@@ -16,7 +15,7 @@ public class TestScript : MonoBehaviour, IPMLevelChanged {
 	}
 
 	public void OnPMLevelChanged(){
-		//PMWrapper.mainCode = "for i in range(4):\ntestcode = 0";
 		PMWrapper.AddCodeAtStart ("for i in range(4):\n\ttestcode = 0");
+		PMWrapper.ShowGuideBubble(1, "Här ser du ett exempel på en for-slinga");
 	}
 }

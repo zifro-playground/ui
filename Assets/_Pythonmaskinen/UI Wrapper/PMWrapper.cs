@@ -82,12 +82,15 @@ public static class PMWrapper {
 	}
 
 	/// <summary>
-	/// Static wrapper for <see cref="IDETextField.InsertText(string)"/>. Adds code to the main code where the cursor currently is.
+	/// Adds code to the main code where the cursor currently is. Typically used by smart buttons.
 	/// </summary>
 	public static void AddCode(string code, bool smartButtony = false) {
 		UISingleton.instance.textField.InsertText(code, smartButtony);
 	}
 
+	/// <summary>
+	/// Adds code to the main code only if the main code is empty. Should be used for setting given code first time the user opens the level.
+	/// </summary>
 	public static void AddCodeAtStart(string code){
 		UISingleton.instance.textField.insertMainCodeAtStart (code);
 	}
@@ -343,6 +346,16 @@ public static class PMWrapper {
 	/// <exception cref="PMRuntimeException">Is always thrown</exception>
 	public static void RaiseError(Vector3 targetWorldPosition, string message) {
 		UISingleton.instance.textField.theLineMarker.setErrorMarker(targetWorldPosition, message);
+	}
+
+	public static void ShowGuideBubble(int lineNumber, string message){
+		UISingleton.instance.guideBubble.ShowMessage (lineNumber);
+		UISingleton.instance.guideBubble.SetGuideMessage(message);
+	}
+
+	public static void ShowGuideBubble(Vector3 targetWorldPosition, string message){
+		UISingleton.instance.guideBubble.ShowMessage (targetWorldPosition);
+		UISingleton.instance.guideBubble.SetGuideMessage(message);
 	}
 
 	/// <summary>
