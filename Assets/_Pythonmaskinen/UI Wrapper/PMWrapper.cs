@@ -13,7 +13,7 @@ public static class PMWrapper {
 	/// <summary>
 	/// Version of the Pythonmachine wrapper/UI.
 	/// </summary>
-	public const string version = "0.8.0";
+	public const string version = "0.9.0";
 
 	/// <summary>
 	/// Value from the speed slider. Ranges from 0 to 1, with a default of 0.5.
@@ -187,32 +187,17 @@ public static class PMWrapper {
 	}
 
 	/// <summary>
-	/// Creates multiple smart buttons with Rich Text below the code view. Once pressed, it inserts code into the main code view.
-	/// <para>The Rich buttons, compared to non-rich buttons, have coloring added via RichText. The smart button tries to interpret the codes and colorize them for you.</para>
-	/// <para>If you wish to clear away all smart buttons, run this function or <seealso cref="SetSmartButtons(string[])"/> with empty parameters.</para>
-	/// </summary>
-	[Obsolete("This function is soon to be removed. Concider switching to normal smart buttons.")]
-	public static void SetSmartRichButtons(params string[] codes) {
-		UISingleton.instance.smartButtons.ClearSmartButtons();
-		for(int i=0; i<codes.Length; i++) {
-			UISingleton.instance.smartButtons.AddSmartButton(codes[i]);
-		}
-	}
-
-	/// <summary>
-	/// Creates one smart button with Rich Text below the code view. Once pressed, it inserts code into the main code view.
-	/// <para>The Rich buttons, compared to non-rich buttons, have coloring added via RichText. The smart button tries to interpret the codes and colorize them for you.</para>
-	/// </summary>
-	[Obsolete("This function is soon to be removed. Concider switching to normal smart buttons.")]
-	public static void AddSmartRichButton(string code) {
-		UISingleton.instance.smartButtons.AddSmartButton(code);
-	}
-
-	/// <summary>
 	/// Adds smart buttons with names taken from registered functions via <see cref="SetCompilerFunctions(Compiler.Function[])"/> or <see cref="AddCompilerFunctions(Compiler.Function[])"/>
 	/// </summary>
 	public static void AutoSetSmartButtons() {
 		SetSmartButtons(UISingleton.instance.compiler.addedFunctions.ConvertAll(f => f.name + "()").ToArray());
+	}
+
+	/// <summary>
+	/// Sets the task descriptions for all levels. Should be called in Awake to start before the first OnLevelChanged that sets the description to level 0.
+	/// </summary>
+	public static void SetTaskDescriptions(string[] taskDescriptions){
+		UISingleton.instance.taskDescription.SetLevelTaskDescription (taskDescriptions);
 	}
 
 	/// <summary>
@@ -348,21 +333,21 @@ public static class PMWrapper {
 		UISingleton.instance.textField.theLineMarker.setErrorMarker(targetWorldPosition, message);
 	}
 
+	/// <summary>
+	/// Shows a guide bubble at the specified linenumber.
+	/// </summary>
 	public static void ShowGuideBubble(int lineNumber, string message){
 		UISingleton.instance.guideBubble.ShowMessage (lineNumber);
 		UISingleton.instance.guideBubble.SetGuideMessage(message);
 	}
 
+	/// <summary>
+	/// Shows a guide bubble at world position.
+	/// </summary>
 	public static void ShowGuideBubble(Vector3 targetWorldPosition, string message){
 		UISingleton.instance.guideBubble.ShowMessage (targetWorldPosition);
 		UISingleton.instance.guideBubble.SetGuideMessage(message);
 	}
-
-	/// <summary>
-	/// Setting to true will disable all UI interactions.
-	/// </summary>
-	[Obsolete("This functionality has been removed. Please contact Pythonmachine creators if you wish to return this functionality.", true)]
-	public static bool uiDisabled { get; set; }
 
 	/// <summary>
 	/// Makes the IDE not destroy on load, i.e. on level change and such.

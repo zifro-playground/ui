@@ -9,14 +9,7 @@ namespace PM {
 
 		[Header("GuideBubble fields")]
 		public Text theGuideText;
-		public VerticalLayoutGroup theBodyGroup;
-		public CanvasGroup okayButton;
 
-		private IDELineMarker theMarker;
-
-		public void init(IDELineMarker theMarker) {
-			this.theMarker = theMarker;
-		}
 
 		public void SetGuideMessage(string guideMessage) {
 			theGuideText.text = guideMessage;
@@ -25,13 +18,10 @@ namespace PM {
 
 		void IPMLevelChanged.OnPMLevelChanged() {
 			// Fade away on level change
-			HideMessage();
+			HideMessageInstantly();
 		}
 
 		protected override void OnShowMessage() {
-			okayButton.interactable = true;
-			okayButton.blocksRaycasts = true;
-			okayButton.alpha = 1;
 		}
 
 		protected override void OnHideMessage() {

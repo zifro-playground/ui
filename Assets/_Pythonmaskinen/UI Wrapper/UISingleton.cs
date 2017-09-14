@@ -31,6 +31,7 @@ namespace PM {
 		public IDEPrintBubble printBubble;
 		public IDEManusBubble manusBubble;
 		public IDEGuideBubble guideBubble;
+		public IDETaskDescription taskDescription;
 		public CanvasGroup uiCanvasGroup;
 		[Header("Misc")]
 		public Camera uiCamera;

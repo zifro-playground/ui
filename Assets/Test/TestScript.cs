@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class TestScript : MonoBehaviour, IPMLevelChanged {
 
+	public string[] tasks;
+
+
+	void Awake(){
+		PMWrapper.SetTaskDescriptions (tasks);
+	}
+
 	// Use this for initialization
 	void Start () {
 		PMWrapper.numOfLevels = 2;
@@ -15,7 +22,7 @@ public class TestScript : MonoBehaviour, IPMLevelChanged {
 	}
 
 	public void OnPMLevelChanged(){
-		PMWrapper.AddCodeAtStart ("for i in range(4):\n\ttestcode = 0");
-		PMWrapper.ShowGuideBubble(1, "Här ser du ett exempel på en for-slinga");
+		PMWrapper.AddCodeAtStart ("for i in range(4):\n\ttestcode = 0\n");
+
 	}
 }
