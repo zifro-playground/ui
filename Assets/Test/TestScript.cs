@@ -18,7 +18,9 @@ public class TestScript : MonoBehaviour, IPMLevelChanged {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (Input.GetKey (KeyCode.K)) {
+			PMWrapper.ShowGuideBubble (1, "Detta är ett mycket bra tips!");
+		}
 	}
 
 	public void OnPMLevelChanged(){
