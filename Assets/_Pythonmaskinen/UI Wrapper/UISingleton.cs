@@ -18,6 +18,7 @@ namespace PM {
 		public CodeWalker walker;
 		public GlobalSpeed speed;
 		public Manus.ManusPlayer manusPlayer;
+		public Guide.GuidePlayer guidePlayer;
 		[Header("UI")]
 		public IDERowsLimit rowsLimit;
 		public LevelHints levelHints;

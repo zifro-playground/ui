@@ -121,8 +121,10 @@ namespace PM.Manus {
 					if (row.Length > 0 && row[0] == '>') {
 						if (step is Step.IStepNoBody) throw new ManusBuildingException(step.GetType().Name + " doesn't support body parameters!", rowNumber, filename);
 
-						if (contentBody == null) contentBody = row.Substring(1);
-						else contentBody += "\n" + row.Substring(1);
+						if (contentBody == null) 
+							contentBody = row.Substring(1);
+						else 
+							contentBody += "\n" + row.Substring(1);
 					} else {
 						// Reading complete
 						if (contentBody == null && !(step is Step.IStepNoBody)) throw new ManusBuildingException(step.GetType().Name + " requires a body parameter!", rowNumber, filename);

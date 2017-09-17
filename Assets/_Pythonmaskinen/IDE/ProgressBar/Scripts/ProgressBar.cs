@@ -61,6 +61,7 @@ namespace PM {
 			}
 			
 			Manus.Loader.BuildAll();
+			Guide.GuideLoader.BuildAll ();
 
 			UpdateButtons(current, unlocked);
 		}

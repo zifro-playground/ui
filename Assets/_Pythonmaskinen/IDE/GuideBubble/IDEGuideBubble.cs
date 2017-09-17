@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using PM.Guide;
 
 namespace PM {
 
@@ -17,14 +18,14 @@ namespace PM {
 		}
 
 		void IPMLevelChanged.OnPMLevelChanged() {
-			// Fade away on level change
-			HideMessageInstantly();
 		}
 
 		protected override void OnShowMessage() {
 		}
 
 		protected override void OnHideMessage() {
+			if (UISingleton.instance.guidePlayer.currentGuide.hasNext)
+				UISingleton.instance.guidePlayer.shouldPlayNext = true;
 		}
 	}
 }
