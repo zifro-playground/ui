@@ -1863,7 +1863,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 490630569}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84aa101ce7c3ade44b54ed63b33de33a, type: 3}
   m_Name: 
@@ -2870,14 +2870,15 @@ MonoBehaviour:
   spriteScale: {x: 0, y: 0, z: 0}
   levelPrefab: {fileID: 114512546272174750, guid: abd475b39f1e0014dbf0da3bc3e517ea,
     type: 2}
-  spriteCurrent: {fileID: 21300000, guid: 1d0f6362afc384d98b9e87025d4c5bc6, type: 3}
-  spriteDoneOK: {fileID: 21300000, guid: d54217a4f4b3b4ff39c38251965f7a08, type: 3}
-  spriteLocked: {fileID: 21300000, guid: 20ff5e4fccd23439c8fc1bdff827a5db, type: 3}
-  spriteDemoDone: {fileID: 21300000, guid: d54217a4f4b3b4ff39c38251965f7a08, type: 3}
-  spriteDemoCurrent: {fileID: 21300000, guid: 1d0f6362afc384d98b9e87025d4c5bc6, type: 3}
-  spriteDemoLocked: {fileID: 21300000, guid: 20ff5e4fccd23439c8fc1bdff827a5db, type: 3}
-  spriteFirstLvl: {fileID: 21300000, guid: f7d2438559c4146a28148af5e1062f3f, type: 3}
-  spriteLastLvl: {fileID: 21300000, guid: 3f7dacfc0746b42799196c9ffc61a031, type: 3}
+  midCurrent: {fileID: 21300000, guid: 5541cc6b3e3d745138ff5c64d826fa07, type: 3}
+  midUnlocked: {fileID: 21300000, guid: 85abd9c9e74c04c039048ccc3af189ad, type: 3}
+  midLocked: {fileID: 21300000, guid: 7b8b0fa9191be456e862dfd3bea2ed0f, type: 3}
+  leftCurrent: {fileID: 21300000, guid: 64c66df18d9aa49e2808c9a01d9a62e6, type: 3}
+  leftUnlocked: {fileID: 21300000, guid: d8ec38880a5ec4576b76459f16c8309a, type: 3}
+  leftLocked: {fileID: 21300000, guid: 53ef38fed3be847439c433cf38ec7b1b, type: 3}
+  rightCurrent: {fileID: 21300000, guid: b87beb38ab6e24531aed93f78c278043, type: 3}
+  rightUnlocked: {fileID: 21300000, guid: 59a31cec5f3464c3f89fda31beb4dfa5, type: 3}
+  rightLocked: {fileID: 21300000, guid: 71a5c222acccf4a6f998071ef9a98bb2, type: 3}
 --- !u!1 &706370485
 GameObject:
   m_ObjectHideFlags: 0
@@ -3524,7 +3525,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 795564233}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84aa101ce7c3ade44b54ed63b33de33a, type: 3}
   m_Name: 
@@ -5831,6 +5832,7 @@ MonoBehaviour:
   walker: {fileID: 1735534734}
   speed: {fileID: 1735534733}
   manusPlayer: {fileID: 1735534732}
+  guidePlayer: {fileID: 1735534739}
   rowsLimit: {fileID: 626909446}
   levelHints: {fileID: 1810926415}
   gameCameraRect: {fileID: 1623532355}
@@ -7874,6 +7876,7 @@ GameObject:
   - component: {fileID: 1735534733}
   - component: {fileID: 1735534732}
   - component: {fileID: 1735534731}
+  - component: {fileID: 1735534739}
   m_Layer: 0
   m_Name: UI Camera
   m_TagString: Untagged
@@ -8013,6 +8016,18 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
+--- !u!114 &1735534739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1735534729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3f38180dffb3e74f84259bea8ee5d44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shouldPlayNext: 1
 --- !u!1 &1758158867
 GameObject:
   m_ObjectHideFlags: 0
