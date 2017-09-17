@@ -13,7 +13,7 @@ public class TestScript : MonoBehaviour, IPMLevelChanged {
 
 	// Use this for initialization
 	void Start () {
-		PMWrapper.numOfLevels = 2;
+		PMWrapper.numOfLevels = 14;
 	}
 	
 	// Update is called once per frame

@@ -7,14 +7,23 @@ namespace PM {
 
 	public class ProgressBar : MonoBehaviour {
 
+		public Vector3 spriteScale;
 		public Button levelPrefab;
-		public Sprite spriteCurrent;
-		public Sprite spriteDoneOK;
+
+		public Sprite midCurrent;
+		public Sprite midUnlocked;
+		public Sprite midLocked;
+		public Sprite leftCurrent;
+		public Sprite leftUnlocked;
+		public Sprite leftLocked;
+		public Sprite rightCurrent;
+		public Sprite rightUnlocked;
+		public Sprite rightLocked;
+
 		//public Sprite spr_done_star;
-		public Sprite spriteLocked;
-		public Sprite spriteDemoDone;
-		public Sprite spriteDemoCurrent;
-		public Sprite spriteDemoLocked;
+		//public Sprite spriteDemoDone;
+		//public Sprite spriteDemoCurrent;
+		//public Sprite spriteDemoLocked;
 
 		public int numOfLevels { get { return levels.Count; } }
 		public int current { get; private set; }
@@ -39,7 +48,8 @@ namespace PM {
 
 				var rect = btn.GetComponent<RectTransform>();
 				rect.anchorMin =
-				rect.anchorMax = new Vector2(Mathf.Lerp(0.1f, 0.9f, i / (numOfLevels - 1f)), 0.5f);
+				rect.anchorMax = new Vector2(Mathf.Lerp(0.1f, 0.9f, i / (numOfLevels - 1f)), 0.1f);
+				rect.localScale = new Vector2(0.5f,0.4f);
 
 				btn.name = "Level " + i + " button";
 
@@ -93,11 +103,17 @@ namespace PM {
 		private void UpdateSingleButton(int level) {
 			var btn = levels[level];
 
-			if (Manus.Loader.allManuses[level] != null)
-				btn.image.sprite = level == current ? spriteDemoCurrent : (level > unlocked ? spriteDemoLocked : spriteDemoDone);
-			else
-				btn.image.sprite = level == current ? spriteCurrent : (level > unlocked ? spriteLocked : spriteDoneOK);
-
+			//if (Manus.Loader.allManuses [level] != null) {
+			//	btn.image.sprite = level == current ? spriteDemoCurrent : (level > unlocked ? spriteDemoLocked : spriteDemoDone);
+			//}
+			if (level == 0) {
+				btn.image.sprite = level == current ? leftCurrent : (level > unlocked ? leftLocked : leftUnlocked);
+			} else if (level < numOfLevels-1) {
+				btn.image.sprite = level == current ? midCurrent : (level > unlocked ? midLocked : midUnlocked);
+			} else {
+				btn.image.sprite = level == current ? rightCurrent : (level > unlocked ? rightLocked : rightUnlocked);
+			}
+			
 			bool oldInterac = btn.interactable;
 			btn.interactable = level <= unlocked && level != current;
 
@@ -109,8 +125,8 @@ namespace PM {
 			UITooltip tooltip = btn.GetComponent<UITooltip>();
 			if (tooltip) {
 				tooltip.text = Manus.Loader.allManuses[level] != null ? "Demo" : "Nivå " + GetLevelNumber(level);
-				if (level == current) tooltip.text = "<color=green><b>" + tooltip.text + "</b></color> <i><color=grey>(Nuvarande)</color></i>";
-				if (level > unlocked) tooltip.text += " <i><color=grey>(Låst)</color></i>";
+				if (level == current) tooltip.text = "<color=green><b>" + tooltip.text + "</b></color> <color=grey>(Nuvarande)</color>";
+				if (level > unlocked) tooltip.text += " <color=grey>(Låst)</color>";
 				tooltip.ApplyTooltipTextChange();
 			}
 		}
