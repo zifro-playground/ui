@@ -1,0 +1,2 @@
+﻿1: Detta är level 2.
+2: Här kommer en bubbla till!
