@@ -10,12 +10,17 @@ namespace PM.Guide {
 		public List<Guide> guides = new List<Guide>();
 		public int numOfGuides { get { return guides.Count; } }
 		public bool hasNext { get { return currentGuideIndex < numOfGuides; } }
+		public bool hasBeenPlayed = false;
 
 		public int currentGuideIndex = 0;
 
 		public void PlayNextGuide(){
-			PMWrapper.ShowGuideBubble (guides [currentGuideIndex].lineNumber, guides [currentGuideIndex].message);
-			currentGuideIndex++;
+			if (!hasBeenPlayed) {
+				PMWrapper.ShowGuideBubble (guides [currentGuideIndex].lineNumber, guides [currentGuideIndex].message);
+				currentGuideIndex++;
+				if (!hasNext)
+					hasBeenPlayed = true;
+			}
 		}
 	}
 }

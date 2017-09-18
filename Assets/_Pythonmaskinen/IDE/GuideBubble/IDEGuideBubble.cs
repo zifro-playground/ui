@@ -18,12 +18,14 @@ namespace PM {
 		}
 
 		void IPMLevelChanged.OnPMLevelChanged() {
+			HideMessageInstantly ();
 		}
 
 		protected override void OnShowMessage() {
 		}
 
 		protected override void OnHideMessage() {
+			if(UISingleton.instance.guidePlayer.currentGuide != null)
 			if (UISingleton.instance.guidePlayer.currentGuide.hasNext)
 				UISingleton.instance.guidePlayer.shouldPlayNext = true;
 		}
