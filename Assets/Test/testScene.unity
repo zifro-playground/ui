@@ -269,10 +269,10 @@ Camera:
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
+    x: 0.51715624
+    y: 0.15722264
+    width: 0.40443742
+    height: 0.71925694
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -318,7 +318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   theRect: {fileID: 1623532355}
-  runInEditor: 0
+  runInEditor: 1
 --- !u!224 &1623532355 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224065152026980084, guid: 2f912094c8a4d9d4f8c3342a6db14d58,
@@ -363,6 +363,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 224341814871374680, guid: 2f912094c8a4d9d4f8c3342a6db14d58,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224341814871374680, guid: 2f912094c8a4d9d4f8c3342a6db14d58,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 224781491776565876, guid: 2f912094c8a4d9d4f8c3342a6db14d58,
         type: 2}
       propertyPath: m_AnchorMax.x
@@ -388,16 +398,6 @@ Prefab:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 224341814871374680, guid: 2f912094c8a4d9d4f8c3342a6db14d58,
-        type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224341814871374680, guid: 2f912094c8a4d9d4f8c3342a6db14d58,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 224809143492519608, guid: 2f912094c8a4d9d4f8c3342a6db14d58,
         type: 2}
       propertyPath: m_AnchorMax.x
@@ -406,17 +406,17 @@ Prefab:
     - target: {fileID: 224809143492519608, guid: 2f912094c8a4d9d4f8c3342a6db14d58,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0.46581298
+      objectReference: {fileID: 0}
+    - target: {fileID: 224347047631486984, guid: 2f912094c8a4d9d4f8c3342a6db14d58,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 74.999916
       objectReference: {fileID: 0}
     - target: {fileID: 224781491776565876, guid: 2f912094c8a4d9d4f8c3342a6db14d58,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 205.99998
-      objectReference: {fileID: 0}
-    - target: {fileID: 224809143492519608, guid: 2f912094c8a4d9d4f8c3342a6db14d58,
-        type: 2}
-      propertyPath: m_AnchorMin.y
-      value: 0.0000009536743
+      value: 206
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2f912094c8a4d9d4f8c3342a6db14d58, type: 2}
