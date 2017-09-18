@@ -24,5 +24,11 @@ namespace PM.Guide {
 				}
 			}
 		}
+
+		public void resetCurrentGuide(){
+			if (currentGuide != null)
+				currentGuide.ResetGuide ();
+			shouldPlayNext = true;
+		}
 	}
 }

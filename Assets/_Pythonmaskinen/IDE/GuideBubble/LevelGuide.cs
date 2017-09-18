@@ -22,5 +22,10 @@ namespace PM.Guide {
 					hasBeenPlayed = true;
 			}
 		}
+
+		public void ResetGuide(){
+			hasBeenPlayed = false;
+			currentGuideIndex = 0;
+		}
 	}
 }
