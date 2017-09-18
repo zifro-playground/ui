@@ -95,6 +95,7 @@ namespace PM {
 			UpdateButtons();
 
 			if (levelChange) {
+				UISingleton.instance.saveData.SaveAndClearMainCode ();
 				// Just call some events
 				foreach (var ev in UISingleton.FindInterfaces<IPMLevelChanged>())
 					ev.OnPMLevelChanged();

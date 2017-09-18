@@ -6,13 +6,13 @@ using UnityEngine.UI;
 
 namespace PM {
 
-	public class SaveData : MonoBehaviour, IPMLevelChanged {
+	public class SaveData : MonoBehaviour {
 
 		//public static bool gottenLevelTip { get; set; }
 
 		private static Dictionary<int, string> codes = new Dictionary<int, string>();
 
-		void IPMLevelChanged.OnPMLevelChanged() {
+		public void SaveAndClearMainCode() {
 			if (!this.enabled) return;
 
 			if (codes.ContainsKey(PMWrapper.currentLevel))
@@ -24,8 +24,6 @@ namespace PM {
 		public static void SaveMainCode() {
 			codes[PMWrapper.currentLevel] = PMWrapper.mainCode;
 		}
-
-		private void Start() {}
 	}
 
 }

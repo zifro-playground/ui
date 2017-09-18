@@ -14,7 +14,7 @@ namespace PM {
 					if (PMWrapper.isDemoingLevel)
 						UISingleton.instance.manusPlayer.SetIsManusPlaying(false);
 					else
-						PMWrapper.SetLevelCompleted();
+						PMWrapper.unlockedLevel = PMWrapper.numOfLevels-1;
 				}
 			}
 		}

@@ -19,6 +19,7 @@ namespace PM {
 		public GlobalSpeed speed;
 		public Manus.ManusPlayer manusPlayer;
 		public Guide.GuidePlayer guidePlayer;
+		public SaveData saveData;
 		[Header("UI")]
 		public IDERowsLimit rowsLimit;
 		public LevelHints levelHints;

@@ -24,7 +24,10 @@ public class TestScript : MonoBehaviour, IPMLevelChanged {
 	}
 
 	public void OnPMLevelChanged(){
-		PMWrapper.AddCodeAtStart ("for i in range(4):\n\ttestcode = 0\n");
+		if (PMWrapper.currentLevel == 0)
+			PMWrapper.AddCodeAtStart ("for i in range(4):\n\ttestcode = 0\n");
+		else
+			PMWrapper.AddCodeAtStart ("for i in range(5):\n\ttestcode = 0\n");
 
 	}
 }
