@@ -24,7 +24,7 @@ namespace PM {
 		public static bool validateText(string fullText, int maxLines, int maxPerLine) {
 			List<string> textLines = IDEPARSER.parseIntoLines (fullText);
 
-			UISingleton.instance.rowsLimit.ValidateRowsLimit(textLines.Count, maxLines);
+			UISingleton.instance.rowsLimit.UpdateRowsLeft(textLines.Count, maxLines);
 
 			if (textLines.Count > maxLines) {
 				// Too many rows

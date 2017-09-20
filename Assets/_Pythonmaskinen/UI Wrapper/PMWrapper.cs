@@ -13,7 +13,7 @@ public static class PMWrapper {
 	/// <summary>
 	/// Version of the Pythonmachine wrapper/UI.
 	/// </summary>
-	public const string version = "0.9.0";
+	public const string version = "0.9.3";
 
 	/// <summary>
 	/// Value from the speed slider. Ranges from 0 to 1, with a default of 0.5.
@@ -75,8 +75,9 @@ public static class PMWrapper {
 	public static int codeRowsLimit {
 		get { return UISingleton.instance.textField.codeRowsLimit; }
 		set {
-			if (value > 0)
-				UISingleton.instance.textField.codeRowsLimit = value;
+			if (value > 0) {
+				UISingleton.instance.textField.rowLimit = value;
+			}
 			else throw new ArgumentOutOfRangeException("codeRowsLimit", value, "Zero and negative values are not accepted!");
 		}
 	}

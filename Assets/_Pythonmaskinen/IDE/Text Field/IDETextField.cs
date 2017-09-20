@@ -30,14 +30,22 @@ namespace PM {
 		public RectTransform inputRect;
 		//private float rowHeight = 27f;
 		//private float maskHeight = 500;
-		private int maxChars = 50;
+		private int maxChars = 45;
 
 		private string lastText = "";
 		private float startYPos;
 		private bool settingNewCaretPos = false;
 		//private int oldCaretPos = 0;
 		private bool inserting = false;
-		
+
+		public int rowLimit {
+			get { return codeRowsLimit; } 
+			set { 
+				codeRowsLimit = value;
+				IDETextManipulation.validateText (theInputField.text, codeRowsLimit, maxChars);
+			}
+		}
+
 		//private int preErrorCaretIndex = 0;
 		private List<IndentLevel> toAddLevels = new List<IndentLevel> ();
 
