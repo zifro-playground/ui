@@ -31,8 +31,7 @@ namespace PM.Guide {
 			try {
 				return BuildFromString("Assets/Resources/Guides" + asset.name, asset.text);
 			} catch (Exception err) {
-				if (err is GuideLoaderException)
-					Debug.LogException(err);
+				Debug.Log (err);
 				return null;
 			}
 		}
@@ -64,7 +63,7 @@ namespace PM.Guide {
 					target = Target.lineNumber;
 					int.TryParse (row [0], out lineNumber);
 				} else {
-					throw new GuideLoaderException ("The first word on each row must be a integer.");
+					throw new Exception ("The first word on each row must be a integer.");
 				}
 
 				// Checks if message uses : in text and rejoin strings if true

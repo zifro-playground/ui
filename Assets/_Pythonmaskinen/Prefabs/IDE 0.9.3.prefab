@@ -1277,7 +1277,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4892834904929748}
-  - component: {fileID: 114858534522419530}
+  - component: {fileID: 114070448431400802}
+  - component: {fileID: 114187199309086756}
   m_Layer: 0
   m_Name: Exception Handler
   m_TagString: Untagged
@@ -2592,6 +2593,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114070448431400802
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1580907296300050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 211fb2224bd46f44eae9a6e278bb6f48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tracker: {fileID: 114187199309086756}
+  message: 
 --- !u!114 &114077264567645022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3101,6 +3115,27 @@ MonoBehaviour:
   m_EffectColor: {r: 0.93884385, g: 1, b: 0.9338235, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
+--- !u!114 &114187199309086756
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1580907296300050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 207469858, guid: 852e56802eb941638acbb491814497b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventName: ErrorMessage
+  m_TrackableProperty:
+    m_Fields:
+    - m_ParamName: Message
+      m_Target: {fileID: 114070448431400802}
+      m_FieldPath: message
+      m_TypeString: 
+      m_DoStatic: 0
+      m_StaticString: 
+  m_Trigger: 0
 --- !u!114 &114189154736647960
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4914,6 +4949,7 @@ MonoBehaviour:
   manusPlayer: {fileID: 114505565692881496}
   guidePlayer: {fileID: 114319646380115802}
   saveData: {fileID: 114784593899813792}
+  exceptionHandler: {fileID: 114070448431400802}
   rowsLimit: {fileID: 114640587924915642}
   levelHints: {fileID: 114835734051660688}
   gameCameraRect: {fileID: 224262037206968252}
@@ -5900,17 +5936,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114858534522419530
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1580907296300050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0182df239c81dc4a99b5f0c4f3b9d01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114859395409705132
 MonoBehaviour:
   m_ObjectHideFlags: 1
