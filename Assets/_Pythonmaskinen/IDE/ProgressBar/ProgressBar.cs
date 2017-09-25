@@ -69,9 +69,7 @@ namespace PM {
 
 				levels.Add(btn);
 			}
-			
 			Manus.Loader.BuildAll();
-			Guide.Loader.BuildAll ();
 
 			UpdateButtons(current, unlocked);
 		}
@@ -98,9 +96,6 @@ namespace PM {
 		private void UpdateSingleButton(int level) {
 			var btn = levels[level];
 
-			//if (Manus.Loader.allManuses [level] != null) {
-			//	btn.image.sprite = level == current ? spriteDemoCurrent : (level > unlocked ? spriteDemoLocked : spriteDemoDone);
-			//}
 			if (level == 0) {
 				btn.image.sprite = level == current ? leftCurrent : (level > unlocked ? leftLocked : leftUnlocked);
 			} else if (level < numOfLevels-1) {
@@ -140,15 +135,10 @@ namespace PM {
 
 			unlocked = Mathf.Max(level, unlocked);
 
-			PMWrapper.StopCompiler();
-
 			// Update which one is current one
 			UpdateButtons(level, unlocked);
 
-			UISingleton.instance.saveData.SaveAndClearMainCode ();
-			// Just call some events
-			foreach (var ev in UISingleton.FindInterfaces<IPMLevelChanged>())
-				ev.OnPMLevelChanged();
+			UISingleton.instance.levelHandler.LoadLevel (level);
 		}
 
 	}

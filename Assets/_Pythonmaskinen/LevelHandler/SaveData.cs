@@ -12,13 +12,15 @@ namespace PM {
 
 		private static Dictionary<int, string> codes = new Dictionary<int, string>();
 
-		public void SaveAndClearMainCode() {
+		public void ClearPreAndMainCode() {
 			if (!this.enabled) return;
 
 			if (codes.ContainsKey(PMWrapper.currentLevel))
 				PMWrapper.mainCode = codes[PMWrapper.currentLevel];
 			else
 				PMWrapper.mainCode = string.Empty;
+
+			PMWrapper.preCode = string.Empty;
 		}
 
 		public static void SaveMainCode() {

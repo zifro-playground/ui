@@ -13,7 +13,6 @@ namespace PM.Guide {
 		public static List<LevelGuide> allGuides = new List<LevelGuide>();
 
 		public static void BuildAll() {
-			
 			for (int i=0; i<PMWrapper.numOfLevels; i++) {
 				LevelGuide guide = BuildFromPath (string.Format (resourceName, i));
 				if (guide != null) {
