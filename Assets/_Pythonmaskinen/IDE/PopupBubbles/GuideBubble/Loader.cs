@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace PM.Guide {
 
-	public static class GuideLoader{
+	public static class Loader{
 
 		public const string resourceName = "Guides/levelguide_{0}";
 		public static readonly string[] linebreaks = new string[] { "\n\r", "\r\n", "\n", "\r" };

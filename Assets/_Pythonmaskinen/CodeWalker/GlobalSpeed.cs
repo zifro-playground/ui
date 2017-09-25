@@ -24,10 +24,5 @@ namespace PM {
 			foreach (var ev in UISingleton.FindInterfaces<IPMSpeedChanged>())
 				ev.OnPMSpeedChanged(currentSpeed);
 		}
-
-		[Obsolete("To listen for the slider value, please use the ICompilerSpeedChanged interface or PMWrapper.speedMultiplier.", true)]
-		public void addMethodToSlider(Action<float> newMethod) { }
-
 	}
-
 }

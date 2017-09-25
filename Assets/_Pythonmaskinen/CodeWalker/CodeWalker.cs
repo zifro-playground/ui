@@ -104,11 +104,7 @@ namespace PM {
 
 
 		#region Public Unity Methods
-		[Obsolete("Please refer to PMWrapper.UnpauseWalker instead.", true)]
-		public void unPauseWalker() { }
 
-		// Renamed just to mark previous one as obsolete
-		// Marking as obsolete helps in updating the pythonmachine
 		public void resumeWalker() {
 			sleepTimer = 0;
 			isSleeping = true;

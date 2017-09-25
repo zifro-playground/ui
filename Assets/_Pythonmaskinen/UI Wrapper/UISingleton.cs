@@ -42,8 +42,6 @@ namespace PM {
 
 		[HideInInspector]
 		public List<ManusSelectable> manusSelectables = new List<ManusSelectable>();
-		
-		public static string gameToken = null;
 
 		[Serializable]
 		public struct ManusSelectable {
@@ -54,6 +52,7 @@ namespace PM {
 		private void Awake() {
 			instance = this;
 
+			/* Old. Should be replaced with something new
 			// Load error api config
 			TextAsset file = Resources.Load<TextAsset>("game_token");
 			if (file == null) 
@@ -66,12 +65,12 @@ namespace PM {
 			if (gameToken == null || gameToken.Length != 32 || !System.Text.RegularExpressions.Regex.IsMatch(gameToken, @"[a-fA-F0-9]+")) {
 				Debug.LogError("Invalid game token!");
 				gameToken = null;
-			}
+			}*/
 		}
 
 		/// <summary>
 		/// This function is made for finding objects. Similar to <seealso cref="UnityEngine.Object.FindObjectsOfType{T}"/> but also works for interfaces.
-		/// <para>The catch is though that it can only search amoung classes that inherit from <see cref="UnityEngine.Object"/></para>
+		/// <para>The catch though is that it can only search amoung classes that inherit from <see cref="UnityEngine.Object"/></para>
 		/// </summary>
 		public static T[] FindInterfaces<T>() where T : class {
 			var list = new List<UnityEngine.Object>(FindObjectsOfType<UnityEngine.Object>()).ConvertAll(o => o as T);

@@ -81,9 +81,6 @@ namespace PM {
 			stopCompiler(StopStatus.Forced);
 		}
 
-		[Obsolete("Please refer to PMWrapper.StopCompiler instead", true)]
-		public void stopComipler() { }
-
 		public void stopCompiler(StopStatus status = StopStatus.Forced) {
 			if (!isRunning) return;
 			else isRunning = false;
@@ -94,19 +91,6 @@ namespace PM {
 			foreach (var ev in UISingleton.FindInterfaces<IPMCompilerStopped>())
 				ev.OnPMCompilerStopped(status);
 		}
-		#endregion
-
-		#region publicLists
-		[Obsolete("To set compiler functions, please use PMWrapper.SetCompilerFunctions()")]
-		public void setAddedFunctions(List<Compiler.Function> addedFunctions) {
-			this.addedFunctions = addedFunctions;
-		}
-
-		[Obsolete("To listen for compiler started events, please use the IPMCompilerStarted interface.", true)]
-		public void addStopCompilerEvent(Action newEvent) { }
-
-		[Obsolete("To listen for compiler stopped events, please use the IPMCompilerStopped interface.", true)]
-		public void startStopCompilerEvent(Action newEvent) { }
 		#endregion
 
 		public enum StopStatus {

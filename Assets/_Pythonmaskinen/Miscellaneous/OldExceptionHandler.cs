@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 
 namespace PM {
 
-	public class OldExceptionHandler : MonoBehaviour {
+	/*public class OldExceptionHandler : MonoBehaviour {
 		private void OnEnable() {
 			Application.logMessageReceivedThreaded += Application_logMessageReceivedThreaded;
 		}
@@ -81,7 +81,7 @@ namespace PM {
 			}
 		}
 
-	}
+	}*/
 
 	public class PMRuntimeException : Exception {
 		private string _rawMessage;

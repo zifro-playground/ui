@@ -71,7 +71,7 @@ namespace PM {
 			}
 			
 			Manus.Loader.BuildAll();
-			Guide.GuideLoader.BuildAll ();
+			Guide.Loader.BuildAll ();
 
 			UpdateButtons(current, unlocked);
 		}
@@ -93,13 +93,6 @@ namespace PM {
 			}
 
 			UpdateButtons();
-
-			if (levelChange) {
-				UISingleton.instance.saveData.SaveAndClearMainCode ();
-				// Just call some events
-				foreach (var ev in UISingleton.FindInterfaces<IPMLevelChanged>())
-					ev.OnPMLevelChanged();
-			}
 		}
 
 		private void UpdateSingleButton(int level) {
@@ -151,6 +144,11 @@ namespace PM {
 
 			// Update which one is current one
 			UpdateButtons(level, unlocked);
+
+			UISingleton.instance.saveData.SaveAndClearMainCode ();
+			// Just call some events
+			foreach (var ev in UISingleton.FindInterfaces<IPMLevelChanged>())
+				ev.OnPMLevelChanged();
 		}
 
 	}
