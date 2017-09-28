@@ -10,15 +10,15 @@ namespace PM {
 		void Update() {
 			// Why use parantases when you can use multiple IF statements? B)
 			if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
-				if (Input.GetKey(KeyCode.Z)) {
-					if (Input.GetKeyDown(KeyCode.X)){
+				if (Input.GetKey(KeyCode.LeftAlt)) {
+					if (Input.GetKeyDown(KeyCode.RightArrow)){
 						if (PMWrapper.isDemoingLevel)
 							UISingleton.instance.manusPlayer.SetIsManusPlaying (false);
 						else {
 							PMWrapper.unlockedLevel = PMWrapper.currentLevel + 1;
 							PMWrapper.currentLevel += 1;
 						}
-					} if (Input.GetKeyDown(KeyCode.A)){
+					} if (Input.GetKeyDown(KeyCode.UpArrow)){
 						if (PMWrapper.isDemoingLevel)
 							UISingleton.instance.manusPlayer.SetIsManusPlaying(false);
 						else
