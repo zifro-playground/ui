@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Compiler;
 
-namespace PM {
+namespace PM.Level {
 
 	public class LevelAnswere : MonoBehaviour {
 

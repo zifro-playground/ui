@@ -21,7 +21,7 @@ namespace PM {
 		public Guide.GuidePlayer guidePlayer;
 		public SaveData saveData;
 		public ExceptionHandler exceptionHandler;
-		public LevelHandler levelHandler;
+		public Level.LevelHandler levelHandler;
 		[Header("UI")]
 		public IDERowsLimit rowsLimit;
 		public LevelHints levelHints;
