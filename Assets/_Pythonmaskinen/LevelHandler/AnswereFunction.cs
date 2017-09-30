@@ -6,6 +6,7 @@ public class AnswereFunction : Compiler.Function {
 
 	public AnswereFunction () {
 		this.name = "svara";
+		this.inputParameterAmount.Add (0);
 		this.inputParameterAmount.Add (1);
 		this.inputParameterAmount.Add (2);
 		this.inputParameterAmount.Add (3);

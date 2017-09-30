@@ -18,7 +18,8 @@ namespace PM.Level {
 		}
 
 		public void CheckAnswere (Variable[] inputParams, int lineNumber){
-			
+			if (parameterAmount == 0)
+				PMWrapper.RaiseError (lineNumber, "I detta problem behövs inte svara() för att klara problemet");
 			if (inputParams.Length < parameterAmount)
 				PMWrapper.RaiseError (lineNumber, "För få svar. Det ska vara " + parameterAmount + " st svar.");
 			if (inputParams.Length > parameterAmount)
@@ -98,6 +99,7 @@ namespace PM.Level {
 				PMWrapper.ShowGuideBubble (lineNumber, "Svar: " + ans);
 				break;
 			}
+			PMWrapper.StopCompiler ();
 		}
 	}
 }

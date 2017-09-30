@@ -9,6 +9,10 @@ public class TestScript : MonoBehaviour, IPMLevelChanged {
 
 	void Awake(){
 		PMWrapper.SetTaskDescriptions (tasks);
+		PMWrapper.SetCompilerFunctions (new Compiler.Function[] {
+			new AnswereFunction()
+		});
+		PMWrapper.AddSmartButton ("svara()");
 	}
 
 	// Use this for initialization
@@ -24,12 +28,6 @@ public class TestScript : MonoBehaviour, IPMLevelChanged {
 	}
 
 	public void OnPMLevelChanged(){
-		if (PMWrapper.currentLevel == 0) {
-			PMWrapper.AddCodeAtStart ("for i in range(4):\n\ttestcode = 0\n");
-			PMWrapper.codeRowsLimit = 7;
-		}
-		else
-			PMWrapper.AddCodeAtStart ("for i in range(5):\n\ttestcode = 0\n");
 
 	}
 }
