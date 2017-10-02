@@ -89,6 +89,15 @@ namespace PM.Manus {
 			}
 		}
 		
+		public static void BuildAll() {
+			List<Manus> list = new List<Manus>();
+			for (int i=0; i<PMWrapper.numOfLevels; i++) {
+				list.Add(BuildFromPath(string.Format(resourceName, i)));
+			}
+			
+			allManuses = new ReadOnlyCollection<Manus>(list);
+		}
+
 		public static Manus BuildFromPath(string path) {
 			TextAsset asset = Resources.Load<TextAsset>(path);
 			if (asset == null) return null;
@@ -209,14 +218,6 @@ namespace PM.Manus {
 			return row;
 		}
 
-		public static void BuildAll() {
-			List<Manus> list = new List<Manus>();
-			for (int i=0; i<PMWrapper.numOfLevels; i++) {
-				list.Add(BuildFromPath(string.Format(resourceName, i)));
-			}
-
-			allManuses = new ReadOnlyCollection<Manus>(list);
-		}
 
 	}
 

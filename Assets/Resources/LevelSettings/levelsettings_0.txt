@@ -1,0 +1,4 @@
+precode: x = 0\ny = 4
+startcode: for i in range(y):\n\tx += i
+rowlimit: 6
+smartbuttons: svara(), åk_mot_öst()

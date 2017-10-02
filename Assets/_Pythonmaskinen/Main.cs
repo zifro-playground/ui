@@ -14,9 +14,7 @@ namespace PM {
 			PMWrapper.numOfLevels = numberOfLevels;
 
 			Guide.Loader.BuildAll ();
-			UISingleton.instance.levelHandler.BuildAnsweresFromFile ();
-			// TODO 
-			// - LoadLevelSettings
+			UISingleton.instance.levelHandler.BuildLevels ();
 
 			// TODO Load last level played from database
 			UISingleton.instance.levelHandler.LoadLevel (0);

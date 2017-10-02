@@ -8,21 +8,35 @@ namespace PM.Level {
 
 	public class LevelHandler : MonoBehaviour {
 
-		private List<LevelAnswere> answeres = new List<LevelAnswere> ();
-		public LevelAnswere currentAnswere { get { return answeres [PMWrapper.currentLevel]; } }
+		private Level[] levels;
+		public Level currentLevel { get { return levels [PMWrapper.currentLevel]; } }
 
 		public void LoadLevel (int level) {
 			PMWrapper.StopCompiler();
 
 			// TODO Save mainCode to database
 			UISingleton.instance.saveData.ClearPreAndMainCode ();
+			currentLevel.levelSetting.UseSettings ();
 
 			// Call every implemented event
 			foreach (var ev in UISingleton.FindInterfaces<IPMLevelChanged>())
 				ev.OnPMLevelChanged();
 		}
 
-		public void BuildAnsweresFromFile () {
+		public void BuildLevels (){
+			levels = new Level[PMWrapper.numOfLevels];
+			for (int i = 0; i < PMWrapper.numOfLevels; i++)
+				levels [i] = new Level ();
+
+			BuildAnsweresFromFile ();
+
+			for (int i = 0; i < PMWrapper.numOfLevels; i++) {
+				levels [i].BuildLevelSettings (i);
+			}
+		}
+
+
+		private void BuildAnsweresFromFile () {
 			string[] linebreaks = new string[] { "\n\r", "\r\n", "\n", "\r" };
 			TextAsset asset = Resources.Load<TextAsset> ("answeres");
 
@@ -45,7 +59,7 @@ namespace PM.Level {
 
 					if (splittedRow.Length != 2)
 						throw new Exception ("A row should contain a variable type and a answere separated by :");
-					
+
 					string textType = splittedRow [0].Trim ().ToLower();
 					switch (textType) {
 					case "number": 
@@ -64,9 +78,9 @@ namespace PM.Level {
 					answere = splittedRow [1].Trim().Replace(" ", "").Split (new char[] {','}, StringSplitOptions.RemoveEmptyEntries);
 					parameterAmount = answere.Length;
 				}
-
+					
 				LevelAnswere levelAnswere = new LevelAnswere (parameterAmount, type, answere);
-				answeres.Add (levelAnswere);
+				levels [i].answere = levelAnswere;
 			}
 		}
 	}

@@ -17,14 +17,11 @@ public class TestScript : MonoBehaviour, IPMLevelChanged {
 
 	// Use this for initialization
 	void Start () {
-		PMWrapper.preCode = "x = 19";
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKey (KeyCode.K)) {
-			PMWrapper.ShowGuideBubble (1, "Detta är <b>ett</b> mycket bra tips!");
-		}
+
 	}
 
 	public void OnPMLevelChanged(){

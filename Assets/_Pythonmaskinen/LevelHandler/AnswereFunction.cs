@@ -18,7 +18,7 @@ public class AnswereFunction : Compiler.Function {
 
 	public override Compiler.Variable runFunction (Compiler.Scope currentScope, Compiler.Variable[] inputParas, int lineNumber)
 	{
-		PM.UISingleton.instance.levelHandler.currentAnswere.CheckAnswere (inputParas, lineNumber);
+		PM.UISingleton.instance.levelHandler.currentLevel.answere.CheckAnswere (inputParas, lineNumber);
 		return new Compiler.Variable ();
 	}
 
