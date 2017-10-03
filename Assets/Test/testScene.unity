@@ -147,16 +147,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 224517193242431346, guid: a148f34d21470e54889cbde265459c8c,
-        type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224517193242431346, guid: a148f34d21470e54889cbde265459c8c,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 224655972284028704, guid: a148f34d21470e54889cbde265459c8c,
         type: 2}
       propertyPath: m_AnchorMax.x
@@ -165,7 +155,17 @@ Prefab:
     - target: {fileID: 224655972284028704, guid: a148f34d21470e54889cbde265459c8c,
         type: 2}
       propertyPath: m_AnchorMax.y
+      value: 0.46581298
+      objectReference: {fileID: 0}
+    - target: {fileID: 224517193242431346, guid: a148f34d21470e54889cbde265459c8c,
+        type: 2}
+      propertyPath: m_AnchorMax.x
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224517193242431346, guid: a148f34d21470e54889cbde265459c8c,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0.99999976
       objectReference: {fileID: 0}
     - target: {fileID: 224180624698404858, guid: a148f34d21470e54889cbde265459c8c,
         type: 2}
@@ -192,68 +192,12 @@ Prefab:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 224855264300668968, guid: a148f34d21470e54889cbde265459c8c,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 0.000030517578
-      objectReference: {fileID: 0}
     - target: {fileID: 224180624698404858, guid: a148f34d21470e54889cbde265459c8c,
         type: 2}
       propertyPath: m_AnchoredPosition.x
       value: 206
       objectReference: {fileID: 0}
-    - target: {fileID: 224517193242431346, guid: a148f34d21470e54889cbde265459c8c,
-        type: 2}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224729763829133924, guid: a148f34d21470e54889cbde265459c8c,
-        type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224729763829133924, guid: a148f34d21470e54889cbde265459c8c,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224729763829133924, guid: a148f34d21470e54889cbde265459c8c,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: -17
-      objectReference: {fileID: 0}
-    - target: {fileID: 224649907554538844, guid: a148f34d21470e54889cbde265459c8c,
-        type: 2}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224649907554538844, guid: a148f34d21470e54889cbde265459c8c,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224649907554538844, guid: a148f34d21470e54889cbde265459c8c,
-        type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: 195.189
-      objectReference: {fileID: 0}
-    - target: {fileID: 224649907554538844, guid: a148f34d21470e54889cbde265459c8c,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224649907554538844, guid: a148f34d21470e54889cbde265459c8c,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: 390.378
-      objectReference: {fileID: 0}
-    - target: {fileID: 224649907554538844, guid: a148f34d21470e54889cbde265459c8c,
-        type: 2}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114074630629219588, guid: a148f34d21470e54889cbde265459c8c, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a148f34d21470e54889cbde265459c8c, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &296623162
@@ -418,7 +362,7 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0.51721656
-    y: 0.15716743
+    y: 0.15716648
     width: 0.4044845
     height: 0.7190001
   near clip plane: 0.3
