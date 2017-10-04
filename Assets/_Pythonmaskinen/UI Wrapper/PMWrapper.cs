@@ -340,6 +340,9 @@ public static class PMWrapper {
 	public static void ShowGuideBubble(int lineNumber, string message){
 		UISingleton.instance.guideBubble.ShowMessage (lineNumber);
 		UISingleton.instance.guideBubble.SetGuideMessage(message);
+
+		//Temporary to not show in answere bubble
+		GameObject.FindGameObjectWithTag("continue(temp)").GetComponent<UnityEngine.UI.Image>().enabled = true;
 	}
 
 	/// <summary>

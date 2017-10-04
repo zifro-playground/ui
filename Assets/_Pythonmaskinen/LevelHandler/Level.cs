@@ -17,8 +17,10 @@ namespace PM.Level {
 		public void BuildLevelSettings(int levelNumber){
 			TextAsset asset = Resources.Load<TextAsset> (string.Format(resourceName, levelNumber));
 
-			if (asset == null)
+			if (asset == null) {
+				levelSetting = new LevelSetting ();
 				return;
+			}
 
 			string[] textRows = asset.text.Split (linebreaks, StringSplitOptions.RemoveEmptyEntries);
 

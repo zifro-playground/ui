@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Compiler;
 
 namespace PM.Level {
@@ -46,6 +47,7 @@ namespace PM.Level {
 				
 			string guess;
 			string ans = "";
+			bool correctAnswere = true;
 
 			switch (type) {
 			case VariableTypes.boolean:
@@ -53,16 +55,17 @@ namespace PM.Level {
 					guess = inputParams [i].getBool ().ToString ();
 
 					if (guess != answere [i])
-						PMWrapper.RaiseError (lineNumber, "Fel svar. Försök igen!");
-					else
-						ans += guess;
+						correctAnswere = false;
+
+					ans += guess;
 
 					if (i < inputParams.Length - 1)
 						ans += ", ";
 					else
 						ans += ".";
 				}
-				PMWrapper.ShowGuideBubble (lineNumber, "Svar: " + ans);
+
+				UISingleton.instance.levelHandler.StartCoroutine (ShowAnswereBubble(lineNumber, ans, correctAnswere));
 				break;
 
 			case VariableTypes.number:
@@ -70,16 +73,16 @@ namespace PM.Level {
 					guess = inputParams [i].getNumber ().ToString ();
 
 					if (guess != answere [i])
-						PMWrapper.RaiseError (lineNumber, "Fel svar. Försök igen!");
-					else
-						ans += guess;
+						correctAnswere = false;
+
+					ans += guess;
 					
 					if (i < inputParams.Length - 1)
 						ans += ", ";
 					else
 						ans += ".";
 				}
-				PMWrapper.ShowGuideBubble (lineNumber, "Svar: " + ans);
+				UISingleton.instance.levelHandler.StartCoroutine (ShowAnswereBubble(lineNumber, ans, correctAnswere));
 				break;
 
 			case VariableTypes.textString:
@@ -87,19 +90,43 @@ namespace PM.Level {
 					guess = inputParams [i].getString ().ToString ();
 
 					if (guess != answere [i])
-						PMWrapper.RaiseError (lineNumber, "Fel svar. Försök igen!");
-					else
-						ans += guess;
+						correctAnswere = false;
+					
+					ans += guess;
 
 					if (i < inputParams.Length - 1)
 						ans += ", ";
 					else
 						ans += ".";
 				}
-				PMWrapper.ShowGuideBubble (lineNumber, "Svar: " + ans);
+				UISingleton.instance.levelHandler.StartCoroutine (ShowAnswereBubble(lineNumber, ans, correctAnswere));
 				break;
 			}
 			PMWrapper.StopCompiler ();
+		}
+
+		private IEnumerator ShowAnswereBubble (int lineNumber, string answere, bool correct){
+			PMWrapper.ShowGuideBubble (lineNumber, "Svar: " + answere);
+
+			// Temporary solution to show answere response. This should mabye be its own bubble. When this is removed, remember to remove line in PMWrapper.ShowGuideBubble() as well.
+			GameObject.FindGameObjectWithTag("continue(temp)").GetComponent<Image>().enabled = false;
+			GameObject.FindGameObjectWithTag ("correct(temp)").GetComponent<Image>().enabled = false;
+			GameObject.FindGameObjectWithTag ("wrong(temp)").GetComponent<Image>().enabled = false;
+
+			if (correct)
+				GameObject.FindGameObjectWithTag ("correct(temp)").GetComponent<Image>().enabled = true;
+			else
+				GameObject.FindGameObjectWithTag ("wrong(temp)").GetComponent<Image>().enabled = true;
+
+			yield return new WaitForSeconds (2);
+
+			if (correct)
+				PMWrapper.SetLevelCompleted ();
+
+			GameObject.FindGameObjectWithTag ("correct(temp)").GetComponent<Image>().enabled = false;
+			GameObject.FindGameObjectWithTag ("wrong(temp)").GetComponent<Image>().enabled = false;
+			GameObject.FindGameObjectWithTag("continue(temp)").GetComponent<Image>().enabled = true;
+			GameObject.FindGameObjectWithTag ("continue(temp)").GetComponent<Button> ().onClick.Invoke ();
 		}
 	}
 }
