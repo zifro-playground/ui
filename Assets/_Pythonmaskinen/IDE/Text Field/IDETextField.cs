@@ -30,7 +30,7 @@ namespace PM {
 		public RectTransform inputRect;
 		//private float rowHeight = 27f;
 		//private float maskHeight = 500;
-		private int maxChars = 45;
+		private int maxChars = 53;
 
 		private string lastText = "";
 		private float startYPos;
