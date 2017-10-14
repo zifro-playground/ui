@@ -18,7 +18,7 @@ namespace PM {
 			if (PMWrapper.isCompilerRunning) {
 				UISingleton.instance.walker.SetWalkerUserPaused(!PMWrapper.isCompilerUserPaused);
 			} else {
-				PMWrapper.StartCompiler();
+				PMWrapper.RunCode();
 			}
 		}
 

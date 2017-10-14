@@ -141,6 +141,11 @@ public static class PMWrapper {
 		UISingleton.instance.compiler.compileCode();
 	}
 
+	public static void RunCode() {
+		UISingleton.instance.levelHandler.currentLevel.caseHandler.RunCase (0);
+		StartCompiler ();
+	}
+
 	/// <summary>
 	/// Stops the compiler if it's currently running. Static wrapper for <see cref="HelloCompiler.stopCompiler(HelloCompiler.StopStatus)"/> with the argument <seealso cref="HelloCompiler.StopStatus.Forced"/>
 	/// </summary>

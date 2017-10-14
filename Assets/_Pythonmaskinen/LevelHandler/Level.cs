@@ -13,6 +13,7 @@ namespace PM.Level {
 
 		public LevelAnswere answere;
 		public LevelSetting levelSetting;
+		public CaseHandler caseHandler;
 
 		public void BuildLevelSettings(int levelNumber){
 			TextAsset asset = Resources.Load<TextAsset> (string.Format(resourceName, levelNumber));
@@ -28,6 +29,7 @@ namespace PM.Level {
 			string startCode = "";
 			int rowLimit = 100;
 			string[] smartButtons = new string[0];
+			int numberOfCases = 1;
 
 			for (int i = 0; i < textRows.Length; i++) {
 				// Ignore comments
@@ -55,12 +57,18 @@ namespace PM.Level {
 				case "smartbuttons":
 					smartButtons = splittedRow [1].Trim().Replace(" ", "").Split (new char[] {','}, StringSplitOptions.RemoveEmptyEntries);
 					break;
+				case "casecount":
+					couldParse = int.TryParse (splittedRow [1].Trim (), out numberOfCases);
+					if (!couldParse)
+						throw new Exception ("The casecount could not be parsed. Must be an integer after :");
+					break;
 				default:
 					Debug.Log ("Row number " + i + " could not be parsed");
 					break;
 				}
 			}
 			levelSetting = new LevelSetting (preCode, startCode, rowLimit, smartButtons);
+			caseHandler = new CaseHandler (numberOfCases);
 		}
 
 		// Can be used if text got splitted by : when not intended
