@@ -141,9 +141,12 @@ public static class PMWrapper {
 		UISingleton.instance.compiler.compileCode();
 	}
 
+	/// <summary>
+	/// Starts case 0 and starts compiler. Will run all test cases if possible
+	/// </summary>
 	public static void RunCode() {
+		UISingleton.instance.levelHandler.currentLevel.caseHandler.ResetHandlerAndButtons ();
 		UISingleton.instance.levelHandler.currentLevel.caseHandler.RunCase (0);
-		StartCompiler ();
 	}
 
 	/// <summary>
@@ -264,6 +267,13 @@ public static class PMWrapper {
 	/// </summary>
 	public static void SetLevelCompleted() {
 		UISingleton.instance.winScreen.SetLevelCompleted();
+	}
+
+	/// <summary>
+	/// Set case completed if test case is passed. Marks current case as completed and starts next test case.
+	/// </summary>
+	public static void SetCaseCompleted() {
+		UISingleton.instance.levelHandler.currentLevel.caseHandler.CaseCompleted ();
 	}
 
 	/// <summary>

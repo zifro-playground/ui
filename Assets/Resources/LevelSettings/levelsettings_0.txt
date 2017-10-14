@@ -1,4 +1,5 @@
 precode: x = 0\ny = 4
-startcode: for i in range(y):\n\tx += i
+startcode: svara(1)
 rowlimit: 6
 smartbuttons: svara(), åk_mot_öst()
+casecount: 3

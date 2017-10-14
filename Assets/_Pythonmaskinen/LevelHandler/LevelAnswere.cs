@@ -121,7 +121,7 @@ namespace PM.Level {
 			yield return new WaitForSeconds (2);
 
 			if (correct)
-				PMWrapper.SetLevelCompleted ();
+				PMWrapper.SetCaseCompleted ();
 
 			GameObject.FindGameObjectWithTag ("correct(temp)").GetComponent<Image>().enabled = false;
 			GameObject.FindGameObjectWithTag ("wrong(temp)").GetComponent<Image>().enabled = false;

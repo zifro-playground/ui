@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PM.Level {
 
-	public class CaseHandler : IPMCompilerStopped {
+	public class CaseHandler {
 
 		private int numberOfCases = 1;
 		private int currentCase = 0;
@@ -19,25 +19,19 @@ namespace PM.Level {
 			Debug.Log("Set current case number to " + caseNumber);
 			currentCase = caseNumber;
 			//TODO animate currentCaseButtonPressed
-			//TODO Game.LoadCase(caseNumber);
+
+			// Call every implemented event
+			foreach (var ev in UISingleton.FindInterfaces<IPMCaseSwitched>())
+				ev.OnPMCaseSwitched(currentCase);
 
 		}
 
 		//Add to pmwrapper
 		public void RunCase(int caseNumber){
 			Debug.Log ("Run case " + caseNumber);
-			if (caseNumber <= numberOfCases) {
-				//TODO animate currentCaseButtonRunning
-				//TODO RunCode
-			} else {
-				PMWrapper.SetLevelCompleted ();
-			}
-		}
+			//TODO animate currentCaseButtonRunning
+			PMWrapper.StartCompiler();
 
-		public void OnPMCompilerStopped(PM.HelloCompiler.StopStatus status){
-			//TODO Animate currentCaseButton to red
-			Debug.Log("Compiler stoped with status " + status);
-			ResetHandlerAndButtons();
 		}
 
 		public void ResetHandlerAndButtons() {
@@ -53,8 +47,15 @@ namespace PM.Level {
 
 		public void CaseCompleted() {
 			// TODO animate currentCaseButton to green
-			Debug.Log("Case completed!");
-			SetCurrentCase(currentCase++);
+			Debug.Log("Case nr " + currentCase + " completed!");
+			currentCase++;
+
+			if (currentCase > numberOfCases) {
+				PMWrapper.SetLevelCompleted ();
+				return;
+			}
+
+			SetCurrentCase(currentCase);
 			RunCase (currentCase);
 		}
 	}

@@ -20,6 +20,7 @@ namespace PM.Level {
 
 			if (asset == null) {
 				levelSetting = new LevelSetting ();
+				caseHandler = new CaseHandler (1);
 				return;
 			}
 
@@ -76,8 +77,10 @@ namespace PM.Level {
 			string result = "";
 			for (int i = 1; i < text.Length; i++) {
 				result += text [i];
+				if (i != text.Length - 1)
+					result += ":";
 			}
-
+			Debug.Log (result);
 			// Quick solution to encoding problem with text file
 			result = result.Replace ("\\n", "\n");
 			result = result.Replace ("\\t", "\t");

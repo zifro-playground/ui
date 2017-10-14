@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestScript : MonoBehaviour, IPMLevelChanged {
+public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched {
 
 	public string[] tasks;
 
@@ -21,10 +21,15 @@ public class TestScript : MonoBehaviour, IPMLevelChanged {
 	
 	// Update is called once per frame
 	void Update () {
-
+		if (Input.GetKeyDown (KeyCode.U))
+			PMWrapper.SetCaseCompleted ();
 	}
 
 	public void OnPMLevelChanged(){
 
+	}
+
+	public void OnPMCaseSwitched(int caseNumber){
+		Debug.Log ("Game switched to case " + caseNumber);
 	}
 }

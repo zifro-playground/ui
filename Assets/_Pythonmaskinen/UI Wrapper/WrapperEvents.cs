@@ -53,3 +53,7 @@ public interface IPMLevelChanged {
 public interface IPMLevelCompleted {
 	void OnPMLevelCompleted();
 }
+
+public interface IPMCaseSwitched {
+	void OnPMCaseSwitched(int caseNumber);
+}
