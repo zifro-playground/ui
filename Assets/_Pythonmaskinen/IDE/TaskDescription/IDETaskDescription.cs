@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class IDETaskDescription : MonoBehaviour, IPMLevelChanged {
 
-	public Text currentTaskDescription;
+	public Text currentTaskDescriptionSmall;
+	public Text currentTaskDescriptionBig;
 	public string[] taskDescriptions;
 
 	public void SetLevelTaskDescription (string[] tasks){
@@ -13,7 +14,9 @@ public class IDETaskDescription : MonoBehaviour, IPMLevelChanged {
 	}
 
 	public void OnPMLevelChanged(){
-		if (taskDescriptions.Length > PMWrapper.currentLevel)
-			currentTaskDescription.text = taskDescriptions [PMWrapper.currentLevel];
+		if (taskDescriptions.Length > PMWrapper.currentLevel) {
+			currentTaskDescriptionSmall.text = taskDescriptions [PMWrapper.currentLevel];
+			//currentTaskDescriptionBig.text = taskDescriptions [PMWrapper.currentLevel];
+		}
 	}
 }

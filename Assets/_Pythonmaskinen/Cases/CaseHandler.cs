@@ -8,22 +8,23 @@ namespace PM.Level {
 
 		private int numberOfCases = 1;
 		private int currentCase = 0;
-		private List<GameObject> caseButtons = new List<GameObject>();
+		public List<GameObject> caseButtons = new List<GameObject>();
 
 		public CaseHandler(int numOfCases){
 			numberOfCases = numOfCases;
+			caseButtons = UISingleton.instance.levelHandler.caseButtons;
 		}
 
-		private void SetCurrentCase(int caseNumber){
+		public void SetCurrentCase(int caseNumber){
+
 			//TODO animate currentCaseButtonUnpressed
 			Debug.Log("Set current case number to " + caseNumber);
-			currentCase = caseNumber;
+			currentCase = Mathf.Clamp(caseNumber, 0, numberOfCases);
 			//TODO animate currentCaseButtonPressed
 
 			// Call every implemented event
 			foreach (var ev in UISingleton.FindInterfaces<IPMCaseSwitched>())
 				ev.OnPMCaseSwitched(currentCase);
-
 		}
 
 		//Add to pmwrapper
@@ -35,28 +36,51 @@ namespace PM.Level {
 		}
 
 		public void ResetHandlerAndButtons() {
+
+			// This script should create buttons but right now they are pre created
 			/* TODO for (int i = 0; i < numberOfCases; i++) {
 				button = Instanciate(prefab, insideButtonHolder)
 				button.addListner()    (OnClick calls SetCurrentCase(button.text))
 				button.text = i
 				caseButtons.add(button)
 			}*/
+
+			for (int i = 0; i < caseButtons.Count; i++) {
+				if (i < numberOfCases) {
+					caseButtons [i].SetActive (true);
+					caseButtons [i].GetComponent<CaseButton> ().SetButtonActive ();
+				} else {
+					caseButtons [i].SetActive (false);
+				}
+			}
+
 			Debug.Log ("Reseting case handler and buttons");
 			SetCurrentCase(0);
 		}
 
 		public void CaseCompleted() {
-			// TODO animate currentCaseButton to green
+			
+			caseButtons[currentCase].GetComponent<CaseButton>().SetButtonCompleted();
+
 			Debug.Log("Case nr " + currentCase + " completed!");
 			currentCase++;
 
-			if (currentCase > numberOfCases) {
+			if (currentCase >= numberOfCases) {
 				PMWrapper.SetLevelCompleted ();
 				return;
 			}
 
 			SetCurrentCase(currentCase);
 			RunCase (currentCase);
+		}
+
+		public void CaseFailed() {
+			caseButtons[currentCase].GetComponent<CaseButton>().SetButtonFailed();
+		}
+
+		public void SetButtons (List<GameObject> buttons){
+			caseButtons = buttons;
+			Debug.Log (caseButtons.Count + " buttons have been added");
 		}
 	}
 }

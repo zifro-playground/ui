@@ -6,10 +6,13 @@ using PM;
 
 namespace PM.Level {
 
-	public class LevelHandler : MonoBehaviour, IPMCompilerStopped {
+	public class LevelHandler : MonoBehaviour, IPMLevelChanged, IPMCompilerStopped {
 
 		private Level[] levels;
 		public Level currentLevel { get { return levels [PMWrapper.currentLevel]; } }
+
+		// Contains pre created buttons because script does not create buttons
+		public List<GameObject> caseButtons;
 
 		public void LoadLevel (int level) {
 			PMWrapper.StopCompiler();
@@ -89,12 +92,14 @@ namespace PM.Level {
 			Debug.Log("Compiler stoped with status " + status);
 			if (status == HelloCompiler.StopStatus.RuntimeError){
 				// TODO Animate currentCaseButton to red
-				// 		wait before reseting handler and buttons
+				currentLevel.caseHandler.CaseFailed();
+
+				// TODO wait before reseting handler and buttons
 			}
 		}
 
 		public void OnPMLevelChanged(){
-			UISingleton.instance.levelHandler.currentLevel.caseHandler.ResetHandlerAndButtons ();
+			currentLevel.caseHandler.ResetHandlerAndButtons ();
 		}
 	}
 }

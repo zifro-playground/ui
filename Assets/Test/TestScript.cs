@@ -31,5 +31,7 @@ public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched {
 
 	public void OnPMCaseSwitched(int caseNumber){
 		Debug.Log ("Game switched to case " + caseNumber);
+		//if (caseNumber == 1)
+			//PMWrapper.SetCurrentLevelAnswere (Compiler.VariableTypes.number, new string[1] { "5" });
 	}
 }

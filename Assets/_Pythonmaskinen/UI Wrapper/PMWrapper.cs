@@ -209,6 +209,11 @@ public static class PMWrapper {
 		UISingleton.instance.taskDescription.SetLevelTaskDescription (taskDescriptions);
 	}
 
+	public static void SetCurrentLevelAnswere (Compiler.VariableTypes type, string[] answere) {
+		int parameterAmount = answere.Length;
+		UISingleton.instance.levelHandler.currentLevel.answere = new PM.Level.LevelAnswere (parameterAmount, type, answere);
+	}
+
 	/// <summary>
 	/// Represents the current level. Setting this value will automatically setoff <see cref="IPMLevelChanged.OnPMLevelChanged(int)"/>
 	/// <para>If set to a value higher than highest unlocked level then <seealso cref="unlockedLevel"/> will also be set to the same value.</para>
@@ -274,6 +279,14 @@ public static class PMWrapper {
 	/// </summary>
 	public static void SetCaseCompleted() {
 		UISingleton.instance.levelHandler.currentLevel.caseHandler.CaseCompleted ();
+	}
+
+	/// <summary>
+	/// Switches to choosen case.
+	/// </summary>
+	/// <param name="caseNumber">The case number to switch to.</param> 
+	public static void SwitchCase(int caseNumber) {
+		UISingleton.instance.levelHandler.currentLevel.caseHandler.SetCurrentCase (caseNumber);
 	}
 
 	/// <summary>

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace PM {
 
 	[RequireComponent(typeof(CanvasGroup)), RequireComponent(typeof(RectTransform)), DisallowMultipleComponent]
-	public abstract class AbstractPopupBubble : MonoBehaviour {
+	public abstract class OldAbstractPopupBubble : MonoBehaviour {
 
 		public bool isShowing { get; private set; }
 
@@ -201,12 +201,12 @@ namespace PM {
 
 			// Move the pointer
 			pointerInside.anchoredPosition =
-				pointerOutside.anchoredPosition =
-					Vector2.Scale(bubbleRect.sizeDelta * 0.5f, squarified);
+			pointerOutside.anchoredPosition =
+				Vector2.Scale(bubbleRect.sizeDelta * 0.5f, squarified);
 
 			pointerInside.localEulerAngles =
-				pointerOutside.localEulerAngles =
-					Vector3.forward * (Mathf.Atan2(-direction.y, -direction.x) * Mathf.Rad2Deg + 90);
+			pointerOutside.localEulerAngles =
+				Vector3.forward * (Mathf.Atan2(-direction.y, -direction.x) * Mathf.Rad2Deg + 90);
 		}
 
 		IEnumerator FadeRoutine(float target, float time) {
@@ -217,7 +217,7 @@ namespace PM {
 				// Wait 1 timestep
 				yield return null;
 			}
-
+			
 			if (Mathf.Approximately(target, 0))
 				foreach (Transform t in transform)
 					t.gameObject.SetActive(false);
