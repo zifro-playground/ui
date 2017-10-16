@@ -108,12 +108,18 @@ namespace PM.Level {
 		private IEnumerator ShowAnswereBubble (int lineNumber, string answere, bool correct){
 
 			UISingleton.instance.answereBubble.ShowMessage (lineNumber);
-			UISingleton.instance.answereBubble.SetAnswereMessage("Svar: ghmfghm fghm fghm fghmfghmfghm fghmfyuf hjmtuim fghn drtyh dfgh dyth dfgh dfgh dh dtyh dfgh aer5 gadfg saerg sdtg xfg sft  hsrth fgs drg aerg adfg aerg adfg sdrg sdrg aesrgg sdrg serg sdrg" + answere, correct);
+			UISingleton.instance.answereBubble.SetAnswereMessage("Svar: " + answere, correct);
 
+			
 			yield return new WaitForSeconds (2);
+
+			UISingleton.instance.answereBubble.HideMessage ();
 
 			if (correct)
 				PMWrapper.SetCaseCompleted ();
+			else
+				UISingleton.instance.levelHandler.currentLevel.caseHandler.CaseFailed ();
+
 		}
 	}
 }

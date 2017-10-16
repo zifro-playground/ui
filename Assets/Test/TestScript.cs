@@ -27,12 +27,12 @@ public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched {
 	}
 
 	public void OnPMLevelChanged(){
-		PMWrapper.SetCurrentLevelAnswere (Compiler.VariableTypes.number, new string[1] { "1" });
+		if (PMWrapper.currentLevel == 0)
+			PMWrapper.SetCurrentLevelAnswere (Compiler.VariableTypes.number, new string[1] { "1" });
 	}
 
 	public void OnPMCaseSwitched(int caseNumber){
-		Debug.Log ("Game switched to case " + caseNumber);
-		//if (caseNumber == 1)
-			//PMWrapper.SetCurrentLevelAnswere (Compiler.VariableTypes.number, new string[1] { "5" });
+		if (caseNumber == 1)
+			PMWrapper.SetCurrentLevelAnswere (Compiler.VariableTypes.number, new string[1] { "5" });
 	}
 }

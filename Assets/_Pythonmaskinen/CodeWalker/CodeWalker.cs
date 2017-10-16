@@ -46,7 +46,7 @@ namespace PM {
 
 
 		#region CodeWalker
-		// Update method runs everyframe, and checks the timer if it is time to parse a line.
+		// Update method runs every frame, and check if it is time to parse a line.
 		// if so is the case, then we call "Runtime.CodeWalker.parseLine()" while we handle any thrown runtime exceptions that the codeWalker finds.
 
 		void Update() {

@@ -15,10 +15,34 @@ namespace PM.Level {
 			caseButtons = UISingleton.instance.levelHandler.caseButtons;
 		}
 
+		public void SetButtons (List<GameObject> buttons){
+			caseButtons = buttons;
+		}
+		
+		public void ResetHandlerAndButtons() {
+			
+			// This script should create buttons but right now they are pre created
+			/* TODO for (int i = 0; i < numberOfCases; i++) {
+				button = Instanciate(prefab, insideButtonHolder)
+				button.addListner()    (OnClick calls SetCurrentCase(button.text))
+				button.text = i
+				caseButtons.add(button)
+			}*/
+			
+			for (int i = 0; i < caseButtons.Count; i++) {
+				if (i < numberOfCases) {
+					caseButtons [i].SetActive (true);
+					caseButtons [i].GetComponent<CaseButton> ().SetButtonActive ();
+				} else {
+					caseButtons [i].SetActive (false);
+				}
+			}
+			SetCurrentCase(0);
+		}
+
 		public void SetCurrentCase(int caseNumber){
 
 			//TODO animate currentCaseButtonUnpressed
-			Debug.Log("Set current case number to " + caseNumber);
 			currentCase = Mathf.Clamp(caseNumber, 0, numberOfCases);
 			//TODO animate currentCaseButtonPressed
 
@@ -35,38 +59,16 @@ namespace PM.Level {
 
 		}
 
-		public void ResetHandlerAndButtons() {
-
-			// This script should create buttons but right now they are pre created
-			/* TODO for (int i = 0; i < numberOfCases; i++) {
-				button = Instanciate(prefab, insideButtonHolder)
-				button.addListner()    (OnClick calls SetCurrentCase(button.text))
-				button.text = i
-				caseButtons.add(button)
-			}*/
-
-			for (int i = 0; i < caseButtons.Count; i++) {
-				if (i < numberOfCases) {
-					caseButtons [i].SetActive (true);
-					caseButtons [i].GetComponent<CaseButton> ().SetButtonActive ();
-				} else {
-					caseButtons [i].SetActive (false);
-				}
-			}
-
-			Debug.Log ("Reseting case handler and buttons");
-			SetCurrentCase(0);
-		}
 
 		public void CaseCompleted() {
 			
 			caseButtons[currentCase].GetComponent<CaseButton>().SetButtonCompleted();
 
-			Debug.Log("Case nr " + currentCase + " completed!");
 			currentCase++;
 
 			if (currentCase >= numberOfCases) {
 				PMWrapper.SetLevelCompleted ();
+
 				return;
 			}
 
@@ -75,12 +77,16 @@ namespace PM.Level {
 		}
 
 		public void CaseFailed() {
-			caseButtons[currentCase].GetComponent<CaseButton>().SetButtonFailed();
+			UISingleton.instance.StartCoroutine (ResetFailButton());
 		}
 
-		public void SetButtons (List<GameObject> buttons){
-			caseButtons = buttons;
-			Debug.Log (caseButtons.Count + " buttons have been added");
+		private IEnumerator ResetFailButton (){
+			caseButtons[currentCase].GetComponent<CaseButton>().SetButtonFailed();
+			yield return new WaitForSeconds(2);
+			UISingleton.instance.answereBubble.HideMessage ();
+			// TODO UISingleton.instance.errorBubble.HideMessage ();
+			ResetHandlerAndButtons();
 		}
+
 	}
 }
