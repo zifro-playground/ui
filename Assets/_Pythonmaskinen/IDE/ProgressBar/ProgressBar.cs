@@ -44,12 +44,22 @@ namespace PM {
 			for (int i = 0; i < numOfLevels; i++) {
 				var btn = Instantiate(levelPrefab);
 
+				// TEST
+				btn.image.type = Image.Type.Filled;
+
 				btn.transform.SetParent(transform, false);
 
 				var rect = btn.GetComponent<RectTransform>();
 				rect.anchorMin =
 				rect.anchorMax = new Vector2(Mathf.Lerp(0.1f, 0.9f, i / (numOfLevels - 1f)), 0.1f);
-				rect.localScale = new Vector2(0.5f,0.4f);
+
+				if (i == 0 || i == numOfLevels-1) {
+					//rect.localScale = new Vector2(0.6f,0.45f);
+					rect.localScale = new Vector2(0.4f,0.45f);
+				} else {
+					rect.localScale = new Vector2(0.4f,0.45f);
+				}
+
 
 				btn.name = "Level " + i + " button";
 
