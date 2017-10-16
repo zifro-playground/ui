@@ -32,11 +32,13 @@ namespace PM {
 		public GameObject uiTooltipPrefab;
 		public GameObject varTooltipPrefab;
 		public RectTransform tooltipParent;
+		public IDETaskDescription taskDescription;
+		public CanvasGroup uiCanvasGroup;
+		[Header("Bubbles")]
 		public IDEPrintBubble printBubble;
 		public IDEManusBubble manusBubble;
 		public IDEGuideBubble guideBubble;
-		public IDETaskDescription taskDescription;
-		public CanvasGroup uiCanvasGroup;
+		public AnswereBubble answereBubble;
 		[Header("Misc")]
 		public Camera uiCamera;
 		public Camera popupCamera;

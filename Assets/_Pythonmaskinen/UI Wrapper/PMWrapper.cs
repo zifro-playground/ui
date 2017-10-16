@@ -363,25 +363,6 @@ public static class PMWrapper {
 	}
 
 	/// <summary>
-	/// Shows a guide bubble at the specified linenumber.
-	/// </summary>
-	public static void ShowGuideBubble(int lineNumber, string message){
-		UISingleton.instance.guideBubble.ShowMessage (lineNumber);
-		UISingleton.instance.guideBubble.SetGuideMessage(message);
-
-		//Temporary to not show in answere bubble
-		GameObject.FindGameObjectWithTag("continue(temp)").GetComponent<UnityEngine.UI.Image>().enabled = true;
-	}
-
-	/// <summary>
-	/// Shows a guide bubble at world position.
-	/// </summary>
-	public static void ShowGuideBubble(Vector3 targetWorldPosition, string message){
-		UISingleton.instance.guideBubble.ShowMessage (targetWorldPosition);
-		UISingleton.instance.guideBubble.SetGuideMessage(message);
-	}
-
-	/// <summary>
 	/// Makes the IDE not destroy on load, i.e. on level change and such.
 	/// <para>Equal to <see cref="UnityEngine.Object.DontDestroyOnLoad(UnityEngine.Object)"/> but on the IDE.</para>
 	/// </summary>

@@ -68,7 +68,8 @@ namespace PM.Level {
 					break;
 				}
 			}
-			levelSetting = new LevelSetting (preCode, startCode, rowLimit, smartButtons);
+			levelSetting = new LevelSetting (preCode, startCode, rowLimit, smartButtons, numberOfCases);
+			// this should perhaps be moved somewhere else
 			caseHandler = new CaseHandler (numberOfCases);
 		}
 

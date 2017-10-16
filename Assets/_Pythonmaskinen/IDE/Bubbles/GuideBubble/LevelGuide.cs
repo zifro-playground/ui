@@ -16,7 +16,10 @@ namespace PM.Guide {
 
 		public void PlayNextGuide(){
 			if (!hasBeenPlayed) {
-				PMWrapper.ShowGuideBubble (guides [currentGuideIndex].lineNumber, guides [currentGuideIndex].message);
+
+				// TODO possibility to show message at any given target associated with the guide
+				UISingleton.instance.guideBubble.ShowMessage (guides [currentGuideIndex].lineNumber);
+				UISingleton.instance.guideBubble.SetGuideMessage(guides [currentGuideIndex].message, currentGuideIndex, numOfGuides);
 				currentGuideIndex++;
 				if (!hasNext)
 					hasBeenPlayed = true;

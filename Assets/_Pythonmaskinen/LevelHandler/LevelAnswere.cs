@@ -12,10 +12,10 @@ namespace PM.Level {
 		VariableTypes type;
 		string[] answere;
 
-		public LevelAnswere (int paramAmount, VariableTypes t, string[] ans){
+		public LevelAnswere (int paramAmount = 0, VariableTypes t = VariableTypes.unknown, string[] ans = null){
 			parameterAmount = paramAmount;
 			type = t;
-			answere = ans;
+			answere = ans ?? new string[0];
 		}
 
 		public void CheckAnswere (Variable[] inputParams, int lineNumber){
@@ -106,27 +106,14 @@ namespace PM.Level {
 		}
 
 		private IEnumerator ShowAnswereBubble (int lineNumber, string answere, bool correct){
-			PMWrapper.ShowGuideBubble (lineNumber, "Svar: " + answere);
 
-			// Temporary solution to show answere response. This should mabye be its own bubble. When this is removed, remember to remove line in PMWrapper.ShowGuideBubble() as well.
-			GameObject.FindGameObjectWithTag("continue(temp)").GetComponent<Image>().enabled = false;
-			GameObject.FindGameObjectWithTag ("correct(temp)").GetComponent<Image>().enabled = false;
-			GameObject.FindGameObjectWithTag ("wrong(temp)").GetComponent<Image>().enabled = false;
-
-			if (correct)
-				GameObject.FindGameObjectWithTag ("correct(temp)").GetComponent<Image>().enabled = true;
-			else
-				GameObject.FindGameObjectWithTag ("wrong(temp)").GetComponent<Image>().enabled = true;
+			UISingleton.instance.answereBubble.ShowMessage (lineNumber);
+			UISingleton.instance.answereBubble.SetAnswereMessage("Svar: ghmfghm fghm fghm fghmfghmfghm fghmfyuf hjmtuim fghn drtyh dfgh dyth dfgh dfgh dh dtyh dfgh aer5 gadfg saerg sdtg xfg sft  hsrth fgs drg aerg adfg aerg adfg sdrg sdrg aesrgg sdrg serg sdrg" + answere, correct);
 
 			yield return new WaitForSeconds (2);
 
 			if (correct)
 				PMWrapper.SetCaseCompleted ();
-
-			GameObject.FindGameObjectWithTag ("correct(temp)").GetComponent<Image>().enabled = false;
-			GameObject.FindGameObjectWithTag ("wrong(temp)").GetComponent<Image>().enabled = false;
-			GameObject.FindGameObjectWithTag("continue(temp)").GetComponent<Image>().enabled = true;
-			GameObject.FindGameObjectWithTag ("continue(temp)").GetComponent<Button> ().onClick.Invoke ();
 		}
 	}
 }

@@ -10,11 +10,14 @@ namespace PM {
 
 		[Header("GuideBubble fields")]
 		public Text theGuideText;
+		public Text progressText;
 
 
-		public void SetGuideMessage(string guideMessage) {
+		public void SetGuideMessage(string guideMessage, int guideIndex, int guidesCount) {
 			theGuideText.text = guideMessage;
 			ResizeToFit(theGuideText, bubbleRect);
+
+			progressText.text = guideIndex + "/" + guidesCount;
 		}
 
 		void IPMLevelChanged.OnPMLevelChanged() {

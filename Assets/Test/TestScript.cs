@@ -17,6 +17,7 @@ public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched {
 
 	// Use this for initialization
 	void Start () {
+		
 	}
 	
 	// Update is called once per frame
@@ -26,7 +27,7 @@ public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched {
 	}
 
 	public void OnPMLevelChanged(){
-
+		PMWrapper.SetCurrentLevelAnswere (Compiler.VariableTypes.number, new string[1] { "1" });
 	}
 
 	public void OnPMCaseSwitched(int caseNumber){
