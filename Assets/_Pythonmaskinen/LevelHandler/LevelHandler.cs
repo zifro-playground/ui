@@ -20,7 +20,7 @@ namespace PM.Level {
 			// TODO Save mainCode to database
 			UISingleton.instance.saveData.ClearPreAndMainCode ();
 			currentLevel.levelSetting.UseSettings ();
-			// TODO currentLevel.caseHandler.ResetHandlerAndButtons ();
+			currentLevel.caseHandler.ResetHandlerAndButtons ();
 
 			// Call every implemented event
 			foreach (var ev in UISingleton.FindInterfaces<IPMLevelChanged>())
@@ -51,7 +51,7 @@ namespace PM.Level {
 		}
 
 		public void OnPMLevelChanged(){
-			currentLevel.caseHandler.ResetHandlerAndButtons ();
+			//currentLevel.caseHandler.ResetHandlerAndButtons ();
 		}
 	}
 }

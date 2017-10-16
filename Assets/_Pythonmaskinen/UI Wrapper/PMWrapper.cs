@@ -267,6 +267,11 @@ public static class PMWrapper {
 		get { return UISingleton.instance.levelHints.storyRevealedForLevel; }
 	}
 
+
+	public static int currentCase {
+		get { return UISingleton.instance.levelHandler.currentLevel.caseHandler.currentCase; }
+	}
+
 	/// <summary>
 	/// Stops the compiler, shows the "Level complete!" popup, marks the current level as complete and unlocks the next level.
 	/// </summary>

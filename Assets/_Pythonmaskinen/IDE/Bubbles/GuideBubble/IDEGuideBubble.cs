@@ -17,7 +17,7 @@ namespace PM {
 			theGuideText.text = guideMessage;
 			ResizeToFit(theGuideText, bubbleRect);
 
-			progressText.text = guideIndex + "/" + guidesCount;
+			progressText.text = guideIndex+1 + "/" + guidesCount;
 		}
 
 		void IPMLevelChanged.OnPMLevelChanged() {

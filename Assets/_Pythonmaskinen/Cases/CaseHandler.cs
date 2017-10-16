@@ -7,7 +7,7 @@ namespace PM.Level {
 	public class CaseHandler {
 
 		private int numberOfCases = 1;
-		private int currentCase = 0;
+		public int currentCase = 0;
 		public List<GameObject> caseButtons = new List<GameObject>();
 
 		public CaseHandler(int numOfCases){
