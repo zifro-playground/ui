@@ -15,6 +15,8 @@ namespace PM.Level {
 		public LevelSetting levelSetting;
 		public CaseHandler caseHandler;
 
+		public bool hasShownTaskDescription = false;
+
 		public void BuildLevelSettings(int levelNumber){
 			TextAsset asset = Resources.Load<TextAsset> (string.Format(resourceName, levelNumber));
 
@@ -81,7 +83,6 @@ namespace PM.Level {
 				if (i != text.Length - 1)
 					result += ":";
 			}
-			Debug.Log (result);
 			// Quick solution to encoding problem with text file
 			result = result.Replace ("\\n", "\n");
 			result = result.Replace ("\\t", "\t");

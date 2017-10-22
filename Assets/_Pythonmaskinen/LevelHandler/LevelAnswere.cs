@@ -22,21 +22,21 @@ namespace PM.Level {
 			if (parameterAmount == 0)
 				PMWrapper.RaiseError (lineNumber, "I detta problem behövs inte svara() för att klara problemet");
 			if (inputParams.Length < parameterAmount)
-				PMWrapper.RaiseError (lineNumber, "För få svar. Det ska vara " + parameterAmount + " st svar.");
+				PMWrapper.RaiseError (lineNumber, "För få svar, det ska vara " + parameterAmount + " st svar.");
 			if (inputParams.Length > parameterAmount)
-				PMWrapper.RaiseError (lineNumber, "För många svar. Det ska vara " + parameterAmount + " st svar.");
+				PMWrapper.RaiseError (lineNumber, "För många svar, det ska vara " + parameterAmount + " st svar.");
 
 			foreach (Variable param in inputParams) {
 				if (param.variableType != type){
 					switch (type){
 						case VariableTypes.boolean: 
-							PMWrapper.RaiseError (lineNumber, "Fel typ av svar. Svaret ska bara vara True eller False.");
+							PMWrapper.RaiseError (lineNumber, "Fel typ, svaret ska vara True eller False.");
 							break;
 					case VariableTypes.number:
-						PMWrapper.RaiseError (lineNumber, "Fel typ av svar. Svaret ska vara ett tal");
+						PMWrapper.RaiseError (lineNumber, "Fel typ, svaret ska vara ett tal.");
 						break;
 					case VariableTypes.textString:
-						PMWrapper.RaiseError (lineNumber, "Fel typ av svar. Svaret ska vara en text.");
+						PMWrapper.RaiseError (lineNumber, "Fel typ, svaret ska vara en text.");
 						break;
 					default:
 						PMWrapper.RaiseError (lineNumber, "Fel typ av svar.");
@@ -102,17 +102,19 @@ namespace PM.Level {
 				UISingleton.instance.levelHandler.StartCoroutine (ShowAnswereBubble(lineNumber, ans, correctAnswere));
 				break;
 			}
-			PMWrapper.StopCompiler ();
 		}
 
 		private IEnumerator ShowAnswereBubble (int lineNumber, string answere, bool correct){
 
 			UISingleton.instance.answereBubble.ShowMessage (lineNumber);
-			UISingleton.instance.answereBubble.SetAnswereMessage("Svar: " + answere, correct);
+			UISingleton.instance.answereBubble.SetAnswerMessage("Svar: " + answere);
 
+			yield return new WaitForSeconds (3 * (1 - PMWrapper.speedMultiplier));
+			UISingleton.instance.answereBubble.SetAnswereSprite (correct);
 			
-			yield return new WaitForSeconds (2);
+			yield return new WaitForSeconds (3 * (1 - PMWrapper.speedMultiplier));
 
+			PMWrapper.StopCompiler ();
 			UISingleton.instance.answereBubble.HideMessage ();
 
 			if (correct)

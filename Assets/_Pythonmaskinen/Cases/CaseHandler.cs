@@ -53,7 +53,6 @@ namespace PM.Level {
 
 		//Add to pmwrapper
 		public void RunCase(int caseNumber){
-			Debug.Log ("Run case " + caseNumber);
 			//TODO animate currentCaseButtonRunning
 			PMWrapper.StartCompiler();
 

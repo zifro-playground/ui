@@ -13,7 +13,7 @@ public static class PMWrapper {
 	/// <summary>
 	/// Version of the Pythonmachine wrapper/UI.
 	/// </summary>
-	public const string version = "0.9.3";
+	public const string version = "0.9.5";
 
 	/// <summary>
 	/// Value from the speed slider. Ranges from 0 to 1, with a default of 0.5.

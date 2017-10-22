@@ -8,7 +8,7 @@ namespace PM {
 	public class CodeWalker : MonoBehaviour, IPMSpeedChanged {
 
 		#region time based variables
-		float walkerMaxWaitTime = 1.6f;
+		float walkerWaitTime = 3f;
 		public float sleepTime = 3;
 		private float sleepTimer;
 		#endregion
@@ -134,7 +134,7 @@ namespace PM {
 
 		void IPMSpeedChanged.OnPMSpeedChanged(float speed) {
 			float speedFactor = 1 - speed;
-			sleepTime = walkerMaxWaitTime * speedFactor;
+			sleepTime = walkerWaitTime * speedFactor;
 		}
 		#endregion
 	}

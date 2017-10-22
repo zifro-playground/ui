@@ -6,7 +6,7 @@ using PM;
 
 namespace PM.Level {
 
-	public class LevelHandler : MonoBehaviour, IPMLevelChanged, IPMCompilerStopped {
+	public class LevelHandler : MonoBehaviour, IPMCompilerStopped {
 
 		private Level[] levels;
 		public Level currentLevel { get { return levels [PMWrapper.currentLevel]; } }
@@ -41,17 +41,12 @@ namespace PM.Level {
 		}
 
 		public void OnPMCompilerStopped(PM.HelloCompiler.StopStatus status){
-			Debug.Log("Compiler stoped with status " + status);
 			if (status == HelloCompiler.StopStatus.RuntimeError){
 				// TODO Animate currentCaseButton to red
 				currentLevel.caseHandler.CaseFailed();
 
 				// TODO wait before reseting handler and buttons
 			}
-		}
-
-		public void OnPMLevelChanged(){
-			//currentLevel.caseHandler.ResetHandlerAndButtons ();
 		}
 	}
 }

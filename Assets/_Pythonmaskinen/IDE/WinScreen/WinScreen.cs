@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace PM {
 
-	public class WinScreen : MonoBehaviour {
+	public class WinScreen : MonoBehaviour, IPMLevelChanged, IPMCompilerStarted {
 
 		[Header("UI elements")]
 		public GameObject topmostObject;
@@ -25,6 +25,14 @@ namespace PM {
 
 		private float timePassed = 0;
 		private State state = State.Idle;
+
+		public void OnPMLevelChanged(){
+			CloseWinScreen ();
+		}
+
+		public void OnPMCompilerStarted(){
+			CloseWinScreen ();
+		}
 
 		public void SetLevelCompleted() {
 			PMWrapper.StopCompiler();
