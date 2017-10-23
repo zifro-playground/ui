@@ -60,6 +60,7 @@ namespace PM.Level {
 
 
 		public void CaseCompleted() {
+			PMWrapper.StopCompiler ();
 			
 			caseButtons[currentCase].GetComponent<CaseButton>().SetButtonCompleted();
 

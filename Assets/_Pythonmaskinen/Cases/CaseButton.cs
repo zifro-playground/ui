@@ -11,12 +11,7 @@ public class CaseButton : MonoBehaviour {
 	public Sprite completed;
 	public Sprite failed;
 
-	private Image image;
-
-	private void Start(){
-		image = GetComponent<Image> ();
-	}
-
+	public Image image;
 
 	public void SetButtonActive(){
 		image.sprite = active;
