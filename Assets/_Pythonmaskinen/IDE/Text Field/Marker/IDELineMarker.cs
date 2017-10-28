@@ -67,7 +67,7 @@ namespace PM {
 
 			theErrorBubble.SetErrorMessage(message);
 			UISingleton.instance.compiler.stopCompiler(HelloCompiler.StopStatus.RuntimeError);
-			UISingleton.instance.exceptionHandler.sendErrorToAnalytics (message);
+			//UISingleton.instance.exceptionHandler.sendErrorToAnalytics (message);
 			throw new PMRuntimeException(message);
 		}
 

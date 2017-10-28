@@ -20,7 +20,7 @@ namespace PM {
 		public Manus.ManusPlayer manusPlayer;
 		public Guide.GuidePlayer guidePlayer;
 		public SaveData saveData;
-		public ExceptionHandler exceptionHandler;
+		//public ExceptionHandler exceptionHandler;
 		public Level.LevelHandler levelHandler;
 		[Header("UI")]
 		public IDERowsLimit rowsLimit;
