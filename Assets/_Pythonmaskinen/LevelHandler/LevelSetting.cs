@@ -10,7 +10,7 @@ public class LevelSetting {
 	private string[] smartButtons;
 	private int caseCount;
 
-	public LevelSetting (string preCode = "", string sstarCode = "", int rowLimit = 100, string[] smartButtons = null, int numberOfCases = 1){
+	public LevelSetting (string preCode = "", string startCode = "", int rowLimit = 100, string[] smartButtons = null, int numberOfCases = 1){
 		this.preCode = preCode;
 		this.startCode = startCode;
 		this.rowLimit = rowLimit;
