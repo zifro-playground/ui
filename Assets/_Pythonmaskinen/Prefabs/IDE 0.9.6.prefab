@@ -607,7 +607,6 @@ GameObject:
   - component: {fileID: 4039829031225302}
   - component: {fileID: 20972637809538812}
   - component: {fileID: 124657902617731388}
-  - component: {fileID: 92614767689224810}
   m_Layer: 0
   m_Name: UI Camera
   m_TagString: Untagged
@@ -1550,24 +1549,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1661515044204348
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4069294385586444}
-  - component: {fileID: 20370612517929798}
-  - component: {fileID: 124383274962839826}
-  - component: {fileID: 92575630054744912}
-  m_Layer: 0
-  m_Name: GameCamera
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1667697136707850
 GameObject:
   m_ObjectHideFlags: 1
@@ -2347,19 +2328,6 @@ Transform:
   m_Father: {fileID: 4690873962795348}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4069294385586444
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1661515044204348}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4690873962795348}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4165823765114156
 Transform:
   m_ObjectHideFlags: 1
@@ -2418,7 +2386,6 @@ Transform:
   - {fileID: 224447255560853798}
   - {fileID: 4165823765114156}
   - {fileID: 4039829031225302}
-  - {fileID: 4069294385586444}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2448,41 +2415,6 @@ Transform:
   m_Father: {fileID: 4690873962795348}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!20 &20370612517929798
-Camera:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1661515044204348}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_ClearFlags: 3
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
-  orthographic: 1
-  orthographic size: 16.05
-  m_Depth: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 256
-  m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
-  m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
-  m_StereoConvergence: 10
-  m_StereoSeparation: 0.022
 --- !u!20 &20902564498032634
 Camera:
   m_ObjectHideFlags: 1
@@ -2542,7 +2474,7 @@ Camera:
   m_Depth: -10
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 33
+    m_Bits: 289
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -2559,20 +2491,6 @@ Behaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1961676649949700}
-  m_Enabled: 1
---- !u!92 &92575630054744912
-Behaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1661515044204348}
-  m_Enabled: 1
---- !u!92 &92614767689224810
-Behaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1276771401100620}
   m_Enabled: 1
 --- !u!114 &114005369306435272
 MonoBehaviour:
@@ -4349,7 +4267,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224808511449062954}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999987
+  m_Size: 0.9999992
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6246,7 +6164,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224127536597887738}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999934
+  m_Size: 0.99999964
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7549,13 +7467,6 @@ MonoBehaviour:
   text: close
   fadeInAfter: 0.1
   fadeDuration: 0.1
---- !u!124 &124383274962839826
-Behaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1661515044204348}
-  m_Enabled: 1
 --- !u!124 &124616378363015528
 Behaviour:
   m_ObjectHideFlags: 1

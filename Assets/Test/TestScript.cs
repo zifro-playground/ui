@@ -23,7 +23,7 @@ public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.U))
-			PMWrapper.SetCaseCompleted ();
+			PMWrapper.StopCompiler ();
 	}
 
 	public void OnPMLevelChanged(){

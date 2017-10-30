@@ -11,9 +11,9 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 0
+  - enabled: 1
     path: Assets/Test/testScene.unity
     guid: f70aacf428082dd4a9771043435350fa
-  - enabled: 1
+  - enabled: 0
     path: Assets/Test/hej.unity
     guid: 6ac695eb18bbf96488d16222101a9c75
