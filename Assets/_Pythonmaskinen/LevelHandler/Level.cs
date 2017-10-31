@@ -28,6 +28,7 @@ namespace PM.Level {
 
 			string[] textRows = asset.text.Split (linebreaks, StringSplitOptions.RemoveEmptyEntries);
 
+			string taskDescription = "";
 			string preCode = "";
 			string startCode = "";
 			int rowLimit = 100;
@@ -42,6 +43,10 @@ namespace PM.Level {
 				string[] splittedRow = textRows[i].Split(':');
 
 				switch (splittedRow[0].ToLower()) {
+
+				case "taskdescription":
+					taskDescription = JoinSplittedText (splittedRow);
+					break;
 
 				case "precode":
 					preCode = JoinSplittedText (splittedRow);
@@ -63,16 +68,16 @@ namespace PM.Level {
 				case "casecount":
 					couldParse = int.TryParse (splittedRow [1].Trim (), out numberOfCases);
 					if (!couldParse)
-						throw new Exception ("The casecount could not be parsed. Must be an integer after :");
+						throw new Exception ("The casecount could not be parsed. There must be an integer after :");
 					break;
 				default:
 					Debug.Log ("Row number " + i + " could not be parsed");
 					break;
 				}
 			}
-			levelSetting = new LevelSetting (preCode, startCode, rowLimit, smartButtons, numberOfCases);
+			levelSetting = new LevelSetting (taskDescription, preCode, startCode, rowLimit, numberOfCases, smartButtons);
 			// this should perhaps be moved somewhere else
-			caseHandler = new CaseHandler (numberOfCases);
+			//caseHandler = new CaseHandler (numberOfCases);
 		}
 
 		// Can be used if text got splitted by : when not intended

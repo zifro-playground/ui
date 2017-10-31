@@ -1,1 +1,0 @@
-﻿smartbuttons: svara(), en_riktigt_lång_funktion(), åk_vänster()

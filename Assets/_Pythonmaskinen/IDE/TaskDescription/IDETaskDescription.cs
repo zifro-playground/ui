@@ -4,32 +4,27 @@ using UnityEngine;
 using UnityEngine.UI;
 using PM;
 
-public class IDETaskDescription : MonoBehaviour, IPMLevelChanged {
+public class IDETaskDescription : MonoBehaviour {
 
-	public GameObject taskDescriptionBigParent;
+	public GameObject bigTDParent;
+	public GameObject smallTDParent;
 
 	public Text taskDescriptionSmall;
 	public Text taskDescriptionBig;
-	public string[] taskDescriptions;
 
-	public void SetLevelTaskDescription (string[] tasks){
-		taskDescriptions = tasks;
-		//ChangeTaskDescription ();
-	}
-
-	public void OnPMLevelChanged(){
-		ChangeTaskDescription ();
-	}
-
-	public void ChangeTaskDescription (){
-		taskDescriptionBigParent.SetActive (false);
-		if (taskDescriptions.Length > PMWrapper.currentLevel) {
-			taskDescriptionSmall.text = taskDescriptions [PMWrapper.currentLevel];
+	public void SetTaskDescription (string taskDescription){
+		bigTDParent.SetActive (false);
+		if (taskDescription.Length < 1) {
+			smallTDParent.SetActive (false);
+		} else {
+			smallTDParent.SetActive (true);
+			taskDescriptionSmall.text = taskDescription;
 			if (!UISingleton.instance.levelHandler.currentLevel.hasShownTaskDescription) {
-				taskDescriptionBig.text = taskDescriptions [PMWrapper.currentLevel];
-				taskDescriptionBigParent.SetActive (true);
+				bigTDParent.SetActive (true);
+				taskDescriptionBig.text = taskDescription;
 				UISingleton.instance.levelHandler.currentLevel.hasShownTaskDescription = true;
 			}
 		}
+
 	}
 }

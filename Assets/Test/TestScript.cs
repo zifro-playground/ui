@@ -8,7 +8,6 @@ public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched {
 
 
 	void Awake(){
-		PMWrapper.SetTaskDescriptions (tasks);
 		PMWrapper.SetCompilerFunctions (new Compiler.Function[] {
 			new AnswereFunction()
 		});
@@ -33,6 +32,6 @@ public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched {
 
 	public void OnPMCaseSwitched(int caseNumber){
 		if (caseNumber == 1)
-			PMWrapper.SetCurrentLevelAnswere (Compiler.VariableTypes.number, new string[1] { "5" });
+			PMWrapper.SetCurrentLevelAnswere (Compiler.VariableTypes.number, new string[1] { "1" });
 	}
 }

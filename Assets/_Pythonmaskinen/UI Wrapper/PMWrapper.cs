@@ -203,10 +203,10 @@ public static class PMWrapper {
 	}
 
 	/// <summary>
-	/// Sets the task descriptions for all levels. Should be called in Awake to start before the first OnLevelChanged that sets the description to level 0.
+	/// Set the task description for current level. If passed empty string, both placeholders for task description will be deactivated.
 	/// </summary>
-	public static void SetTaskDescriptions(string[] taskDescriptions){
-		UISingleton.instance.taskDescription.SetLevelTaskDescription (taskDescriptions);
+	public static void SetTaskDescription(string taskDescription){
+		UISingleton.instance.taskDescription.SetTaskDescription (taskDescription);
 	}
 
 	public static void SetCurrentLevelAnswere (Compiler.VariableTypes type, string[] answere) {

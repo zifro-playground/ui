@@ -1,0 +1,3 @@
+﻿taskdescription: hejsan
+casecount: 2
+smartbuttons: svara(), en_riktigt_lång_funktion(), åk_vänster()

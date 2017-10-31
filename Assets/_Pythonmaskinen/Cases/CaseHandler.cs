@@ -28,9 +28,10 @@ namespace PM.Level {
 				button.text = i
 				caseButtons.add(button)
 			}*/
-			
+
 			for (int i = 0; i < caseButtons.Count; i++) {
-				if (i < numberOfCases) {
+				// Don't show buttons if there is only one case
+				if (i < numberOfCases && numberOfCases > 1) {
 					caseButtons [i].SetActive (true);
 					caseButtons [i].GetComponent<CaseButton> ().SetButtonActive ();
 				} else {

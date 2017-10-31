@@ -1095,7 +1095,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224820536589838214}
   - component: {fileID: 114353904894878462}
-  - component: {fileID: 114724994079373824}
+  - component: {fileID: 114062883067842456}
   m_Layer: 1
   m_Name: Hints & Wins controller
   m_TagString: Untagged
@@ -1593,6 +1593,7 @@ GameObject:
   - component: {fileID: 222267636698016412}
   - component: {fileID: 114679112787591602}
   - component: {fileID: 114955313158754148}
+  - component: {fileID: 114702075326446842}
   m_Layer: 5
   m_Name: Quit
   m_TagString: Untagged
@@ -1686,7 +1687,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1697094158173152
 GameObject:
   m_ObjectHideFlags: 1
@@ -2503,10 +2504,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa7cca886518244b97c56f6f381c9ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  taskDescriptionBigParent: {fileID: 1412275220409504}
+  bigTDParent: {fileID: 1412275220409504}
+  smallTDParent: {fileID: 1071601263044386}
   taskDescriptionSmall: {fileID: 114890617942588550}
   taskDescriptionBig: {fileID: 114353445926816808}
-  taskDescriptions: []
 --- !u!114 &114026891187252468
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2660,6 +2661,26 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 
+--- !u!114 &114062883067842456
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1427365948396992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 428362dc39095694690638a3c502242f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  topmostObject: {fileID: 1696449774082380}
+  continueButton: {fileID: 114815944231693486}
+  closeButton: {fileID: 114655511890439242}
+  winText: {fileID: 114630194139507884}
+  canvasGroup: {fileID: 225541699943647892}
+  winMsg: <size=64>BRA JOBBAT!</size>
+  lastWinMsg: "<size=64>BRA JOBBAT!</size>\nNu \xE4r du klar med alla banor!"
+  demoWinMsg: "S\xE5! Nu \xE4r det dags f\xF6r dig att testa sj\xE4lv."
+  fadeTime: 0.1
 --- !u!114 &114063732794189978
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3759,7 +3780,7 @@ MonoBehaviour:
   levelHints: {fileID: 114353904894878462}
   gameCameraRect: {fileID: 224518761466180190}
   smartButtons: {fileID: 114388514146051896}
-  winScreen: {fileID: 114724994079373824}
+  winScreen: {fileID: 114062883067842456}
   levelbar: {fileID: 114088576144809558}
   uiTooltipPrefab: {fileID: 1898786947892218, guid: a6172b706c0835b4ea5b74d41db36e86,
     type: 2}
@@ -5751,7 +5772,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114724994079373824}
+      - m_Target: {fileID: 114062883067842456}
         m_MethodName: CloseWinScreen
         m_Mode: 1
         m_Arguments:
@@ -5968,6 +5989,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114702075326446842
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1650292737067550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5b6ebe8d9aed4d40845a3731081dd23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114703733801124090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6262,26 +6294,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114724994079373824
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1427365948396992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 428362dc39095694690638a3c502242f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  topmostObject: {fileID: 1696449774082380}
-  continueButton: {fileID: 114815944231693486}
-  closeButton: {fileID: 114655511890439242}
-  winText: {fileID: 114630194139507884}
-  canvasGroup: {fileID: 225541699943647892}
-  winMsg: <size=64>BRA JOBBAT!</size>
-  lastWinMsg: "<size=64>BRA JOBBAT!</size>\nNu \xE4r du klar med alla banor!"
-  demoWinMsg: "S\xE5! Nu \xE4r det dags f\xF6r dig att testa sj\xE4lv."
-  fadeTime: 0.1
 --- !u!114 &114732110138811486
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6692,7 +6704,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114724994079373824}
+      - m_Target: {fileID: 114062883067842456}
         m_MethodName: ContinueToNextLevel
         m_Mode: 1
         m_Arguments:
@@ -7311,7 +7323,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114679112787591602}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114961457796110372
@@ -8104,7 +8127,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1897786442670030}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8154.1035, y: -1901, z: 0}
+  m_LocalPosition: {x: -8151.6387, y: -1901, z: 0}
   m_LocalScale: {x: 1.0000688, y: 1.0000688, z: 1.0000688}
   m_Children:
   - {fileID: 224286358058229844}
@@ -8112,9 +8135,9 @@ RectTransform:
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.082, y: 0.037499998}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -45, y: 32}
-  m_SizeDelta: {x: -150, y: -60}
+  m_AnchorMax: {x: 0.768, y: 1}
+  m_AnchoredPosition: {x: 14.999512, y: 32}
+  m_SizeDelta: {x: -29.999023, y: -60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224003983165405980
 RectTransform:
@@ -8154,7 +8177,7 @@ RectTransform:
   m_Children:
   - {fileID: 224003983165405980}
   m_Father: {fileID: 224485027877203360}
-  m_RootOrder: 1
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -8291,7 +8314,7 @@ RectTransform:
   - {fileID: 224693738997585060}
   - {fileID: 224951842185885256}
   m_Father: {fileID: 224485027877203360}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8311,7 +8334,7 @@ RectTransform:
   - {fileID: 224459330492541260}
   - {fileID: 224278777976944254}
   m_Father: {fileID: 224485027877203360}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -8461,7 +8484,7 @@ RectTransform:
   - {fileID: 224254543059437378}
   - {fileID: 224095538483038768}
   m_Father: {fileID: 224485027877203360}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8952,7 +8975,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1357538621012948}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 33.39876, z: 0}
+  m_LocalPosition: {x: -2.4645996, y: 33.39876, z: 0}
   m_LocalScale: {x: 0.9999312, y: 0.9999312, z: 0.9999312}
   m_Children: []
   m_Father: {fileID: 224001309910809578}
@@ -8993,7 +9016,7 @@ RectTransform:
   m_Children:
   - {fileID: 224927752000494766}
   m_Father: {fileID: 224485027877203360}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9379,17 +9402,17 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 224132321381199484}
-  - {fileID: 224005145883776722}
   - {fileID: 224621361590440882}
   - {fileID: 224569292838674298}
-  - {fileID: 224514055306017410}
   - {fileID: 224290210084876240}
-  - {fileID: 224584545058930926}
+  - {fileID: 224514055306017410}
   - {fileID: 224118071650113216}
+  - {fileID: 224584545058930926}
   - {fileID: 224072519769051714}
   - {fileID: 224715711344361796}
   - {fileID: 224072521292980046}
   - {fileID: 224820536589838214}
+  - {fileID: 224005145883776722}
   - {fileID: 224775161557905700}
   m_Father: {fileID: 4780873247028210}
   m_RootOrder: 6
@@ -9578,7 +9601,7 @@ RectTransform:
   m_Children:
   - {fileID: 224289622834992390}
   m_Father: {fileID: 224485027877203360}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9712,7 +9735,7 @@ RectTransform:
   m_Children:
   - {fileID: 224100740261568386}
   m_Father: {fileID: 224485027877203360}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9864,7 +9887,7 @@ RectTransform:
   - {fileID: 224306017210136118}
   - {fileID: 224392832105519284}
   m_Father: {fileID: 224485027877203360}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -10085,7 +10108,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224485027877203360}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
