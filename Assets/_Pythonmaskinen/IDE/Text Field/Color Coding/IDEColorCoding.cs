@@ -10,7 +10,7 @@ namespace PM {
 
 		private static string[] keyWords = { "in", "while", "for", "if", "else", "True", "False", "not" , "def", "and", "or", "return",
 	"as", "assert", "break", "class", "continue", "del", "elif", "except", "exec", "finally", "from", "global", "import", "is",
-	"lambda", "pass", "raise", "try", "with", "yield"};
+	"lambda", "pass", "raise", "try", "with", "yield", "None"};
 		private static char[] operatorCharacters = { '*', '/', '-', '+', '<', '>', '=', '%', '\\', '|', '^', '~', '&' };
 		private static string[] operators = {
 			// Math

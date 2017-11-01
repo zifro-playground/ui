@@ -2,5 +2,6 @@ taskdescription: Spela banan och gör det bra!
 precode: x = 0\ny = 4
 startcode: svara(1)
 rowlimit: 6
-smartbuttons: svara(), åk_mot_öst()
 casecount: 3
+smartbuttons: svara(), åk_mot_öst()
+functions: 

@@ -32,8 +32,9 @@ namespace PM.Level {
 			string preCode = "";
 			string startCode = "";
 			int rowLimit = 100;
-			string[] smartButtons = new string[0];
 			int numberOfCases = 1;
+			string[] smartButtons = new string[0];
+			List<Compiler.Function> functions= new List<Compiler.Function>();
 
 			for (int i = 0; i < textRows.Length; i++) {
 				// Ignore comments
@@ -62,20 +63,38 @@ namespace PM.Level {
 						throw new Exception ("The row with rowLimit must have an integer after :");
 					break;
 
-				case "smartbuttons":
-					smartButtons = splittedRow [1].Trim().Replace(" ", "").Split (new char[] {','}, StringSplitOptions.RemoveEmptyEntries);
-					break;
 				case "casecount":
 					couldParse = int.TryParse (splittedRow [1].Trim (), out numberOfCases);
 					if (!couldParse)
 						throw new Exception ("The casecount could not be parsed. There must be an integer after :");
+					break;
+
+				case "smartbuttons":
+					smartButtons = splittedRow [1].Trim().Replace(" ", "").Split (new char[] {','}, StringSplitOptions.RemoveEmptyEntries);
+					break;
+
+				case "functions":
+					string[] functionsNames = splittedRow [1].Trim ().Replace (" ", "").Split (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+					// Use reflection to get an instance of compiler function class from string
+					foreach (string functionName in functionsNames) {
+						Type type = Type.GetType (functionName);
+
+						if (type == null)
+							throw new Exception ("Function name: \"" + functionName + "\" could not be found.");
+
+						Compiler.Function function = (Compiler.Function)Activator.CreateInstance (type);
+						functions.Add (function);
+					}
+
+					functions.Add (new AnswereFunction ());
 					break;
 				default:
 					Debug.Log ("Row number " + i + " could not be parsed");
 					break;
 				}
 			}
-			levelSetting = new LevelSetting (taskDescription, preCode, startCode, rowLimit, numberOfCases, smartButtons);
+			levelSetting = new LevelSetting (taskDescription, preCode, startCode, rowLimit, numberOfCases, smartButtons, functions.ToArray());
 			// this should perhaps be moved somewhere else
 			//caseHandler = new CaseHandler (numberOfCases);
 		}

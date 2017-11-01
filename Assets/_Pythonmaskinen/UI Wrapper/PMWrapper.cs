@@ -157,7 +157,7 @@ public static class PMWrapper {
 	}
 
 	/// <summary>
-	/// Static wrapper for <see cref="HelloCompiler.setAddedFunctions"/>
+	/// Sets the compiler functions avalible for the user. Called from levelsettings when new level is loaded and adds functions from levelsettings text file.
 	/// </summary>
 	public static void SetCompilerFunctions(params Compiler.Function[] functions) {
 		UISingleton.instance.compiler.addedFunctions = new List<Compiler.Function>(functions);

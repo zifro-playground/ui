@@ -8,9 +8,6 @@ public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched {
 
 
 	void Awake(){
-		PMWrapper.SetCompilerFunctions (new Compiler.Function[] {
-			new AnswereFunction()
-		});
 		PMWrapper.AddSmartButton ("svara()");
 	}
 

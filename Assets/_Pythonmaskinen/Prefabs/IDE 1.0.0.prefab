@@ -3215,7 +3215,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224849217534970376}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999964
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3532,7 +3532,7 @@ MonoBehaviour:
   postText: {fileID: 114060612692863486}
   theSpeciallCommands: {fileID: 114289794263769272}
   codeRowsLimit: 32
-  devBuild: 1
+  devBuild: 0
 --- !u!114 &114215138814156366
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7057,8 +7057,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114243086537420174}
   m_HandleRect: {fileID: 224520138125936050}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.9999992
+  m_Value: 1
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
