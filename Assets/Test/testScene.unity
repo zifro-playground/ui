@@ -229,12 +229,22 @@ Prefab:
     - target: {fileID: 224520138125936050, guid: fb339544610e71940b4d0d9cb6274ffc,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.000076293945
       objectReference: {fileID: 0}
     - target: {fileID: 224457929714653238, guid: fb339544610e71940b4d0d9cb6274ffc,
         type: 2}
       propertyPath: m_LocalPosition.y
       value: -3.1042175
+      objectReference: {fileID: 0}
+    - target: {fileID: 224849217534970376, guid: fb339544610e71940b4d0d9cb6274ffc,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.00015258789
+      objectReference: {fileID: 0}
+    - target: {fileID: 114843687847041998, guid: fb339544610e71940b4d0d9cb6274ffc,
+        type: 2}
+      propertyPath: numberOfLevels
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fb339544610e71940b4d0d9cb6274ffc, type: 2}
@@ -328,10 +338,10 @@ Camera:
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.5171503
-    y: 0.15723126
-    width: 0.40429634
-    height: 0.7184982
+    x: 0.51715624
+    y: 0.15729584
+    width: 0.40443742
+    height: 0.7195919
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60

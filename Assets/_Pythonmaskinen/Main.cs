@@ -1,7 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PM.Level;
+using PM.Guide;
 
 namespace PM {
 
@@ -13,8 +14,8 @@ namespace PM {
 		void Start () {
 			PMWrapper.numOfLevels = numberOfLevels;
 
-			Guide.Loader.BuildAll ();
 			UISingleton.instance.levelHandler.BuildLevels ();
+			GuideLoader.BuildAll ();
 
 			// TODO Load last level played from database
 			UISingleton.instance.levelHandler.LoadLevel (0);

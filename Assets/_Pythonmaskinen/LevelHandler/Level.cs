@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,18 +9,21 @@ namespace PM.Level {
 	public class Level {
 
 		private static readonly string[] linebreaks = new string[] { "\n\r", "\r\n", "\n", "\r" };
-		private const string resourceName = "LevelSettings/levelsettings_{0}";
 
+		public int levelNumber;
 		public LevelAnswere answere;
 		public LevelSetting levelSetting;
 		public CaseHandler caseHandler;
 
 		public bool hasShownTaskDescription = false;
 
-		public void BuildLevelSettings(int levelNumber){
-			TextAsset asset = Resources.Load<TextAsset> (string.Format(resourceName, levelNumber));
+		public void BuildLevelSettings(int levelNumber, string settingsFileName){
+			this.levelNumber = levelNumber;
+
+			TextAsset asset = Resources.Load<TextAsset> (settingsFileName);
 
 			if (asset == null) {
+				Debug.Log("The levelsettings file \"" + settingsFileName + "\" could not be found. Ignore if you want no settings for level " + levelNumber);
 				levelSetting = new LevelSetting ();
 				caseHandler = new CaseHandler (1);
 				return;
@@ -45,53 +48,58 @@ namespace PM.Level {
 
 				switch (splittedRow[0].ToLower()) {
 
-				case "taskdescription":
-					taskDescription = JoinSplittedText (splittedRow);
-					break;
+					case "taskdescription":
+						taskDescription = JoinSplittedText (splittedRow);
+						break;
 
-				case "precode":
-					preCode = JoinSplittedText (splittedRow);
-					break;
+					case "precode":
+						preCode = JoinSplittedText (splittedRow);
+						break;
 
-				case "startcode":
-					startCode = JoinSplittedText (splittedRow);
-					break;
+					case "startcode":
+						startCode = JoinSplittedText (splittedRow);
+						break;
 
-				case "rowlimit":
-					bool couldParse = int.TryParse (splittedRow [1], out rowLimit);
-					if (!couldParse)
-						throw new Exception ("The row with rowLimit must have an integer after :");
-					break;
+					case "rowlimit":
+						bool couldParse = int.TryParse(splittedRow[1], out rowLimit);
+						if (!couldParse)
+							throw new Exception("The row with rowLimit must have an integer after :");
+						break;
 
-				case "casecount":
-					couldParse = int.TryParse (splittedRow [1].Trim (), out numberOfCases);
-					if (!couldParse)
-						throw new Exception ("The casecount could not be parsed. There must be an integer after :");
-					break;
+						case "casecount":
+						couldParse = int.TryParse (splittedRow [1].Trim (), out numberOfCases);
+						if (!couldParse)
+							throw new Exception ("The casecount could not be parsed. There must be an integer after :");
+						break;
 
-				case "smartbuttons":
-					smartButtons = splittedRow [1].Trim().Replace(" ", "").Split (new char[] {','}, StringSplitOptions.RemoveEmptyEntries);
-					break;
+					case "smartbuttons":
+						smartButtons = splittedRow [1].Trim().Replace(" ", "").Split (new char[] {','}, StringSplitOptions.RemoveEmptyEntries);
 
-				case "functions":
-					string[] functionsNames = splittedRow [1].Trim ().Replace (" ", "").Split (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+						// Automatically add AnswereFunction if there is a smart button with name "svara()"
+						foreach (string buttonName in smartButtons)
+						{
+							if (buttonName == "svara()")
+								functions.Add(new AnswereFunction());
+						}
+						break;
+		
+					case "functions":
+						string[] functionsNames = splittedRow [1].Trim ().Replace (" ", "").Split (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
-					// Use reflection to get an instance of compiler function class from string
-					foreach (string functionName in functionsNames) {
-						Type type = Type.GetType (functionName);
+						// Use reflection to get an instance of compiler function class from string
+						foreach (string functionName in functionsNames) {
+							Type type = Type.GetType (functionName);
 
-						if (type == null)
-							throw new Exception ("Function name: \"" + functionName + "\" could not be found.");
+							if (type == null)
+								throw new Exception ("Function name: \"" + functionName + "\" could not be found.");
 
-						Compiler.Function function = (Compiler.Function)Activator.CreateInstance (type);
-						functions.Add (function);
-					}
-
-					functions.Add (new AnswereFunction ());
-					break;
-				default:
-					Debug.Log ("Row number " + i + " could not be parsed");
-					break;
+							Compiler.Function function = (Compiler.Function)Activator.CreateInstance (type);
+							functions.Add (function);
+						}
+						break;
+					default:
+						Debug.Log ("Row number " + i + " could not be parsed");
+						break;
 				}
 			}
 			levelSetting = new LevelSetting (taskDescription, preCode, startCode, rowLimit, numberOfCases, smartButtons, functions.ToArray());

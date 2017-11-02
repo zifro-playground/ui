@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +19,7 @@ namespace PM.Guide {
 		}
 
 		public void OnPMLevelChanged(){
-			currentGuide = Loader.GetCurrentLevelGuide ();
+			currentGuide = GuideLoader.GetCurrentLevelGuide ();
 			if (currentGuide != null)
 				currentGuide.currentGuideIndex = 0;
 			shouldPlayNext = true;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -6,19 +6,37 @@ using UnityEngine;
 
 namespace PM.Guide {
 
-	public static class Loader{
+	public static class GuideLoader{
 
-		public const string resourceName = "Guides/levelguide_{0}";
+		public const string guideResourceName = "guide-master";
 		public static readonly string[] linebreaks = new string[] { "\n\r", "\r\n", "\n", "\r" };
 		public static List<LevelGuide> allGuides = new List<LevelGuide>();
 
 		public static void BuildAll() {
-			for (int i=0; i<PMWrapper.numOfLevels; i++) {
-				LevelGuide guide = BuildFromPath (string.Format (resourceName, i));
+			TextAsset masterAsset = Resources.Load<TextAsset>(guideResourceName);
+			string[] textRows = masterAsset.text.Trim().Split(linebreaks, StringSplitOptions.RemoveEmptyEntries);
+			string guideFileName = "";
+
+			int guidesBuilt = 0;
+
+			for (int i = 0; i < textRows.Length; i++) {
+
+				if (guidesBuilt >= PMWrapper.numOfLevels)
+					break;
+
+				// Ignore comments
+				if (textRows[i].StartsWith("//") || textRows[i].StartsWith("#"))
+					continue;
+
+				guideFileName = textRows[i].Trim();
+
+				LevelGuide guide = BuildFromPath (guideFileName);
 				if (guide != null) {
-					guide.level = i;
+					guide.level = guidesBuilt;
 					allGuides.Add (guide);
 				}
+
+				guidesBuilt++;
 			}
 		}
 
@@ -46,9 +64,6 @@ namespace PM.Guide {
 			string guideMessage = "";
 
 			for (int i = 0; i < rows.Count; i++) {
-
-				// Empty rows
-				if (rows[i].Length == 0) continue;
 
 				// Comments
 				if (rows[i].StartsWith("//") || rows[i].StartsWith("#")) continue;
