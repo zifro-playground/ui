@@ -23,7 +23,8 @@ namespace PM.Level {
 			TextAsset asset = Resources.Load<TextAsset> (settingsFileName);
 
 			if (asset == null) {
-				Debug.Log("The levelsettings file \"" + settingsFileName + "\" could not be found. Ignore if you want no settings for level " + levelNumber);
+				if (!settingsFileName.StartsWith("-"))
+					Debug.Log("The levelsettings file \"" + settingsFileName + "\" could not be found. Ignore if you want no settings for level " + levelNumber);
 				levelSetting = new LevelSetting ();
 				caseHandler = new CaseHandler (1);
 				return;
