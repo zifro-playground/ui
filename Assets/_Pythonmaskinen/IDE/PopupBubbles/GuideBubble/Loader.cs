@@ -14,6 +14,10 @@ namespace PM.Guide {
 
 		public static void BuildAll() {
 			TextAsset masterAsset = Resources.Load<TextAsset>(guideResourceName);
+
+			if (masterAsset == null)
+				throw new Exception("The file \"" + guideResourceName + "\" could not be found.");
+
 			string[] textRows = masterAsset.text.Trim().Split(linebreaks, StringSplitOptions.RemoveEmptyEntries);
 			string guideFileName = "";
 

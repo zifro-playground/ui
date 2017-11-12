@@ -42,31 +42,29 @@ namespace PM.Level {
 
 			string[] textRows = masterAsset.text.Split(linebreaks, StringSplitOptions.RemoveEmptyEntries);
 
-			// TODO set PMWrapper.numOfLevels to textRows.Length when nothing is dependent on numOfLevels in Awake()
-
 			levels = new Level[PMWrapper.numOfLevels];
 			int levelsBuilt = 0;
 
 			for (int i = 0; i < textRows.Length; i++) {
 
-				// Could also be removed as comment after for
+				// Ignore comments
+				if (textRows[i].StartsWith("//") || textRows[i].StartsWith("#"))
+					continue;
+
+				// Check if there are more settings specified in master then there are levels
 				if (levelsBuilt >= PMWrapper.numOfLevels)
-					throw new Exception("There are more files specified in settings-master then in the UI numberOfLevels");
+					throw new Exception("There are more files specified in settings-master then in the UI numberOfLevels. Use // to comment out row");
 
 				levels [i] = new Level ();
 				levels [i].answere = new LevelAnswere ();
 
-				// Ignore comments
-				if (textRows[i].StartsWith("//") || textRows[i].StartsWith("#"))
-					continue;
 
 				string settingsFileName = textRows[i].Trim();
 				levels [i].BuildLevelSettings (i, settingsFileName);
 
 				levelsBuilt++;
 			}
-
-			// Could be removed when dependent objects have been integrated to the new app flow.
+			
 			if (levelsBuilt != PMWrapper.numOfLevels)
 				throw new Exception("The number of levels in settings-master.txt does not match the specified number in the UI.");
 		}
