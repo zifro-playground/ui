@@ -1,4 +1,4 @@
-﻿using PM;
+using PM;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ public static class PMWrapper {
 	/// <summary>
 	/// Version of the Pythonmachine wrapper/UI.
 	/// </summary>
-	public const string version = "1.0.0";
+	public const string version = "1.1.0";
 
 	/// <summary>
 	/// Value from the speed slider. Ranges from 0 to 1, with a default of 0.5.
@@ -22,6 +22,12 @@ public static class PMWrapper {
 	public static float speedMultiplier {
 		get { return UISingleton.instance.speed.currentSpeed; }
 		set { UISingleton.instance.speed.currentSpeed = value; }
+	}
+
+	public static float codewalkerBaseSpeed
+	{
+		get { return UISingleton.instance.walker.BaseWalkerWaitTime; }
+		set { UISingleton.instance.walker.BaseWalkerWaitTime = value; }
 	}
 	
 	/// <summary>

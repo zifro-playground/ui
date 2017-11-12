@@ -37,6 +37,7 @@ namespace PM.Level {
 			string startCode = "";
 			int rowLimit = 100;
 			int numberOfCases = 1;
+			float gameSpeed = -1;
 			string[] smartButtons = new string[0];
 			List<Compiler.Function> functions= new List<Compiler.Function>();
 
@@ -67,10 +68,16 @@ namespace PM.Level {
 							throw new Exception("The row with rowLimit must have an integer after :");
 						break;
 
-						case "casecount":
+					case "casecount":
 						couldParse = int.TryParse (splittedRow [1].Trim (), out numberOfCases);
 						if (!couldParse)
 							throw new Exception ("The casecount could not be parsed. There must be an integer after :");
+						break;
+
+					case "gamespeed":
+						couldParse = float.TryParse(splittedRow[1], out gameSpeed);
+						if (!couldParse)
+							throw new Exception("The row with gameSpeed must have a float after :");
 						break;
 
 					case "smartbuttons":
@@ -103,7 +110,7 @@ namespace PM.Level {
 						break;
 				}
 			}
-			levelSetting = new LevelSetting (taskDescription, preCode, startCode, rowLimit, numberOfCases, smartButtons, functions.ToArray());
+			levelSetting = new LevelSetting (taskDescription, preCode, startCode, rowLimit, numberOfCases, gameSpeed, smartButtons, functions.ToArray());
 			// this should perhaps be moved somewhere else
 			//caseHandler = new CaseHandler (numberOfCases);
 		}

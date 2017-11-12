@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -8,8 +8,17 @@ namespace PM {
 	public class CodeWalker : MonoBehaviour, IPMSpeedChanged {
 
 		#region time based variables
-		float walkerWaitTime = 3f;
-		public float sleepTime = 3;
+		private float baseWalkerWaitTime = 3f;
+		public float BaseWalkerWaitTime
+		{
+			get { return baseWalkerWaitTime; }
+			set {
+				baseWalkerWaitTime = Mathf.Clamp(value, 0.01f, 1000);
+				OnPMSpeedChanged(PMWrapper.speedMultiplier);
+			}
+		}
+
+		float sleepTime = 3f;
 		private float sleepTimer;
 		#endregion
 
@@ -132,9 +141,9 @@ namespace PM {
 			}
 		}
 
-		void IPMSpeedChanged.OnPMSpeedChanged(float speed) {
+		public void OnPMSpeedChanged(float speed) {
 			float speedFactor = 1 - speed;
-			sleepTime = walkerWaitTime * speedFactor;
+			sleepTime = baseWalkerWaitTime * speedFactor;
 		}
 		#endregion
 	}

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -13,15 +13,17 @@ namespace PM.Level {
 		private string startCode;
 		private int rowLimit;
 		private int caseCount;
+		private float gameSpeed;
 		private string[] smartButtons;
 		private Compiler.Function[] functions;
 
-		public LevelSetting (string taskDescription = "", string preCode = "", string startCode = "", int rowLimit = 100, int numberOfCases = 1, string[] smartButtons = null, Compiler.Function[] functions = null){
+		public LevelSetting (string taskDescription = "", string preCode = "", string startCode = "", int rowLimit = 100, int numberOfCases = 1, float gameSpeed = -1, string[] smartButtons = null, Compiler.Function[] functions = null){
 			this.taskDescription = taskDescription;
 			this.preCode = preCode;
 			this.startCode = startCode;
 			this.rowLimit = rowLimit;
 			this.caseCount = numberOfCases;
+			this.gameSpeed = gameSpeed < 0 ? PMWrapper.codewalkerBaseSpeed : gameSpeed;
 			this.smartButtons = smartButtons ?? new string[0];
 			this.functions = functions ?? new Compiler.Function[0];
 		}
@@ -32,6 +34,7 @@ namespace PM.Level {
 			PMWrapper.AddCodeAtStart (startCode);
 			PMWrapper.codeRowsLimit = rowLimit;
 			UISingleton.instance.levelHandler.currentLevel.caseHandler = new CaseHandler (caseCount);
+			PMWrapper.codewalkerBaseSpeed = gameSpeed;
 			PMWrapper.SetSmartButtons (smartButtons);
 			PMWrapper.SetCompilerFunctions (functions);
 		}
