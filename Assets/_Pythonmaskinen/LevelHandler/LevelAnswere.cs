@@ -1,24 +1,49 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Compiler;
 
 namespace PM.Level {
 
-	public class LevelAnswere {
+	public class LevelAnswer {
 
-		int parameterAmount;
-		VariableTypes type;
-		string[] answere;
+		private int parameterAmount;
+		private VariableTypes type;
+		private string[] answer;
 
-		public LevelAnswere (int paramAmount = 0, VariableTypes t = VariableTypes.unknown, string[] ans = null){
+		public bool compilerHasBeenStopped;
+
+		public LevelAnswer (int paramAmount = 0, VariableTypes t = VariableTypes.unknown, string[] ans = null)
+		{
 			parameterAmount = paramAmount;
 			type = t;
-			answere = ans ?? new string[0];
+			answer = ans ?? new string[0];
 		}
 
-		public void CheckAnswere (Variable[] inputParams, int lineNumber){
+		public LevelAnswer (params int[] answers)
+		{
+			parameterAmount = answers.Length;
+			type = VariableTypes.number;
+			this.answer = answers.Select(ans => ans.ToString()).ToArray();
+		}
+
+		public LevelAnswer(params string[] answers)
+		{
+			parameterAmount = answers.Length;
+			type = VariableTypes.textString;
+			this.answer = answers;
+		}
+
+		public LevelAnswer(params bool[] answers)
+		{
+			parameterAmount = answers.Length;
+			type = VariableTypes.boolean;
+			this.answer = answers.Select(ans => ans.ToString()).ToArray();
+		}
+
+		public void CheckAnswer (Variable[] inputParams, int lineNumber){
 			if (parameterAmount == 0)
 				PMWrapper.RaiseError (lineNumber, "I detta problem behövs inte svara() för att klara problemet");
 			if (inputParams.Length < parameterAmount)
@@ -47,15 +72,15 @@ namespace PM.Level {
 				
 			string guess;
 			string ans = "";
-			bool correctAnswere = true;
+			bool correctAnswer = true;
 
 			switch (type) {
 			case VariableTypes.boolean:
 				for (int i = 0; i < inputParams.Length; i++) {
 					guess = inputParams [i].getBool ().ToString ();
 
-					if (guess != answere [i])
-						correctAnswere = false;
+					if (guess != answer [i])
+						correctAnswer = false;
 
 					ans += guess;
 
@@ -65,15 +90,15 @@ namespace PM.Level {
 						ans += ".";
 				}
 
-				UISingleton.instance.levelHandler.StartCoroutine (ShowAnswereBubble(lineNumber, ans, correctAnswere));
+				UISingleton.instance.levelHandler.StartCoroutine (ShowAnswerBubble(lineNumber, ans, correctAnswer));
 				break;
 
 			case VariableTypes.number:
 				for (int i = 0; i < inputParams.Length; i++) {
 					guess = inputParams [i].getNumber ().ToString ();
 
-					if (guess != answere [i])
-						correctAnswere = false;
+					if (guess != answer [i])
+						correctAnswer = false;
 
 					ans += guess;
 					
@@ -82,15 +107,15 @@ namespace PM.Level {
 					else
 						ans += ".";
 				}
-				UISingleton.instance.levelHandler.StartCoroutine (ShowAnswereBubble(lineNumber, ans, correctAnswere));
+				UISingleton.instance.levelHandler.StartCoroutine (ShowAnswerBubble(lineNumber, ans, correctAnswer));
 				break;
 
 			case VariableTypes.textString:
 				for (int i = 0; i < inputParams.Length; i++) {
 					guess = inputParams [i].getString ().ToString ();
 
-					if (guess != answere [i])
-						correctAnswere = false;
+					if (guess != answer [i])
+						correctAnswer = false;
 					
 					ans += guess;
 
@@ -99,29 +124,51 @@ namespace PM.Level {
 					else
 						ans += ".";
 				}
-				UISingleton.instance.levelHandler.StartCoroutine (ShowAnswereBubble(lineNumber, ans, correctAnswere));
+				UISingleton.instance.levelHandler.StartCoroutine (ShowAnswerBubble(lineNumber, ans, correctAnswer));
 				break;
 			}
 		}
 
-		private IEnumerator ShowAnswereBubble (int lineNumber, string answere, bool correct){
+		private IEnumerator ShowAnswerBubble (int lineNumber, string answer, bool correct)
+		{
+			compilerHasBeenStopped = false;
 
-			UISingleton.instance.answereBubble.ShowMessage (lineNumber);
-			UISingleton.instance.answereBubble.SetAnswerMessage("Svar: " + answere);
-
-			yield return new WaitForSeconds (3 * (1 - PMWrapper.speedMultiplier));
-			UISingleton.instance.answereBubble.SetAnswereSprite (correct);
+			UISingleton.instance.answerBubble.ShowMessage (lineNumber);
+			UISingleton.instance.answerBubble.SetAnswerMessage("Svar: " + answer);
 			
 			yield return new WaitForSeconds (3 * (1 - PMWrapper.speedMultiplier));
 
+			if (compilerHasBeenStopped)
+			{
+				AbortCase();
+				yield break;
+			}
+
+			UISingleton.instance.answerBubble.SetAnswerSprite (correct);
 			PMWrapper.StopCompiler ();
-			UISingleton.instance.answereBubble.HideMessage ();
+			compilerHasBeenStopped = false;
+			
+			yield return new WaitForSeconds (3 * (1 - PMWrapper.speedMultiplier));
+
+			if (compilerHasBeenStopped)
+			{
+				AbortCase();
+				yield break;
+			}
+
+			UISingleton.instance.answerBubble.HideMessage ();
 
 			if (correct)
 				PMWrapper.SetCaseCompleted ();
 			else
 				UISingleton.instance.levelHandler.currentLevel.caseHandler.CaseFailed ();
 
+		}
+
+		private void AbortCase()
+		{
+			UISingleton.instance.answerBubble.HideMessage();
+			UISingleton.instance.levelHandler.currentLevel.caseHandler.ResetHandlerAndButtons();
 		}
 	}
 }

@@ -84,7 +84,7 @@ namespace PM.Level {
 		private IEnumerator ResetFailButton (){
 			caseButtons[currentCase].GetComponent<CaseButton>().SetButtonFailed();
 			yield return new WaitForSeconds(2);
-			UISingleton.instance.answereBubble.HideMessage ();
+			UISingleton.instance.answerBubble.HideMessage ();
 			// TODO UISingleton.instance.errorBubble.HideMessage ();
 			ResetHandlerAndButtons();
 		}

@@ -82,8 +82,8 @@ namespace PM {
 		}
 
 		public void stopCompiler(StopStatus status = StopStatus.Forced) {
-			if (!isRunning) return;
-			else isRunning = false;
+			//if (!isRunning) return;
+			/*else*/ isRunning = false;
 			
 			theCodeWalker.stopWalker();
 

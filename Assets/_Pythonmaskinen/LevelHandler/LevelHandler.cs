@@ -56,7 +56,7 @@ namespace PM.Level {
 					throw new Exception("There are more files specified in settings-master then in the UI numberOfLevels. Use // to comment out row");
 
 				levels [i] = new Level ();
-				levels [i].answere = new LevelAnswere ();
+				levels [i].levelAnswer = new LevelAnswer ();
 
 
 				string settingsFileName = textRows[i].Trim();
@@ -69,8 +69,12 @@ namespace PM.Level {
 				throw new Exception("The number of levels in settings-master.txt does not match the specified number in the UI.");
 		}
 
-		public void OnPMCompilerStopped(PM.HelloCompiler.StopStatus status){
-			if (status == HelloCompiler.StopStatus.RuntimeError){
+		public void OnPMCompilerStopped(PM.HelloCompiler.StopStatus status)
+		{
+			currentLevel.levelAnswer.compilerHasBeenStopped = true;
+
+			if (status == HelloCompiler.StopStatus.RuntimeError)
+			{
 				// TODO Animate currentCaseButton to red
 				currentLevel.caseHandler.CaseFailed();
 

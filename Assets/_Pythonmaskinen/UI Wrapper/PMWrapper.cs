@@ -215,9 +215,28 @@ public static class PMWrapper {
 		UISingleton.instance.taskDescription.SetTaskDescription (taskDescription);
 	}
 
-	public static void SetCurrentLevelAnswere (Compiler.VariableTypes type, string[] answere) {
-		int parameterAmount = answere.Length;
-		UISingleton.instance.levelHandler.currentLevel.answere = new PM.Level.LevelAnswere (parameterAmount, type, answere);
+	/// <summary>
+	/// Set the correct answeres for the current case.
+	/// </summary>
+	public static void SetCaseAnswer (params int[] answer)
+	{
+		UISingleton.instance.levelHandler.currentLevel.levelAnswer = new PM.Level.LevelAnswer(answer);
+	}
+
+	/// <summary>
+	/// Set the correct answeres for the current case.
+	/// </summary>
+	public static void SetCaseAnswer(params string[] answer)
+	{
+		UISingleton.instance.levelHandler.currentLevel.levelAnswer = new PM.Level.LevelAnswer(answer);
+	}
+
+	/// <summary>
+	/// Set the correct answeres for the current case.
+	/// </summary>
+	public static void SetCaseAnswer(params bool[] answer)
+	{
+		UISingleton.instance.levelHandler.currentLevel.levelAnswer = new PM.Level.LevelAnswer(answer);
 	}
 
 	/// <summary>

@@ -38,7 +38,7 @@ namespace PM {
 		public IDEPrintBubble printBubble;
 		public IDEManusBubble manusBubble;
 		public IDEGuideBubble guideBubble;
-		public AnswereBubble answereBubble;
+		public AnswerBubble answerBubble;
 		[Header("Misc")]
 		public Camera uiCamera;
 		public Camera popupCamera;

@@ -12,7 +12,7 @@ namespace PM {
 		public Sprite resumeImage;
 		public UITooltip tooltip;
 
-		private Button thisButton;
+		public Button thisButton;
 
 		public void onRunCodeButtownClick() {
 			if (PMWrapper.isCompilerRunning) {
@@ -20,10 +20,6 @@ namespace PM {
 			} else {
 				PMWrapper.RunCode();
 			}
-		}
-
-		void Start() {
-			thisButton = GetComponent<Button>();
 		}
 
 		void IPMCompilerStarted.OnPMCompilerStarted() {

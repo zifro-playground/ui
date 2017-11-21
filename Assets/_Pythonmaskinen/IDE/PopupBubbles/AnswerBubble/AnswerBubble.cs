@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 namespace PM {
 
-	public class AnswereBubble : AbstractPopupBubble, IPMLevelChanged {
+	public class AnswerBubble : AbstractPopupBubble, IPMLevelChanged {
 
-		[Header("AnswereBubble fields")]
+		[Header("AnswerBubble fields")]
 		public Text theAnswerText;
 		public Image responseImage;
 		public Sprite correct;
@@ -20,7 +20,7 @@ namespace PM {
 			responseImage.enabled = false;
 		}
 
-		public void SetAnswereSprite (bool correctAnswer){
+		public void SetAnswerSprite (bool correctAnswer){
 			responseImage.enabled = true;
 			responseImage.sprite = correctAnswer ? correct : wrong;
 		}
