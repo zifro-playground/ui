@@ -2431,7 +2431,7 @@ GameObject:
   - component: {fileID: 225723635845133750}
   m_Layer: 1
   m_Name: ContinueButton
-  m_TagString: continue(temp)
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
