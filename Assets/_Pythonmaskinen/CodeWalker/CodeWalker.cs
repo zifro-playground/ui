@@ -91,9 +91,13 @@ namespace PM {
 
 		private void runSleepTimer() {
 			sleepTimer += Time.deltaTime;
-			if (sleepTimer > sleepTime) {
-				sleepTimer = 0;
-				isSleeping = false;
+			float firstInterval = sleepTime - sleepTime / 20;
+			if (sleepTimer > firstInterval) {
+				IDELineMarker.instance.SetState(IDELineMarker.State.Hidden);
+				if (sleepTimer > sleepTime) {
+					sleepTimer = 0;
+					isSleeping = false;
+				}
 			}
 		}
 		#endregion

@@ -5,18 +5,25 @@ using UnityEngine.UI;
 
 namespace PM {
 
-	public class AnswerBubble : AbstractPopupBubble, IPMLevelChanged {
+	public class AnswerBubble : MonoBehaviour, IPMLevelChanged //, AbstractPopupBubble
+	{
+		[Header("Colors")]
+		[Range(0, 255)]
+		public float hidingAlpha = 50;
+		[Range(0, 255)]
+		public float showingAlpha = 255;
 
 		[Header("AnswerBubble fields")]
-		public Text theAnswerText;
+		public GameObject answerParent;
+		public Text answerText;
+		public Image bubbleImage;
 		public Image responseImage;
 		public Sprite correct;
 		public Sprite wrong;
 
 
 		public void SetAnswerMessage(string answerMessage) {
-			theAnswerText.text = answerMessage;
-			ResizeToFit(theAnswerText, bubbleRect);
+			answerText.text = answerMessage;
 			responseImage.enabled = false;
 		}
 
@@ -26,14 +33,47 @@ namespace PM {
 		}
 
 		void IPMLevelChanged.OnPMLevelChanged() {
-			HideMessageInstantly ();
+			HideMessage ();
+
+			if (PMWrapper.levelShouldBeAnswered)
+			{
+				foreach (Transform t in transform)
+					t.gameObject.SetActive(true);
+			}
+			else
+			{
+				foreach (Transform t in transform)
+					t.gameObject.SetActive(false);
+			}
+
 		}
 
-		protected override void OnShowMessage() {
+		private void OnShowMessage() {
+			Color newColor = bubbleImage.color;
+			newColor.a = showingAlpha / 255;
+			bubbleImage.color = newColor;
 		}
 
-		protected override void OnHideMessage() {
-			//clooose it
+		private void OnHideMessage() {
+			Color newColor = bubbleImage.color;
+			newColor.a = hidingAlpha / 255;
+			bubbleImage.color = newColor;
+		}
+
+		// All methods below might be abstract methods later
+		public void ShowMessage(int lineNumber)
+		{
+			answerText.enabled = true;
+
+			OnShowMessage();
+		}
+
+		public void HideMessage()
+		{
+			answerText.enabled = false;
+			responseImage.enabled = false;
+
+			OnHideMessage();
 		}
 	}
 }

@@ -273,6 +273,19 @@ public static class PMWrapper {
 		}
 	}
 
+	public static bool levelShouldBeAnswered
+	{
+		get
+		{
+			foreach (Compiler.Function fun in UISingleton.instance.compiler.addedFunctions)
+			{
+				if (fun.GetType() == new AnswerFunction().GetType())
+					return true;
+			}
+			return false;
+		}
+	}
+
 	/// <summary>
 	/// The highest level that's unlocked. Value of 0 means only first level is unlocked. Value of (<seealso cref="numOfLevels"/> - 1) means last level is unlocked, i.e. all levels.
 	/// </summary>
