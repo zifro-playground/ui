@@ -351,7 +351,15 @@ namespace PM
 			}
 		}
 
-		public void insertMainCodeAtStart(string code)
+		public void InsertMainCode(string code)
+		{
+			theInputField.text = code;
+			inserting = true;
+			if (!enabled)
+				ColorCodeDaCode();
+		}
+
+		public void InsertMainCodeAtStart(string code)
 		{
 			if (theInputField.text.Length == 0)
 			{

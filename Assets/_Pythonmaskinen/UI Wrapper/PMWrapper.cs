@@ -54,12 +54,7 @@ public static class PMWrapper
 	public static string mainCode
 	{
 		get { return UISingleton.instance.textField.theInputField.text; }
-		set
-		{
-			UISingleton.instance.textField.theInputField.text = value;
-			if (!UISingleton.instance.textField.enabled)
-				UISingleton.instance.textField.ColorCodeDaCode();
-		}
+		set { UISingleton.instance.textField.InsertMainCode(value);	}
 	}
 	/// <summary>
 	/// The post code, i.e. the un-changeable code AFTER the main code.
@@ -112,7 +107,7 @@ public static class PMWrapper
 	/// </summary>
 	public static void AddCodeAtStart(string code)
 	{
-		UISingleton.instance.textField.insertMainCodeAtStart(code);
+		UISingleton.instance.textField.InsertMainCodeAtStart(code);
 	}
 
 	/// <summary>
