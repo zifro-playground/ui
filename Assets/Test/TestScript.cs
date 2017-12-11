@@ -2,32 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched, IPMWrongAnswer {
-
-	public string[] tasks;
-
-
-	void Awake(){
-		PMWrapper.AddSmartButton ("svara()");
+public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched, IPMWrongAnswer
+{
+	void Awake()
+	{
+		PMWrapper.AddSmartButton("svara()");
 	}
 
 	// Use this for initialization
-	void Start () {
-		
+	void Start()
+	{
+
 	}
-	
+
 	// Update is called once per frame
-	void Update () {
+	void Update()
+	{
 		if (Input.GetKeyDown(KeyCode.U))
 			PMWrapper.RaiseTaskError("Nu glömde du att göra något...");
 	}
 
-	public void OnPMLevelChanged(){
+	public void OnPMLevelChanged()
+	{
 	}
 
-	public void OnPMCaseSwitched(int caseNumber){
+	public void OnPMCaseSwitched(int caseNumber)
+	{
 		if (caseNumber == 0)
-			PMWrapper.SetCaseAnswer (1);
+			PMWrapper.SetCaseAnswer(1);
 	}
 
 	public void OnPMWrongAnswer(string answer)

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace PM {
-
+namespace PM
+{
 	public class AnswerBubble : MonoBehaviour, IPMLevelChanged //, AbstractPopupBubble
 	{
 		[Header("Colors")]
@@ -22,18 +22,21 @@ namespace PM {
 		public Sprite wrong;
 
 
-		public void SetAnswerMessage(string answerMessage) {
+		public void SetAnswerMessage(string answerMessage)
+		{
 			answerText.text = answerMessage;
 			responseImage.enabled = false;
 		}
 
-		public void SetAnswerSprite (bool correctAnswer){
+		public void SetAnswerSprite(bool correctAnswer)
+		{
 			responseImage.enabled = true;
 			responseImage.sprite = correctAnswer ? correct : wrong;
 		}
 
-		void IPMLevelChanged.OnPMLevelChanged() {
-			HideMessage ();
+		void IPMLevelChanged.OnPMLevelChanged()
+		{
+			HideMessage();
 
 			if (PMWrapper.levelShouldBeAnswered)
 			{
@@ -48,13 +51,15 @@ namespace PM {
 
 		}
 
-		private void OnShowMessage() {
+		private void OnShowMessage()
+		{
 			Color newColor = bubbleImage.color;
 			newColor.a = showingAlpha / 255;
 			bubbleImage.color = newColor;
 		}
 
-		private void OnHideMessage() {
+		private void OnHideMessage()
+		{
 			Color newColor = bubbleImage.color;
 			newColor.a = hidingAlpha / 255;
 			bubbleImage.color = newColor;

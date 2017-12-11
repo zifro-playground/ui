@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace PM {
-
-	public class UISingleton : MonoBehaviour {
-
+namespace PM
+{
+	public class UISingleton : MonoBehaviour
+	{
 		public static UISingleton instance;
 
 		public Transform ideRoot { get { return transform.parent; } }
@@ -46,12 +46,14 @@ namespace PM {
 		public List<ManusSelectable> manusSelectables = new List<ManusSelectable>();
 
 		[Serializable]
-		public struct ManusSelectable {
+		public struct ManusSelectable
+		{
 			public Selectable selectable;
 			public List<string> names;
 		}
 
-		private void Awake() {
+		private void Awake()
+		{
 			instance = this;
 
 			/* Old. Should be replaced with something new
@@ -74,7 +76,8 @@ namespace PM {
 		/// This function is made for finding objects. Similar to <seealso cref="UnityEngine.Object.FindObjectsOfType{T}"/> but also works for interfaces.
 		/// <para>The catch though is that it can only search amoung classes that inherit from <see cref="UnityEngine.Object"/></para>
 		/// </summary>
-		public static T[] FindInterfaces<T>() where T : class {
+		public static T[] FindInterfaces<T>() where T : class
+		{
 			var list = new List<UnityEngine.Object>(FindObjectsOfType<UnityEngine.Object>()).ConvertAll(o => o as T);
 			list.RemoveAll(o => o == null);
 			return list.ToArray();

@@ -9,7 +9,8 @@ using UnityEngine;
 /// <para>This class contains lots of static methods and properties for hooking into the "PythonMachine" without editing the source.</para>
 /// <para>Except this class you may also use the interface events. All events interfaces starts with the prefix IPM, for example <seealso cref="IPMCompilerStarted"/></para>
 /// </summary>
-public static class PMWrapper {
+public static class PMWrapper
+{
 	/// <summary>
 	/// Version of the Pythonmachine wrapper/UI.
 	/// </summary>
@@ -19,7 +20,8 @@ public static class PMWrapper {
 	/// Value from the speed slider. Ranges from 0 to 1, with a default of 0.5.
 	/// <para>To get instant updates from the speed change, use <see cref="IPMSpeedChanged"/>.</para>
 	/// </summary>
-	public static float speedMultiplier {
+	public static float speedMultiplier
+	{
 		get { return UISingleton.instance.speed.currentSpeed; }
 		set { UISingleton.instance.speed.currentSpeed = value; }
 	}
@@ -29,14 +31,16 @@ public static class PMWrapper {
 		get { return UISingleton.instance.walker.BaseWalkerWaitTime; }
 		set { UISingleton.instance.walker.BaseWalkerWaitTime = value; }
 	}
-	
+
 	/// <summary>
 	/// The pre code, i.e. the un-changeable code BEFORE the main code.
 	/// <para>Changing this value will automatically offset the main codes Y position.</para>
 	/// </summary>
-	public static string preCode {
+	public static string preCode
+	{
 		get { return UISingleton.instance.textField.preCode; }
-		set {
+		set
+		{
 			UISingleton.instance.textField.preCode = value;
 			UISingleton.instance.textField.InitTextFields();
 			UISingleton.instance.textField.ColorCodeDaCode();
@@ -47,9 +51,11 @@ public static class PMWrapper {
 	/// Colorcoding is automatically applied if <seealso cref="IDETextField"/> is disabled.
 	/// <para>Changing this value while the user is coding may lead to unexpected glitches. Be careful!</para>
 	/// </summary>
-	public static string mainCode {
+	public static string mainCode
+	{
 		get { return UISingleton.instance.textField.theInputField.text; }
-		set {
+		set
+		{
 			UISingleton.instance.textField.theInputField.text = value;
 			if (!UISingleton.instance.textField.enabled)
 				UISingleton.instance.textField.ColorCodeDaCode();
@@ -60,7 +66,8 @@ public static class PMWrapper {
 	/// <para>At the moment post code is not available and will throw an <seealso cref="NotImplementedException"/>.</para>
 	/// </summary>
 	/// <exception cref="NotImplementedException">IDE doesn't have full support for post code yet.</exception>
-	public static string postCode {
+	public static string postCode
+	{
 		get { throw new NotImplementedException("IDE doesn't have full support for post code yet!"); }
 		set { throw new NotImplementedException("IDE doesn't have full support for post code yet!"); }
 	}
@@ -69,7 +76,8 @@ public static class PMWrapper {
 	/// All codes combined, i.e. <see cref="preCode"/> + <see cref="mainCode"/> + <see cref="postCode"/> (with linebreaks inbetween).
 	/// <para>This is the property that <seealso cref="CodeWalker"/> uses when sending the code to compile to the <seealso cref="Compiler.SyntaxCheck"/>.</para>
 	/// </summary>
-	public static string fullCode {
+	public static string fullCode
+	{
 		get { return (preCode.Length > 0 ? preCode + '\n' + mainCode : mainCode) /*+ '\n' + postCode*/; }
 	}
 
@@ -78,10 +86,13 @@ public static class PMWrapper {
 	/// <para>Setting a value lower than the current number of rows user has typed will result in buggy behaviour. Be aware!</para>
 	/// </summary>
 	/// <exception cref="ArgumentOutOfRangeException">Thrown when setting this to any non-positive values.</exception>
-	public static int codeRowsLimit {
+	public static int codeRowsLimit
+	{
 		get { return UISingleton.instance.textField.codeRowsLimit; }
-		set {
-			if (value > 0) {
+		set
+		{
+			if (value > 0)
+			{
 				UISingleton.instance.textField.rowLimit = value;
 			}
 			else throw new ArgumentOutOfRangeException("codeRowsLimit", value, "Zero and negative values are not accepted!");
@@ -91,28 +102,32 @@ public static class PMWrapper {
 	/// <summary>
 	/// Adds code to the main code where the cursor currently is. Typically used by smart buttons.
 	/// </summary>
-	public static void AddCode(string code, bool smartButtony = false) {
+	public static void AddCode(string code, bool smartButtony = false)
+	{
 		UISingleton.instance.textField.InsertText(code, smartButtony);
 	}
 
 	/// <summary>
 	/// Adds code to the main code only if the main code is empty. Should be used for setting given code first time the user opens the level.
 	/// </summary>
-	public static void AddCodeAtStart(string code){
-		UISingleton.instance.textField.insertMainCodeAtStart (code);
+	public static void AddCodeAtStart(string code)
+	{
+		UISingleton.instance.textField.insertMainCodeAtStart(code);
 	}
 
 	/// <summary>
 	/// Scrolls so that the <paramref name="lineNumber"/> is visible in the IDE.
 	/// </summary>
-	public static void FocusOnLineNumber(int lineNumber) {
+	public static void FocusOnLineNumber(int lineNumber)
+	{
 		UISingleton.instance.textField.theScrollLord.FocusOnLineNumber(lineNumber);
 	}
 
 	/// <summary>
 	/// Scrolls so that the current selected line is visible in the IDE.
 	/// </summary>
-	public static void FocusOnLineNumber() {
+	public static void FocusOnLineNumber()
+	{
 		UISingleton.instance.textField.FocusCursor();
 	}
 
@@ -129,57 +144,65 @@ public static class PMWrapper {
 	/// <summary>
 	/// Wether or not the level is playing && is in "demo" mode.
 	/// </summary>
-	public static bool isDemoingLevel {
+	public static bool isDemoingLevel
+	{
 		get { return PM.Manus.ManusPlayer.isPlaying; }
 	}
 	/// <summary>
 	/// Wether or not the current level has demo manus.
 	/// <para>"One could ask, is general Juhziz in charge?"</para>
 	/// </summary>
-	public static bool isDemoLevel {
+	public static bool isDemoLevel
+	{
 		get { return PMWrapper.currentLevel < PM.Manus.Loader.allManuses.Count && PMWrapper.currentLevel >= 0 && PM.Manus.Loader.allManuses[PMWrapper.currentLevel] != null; }
 	}
 
 	/// <summary>
 	/// Starts the compiler if it's not currently running. Static wrapper for <see cref="HelloCompiler.compileCode"/>
 	/// </summary>
-	public static void StartCompiler() {
+	public static void StartCompiler()
+	{
 		UISingleton.instance.compiler.compileCode();
 	}
 
 	/// <summary>
 	/// Starts case 0 and starts compiler. Will run all test cases if possible
 	/// </summary>
-	public static void RunCode() {
-		UISingleton.instance.levelHandler.currentLevel.caseHandler.ResetHandlerAndButtons ();
-		UISingleton.instance.levelHandler.currentLevel.caseHandler.RunCase (0);
+	public static void RunCode()
+	{
+		UISingleton.instance.levelHandler.currentLevel.caseHandler.ResetHandlerAndButtons();
+		UISingleton.instance.levelHandler.currentLevel.caseHandler.RunCase(0);
 	}
 
 	/// <summary>
 	/// Stops the compiler if it's currently running. Static wrapper for <see cref="HelloCompiler.stopCompiler(HelloCompiler.StopStatus)"/> with the argument <seealso cref="HelloCompiler.StopStatus.Forced"/>
 	/// </summary>
-	public static void StopCompiler() {
+	public static void StopCompiler()
+	{
 		UISingleton.instance.compiler.stopCompiler(HelloCompiler.StopStatus.Forced);
 	}
 
 	/// <summary>
 	/// Sets the compiler functions avalible for the user. Called from levelsettings when new level is loaded and adds functions from levelsettings text file.
 	/// </summary>
-	public static void SetCompilerFunctions(params Compiler.Function[] functions) {
+	public static void SetCompilerFunctions(params Compiler.Function[] functions)
+	{
 		UISingleton.instance.compiler.addedFunctions = new List<Compiler.Function>(functions);
 	}
 
 	/// <summary>
 	/// Adds a list of functions to the already existing list of compiler functions.
 	/// </summary>
-	public static void AddCompilerFunctions(params Compiler.Function[] functions) {
+	public static void AddCompilerFunctions(params Compiler.Function[] functions)
+	{
 		UISingleton.instance.compiler.addedFunctions.AddRange(functions);
 	}
 
 	/// <summary>
 	/// Replacement for <see cref="CodeWalker.unPauseWalker"/>
 	/// </summary>
-	public static void UnpauseWalker() {
+	public static void UnpauseWalker()
+	{
 		UISingleton.instance.walker.resumeWalker();
 	}
 
@@ -187,9 +210,11 @@ public static class PMWrapper {
 	/// Creates multiple smart buttons below the code view. Once pressed, it inserts code into the main code view.
 	/// <para>If you wish to clear away all smart buttons, run this function or <seealso cref="SetSmartRichButtons(string[])"/> with empty parameters.</para>
 	/// </summary>
-	public static void SetSmartButtons(params string[] codes) {
+	public static void SetSmartButtons(params string[] codes)
+	{
 		UISingleton.instance.smartButtons.ClearSmartButtons();
-		for (int i = 0; i < codes.Length; i++) {
+		for (int i = 0; i < codes.Length; i++)
+		{
 			UISingleton.instance.smartButtons.AddSmartButton(codes[i], codes[i]);
 		}
 	}
@@ -197,28 +222,31 @@ public static class PMWrapper {
 	/// <summary>
 	/// Creates one smart button below the code view. Once pressed, it inserts code into the main code view.
 	/// </summary>
-	public static void AddSmartButton(string code) {
+	public static void AddSmartButton(string code)
+	{
 		UISingleton.instance.smartButtons.AddSmartButton(code, code);
 	}
 
 	/// <summary>
 	/// Adds smart buttons with names taken from registered functions via <see cref="SetCompilerFunctions(Compiler.Function[])"/> or <see cref="AddCompilerFunctions(Compiler.Function[])"/>
 	/// </summary>
-	public static void AutoSetSmartButtons() {
+	public static void AutoSetSmartButtons()
+	{
 		SetSmartButtons(UISingleton.instance.compiler.addedFunctions.ConvertAll(f => f.name + "()").ToArray());
 	}
 
 	/// <summary>
 	/// Set the task description for current level. If passed empty string, both placeholders for task description will be deactivated.
 	/// </summary>
-	public static void SetTaskDescription(string taskDescription){
-		UISingleton.instance.taskDescription.SetTaskDescription (taskDescription);
+	public static void SetTaskDescription(string taskDescription)
+	{
+		UISingleton.instance.taskDescription.SetTaskDescription(taskDescription);
 	}
 
 	/// <summary>
 	/// Set the correct answeres for the current case.
 	/// </summary>
-	public static void SetCaseAnswer (params int[] answer)
+	public static void SetCaseAnswer(params int[] answer)
 	{
 		UISingleton.instance.levelHandler.currentLevel.levelAnswer = new PM.Level.LevelAnswer(answer);
 	}
@@ -244,9 +272,11 @@ public static class PMWrapper {
 	/// <para>If set to a value higher than highest unlocked level then <seealso cref="unlockedLevel"/> will also be set to the same value.</para>
 	/// </summary>
 	/// <exception cref="ArgumentOutOfRangeException">Thrown if set to value outside of levels list index range, i.e. thrown if <seealso cref="currentLevel"/>.set &lt; 0 or ≥ <seealso cref="numOfLevels"/></exception>
-	public static int currentLevel {
+	public static int currentLevel
+	{
 		get { return UISingleton.instance.levelbar.current; }
-		set {
+		set
+		{
 			if (value < 0 || value >= numOfLevels)
 				throw new ArgumentOutOfRangeException("currentLevel", value, "Level index out of range!");
 			else
@@ -257,7 +287,8 @@ public static class PMWrapper {
 	/// <summary>
 	/// Represents the previous value of <see cref="currentLevel"/>. When there hasen't been a previous level, previousLevel has a value of -1.
 	/// </summary>
-	public static int previousLevel {
+	public static int previousLevel
+	{
 		get { return UISingleton.instance.levelbar.previous; }
 	}
 
@@ -265,9 +296,11 @@ public static class PMWrapper {
 	/// This value determites how many levels are shown on the levelbar in the UI.
 	/// </summary>
 	/// <exception cref="ArgumentOutOfRangeException">In the case of non-positive values in setting <see cref="numOfLevels"/>.</exception>
-	public static int numOfLevels {
+	public static int numOfLevels
+	{
 		get { return UISingleton.instance.levelbar.numOfLevels; }
-		set {
+		set
+		{
 			if (value > 0) UISingleton.instance.levelbar.RecreateButtons(value, Mathf.Clamp(currentLevel, 0, value - 1), unlockedLevel);
 			else throw new ArgumentOutOfRangeException("numOfLevels", value, "Zero and negative values are not accepted!");
 		}
@@ -293,9 +326,11 @@ public static class PMWrapper {
 	/// The highest level that's unlocked. Value of 0 means only first level is unlocked. Value of (<seealso cref="numOfLevels"/> - 1) means last level is unlocked, i.e. all levels.
 	/// </summary>
 	/// <exception cref="ArgumentOutOfRangeException">In the case of invalid values in setting <see cref="unlockedLevel"/></exception>
-	public static int unlockedLevel {
+	public static int unlockedLevel
+	{
 		get { return UISingleton.instance.levelbar.unlocked; }
-		set {
+		set
+		{
 			if (value >= 0 && value < numOfLevels) UISingleton.instance.levelbar.UpdateButtons(currentLevel, value);
 			else throw new ArgumentOutOfRangeException("unlockedLevel", value, "Level value is out of range of existing levels.");
 		}
@@ -304,65 +339,74 @@ public static class PMWrapper {
 	/// <summary>
 	/// The highest level that has had it's story revealed.
 	/// </summary>
-	public static int storydLevel {
+	public static int storydLevel
+	{
 		get { return UISingleton.instance.levelHints.storyRevealedForLevel; }
 	}
 
 	/// <summary>
 	/// Returns the index of the current case. Index starts from 0.
 	/// </summary>
-	public static int currentCase {
+	public static int currentCase
+	{
 		get { return UISingleton.instance.levelHandler.currentLevel.caseHandler.currentCase; }
 	}
 
 	/// <summary>
 	/// Stops the compiler, shows the "Level complete!" popup, marks the current level as complete and unlocks the next level.
 	/// </summary>
-	public static void SetLevelCompleted() {
+	public static void SetLevelCompleted()
+	{
 		UISingleton.instance.winScreen.SetLevelCompleted();
 	}
 
 	/// <summary>
 	/// Set case completed if test case is passed. Marks current case as completed and starts next test case.
 	/// </summary>
-	public static void SetCaseCompleted() {
-		UISingleton.instance.levelHandler.currentLevel.caseHandler.CaseCompleted ();
+	public static void SetCaseCompleted()
+	{
+		UISingleton.instance.levelHandler.currentLevel.caseHandler.CaseCompleted();
 	}
 
 	/// <summary>
 	/// Switches to choosen case.
 	/// </summary>
 	/// <param name="caseNumber">The case number to switch to.</param> 
-	public static void SwitchCase(int caseNumber) {
-		UISingleton.instance.levelHandler.currentLevel.caseHandler.SetCurrentCase (caseNumber);
+	public static void SwitchCase(int caseNumber)
+	{
+		UISingleton.instance.levelHandler.currentLevel.caseHandler.SetCurrentCase(caseNumber);
 	}
 
 	/// <summary>
 	/// Jumps to the last level. <paramref name="ignoreUnlocked"/> determines if it should respect or ignore <seealso cref="unlockedLevel"/>.
 	/// </summary>
 	/// <param name="ignoreUnlocked">If true, it will jump to the absolute last level. If false, it will jump to the last unlocked level.</param>
-	public static void JumpToLastLevel(bool ignoreUnlocked = false) {
+	public static void JumpToLastLevel(bool ignoreUnlocked = false)
+	{
 		currentLevel = ignoreUnlocked ? numOfLevels - 1 : unlockedLevel;
 	}
 
 	/// <summary>
 	/// Jumps to the first level.
 	/// </summary>
-	public static void JumpToFirstLevel() {
+	public static void JumpToFirstLevel()
+	{
 		currentLevel = 0;
 	}
 
 	/// <summary>
 	/// Shows the "Help I'm stuck!" popup.
 	/// </summary>
-	public static void ShowHintsPopup() {
+	public static void ShowHintsPopup()
+	{
 		UISingleton.instance.levelHints.ButtonShowHintScreen();
 	}
 
 	/// <summary>
 	/// Hides the "Help I'm stuck!" popup.
 	/// </summary>
-	public static void HideHintsPopup() {
+	public static void HideHintsPopup()
+	{
 		UISingleton.instance.levelHints.StartHideFading();
 	}
 
@@ -370,35 +414,40 @@ public static class PMWrapper {
 	/// Stops the compiler and shows a dialog box containing the error message on the current line.
 	/// </summary>
 	/// <exception cref="PMRuntimeException">Is always thrown</exception>
-	public static void RaiseError(string message) {
+	public static void RaiseError(string message)
+	{
 		UISingleton.instance.textField.theLineMarker.setErrorMarker(message);
 	}
 	/// <summary>
 	/// Stops the compiler and shows a dialog box containing the error message on the target <paramref name="newLineNumber"/>.
 	/// </summary>
 	/// <exception cref="PMRuntimeException">Is always thrown</exception>
-	public static void RaiseError(int newLineNumber, string message) {
+	public static void RaiseError(int newLineNumber, string message)
+	{
 		UISingleton.instance.textField.theLineMarker.setErrorMarker(newLineNumber, message);
 	}
 	/// <summary>
 	/// Stops the compiler and shows a dialog box containing the error message on the target <see cref="UnityEngine.UI.Selectable"/>.
 	/// </summary>
 	/// <exception cref="PMRuntimeException">Is always thrown</exception>
-	public static void RaiseError(UnityEngine.UI.Selectable targetSelectable, string message) {
+	public static void RaiseError(UnityEngine.UI.Selectable targetSelectable, string message)
+	{
 		UISingleton.instance.textField.theLineMarker.setErrorMarker(targetSelectable, message);
 	}
 	/// <summary>
 	/// Stops the compiler and shows a dialog box containing the error message on the target <see cref="RectTransform"/>.
 	/// </summary>
 	/// <exception cref="PMRuntimeException">Is always thrown</exception>
-	public static void RaiseError(RectTransform targetRectTransform, string message) {
+	public static void RaiseError(RectTransform targetRectTransform, string message)
+	{
 		UISingleton.instance.textField.theLineMarker.setErrorMarker(targetRectTransform, message);
 	}
 	/// <summary>
 	/// Stops the compiler and shows a dialog box containing the error message on the target canvas position.
 	/// </summary>
 	/// <exception cref="PMRuntimeException">Is always thrown</exception>
-	public static void RaiseError(Vector2 targetCanvasPosition, string message) {
+	public static void RaiseError(Vector2 targetCanvasPosition, string message)
+	{
 		UISingleton.instance.textField.theLineMarker.setErrorMarker(targetCanvasPosition, message);
 	}
 	/// <summary>
@@ -406,7 +455,8 @@ public static class PMWrapper {
 	/// <para>NOTE: The game camera must be marked with the "Main Camera" tag for this to work.</para>
 	/// </summary>
 	/// <exception cref="PMRuntimeException">Is always thrown</exception>
-	public static void RaiseError(Vector3 targetWorldPosition, string message) {
+	public static void RaiseError(Vector3 targetWorldPosition, string message)
+	{
 		UISingleton.instance.textField.theLineMarker.setErrorMarker(targetWorldPosition, message);
 	}
 
@@ -419,7 +469,8 @@ public static class PMWrapper {
 	/// Makes the IDE not destroy on load, i.e. on level change and such.
 	/// <para>Equal to <see cref="UnityEngine.Object.DontDestroyOnLoad(UnityEngine.Object)"/> but on the IDE.</para>
 	/// </summary>
-	public static void DontDestroyIDEOnLoad() {
+	public static void DontDestroyIDEOnLoad()
+	{
 		if (UISingleton.instance.ideRoot.parent != null)
 			UISingleton.instance.ideRoot.parent = null;
 		UnityEngine.Object.DontDestroyOnLoad(UISingleton.instance.ideRoot);

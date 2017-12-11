@@ -2,35 +2,35 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PM.Level {
-
-	public class LevelHandler : MonoBehaviour, IPMCompilerStopped {
-
+namespace PM.Level
+{
+	public class LevelHandler : MonoBehaviour, IPMCompilerStopped, IPMLevelChanged
+	{
 		public const string settingsResourceName = "settings-master";
 		private static readonly string[] linebreaks = new string[] { "\n\r", "\r\n", "\n", "\r" };
 
 		private Level[] levels;
-		public Level currentLevel { get { return levels [PMWrapper.currentLevel]; } }
+		public Level currentLevel { get { return levels[PMWrapper.currentLevel]; } }
 
 		// Contains pre created buttons because script does not create buttons
 		public List<GameObject> caseButtons;
 
-		public void LoadLevel (int level) {
+		public void LoadLevel(int level)
+		{
 			PMWrapper.StopCompiler();
 
 			// TODO Save mainCode to database
-			UISingleton.instance.saveData.ClearPreAndMainCode ();
-			currentLevel.levelSetting.UseSettings ();
-			currentLevel.caseHandler.ResetHandlerAndButtons ();
+			UISingleton.instance.saveData.ClearPreAndMainCode();
+			currentLevel.levelSetting.UseSettings();
+			currentLevel.caseHandler.ResetHandlerAndButtons();
 
 			// Call every implemented event
 			foreach (var ev in UISingleton.FindInterfaces<IPMLevelChanged>())
 				ev.OnPMLevelChanged();
 		}
 
-		public void BuildLevels (){
-
-
+		public void BuildLevels()
+		{
 			TextAsset masterAsset = Resources.Load<TextAsset>(settingsResourceName);
 
 			if (masterAsset == null)
@@ -43,8 +43,8 @@ namespace PM.Level {
 			levels = new Level[PMWrapper.numOfLevels];
 			int levelsBuilt = 0;
 
-			for (int i = 0; i < textRows.Length; i++) {
-
+			for (int i = 0; i < textRows.Length; i++)
+			{
 				// Ignore comments
 				if (textRows[i].StartsWith("//") || textRows[i].StartsWith("#"))
 					continue;
@@ -60,11 +60,11 @@ namespace PM.Level {
 
 
 				string settingsFileName = textRows[i].Trim();
-				levels [levelsBuilt].BuildLevelSettings (levelsBuilt, settingsFileName);
+				levels[levelsBuilt].BuildLevelSettings(levelsBuilt, settingsFileName);
 
 				levelsBuilt++;
 			}
-			
+
 			if (levelsBuilt != PMWrapper.numOfLevels)
 				throw new Exception("The number of levels in settings-master.txt does not match the specified number in the UI.");
 		}
@@ -83,6 +83,12 @@ namespace PM.Level {
 				if (PMWrapper.levelShouldBeAnswered)
 					PMWrapper.RaiseTaskError("Fick inget svar");
 			}
+		}
+
+		public void OnPMLevelChanged()
+		{
+			StopAllCoroutines();
+			currentLevel.caseHandler.ResetHandlerAndButtons();
 		}
 	}
 }
