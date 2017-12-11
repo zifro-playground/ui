@@ -28,14 +28,11 @@ namespace PM
 
 		[NonSerialized]
 		public RectTransform inputRect;
-		//private float rowHeight = 27f;
-		//private float maskHeight = 500;
-		private int maxChars = 53;
+		private int maxChars = 45;
 
 		private string lastText = "";
 		private float startYPos;
 		private bool settingNewCaretPos = false;
-		//private int oldCaretPos = 0;
 		private bool inserting = false;
 
 		public int rowLimit
@@ -226,7 +223,6 @@ namespace PM
 
 		private void addAutoIndent()
 		{
-			Debug.Log("Add auto indent");
 			string startString = theInputField.text;
 			foreach (IndentLevel l in toAddLevels)
 			{
