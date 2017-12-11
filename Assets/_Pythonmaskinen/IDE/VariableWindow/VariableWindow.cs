@@ -16,10 +16,11 @@ namespace PM {
 
 		public InWindowVariable smallVarPref, medVarPref, bigVarPref;
 
+		/* SARA
 		public GameObject seperatorPrefab;
-
 		private float variableYPos = 0;
 		private float objectSpacing = 0;
+		*/
 
 		//private float maskHeight = 100;
 		private List<InWindowObject> currentVariables = new List<InWindowObject>();
@@ -66,13 +67,12 @@ namespace PM {
 			}
 		}
 
-
+		/* SARA
 		#region update list
 		public void updateWindow() {
 			scaleList();
 			setVariablePositions();
 		}
-
 		private void scaleList() {
 			/*
 			float widthSum = 0;
@@ -81,9 +81,8 @@ namespace PM {
 
 			float xContetSize = widthSum + (currentVariables.Count-1) * objectSpacing;
 			contentRect.sizeDelta = new Vector2(xContetSize , maskHeight);
-			*/
+			/*
 		}
-
 		private void setVariablePositions() {
 			if (currentVariables.Count == 0)
 				return;
@@ -102,6 +101,7 @@ namespace PM {
 			}
 		}
 		#endregion
+		*/
 
 		void IPMLevelChanged.OnPMLevelChanged() {
 			resetList();

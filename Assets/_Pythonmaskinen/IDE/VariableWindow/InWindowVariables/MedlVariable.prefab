@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c87c51c94155a543981f16db2de6d44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 175
+  width: 120
   maxChars: 12
   nameText: {fileID: 114238725860715680}
   valueText: {fileID: 114728385062385540}

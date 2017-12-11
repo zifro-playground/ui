@@ -73,7 +73,7 @@ namespace PM {
 				try {
 
 					Runtime.CodeWalker.parseLine();
-					theVarWindow.updateWindow();
+					// theVarWindow.updateWindow(); // SARA
 
 					if (PMWrapper.isDemoingLevel) {
 						manusPlayerSaysICanContinue = false;

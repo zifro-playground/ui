@@ -75,7 +75,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   width: 80
-  maxChars: 4
+  maxChars: 6
   nameText: {fileID: 114275566986743222}
   valueText: {fileID: 114321551640651712}
 --- !u!114 &114275566986743222
