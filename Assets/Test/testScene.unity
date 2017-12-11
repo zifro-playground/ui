@@ -256,6 +256,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 224914883579835924, guid: 9a86dbe3221eede488f21663264d643b,
+        type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -175
+      objectReference: {fileID: 0}
     - target: {fileID: 224869981855098410, guid: 9a86dbe3221eede488f21663264d643b,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -264,27 +269,7 @@ Prefab:
     - target: {fileID: 224869981855098410, guid: 9a86dbe3221eede488f21663264d643b,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 235
-      objectReference: {fileID: 0}
-    - target: {fileID: 224328698218667876, guid: 9a86dbe3221eede488f21663264d643b,
-        type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -109.728516
-      objectReference: {fileID: 0}
-    - target: {fileID: 224163984052086762, guid: 9a86dbe3221eede488f21663264d643b,
-        type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -125
-      objectReference: {fileID: 0}
-    - target: {fileID: 224163984052086762, guid: 9a86dbe3221eede488f21663264d643b,
-        type: 2}
-      propertyPath: m_LocalPosition.y
-      value: -148.75027
-      objectReference: {fileID: 0}
-    - target: {fileID: 224914883579835924, guid: 9a86dbe3221eede488f21663264d643b,
-        type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -175
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224644663682867216, guid: 9a86dbe3221eede488f21663264d643b,
         type: 2}
@@ -292,41 +277,6 @@ Prefab:
       value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 224644663682867216, guid: 9a86dbe3221eede488f21663264d643b,
-        type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 175
-      objectReference: {fileID: 0}
-    - target: {fileID: 224512463005613722, guid: 9a86dbe3221eede488f21663264d643b,
-        type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 77
-      objectReference: {fileID: 0}
-    - target: {fileID: 224512463005613722, guid: 9a86dbe3221eede488f21663264d643b,
-        type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 115
-      objectReference: {fileID: 0}
-    - target: {fileID: 224194438779071692, guid: 9a86dbe3221eede488f21663264d643b,
-        type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -41
-      objectReference: {fileID: 0}
-    - target: {fileID: 224194438779071692, guid: 9a86dbe3221eede488f21663264d643b,
-        type: 2}
-      propertyPath: m_LocalPosition.y
-      value: -148.75027
-      objectReference: {fileID: 0}
-    - target: {fileID: 224375534535662478, guid: 9a86dbe3221eede488f21663264d643b,
-        type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 1.4387817
-      objectReference: {fileID: 0}
-    - target: {fileID: 224375534535662478, guid: 9a86dbe3221eede488f21663264d643b,
-        type: 2}
-      propertyPath: m_LocalPosition.y
-      value: -3.6995544
-      objectReference: {fileID: 0}
-    - target: {fileID: 224550847529279224, guid: 9a86dbe3221eede488f21663264d643b,
         type: 2}
       propertyPath: m_LocalPosition.y
       value: 0
@@ -339,7 +289,37 @@ Prefab:
     - target: {fileID: 224571412801011480, guid: 9a86dbe3221eede488f21663264d643b,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -148.75024
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224550847529279224, guid: 9a86dbe3221eede488f21663264d643b,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224512463005613722, guid: 9a86dbe3221eede488f21663264d643b,
+        type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 77
+      objectReference: {fileID: 0}
+    - target: {fileID: 224512463005613722, guid: 9a86dbe3221eede488f21663264d643b,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224375534535662478, guid: 9a86dbe3221eede488f21663264d643b,
+        type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 1.4387207
+      objectReference: {fileID: 0}
+    - target: {fileID: 224375534535662478, guid: 9a86dbe3221eede488f21663264d643b,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -3.6995544
+      objectReference: {fileID: 0}
+    - target: {fileID: 224328698218667876, guid: 9a86dbe3221eede488f21663264d643b,
+        type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -247.66846
       objectReference: {fileID: 0}
     - target: {fileID: 224292267359411922, guid: 9a86dbe3221eede488f21663264d643b,
         type: 2}
@@ -351,10 +331,34 @@ Prefab:
       propertyPath: m_LocalPosition.y
       value: 32.39876
       objectReference: {fileID: 0}
+    - target: {fileID: 224194438779071692, guid: 9a86dbe3221eede488f21663264d643b,
+        type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -41
+      objectReference: {fileID: 0}
+    - target: {fileID: 224194438779071692, guid: 9a86dbe3221eede488f21663264d643b,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224163984052086762, guid: 9a86dbe3221eede488f21663264d643b,
+        type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -125
+      objectReference: {fileID: 0}
+    - target: {fileID: 224163984052086762, guid: 9a86dbe3221eede488f21663264d643b,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1050611270833414, guid: 9a86dbe3221eede488f21663264d643b, type: 2}
+      propertyPath: m_Name
+      value: IDE 1.1.2
+      objectReference: {fileID: 0}
     - target: {fileID: 224914883579835924, guid: 9a86dbe3221eede488f21663264d643b,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 25
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9a86dbe3221eede488f21663264d643b, type: 2}
@@ -404,10 +408,10 @@ Camera:
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.5005734
-    y: 0.1365819
-    width: 0.4474079
-    height: 0.68437386
+    x: 0.5005436
+    y: 0.13654447
+    width: 0.38922662
+    height: 0.6844444
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
