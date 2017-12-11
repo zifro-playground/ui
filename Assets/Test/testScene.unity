@@ -204,10 +204,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9ba30346b6864145bf9970ca148a7ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tasks:
-  - "Skicka meddelandet \"Bilen beh\xF6ver laddas!\" om batteriniv\xE5n \xE4r l\xE4gre
-    \xE4n 300. Skicka annars \"Batteriet \xE4r OK!\""
-  - "Vad \xE4r batteriniv\xE5n?"
 --- !u!4 &1109244214
 Transform:
   m_ObjectHideFlags: 0
@@ -278,7 +274,7 @@ Prefab:
     - target: {fileID: 224571412801011480, guid: 9a86dbe3221eede488f21663264d643b,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -148.75024
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224550847529279224, guid: 9a86dbe3221eede488f21663264d643b,
         type: 2}
@@ -288,12 +284,12 @@ Prefab:
     - target: {fileID: 224375534535662478, guid: 9a86dbe3221eede488f21663264d643b,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 1.4387817
+      value: 1.4387207
       objectReference: {fileID: 0}
     - target: {fileID: 224375534535662478, guid: 9a86dbe3221eede488f21663264d643b,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -3.699585
+      value: -3.6995544
       objectReference: {fileID: 0}
     - target: {fileID: 224194438779071692, guid: 9a86dbe3221eede488f21663264d643b,
         type: 2}
@@ -303,7 +299,7 @@ Prefab:
     - target: {fileID: 224194438779071692, guid: 9a86dbe3221eede488f21663264d643b,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -148.75027
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224512463005613722, guid: 9a86dbe3221eede488f21663264d643b,
         type: 2}
@@ -313,7 +309,7 @@ Prefab:
     - target: {fileID: 224512463005613722, guid: 9a86dbe3221eede488f21663264d643b,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 115
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224644663682867216, guid: 9a86dbe3221eede488f21663264d643b,
         type: 2}
@@ -323,7 +319,7 @@ Prefab:
     - target: {fileID: 224644663682867216, guid: 9a86dbe3221eede488f21663264d643b,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 175
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224914883579835924, guid: 9a86dbe3221eede488f21663264d643b,
         type: 2}
@@ -338,7 +334,7 @@ Prefab:
     - target: {fileID: 224163984052086762, guid: 9a86dbe3221eede488f21663264d643b,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -148.75027
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224328698218667876, guid: 9a86dbe3221eede488f21663264d643b,
         type: 2}
@@ -353,12 +349,12 @@ Prefab:
     - target: {fileID: 224869981855098410, guid: 9a86dbe3221eede488f21663264d643b,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 235
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224914883579835924, guid: 9a86dbe3221eede488f21663264d643b,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 25
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9a86dbe3221eede488f21663264d643b, type: 2}
