@@ -15,7 +15,8 @@ namespace PM {
 		private const string nullValue = "None";
 
 		#region
-		private Color boolText = new Color(0.87f, 0.031f, 0.44f),
+		private Color nameTextColor = new Color(0.37f, 0.38f, 0.36f),
+			boolText = new Color(0.87f, 0.031f, 0.44f),
 			stringText = new Color(0.49f, 0.74f, 0.3f),
 			numberText = new Color(0.9f, 0.65f, 0.3f),
 			nullText = Color.red;
@@ -26,11 +27,12 @@ namespace PM {
 			this.targetVariable = targetVariable;
 			setVariableAttributes();
 
-			// Add tooltip
+			/* Add tooltip
 			var tooltip = gameObject.AddComponent<VarTooltip>();
 			tooltip.header = targetVariable.name + ":";
 			tooltipContent(out tooltip.text, out tooltip.textColor);
 			tooltip.ApplyTooltipTextChange();
+			*/
 		}
 
 		private void tooltipContent(out string text, out Color color) {
@@ -59,6 +61,7 @@ namespace PM {
 
 		private void setVariableAttributes() {
 			nameText.text = compressString(targetVariable.name + ":");
+			nameText.color = nameTextColor;
 
 			switch (targetVariable.variableType) {
 
