@@ -54,6 +54,17 @@ public interface IPMLevelCompleted {
 	void OnPMLevelCompleted();
 }
 
+/// <summary>
+/// Executes <see cref="OnPMCaseSwitched()"/> when the current case is switched.
+/// </summary>
 public interface IPMCaseSwitched {
 	void OnPMCaseSwitched(int caseNumber);
+}
+
+/// <summary>
+/// Executes <see cref="OnPMWrongAnswer()"/> when wrong answer is passed to the AnswerFunction.
+/// </summary>
+public interface IPMWrongAnswer
+{
+	void OnPMWrongAnswer(string answer);
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,7 +31,7 @@ namespace PM {
 		public GameObject uiTooltipPrefab;
 		public GameObject varTooltipPrefab;
 		public RectTransform tooltipParent;
-		public IDETaskDescription taskDescription;
+		public TaskDescription taskDescription;
 		public CanvasGroup uiCanvasGroup;
 		[Header("Bubbles")]
 		public IDEPrintBubble printBubble;

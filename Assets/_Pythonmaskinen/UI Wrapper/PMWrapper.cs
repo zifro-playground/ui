@@ -273,6 +273,9 @@ public static class PMWrapper {
 		}
 	}
 
+	/// <summary>
+	/// Returns true if current level has defined AnswerFunction and the user is supposed to answer level.
+	/// </summary>
 	public static bool levelShouldBeAnswered
 	{
 		get
@@ -305,7 +308,9 @@ public static class PMWrapper {
 		get { return UISingleton.instance.levelHints.storyRevealedForLevel; }
 	}
 
-
+	/// <summary>
+	/// Returns the index of the current case. Index starts from 0.
+	/// </summary>
 	public static int currentCase {
 		get { return UISingleton.instance.levelHandler.currentLevel.caseHandler.currentCase; }
 	}
@@ -403,6 +408,11 @@ public static class PMWrapper {
 	/// <exception cref="PMRuntimeException">Is always thrown</exception>
 	public static void RaiseError(Vector3 targetWorldPosition, string message) {
 		UISingleton.instance.textField.theLineMarker.setErrorMarker(targetWorldPosition, message);
+	}
+
+	public static void RaiseTaskError(string message)
+	{
+		UISingleton.instance.taskDescription.ShowTaskError(message);
 	}
 
 	/// <summary>

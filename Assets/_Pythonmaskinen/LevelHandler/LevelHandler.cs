@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using PM;
 
 namespace PM.Level {
 
@@ -77,10 +75,13 @@ namespace PM.Level {
 
 			if (status == HelloCompiler.StopStatus.RuntimeError)
 			{
-				// TODO Animate currentCaseButton to red
 				currentLevel.caseHandler.CaseFailed();
+			}
 
-				// TODO wait before reseting handler and buttons
+			if (status == HelloCompiler.StopStatus.Finished)
+			{
+				if (PMWrapper.levelShouldBeAnswered)
+					PMWrapper.RaiseTaskError("Fick inget svar");
 			}
 		}
 	}

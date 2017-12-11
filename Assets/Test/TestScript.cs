@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched {
+public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched, IPMWrongAnswer {
 
 	public string[] tasks;
 
@@ -18,8 +18,8 @@ public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.U))
-			PMWrapper.StopCompiler ();
+		if (Input.GetKeyDown(KeyCode.U))
+			PMWrapper.RaiseTaskError("Nu glömde du att göra något...");
 	}
 
 	public void OnPMLevelChanged(){
@@ -28,5 +28,10 @@ public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched {
 	public void OnPMCaseSwitched(int caseNumber){
 		if (caseNumber == 0)
 			PMWrapper.SetCaseAnswer (1);
+	}
+
+	public void OnPMWrongAnswer(string answer)
+	{
+		PMWrapper.RaiseTaskError("\"" + answer + "\" är inte rätt svar");
 	}
 }

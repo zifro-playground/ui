@@ -161,7 +161,13 @@ namespace PM.Level {
 			if (correct)
 				PMWrapper.SetCaseCompleted ();
 			else
+			{
 				UISingleton.instance.levelHandler.currentLevel.caseHandler.CaseFailed ();
+
+				// Call every implemented event
+				foreach (var ev in UISingleton.FindInterfaces<IPMWrongAnswer>())
+					ev.OnPMWrongAnswer(answer);
+			}
 
 		}
 
