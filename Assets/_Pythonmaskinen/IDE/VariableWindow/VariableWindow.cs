@@ -16,6 +16,13 @@ namespace PM {
 
 		public InWindowVariable smallVarPref, medVarPref, bigVarPref;
 
+		[Header("Background")]
+		public Image backgroundImage;
+		[Range(0, 255)]
+		public float emptyWindowAlpha = 150;
+		[Range(0, 255)]
+		public float nonemptyWindowAlpha = 250;
+
 		/* SARA
 		public GameObject seperatorPrefab;
 		private float variableYPos = 0;
@@ -29,15 +36,29 @@ namespace PM {
 		public void resetList() {
 			foreach (InWindowObject v in currentVariables)
 				v.remove();
-
 			currentVariables.Clear();
+			setBackgroundAlpha (); // SARA
 		}
 
 		public void addVariable(Variable newVariable) {
 			InWindowVariable clone = Instantiate (calcVarSize(newVariable));
 			clone.transform.SetParent(contentRect.transform, worldPositionStays: false);
 			clone.initVariable(newVariable);
+
 			currentVariables.Add(clone);
+			setBackgroundAlpha (); // SARA
+		}
+
+		// SARA, new method:
+		private void setBackgroundAlpha(){
+			Color newColor = backgroundImage.color;
+
+			if (currentVariables.Count == 0)
+				newColor.a = emptyWindowAlpha / 255;
+			else
+				newColor.a = nonemptyWindowAlpha / 255;
+			
+			backgroundImage.color = newColor;
 		}
 
 		private InWindowVariable calcVarSize(Variable newVariable) {
