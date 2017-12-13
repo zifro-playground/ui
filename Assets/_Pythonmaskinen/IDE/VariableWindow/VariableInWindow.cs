@@ -28,7 +28,7 @@ public class VariableInWindow : MonoBehaviour {
 	}
 
 	private void setVariableAttributes() {
-		nameText.text = compressString(targetVariable.name + ":");
+		nameText.text = targetVariable.name;
 		nameText.color = nameTextColor;
 
 		switch (targetVariable.variableType) {
