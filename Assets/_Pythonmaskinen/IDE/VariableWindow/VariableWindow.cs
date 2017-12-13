@@ -10,11 +10,17 @@ namespace PM {
 	public class VariableWindow : MonoBehaviour, IPMLevelChanged {
 
 		[SerializeField]
-		RectTransform maskRect;
-		[SerializeField]
 		RectTransform contentRect;
 
-		public InWindowVariable smallVarPref, medVarPref, bigVarPref;
+		public GameObject theWindow;
+
+		[Header("For variable width calculation")]
+		public float minVariableWidth = 80;
+		public float maxVariableWidth = 240;
+		public float characterWidth = 10;
+		public float paddingWidth = 15;
+
+		public VariableInWindow variablePrefab;
 
 		[Header("Background")]
 		public Image backgroundImage;
@@ -23,53 +29,46 @@ namespace PM {
 		[Range(0, 255)]
 		public float nonemptyWindowAlpha = 250;
 
-		/* SARA
-		public GameObject seperatorPrefab;
-		private float variableYPos = 0;
-		private float objectSpacing = 0;
-		*/
-
-		//private float maskHeight = 100;
-		private List<InWindowObject> currentVariables = new List<InWindowObject>();
-
+		private List<VariableInWindow> currentVariables = new List<VariableInWindow>();
 
 		public void resetList() {
-			foreach (InWindowObject v in currentVariables)
+			foreach (VariableInWindow v in currentVariables)
 				v.remove();
 			currentVariables.Clear();
-			setBackgroundAlpha (); // SARA
+
+			theWindow.SetActive(false);
 		}
 
 		public void addVariable(Variable newVariable) {
-			InWindowVariable clone = Instantiate (calcVarSize(newVariable));
-			clone.transform.SetParent(contentRect.transform, worldPositionStays: false);
+			if (currentVariables.Count == 0)
+				theWindow.SetActive(true);
+
+			VariableInWindow clone = Instantiate (variablePrefab);
+			clone.transform.SetParent (contentRect.transform, worldPositionStays: false);
+
+			float width = calcVariableWidth (newVariable);
+			clone.setWidth(width);
+			clone.maxChars = calcNoCharacters(width);
+
 			clone.initVariable(newVariable);
 
 			currentVariables.Add(clone);
-			setBackgroundAlpha (); // SARA
+
 		}
 
-		// SARA, new method:
-		private void setBackgroundAlpha(){
-			Color newColor = backgroundImage.color;
-
-			if (currentVariables.Count == 0)
-				newColor.a = emptyWindowAlpha / 255;
-			else
-				newColor.a = nonemptyWindowAlpha / 255;
+		private float calcVariableWidth(Variable newVariable) {
 			
-			backgroundImage.color = newColor;
+			int nameLength = newVariable.name.Length;
+			int valueLength = getValueString (newVariable).Length;
+			int maxLength = Mathf.Max (nameLength, valueLength);
+
+			float variableWidth = (maxLength + 1) * characterWidth + 2 * paddingWidth;
+
+			return Mathf.Clamp (variableWidth, minVariableWidth, maxVariableWidth);
 		}
 
-		private InWindowVariable calcVarSize(Variable newVariable) {
-			string longestString = newVariable.name.Length > getValueString (newVariable).Length ? newVariable.name : getValueString (newVariable);
-
-			if (longestString.Length <= smallVarPref.maxChars)
-				return smallVarPref;
-			if (longestString.Length <= medVarPref.maxChars)
-				return medVarPref;
-
-			return bigVarPref;
+		private int calcNoCharacters(float variableWidth){
+			return (int) Mathf.Floor((variableWidth - 2 * paddingWidth) / characterWidth) - 1;
 		}
 
 		private string getValueString(Variable newVariable) {
@@ -87,42 +86,6 @@ namespace PM {
 					return "None";
 			}
 		}
-
-		/* SARA
-		#region update list
-		public void updateWindow() {
-			scaleList();
-			setVariablePositions();
-		}
-		private void scaleList() {
-			/*
-			float widthSum = 0;
-			foreach (InWindowObject o in currentVariables)
-				widthSum += o.width;
-
-			float xContetSize = widthSum + (currentVariables.Count-1) * objectSpacing;
-			contentRect.sizeDelta = new Vector2(xContetSize , maskHeight);
-			/*
-		}
-		private void setVariablePositions() {
-			if (currentVariables.Count == 0)
-				return;
-
-			float startPos = contentRect.rect.width * 0.5f;
-			float currentStep = 0;
-
-			for (int i = 0; i < currentVariables.Count; i++) {
-				currentStep -= currentVariables[i].width * 0.5f;
-
-				if (currentStep > contentRect.rect.width)
-					break;
-
-				currentVariables[i].transform.localPosition = new Vector2(startPos + currentStep, variableYPos);
-				currentStep -= currentVariables[i].width * 0.5f + objectSpacing;
-			}
-		}
-		#endregion
-		*/
 
 		void IPMLevelChanged.OnPMLevelChanged() {
 			resetList();
