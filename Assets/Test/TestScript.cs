@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched, IPMWrongAnswer
+public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched, IPMWrongAnswer, IPMCorrectAnswer
 {
 	void Awake()
 	{
@@ -35,5 +35,10 @@ public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched, IPMWr
 	public void OnPMWrongAnswer(string answer)
 	{
 		PMWrapper.RaiseTaskError("\"" + answer + "\" är inte rätt svar");
+	}
+
+	public void OnPMCorrectAnswer(string answer)
+	{
+		PMWrapper.SetCaseCompleted();
 	}
 }

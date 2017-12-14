@@ -68,3 +68,11 @@ public interface IPMWrongAnswer
 {
 	void OnPMWrongAnswer(string answer);
 }
+
+/// <summary>
+/// Executes <see cref="OnPMCorrectAnswer()"/> when correct answer is passed to the AnswerFunction.
+/// </summary>
+public interface IPMCorrectAnswer
+{
+	void OnPMCorrectAnswer(string answer);
+}

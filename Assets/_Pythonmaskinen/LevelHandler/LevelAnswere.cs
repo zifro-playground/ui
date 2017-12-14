@@ -167,7 +167,11 @@ namespace PM.Level
 			UISingleton.instance.answerBubble.HideMessage();
 
 			if (correct)
-				PMWrapper.SetCaseCompleted();
+			{
+				// Call every implemented event
+				foreach (var ev in UISingleton.FindInterfaces<IPMCorrectAnswer>())
+					ev.OnPMCorrectAnswer(answer);
+			}
 			else
 			{
 				UISingleton.instance.levelHandler.currentLevel.caseHandler.CaseFailed();

@@ -22,13 +22,6 @@ namespace PM {
 
 		public VariableInWindow variablePrefab;
 
-		[Header("Background")]
-		public Image backgroundImage;
-		[Range(0, 255)]
-		public float emptyWindowAlpha = 150;
-		[Range(0, 255)]
-		public float nonemptyWindowAlpha = 250;
-
 		private List<VariableInWindow> currentVariables = new List<VariableInWindow>();
 
 		public void resetList() {
