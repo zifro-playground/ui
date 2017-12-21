@@ -37,7 +37,7 @@ namespace PM {
 				theWindow.SetActive(true);
 
 			VariableInWindow clone = Instantiate (variablePrefab);
-			clone.transform.SetParent (contentRect.transform, worldPositionStays: false);
+			clone.transform.SetParent (contentRect.transform, false);
 
 			float width = calcVariableWidth (newVariable);
 			clone.setWidth(width);

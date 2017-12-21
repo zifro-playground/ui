@@ -1,18 +1,19 @@
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 using System;
 
-namespace PM {
+namespace PM
+{
 
-	public class CodeWalker : MonoBehaviour, IPMSpeedChanged {
+	public class CodeWalker : MonoBehaviour, IPMSpeedChanged
+	{
 
 		#region time based variables
 		private float baseWalkerWaitTime = 3f;
 		public float BaseWalkerWaitTime
 		{
 			get { return baseWalkerWaitTime; }
-			set {
+			set
+			{
 				baseWalkerWaitTime = Mathf.Clamp(value, 0.01f, 1000);
 				OnPMSpeedChanged(PMWrapper.speedMultiplier);
 			}
@@ -22,32 +23,30 @@ namespace PM {
 		private float sleepTimer;
 		#endregion
 
-		public static bool manusPlayerSaysICanContinue = true;
-		public static bool isSleeping = false;
-		public static bool walkerRunning = true;
-		private static bool doEndWalker = false;
+		public static bool ManusPlayerSaysICanContinue = true;
+		public static bool IsSleeping;
+		public static bool WalkerRunning = true;
+		public bool IsUserPaused { get; private set; }
+
+		private static bool doEndWalker;
 		private static Action<HelloCompiler.StopStatus> stopCompiler;
-		public bool isUserPaused { get; private set; }
 
 		//This Script needs to be added to an object in the scene
 		//To start the compiler simply call "ActivateWalker" Method
 		#region init
-		void Start() {
-			enabled = false;
-			walkerRunning = false;
-		}
 
 		/// <summary>
 		/// Activates the walker by telling the compiler to compile code and links necessary methods.
 		/// </summary>
-		public void activateWalker(Action<HelloCompiler.StopStatus> stopCompilerMeth) {
-			Compiler.SyntaxCheck.CompileCode(PMWrapper.fullCode, endWalker, pauseWalker, IDELineMarker.activateFunctionCall, IDELineMarker.SetWalkerPosition);
+		public void ActivateWalker(Action<HelloCompiler.StopStatus> stopCompilerMeth)
+		{
+			Compiler.SyntaxCheck.CompileCode(PMWrapper.fullCode, EndWalker, PauseWalker, IDELineMarker.activateFunctionCall, IDELineMarker.SetWalkerPosition);
 			enabled = true;
-			walkerRunning = true;
+			WalkerRunning = true;
 			doEndWalker = false;
 			stopCompiler = stopCompilerMeth;
-			isUserPaused = false;
-			manusPlayerSaysICanContinue = true;
+			IsUserPaused = false;
+			ManusPlayerSaysICanContinue = true;
 		}
 		#endregion
 
@@ -56,44 +55,55 @@ namespace PM {
 		// Update method runs every frame, and check if it is time to parse a line.
 		// if so is the case, then we call "Runtime.CodeWalker.parseLine()" while we handle any thrown runtime exceptions that the codeWalker finds.
 
-		void Update() {
-			if (isUserPaused) return;
+		private void Update()
+		{
+			if (IsUserPaused) return;
 
-			if (walkerRunning && !isSleeping) {
-				if (doEndWalker) {
+			if (WalkerRunning && !IsSleeping)
+			{
+				if (doEndWalker)
+				{
 					stopCompiler.Invoke(HelloCompiler.StopStatus.Finished);
 					return;
 				}
-				
-				if (PMWrapper.isDemoingLevel && !manusPlayerSaysICanContinue)
-					return;
-				
-				try {
 
+				if (PMWrapper.IsDemoingLevel && !ManusPlayerSaysICanContinue)
+					return;
+
+				try
+				{
 					Runtime.CodeWalker.parseLine();
 
-					if (PMWrapper.isDemoingLevel) {
-						manusPlayerSaysICanContinue = false;
+					if (PMWrapper.IsDemoingLevel)
+					{
+						ManusPlayerSaysICanContinue = false;
 					}
-				} catch {
+				}
+				catch
+				{
 					stopCompiler.Invoke(HelloCompiler.StopStatus.RuntimeError);
 					throw;
-				} finally {
-					isSleeping = true;
+				}
+				finally
+				{
+					IsSleeping = true;
 				}
 			}
 
-			runSleepTimer();
+			RunSleepTimer();
 		}
 
-		private void runSleepTimer() {
+		private void RunSleepTimer()
+		{
 			sleepTimer += Time.deltaTime;
 			float firstInterval = sleepTime - sleepTime / 20;
-			if (sleepTimer > firstInterval) {
+			if (sleepTimer > firstInterval)
+			{
 				IDELineMarker.instance.SetState(IDELineMarker.State.Hidden);
-				if (sleepTimer > sleepTime) {
+				if (sleepTimer > sleepTime)
+				{
 					sleepTimer = 0;
-					isSleeping = false;
+					IsSleeping = false;
 				}
 			}
 		}
@@ -103,46 +113,55 @@ namespace PM {
 		#region Compiler Methodes
 		//Methods that the CC should be able to call.
 		//We link this to the CC by passing them into the "Runtime.CodeWalker.initCodeWalker" method
-		public static void endWalker() {
+		public static void EndWalker()
+		{
 			doEndWalker = true;
 		}
 
-		public static void pauseWalker() {
-			walkerRunning = false;
+		public static void PauseWalker()
+		{
+			WalkerRunning = false;
 		}
 		#endregion
 
 
-		#region Public Unity Methods
+		#region Public Methods
 
-		public void resumeWalker() {
+		public void ResumeWalker()
+		{
 			sleepTimer = 0;
-			isSleeping = true;
-			walkerRunning = true;
+			IsSleeping = true;
+			WalkerRunning = true;
 		}
 
-		public void stopWalker() {
+		public void StopWalker()
+		{
 			SetWalkerUserPaused(false);
-			walkerRunning = false;
+			WalkerRunning = false;
 			enabled = false;
 		}
 
 		// Called by the RunCodeButton script
-		public void SetWalkerUserPaused(bool paused) {
-			if (paused == isUserPaused) return;
+		public void SetWalkerUserPaused(bool paused)
+		{
+			if (paused == IsUserPaused) return;
 
-			isUserPaused = paused;
+			IsUserPaused = paused;
 
-			if (isUserPaused) {
+			if (IsUserPaused)
+			{
 				foreach (var ev in UISingleton.FindInterfaces<IPMCompilerUserPaused>())
 					ev.OnPMCompilerUserPaused();
-			} else {
+			}
+			else
+			{
 				foreach (var ev in UISingleton.FindInterfaces<IPMCompilerUserUnpaused>())
 					ev.OnPMCompilerUserUnpaused();
 			}
 		}
 
-		public void OnPMSpeedChanged(float speed) {
+		public void OnPMSpeedChanged(float speed)
+		{
 			float speedFactor = 1 - speed;
 			sleepTime = baseWalkerWaitTime * speedFactor;
 		}

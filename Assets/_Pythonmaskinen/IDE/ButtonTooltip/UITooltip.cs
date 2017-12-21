@@ -116,7 +116,7 @@ namespace PM {
 		}
 
 		private void Start() {
-			// Spawn tooltip
+			// Spawn Tooltip
 			if (!initialized) Init();
 		}
 

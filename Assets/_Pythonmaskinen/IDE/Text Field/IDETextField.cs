@@ -129,7 +129,7 @@ namespace PM
 
 		public void MoveLineMarker()
 		{
-			if (PMWrapper.isDemoingLevel)
+			if (PMWrapper.IsDemoingLevel)
 			{
 				IDELineMarker.instance.SetState(IDELineMarker.State.Hidden);
 			}
@@ -402,13 +402,13 @@ namespace PM
 
 		void IPMCompilerStarted.OnPMCompilerStarted()
 		{
-			if (!PMWrapper.isDemoingLevel)
+			if (!PMWrapper.IsDemoingLevel)
 				deActivateField();
 		}
 
 		void IPMCompilerStopped.OnPMCompilerStopped(HelloCompiler.StopStatus status)
 		{
-			if (!PMWrapper.isDemoingLevel)
+			if (!PMWrapper.IsDemoingLevel)
 				reActivateField();
 		}
 	}

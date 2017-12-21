@@ -55,7 +55,7 @@ namespace PM.Manus {
 		}
 		
 		void IPMLevelChanged.OnPMLevelChanged() {
-			if (!PMWrapper.isDemoLevel) {
+			if (!PMWrapper.IsDemoLevel) {
 				SetIsManusPlaying(false);
 			}
 		}

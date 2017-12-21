@@ -76,7 +76,7 @@ namespace PM {
 		private void _ShowWinScreen() {
 			continueButton.gameObject.SetActive(PMWrapper.currentLevel < PMWrapper.numOfLevels - 1);
 
-			if (PMWrapper.isDemoLevel) winText.text = demoWinMsg;
+			if (PMWrapper.IsDemoLevel) winText.text = demoWinMsg;
 			else if (continueButton.gameObject.activeSelf) winText.text = winMsg;
 			else winText.text = lastWinMsg;
 

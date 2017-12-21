@@ -29,8 +29,8 @@ namespace PM.Manus.Step {
 		public void StartStep() {}
 
 		public bool IsStepDone() {
-			if (PMWrapper.isCompilerRunning) PMWrapper.StopCompiler();
-			return !PMWrapper.isCompilerRunning;
+			if (PMWrapper.IsCompilerRunning) PMWrapper.StopCompiler();
+			return !PMWrapper.IsCompilerRunning;
 		}
 
 		public void ParseContent(Manus manus, string _, string __) {}
@@ -273,7 +273,7 @@ namespace PM.Manus.Step {
 
 		public void StartStep() {
 			stepsLeft = p_steps;
-			if (!PMWrapper.isCompilerRunning)
+			if (!PMWrapper.IsCompilerRunning)
 				PMWrapper.StartCompiler();
 		}
 
@@ -283,30 +283,30 @@ namespace PM.Manus.Step {
 		}
 
 		public bool IsStepDone() {
-			if (!PMWrapper.isCompilerRunning)
+			if (!PMWrapper.IsCompilerRunning)
 				PMWrapper.StartCompiler();
 
-			if (CodeWalker.manusPlayerSaysICanContinue == false && stepsLeft > 0) {
+			if (CodeWalker.ManusPlayerSaysICanContinue == false && stepsLeft > 0) {
 				stepsLeft--;
-				CodeWalker.manusPlayerSaysICanContinue = stepsLeft > 0;
+				CodeWalker.ManusPlayerSaysICanContinue = stepsLeft > 0;
 			}
 			
 			// This step is ready when we no longer need the walker to continue
-			return CodeWalker.manusPlayerSaysICanContinue == false && stepsLeft == 0;
+			return CodeWalker.ManusPlayerSaysICanContinue == false && stepsLeft == 0;
 		}
 	}
 
 	public sealed class WalkTilFinished : IStepNoParameters {
 		public void StartStep() {
-			if (!PMWrapper.isCompilerRunning)
+			if (!PMWrapper.IsCompilerRunning)
 				PMWrapper.StartCompiler();
 		}
 
 		public bool IsStepDone() {
-			if (PMWrapper.isCompilerRunning)
-				CodeWalker.manusPlayerSaysICanContinue = true;
+			if (PMWrapper.IsCompilerRunning)
+				CodeWalker.ManusPlayerSaysICanContinue = true;
 
-			return !PMWrapper.isCompilerRunning;
+			return !PMWrapper.IsCompilerRunning;
 		}
 
 		public void ParseContent(Manus manus, string _, string __) {}

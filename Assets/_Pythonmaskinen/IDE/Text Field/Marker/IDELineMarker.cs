@@ -32,6 +32,7 @@ namespace PM {
 			instance.SetState(State.Walker);
 			instance.theTextField.theScrollLord.FocusOnLineNumber(lineNumber);
 		}
+
 		public static void SetIDEPosition(int newLineNumber) {
 			lineNumber = newLineNumber - 1;
 			instance.moveMarker();

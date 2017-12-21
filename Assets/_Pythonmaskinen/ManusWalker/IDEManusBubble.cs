@@ -109,7 +109,7 @@ namespace PM {
 			}
 
 			// Override for standalone manus bubbles
-			if (!PMWrapper.isDemoingLevel) {
+			if (!PMWrapper.IsDemoingLevel) {
 				UISingleton.instance.textField.deActivateField();
 				UISingleton.instance.uiCanvasGroup.blocksRaycasts = false;
 			}
@@ -133,7 +133,7 @@ namespace PM {
 			}
 
 			// Override for standalone manus bubbles
-			if (!PMWrapper.isDemoingLevel) {
+			if (!PMWrapper.IsDemoingLevel) {
 				UISingleton.instance.textField.reActivateField();
 				UISingleton.instance.uiCanvasGroup.blocksRaycasts = true;
 			}

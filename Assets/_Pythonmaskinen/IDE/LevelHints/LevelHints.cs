@@ -148,7 +148,7 @@ namespace PM {
 				hint++;
 			} while (asset != null || hint == 1);
 
-			if (PMWrapper.isDemoLevel)
+			if (PMWrapper.IsDemoLevel)
 				helpButton.interactable = true;
 			else
 				// No hints? No hints.
@@ -161,7 +161,7 @@ namespace PM {
 				storyRevealedForLevel = PMWrapper.currentLevel;
 				SetCurrentHint(0);
 				StartRevealFading();
-			} else if (PMWrapper.isDemoLevel) {
+			} else if (PMWrapper.IsDemoLevel) {
 				UISingleton.instance.manusPlayer.SetIsManusPlaying(true);
 			}
 		}
@@ -191,7 +191,7 @@ namespace PM {
 				if (state != State.Idle) return;
 				SetCurrentHint(0);
 				StartRevealFading();
-			} else if (PMWrapper.isDemoLevel) {
+			} else if (PMWrapper.IsDemoLevel) {
 				UISingleton.instance.manusPlayer.SetIsManusPlaying(true);
 				return;
 			}
@@ -220,13 +220,13 @@ namespace PM {
 			canvasGroup.blocksRaycasts = false;
 			timePassed = 0;
 
-			if (PMWrapper.isDemoLevel) {
+			if (PMWrapper.IsDemoLevel) {
 				UISingleton.instance.manusPlayer.SetIsManusPlaying(true);
 			}
 		}
 
 		private void Update() {
-			if (Input.GetKeyDown(KeyCode.F1) && !PMWrapper.isDemoingLevel) {
+			if (Input.GetKeyDown(KeyCode.F1) && !PMWrapper.IsDemoingLevel) {
 				ButtonShowHintScreen();
 				return;
 			}

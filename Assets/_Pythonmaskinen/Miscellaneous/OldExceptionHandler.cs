@@ -66,7 +66,7 @@ namespace PM {
 				form.AddField("previous_level", PMWrapper.previousLevel);
 				form.AddField("error_message", exMsg);
 				form.AddField("error_type", exType);
-				form.AddField("ui_version", PMWrapper.version);
+				form.AddField("ui_version", PMWrapper.Version);
 
 				form.AddField("main_code", PMWrapper.mainCode);
 				form.AddField("pre_code", PMWrapper.preCode);
