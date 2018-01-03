@@ -29,9 +29,14 @@ namespace PM {
 				else if (Input.GetKeyDown(KeyCode.LeftArrow))
 				{
 					if (PMWrapper.IsDemoingLevel)
+					{
 						UISingleton.instance.manusPlayer.SetIsManusPlaying(false);
+					}
 					else
-						PMWrapper.currentLevel -= 1;
+					{
+						if(PMWrapper.currentLevel > 0)
+							PMWrapper.currentLevel -= 1;
+					}
 				}
 				else if (Input.GetKeyDown(KeyCode.UpArrow))
 				{
