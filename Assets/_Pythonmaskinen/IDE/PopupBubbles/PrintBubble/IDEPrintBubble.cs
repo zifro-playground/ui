@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace PM {
 
-	public class IDEPrintBubble : AbstractPopupBubble {
+	public class IDEPrintBubble : AbstractPopupBubble, IPMLevelChanged {
 
 		[Header("PrintBubble fields")]
 		public Text thePrintText;
@@ -32,6 +32,11 @@ namespace PM {
 
 		private static string EscapeString(string input) {
 			return input.Replace('<', '〈').Replace('>', '〉');
+		}
+
+		void IPMLevelChanged.OnPMLevelChanged() {
+			// Fade away on level change
+			HideMessage();
 		}
 
 		protected override void OnShowMessage() {}
