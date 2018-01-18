@@ -2441,7 +2441,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1984537530248942
 GameObject:
   m_ObjectHideFlags: 1
@@ -3687,7 +3687,6 @@ MonoBehaviour:
   PlayImage: {fileID: 21300000, guid: 0ea6c79819b6d410b8faf32c1f82f4af, type: 3}
   PauseImage: {fileID: 21300000, guid: ec4cadacb814a421c9033d9c06ae0e5e, type: 3}
   ResumeImage: {fileID: 21300000, guid: 0ea6c79819b6d410b8faf32c1f82f4af, type: 3}
-  Tooltip: {fileID: 0}
   ThisButton: {fileID: 114138052569160672}
 --- !u!114 &114207543677270378
 MonoBehaviour:
@@ -3727,7 +3726,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114757735766775750}
   m_HandleRect: {fileID: 224261944096186680}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -4584,7 +4583,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114089513927844958}
   m_HandleRect: {fileID: 224474438033326362}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
