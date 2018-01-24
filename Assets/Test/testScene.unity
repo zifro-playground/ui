@@ -262,10 +262,10 @@ Camera:
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.5005734
-    y: 0.1365819
-    width: 0.4474079
-    height: 0.68437386
+    x: 0.5004505
+    y: 0.13667107
+    width: 0.44718838
+    height: 0.68420607
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -394,7 +394,7 @@ Prefab:
     - target: {fileID: 224567058208693478, guid: 33dede7972a135a459764926e8830bd8,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: -109.728516
+      value: -73.96863
       objectReference: {fileID: 0}
     - target: {fileID: 224535227389717154, guid: 33dede7972a135a459764926e8830bd8,
         type: 2}
@@ -439,7 +439,7 @@ Prefab:
     - target: {fileID: 224235388935336296, guid: 33dede7972a135a459764926e8830bd8,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -3.6995544
+      value: -3.6995697
       objectReference: {fileID: 0}
     - target: {fileID: 224105689870980156, guid: 33dede7972a135a459764926e8830bd8,
         type: 2}
