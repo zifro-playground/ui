@@ -455,9 +455,14 @@ public static class PMWrapper
 		UISingleton.instance.textField.theLineMarker.setErrorMarker(targetWorldPosition, message);
 	}
 
+
+	/// <summary>
+	/// Stops compiler and shows feedback dialog from robot.
+	/// </summary>
 	public static void RaiseTaskError(string message)
 	{
 		UISingleton.instance.taskDescription.ShowTaskError(message);
+		StopCompiler();
 	}
 
 	/// <summary>
