@@ -152,20 +152,6 @@ namespace PM.Level
 				yield break;
 			}
 
-			UISingleton.instance.answerBubble.SetAnswerSprite(correct);
-			PMWrapper.StopCompiler();
-			compilerHasBeenStopped = false;
-
-			yield return new WaitForSeconds(3 * (1 - PMWrapper.speedMultiplier));
-
-			if (compilerHasBeenStopped)
-			{
-				AbortCase();
-				yield break;
-			}
-
-			UISingleton.instance.answerBubble.HideMessage();
-
 			if (correct)
 			{
 				// Call every implemented event

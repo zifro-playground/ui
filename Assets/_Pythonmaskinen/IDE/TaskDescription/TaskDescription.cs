@@ -8,12 +8,24 @@ public class TaskDescription : MonoBehaviour, IPMLevelChanged, IPMCompilerStarte
 	public GameObject bigTDParent;
 	public GameObject smallTDParent;
 	public GameObject feedbackParent;
+	public Image FeedbackImage;
 	public GameObject iconObject;
+
+	[Header("Feedback icons")]
+	public Sprite IconPositive;
+	public Sprite IconNegative;
 
 	[Header("Text references")]
 	public Text taskDescriptionSmall;
 	public Text taskDescriptionBig;
 	public Text feedbackText;
+
+	private Animator anim;
+
+	private void Awake()
+	{
+		anim = iconObject.GetComponent<Animator>();
+	}
 
 	public void SetTaskDescription (string taskDescription)
 	{
@@ -40,22 +52,31 @@ public class TaskDescription : MonoBehaviour, IPMLevelChanged, IPMCompilerStarte
 	{
 		feedbackParent.SetActive(true);
 		feedbackText.text = message;
+		FeedbackImage.sprite = IconNegative;
 
-		Animator anim = iconObject.GetComponent<Animator>();
-		anim.SetTrigger("Jump");
+		anim.SetTrigger("Shake");
 	}
 
-	public void HideTaskError()
+	public void HideTaskFeedback()
 	{
 		feedbackParent.SetActive(false);
 	}
 
+	public void ShowPositiveMessage(string message)
+	{
+		feedbackParent.SetActive(true);
+		feedbackText.text = message;
+		FeedbackImage.sprite = IconPositive;
+
+		anim.SetTrigger("Jump");
+	}
+
 	public void OnPMLevelChanged()
 	{
-		HideTaskError();
+		HideTaskFeedback();
 	}
 	public void OnPMCompilerStarted()
 	{
-		HideTaskError();
+		HideTaskFeedback();
 	}
 }

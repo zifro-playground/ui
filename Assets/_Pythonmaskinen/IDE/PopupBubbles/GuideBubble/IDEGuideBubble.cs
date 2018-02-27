@@ -4,31 +4,39 @@ using UnityEngine;
 using UnityEngine.UI;
 using PM.Guide;
 
-namespace PM {
+namespace PM
+{
 
-	public class IDEGuideBubble : AbstractPopupBubble, IPMLevelChanged {
+	public class IDEGuideBubble : AbstractPopupBubble, IPMLevelChanged
+	{
 
 		[Header("GuideBubble fields")]
 		public Text theGuideText;
 		public Text progressText;
 
 
-		public void SetGuideMessage(string guideMessage, int guideIndex, int guidesCount) {
+		public void SetGuideMessage(string guideMessage, int guideIndex, int guidesCount)
+		{
 			theGuideText.text = guideMessage;
 			ResizeToFit(theGuideText, bubbleRect);
 
-			progressText.text = guideIndex+1 + "/" + guidesCount;
+			progressText.text = guideIndex + 1 + "/" + guidesCount;
 		}
 
-		void IPMLevelChanged.OnPMLevelChanged() {
+		void IPMLevelChanged.OnPMLevelChanged()
+		{
 			HideMessageInstantly ();
 		}
 
-		protected override void OnShowMessage() {
+		protected override void OnShowMessage()
+		{
 		}
 
-		protected override void OnHideMessage() {
-			if(UISingleton.instance.guidePlayer.currentGuide != null)
+		protected override void OnHideMessage()
+		{
+			if (UISingleton.instance.guidePlayer.currentGuide == null)
+				return;
+
 			if (UISingleton.instance.guidePlayer.currentGuide.hasNext)
 				UISingleton.instance.guidePlayer.shouldPlayNext = true;
 		}

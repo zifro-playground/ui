@@ -17,7 +17,6 @@ namespace PM
 		public GameObject answerParent;
 		public Text answerText;
 		public Image bubbleImage;
-		public Image responseImage;
 		public Sprite correct;
 		public Sprite wrong;
 
@@ -25,13 +24,6 @@ namespace PM
 		public void SetAnswerMessage(string answerMessage)
 		{
 			answerText.text = answerMessage;
-			responseImage.enabled = false;
-		}
-
-		public void SetAnswerSprite(bool correctAnswer)
-		{
-			responseImage.enabled = true;
-			responseImage.sprite = correctAnswer ? correct : wrong;
 		}
 
 		void IPMLevelChanged.OnPMLevelChanged()
@@ -76,7 +68,6 @@ namespace PM
 		public void HideMessage()
 		{
 			answerText.enabled = false;
-			responseImage.enabled = false;
 
 			OnHideMessage();
 		}
