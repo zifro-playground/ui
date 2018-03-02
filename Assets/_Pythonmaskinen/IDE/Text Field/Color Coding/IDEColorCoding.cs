@@ -9,8 +9,8 @@ namespace PM {
 	public class IDEColorCoding {
 
 		private static string[] keyWords = { "in", "while", "for", "if", "else", "True", "False", "not" , "def", "and", "or", "return",
-	"as", "assert", "break", "class", "continue", "del", "elif", "except", "exec", "finally", "from", "global", "import", "is",
-	"lambda", "pass", "raise", "try", "with", "yield", "None"};
+			"as", "assert", "break", "class", "continue", "del", "elif", "except", "exec", "finally", "from", "global", "import", "is",
+			"lambda", "pass", "raise", "try", "with", "yield", "None"};
 		private static char[] operatorCharacters = { '*', '/', '-', '+', '<', '>', '=', '%', '\\', '|', '^', '~', '&' };
 		private static string[] operators = {
 			// Math
@@ -32,11 +32,11 @@ namespace PM {
 			}
 		}
 
-		private const string keyWordsColor = "#DE5170";
+		private const string keyWordsColor = "#FF3F85";
 		private const string functionColor = "#DDDD11";
-		private const string textHexaColor = "#7CBC4F";
-		private const string commentColor = "#53C0ED";
-		private const string numberColor = "#E8A64E";
+		private const string textHexaColor = "#68CC47";
+		private const string commentColor = "#6B9EA5";
+		private const string numberColor = "#FF7C26";
 		private const char commentSign = '#';
 		private const char stringSign = '"';
 
