@@ -92,9 +92,7 @@ namespace PM.Level
 
 		public void OnPMCaseSwitched(int caseNumber)
 		{
-			PMWrapper.StopCompiler();
 			StopAllCoroutines();
-			//UISingleton.instance.taskDescription.HideTaskFeedback();
 			UISingleton.instance.answerBubble.HideMessage();
 		}
 	}
