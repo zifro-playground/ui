@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,8 @@ public class CaseFlash : MonoBehaviour
 	public static CaseFlash Instance;
 
 	public Image NumberImage;
+	public Sprite[] CaseImages;
+
 	public float Duration;
 
 	private Coroutine coroutine;
@@ -17,12 +20,15 @@ public class CaseFlash : MonoBehaviour
 		Instance = this;
 	}
 
-	public void ShowNewCaseFlash(Sprite sprite, bool startCompilerWhenFinished = false)
+	public void ShowNewCaseFlash(int caseNumber, bool startCompilerWhenFinished = false)
 	{
 		if (coroutine != null)
 			StopCoroutine(coroutine);
 
-		NumberImage.sprite = sprite;
+		if (caseNumber < 0 || caseNumber > PMWrapper.numOfLevels-1)
+			throw new ArgumentOutOfRangeException();
+
+		NumberImage.sprite = CaseImages[caseNumber];
 
 		coroutine = StartCoroutine(ShowFlash(startCompilerWhenFinished));
 	}

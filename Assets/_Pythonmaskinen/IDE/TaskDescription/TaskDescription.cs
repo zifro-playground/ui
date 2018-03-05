@@ -7,18 +7,19 @@ public class TaskDescription : MonoBehaviour, IPMLevelChanged, IPMCompilerStarte
 	[Header("Object references")]
 	public GameObject bigTDParent;
 	public GameObject smallTDParent;
-	public GameObject feedbackParent;
-	public Image FeedbackImage;
 	public GameObject iconObject;
-
-	[Header("Feedback icons")]
-	public Sprite IconPositive;
-	public Sprite IconNegative;
 
 	[Header("Text references")]
 	public Text taskDescriptionSmall;
 	public Text taskDescriptionBig;
-	public Text feedbackText;
+
+	[Header("Positive Feedback")]
+	public GameObject PositiveParent;
+	public Text PositiveText;
+
+	[Header("Positive Feedback")]
+	public GameObject NegativeParent;
+	public Text NegativeText;
 
 	private Animator anim;
 
@@ -50,23 +51,23 @@ public class TaskDescription : MonoBehaviour, IPMLevelChanged, IPMCompilerStarte
 
 	public void ShowTaskError(string message)
 	{
-		feedbackParent.SetActive(true);
-		feedbackText.text = message;
-		FeedbackImage.sprite = IconNegative;
+		NegativeParent.SetActive(true);
+		NegativeText.text = message;
 
 		anim.SetTrigger("Shake");
 	}
 
 	public void HideTaskFeedback()
 	{
-		feedbackParent.SetActive(false);
+		NegativeParent.SetActive(false);
+		PositiveParent.SetActive(false);
+
 	}
 
 	public void ShowPositiveMessage(string message)
 	{
-		feedbackParent.SetActive(true);
-		feedbackText.text = message;
-		FeedbackImage.sprite = IconPositive;
+		PositiveParent.SetActive(true);
+		PositiveText.text = message;
 
 		anim.SetTrigger("Jump");
 	}

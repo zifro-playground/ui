@@ -52,7 +52,7 @@ namespace PM.Level
 
 				CaseFlash.Instance.HideFlash();
 				if (numberOfCases > 1)
-					CaseFlash.Instance.ShowNewCaseFlash(CaseButtons[CurrentCase].GetComponent<CaseButton>().Image.sprite);
+					CaseFlash.Instance.ShowNewCaseFlash(CurrentCase);
 			}
 
 			// currentCaseButtonPressed
@@ -67,7 +67,7 @@ namespace PM.Level
 		{
 			CaseFlash.Instance.HideFlash();
 			if (numberOfCases > 1)
-				CaseFlash.Instance.ShowNewCaseFlash(CaseButtons[CurrentCase].GetComponent<CaseButton>().Image.sprite, true);
+				CaseFlash.Instance.ShowNewCaseFlash(CurrentCase, true);
 			else
 				PMWrapper.StartCompiler();
 

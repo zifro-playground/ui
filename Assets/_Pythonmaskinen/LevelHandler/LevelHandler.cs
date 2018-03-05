@@ -94,7 +94,7 @@ namespace PM.Level
 		{
 			PMWrapper.StopCompiler();
 			StopAllCoroutines();
-			UISingleton.instance.taskDescription.HideTaskFeedback();
+			//UISingleton.instance.taskDescription.HideTaskFeedback();
 			UISingleton.instance.answerBubble.HideMessage();
 		}
 	}
