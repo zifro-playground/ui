@@ -1746,6 +1746,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224991066926373022}
   - component: {fileID: 114186023518618646}
+  - component: {fileID: 114395072946160216}
   m_Layer: 5
   m_Name: Progress bar
   m_TagString: Untagged
@@ -4031,18 +4032,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd6e2133e0d27db49a012aa9b9b55f6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteScale: {x: 0, y: 0, z: 0}
-  levelPrefab: {fileID: 114512546272174750, guid: abd475b39f1e0014dbf0da3bc3e517ea,
+  ProgressBarParent: {fileID: 1591881559151556}
+  ButtonPrefab: {fileID: 114512546272174750, guid: abd475b39f1e0014dbf0da3bc3e517ea,
     type: 2}
-  midCurrent: {fileID: 21300000, guid: 5541cc6b3e3d745138ff5c64d826fa07, type: 3}
-  midUnlocked: {fileID: 21300000, guid: 85abd9c9e74c04c039048ccc3af189ad, type: 3}
-  midLocked: {fileID: 21300000, guid: 7b8b0fa9191be456e862dfd3bea2ed0f, type: 3}
-  leftCurrent: {fileID: 21300000, guid: 64c66df18d9aa49e2808c9a01d9a62e6, type: 3}
-  leftUnlocked: {fileID: 21300000, guid: d8ec38880a5ec4576b76459f16c8309a, type: 3}
-  leftLocked: {fileID: 21300000, guid: 53ef38fed3be847439c433cf38ec7b1b, type: 3}
-  rightCurrent: {fileID: 21300000, guid: b87beb38ab6e24531aed93f78c278043, type: 3}
-  rightUnlocked: {fileID: 21300000, guid: 59a31cec5f3464c3f89fda31beb4dfa5, type: 3}
-  rightLocked: {fileID: 21300000, guid: 71a5c222acccf4a6f998071ef9a98bb2, type: 3}
+  LeftCurrent: {fileID: 21300000, guid: 64c66df18d9aa49e2808c9a01d9a62e6, type: 3}
+  LeftUnlocked: {fileID: 21300000, guid: d8ec38880a5ec4576b76459f16c8309a, type: 3}
+  LeftLocked: {fileID: 21300000, guid: 53ef38fed3be847439c433cf38ec7b1b, type: 3}
+  MidCurrent: {fileID: 21300000, guid: 5541cc6b3e3d745138ff5c64d826fa07, type: 3}
+  MidUnlocked: {fileID: 21300000, guid: 85abd9c9e74c04c039048ccc3af189ad, type: 3}
+  MidLocked: {fileID: 21300000, guid: 7b8b0fa9191be456e862dfd3bea2ed0f, type: 3}
+  RightCurrent: {fileID: 21300000, guid: b87beb38ab6e24531aed93f78c278043, type: 3}
+  RightUnlocked: {fileID: 21300000, guid: 59a31cec5f3464c3f89fda31beb4dfa5, type: 3}
+  RightLocked: {fileID: 21300000, guid: 71a5c222acccf4a6f998071ef9a98bb2, type: 3}
 --- !u!114 &114200752074603416
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5260,6 +5261,28 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114395072946160216
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1591881559151556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -405508275, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 3
+  m_Spacing: 4
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 0
 --- !u!114 &114409133458261886
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6681,8 +6704,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114153850390394292}
   m_HandleRect: {fileID: 224785401020524930}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.9999992
+  m_Value: 1
+  m_Size: 0.99999934
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -9820,7 +9843,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00015258789}
+  m_AnchoredPosition: {x: 0, y: 0.000015258789}
   m_SizeDelta: {x: -30, y: 75}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224306326154881538
@@ -10343,7 +10366,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 5, y: 0.000091552734}
+  m_AnchoredPosition: {x: 5, y: 0.00015258789}
   m_SizeDelta: {x: -10, y: 400}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224472931700835660
@@ -11686,8 +11709,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -400, y: 366}
-  m_SizeDelta: {x: 735, y: 60}
+  m_AnchoredPosition: {x: -400.00003, y: 351.9}
+  m_SizeDelta: {x: 645, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224993787142798140
 RectTransform:

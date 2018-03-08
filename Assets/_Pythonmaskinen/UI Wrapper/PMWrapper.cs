@@ -270,7 +270,7 @@ public static class PMWrapper
 	/// <exception cref="ArgumentOutOfRangeException">Thrown if set to value outside of levels list index range, i.e. thrown if <seealso cref="currentLevel"/>.set &lt; 0 or ≥ <seealso cref="numOfLevels"/></exception>
 	public static int currentLevel
 	{
-		get { return UISingleton.instance.levelbar.current; }
+		get { return UISingleton.instance.levelbar.Current; }
 		set
 		{
 			if (value < 0 || value >= numOfLevels)
@@ -285,7 +285,7 @@ public static class PMWrapper
 	/// </summary>
 	public static int previousLevel
 	{
-		get { return UISingleton.instance.levelbar.previous; }
+		get { return UISingleton.instance.levelbar.Previous; }
 	}
 
 	/// <summary>
@@ -294,7 +294,7 @@ public static class PMWrapper
 	/// <exception cref="ArgumentOutOfRangeException">In the case of non-positive values in setting <see cref="numOfLevels"/>.</exception>
 	public static int numOfLevels
 	{
-		get { return UISingleton.instance.levelbar.numOfLevels; }
+		get { return UISingleton.instance.levelbar.NumberOfLevels; }
 		set
 		{
 			if (value > 0) UISingleton.instance.levelbar.RecreateButtons(value, Mathf.Clamp(currentLevel, 0, value - 1), unlockedLevel);
@@ -324,7 +324,7 @@ public static class PMWrapper
 	/// <exception cref="ArgumentOutOfRangeException">In the case of invalid values in setting <see cref="unlockedLevel"/></exception>
 	public static int unlockedLevel
 	{
-		get { return UISingleton.instance.levelbar.unlocked; }
+		get { return UISingleton.instance.levelbar.Unlocked; }
 		set
 		{
 			if (value >= 0 && value < numOfLevels) UISingleton.instance.levelbar.UpdateButtons(currentLevel, value);

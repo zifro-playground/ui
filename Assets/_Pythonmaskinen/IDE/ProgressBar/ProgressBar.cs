@@ -1,80 +1,71 @@
-﻿using System.Collections;
+﻿
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace PM {
+namespace PM
+{
+	public class ProgressBar : MonoBehaviour
+	{
+		public GameObject ProgressBarParent;
+		public Button ButtonPrefab;
 
-	public class ProgressBar : MonoBehaviour {
+		[Header("Left Button")]
+		public Sprite LeftCurrent;
+		public Sprite LeftUnlocked;
+		public Sprite LeftLocked;
 
-		public Vector3 spriteScale;
-		public Button levelPrefab;
+		[Header("Middle Button")]
+		public Sprite MidCurrent;
+		public Sprite MidUnlocked;
+		public Sprite MidLocked;
 
-		public Sprite midCurrent;
-		public Sprite midUnlocked;
-		public Sprite midLocked;
-		public Sprite leftCurrent;
-		public Sprite leftUnlocked;
-		public Sprite leftLocked;
-		public Sprite rightCurrent;
-		public Sprite rightUnlocked;
-		public Sprite rightLocked;
+		[Header("Right Button")]
+		public Sprite RightCurrent;
+		public Sprite RightUnlocked;
+		public Sprite RightLocked;
 
-		//public Sprite spr_done_star;
-		//public Sprite spriteDemoDone;
-		//public Sprite spriteDemoCurrent;
-		//public Sprite spriteDemoLocked;
-
-		public int numOfLevels { get { return levels.Count; } }
-		public int current { get; private set; }
-		public int previous { get; private set; }
-		public int unlocked { get; private set; }
+		public int NumberOfLevels { get { return levels.Count; } }
+		public int Current { get; private set; }
+		public int Previous { get; private set; }
+		public int Unlocked { get; private set; }
 		private List<Button> levels = new List<Button>();
 
-		private void Awake() {
-			previous = -1;
-			current = -1;
+		private void Awake()
+		{
+			Previous = -1;
+			Current = -1;
 		}
 
-		public void RecreateButtons(int numOfLevels, int current = 0, int unlocked = 0) {
+		public void RecreateButtons(int numOfLevels, int current = 0, int unlocked = 0)
+		{
 			UISingleton.instance.manusSelectables.RemoveAll(s => s.selectable is Button && levels.IndexOf(s.selectable as Button) != -1);
 			levels.ForEach(b => { if (b != null) Destroy(b.gameObject); });
 			levels.Clear();
 
-			for (int i = 0; i < numOfLevels; i++) {
-				var btn = Instantiate(levelPrefab);
+			for (int i = 0; i < numOfLevels; i++)
+			{
+				var btn = Instantiate(ButtonPrefab);
 
 				// TEST
 				btn.image.type = Image.Type.Filled;
 
 				btn.transform.SetParent(transform, false);
 
-				var rect = btn.GetComponent<RectTransform>();
-				rect.anchorMin =
-				rect.anchorMax = new Vector2(Mathf.Lerp(0.1f, 0.9f, i / (numOfLevels - 1f)), 0.1f);
-
-				if (i == 0 || i == numOfLevels-1) {
-					//rect.localScale = new Vector2(0.6f,0.45f);
-					rect.localScale = new Vector2(0.4f,0.45f);
-				} else {
-					rect.localScale = new Vector2(0.4f,0.45f);
-				}
-
-
 				btn.name = "Level " + i + " button";
 
 				// Saving it outside the lambda, otherwise it would still give me value of i, which has by that point been changed from the for loop.
 				int levelIndex = i;
-				btn.onClick.AddListener(() => {
-					// Any variables used in here will be kept in memory, and not GC'ed.
+				btn.onClick.AddListener(() =>
+				{
 					ChangeLevel(levelIndex);
-					//SaveData.gottenLevelTip = true;
 				});
 
 				// Add to list of selectables
-				UISingleton.instance.manusSelectables.Add(new UISingleton.ManusSelectable {
+				UISingleton.instance.manusSelectables.Add(new UISingleton.ManusSelectable
+				{
 					selectable = btn,
-					names = new List<string> { "level"+i },
+					names = new List<string> { "level" + i },
 				});
 
 				levels.Add(btn);
@@ -84,71 +75,81 @@ namespace PM {
 			UpdateButtons(current, unlocked);
 		}
 
-		private void UpdateButtons() {
-			for (int i = 0; i < levels.Count; i++) {
+		private void UpdateButtons()
+		{
+			for (int i = 0; i < levels.Count; i++)
+			{
 				UpdateSingleButton(i);
 			}
 		}
 
-		public void UpdateButtons(int newCurrent, int newUnlocked) {
-			bool levelChange = newCurrent != this.current;
+		public void UpdateButtons(int newCurrent, int newUnlocked)
+		{
+			bool levelChange = newCurrent != Current;
 
-			this.unlocked = newUnlocked;
+			Unlocked = newUnlocked;
 
-			if (levelChange) {
-				this.previous = this.current;
-				this.current = newCurrent;
+			if (levelChange)
+			{
+				Previous = Current;
+				Current = newCurrent;
 			}
 
 			UpdateButtons();
 		}
 
-		private void UpdateSingleButton(int level) {
+		private void UpdateSingleButton(int level)
+		{
 			var btn = levels[level];
 
-			if (level == 0) {
-				btn.image.sprite = level == current ? leftCurrent : (level > unlocked ? leftLocked : leftUnlocked);
-			} else if (level < numOfLevels-1) {
-				btn.image.sprite = level == current ? midCurrent : (level > unlocked ? midLocked : midUnlocked);
-			} else {
-				btn.image.sprite = level == current ? rightCurrent : (level > unlocked ? rightLocked : rightUnlocked);
+			if (level == 0)
+			{
+				btn.image.sprite = level == Current ? LeftCurrent : (level > Unlocked ? LeftLocked : LeftUnlocked);
+				if (NumberOfLevels == 1)
+					ProgressBarParent.SetActive(false);
 			}
-			
-			bool oldInterac = btn.interactable;
-			btn.interactable = level <= unlocked && level != current;
+			else if (level < NumberOfLevels - 1)
+			{
+				btn.image.sprite = level == Current ? MidCurrent : (level > Unlocked ? MidLocked : MidUnlocked);
+			}
+			else
+			{
+				btn.image.sprite = level == Current ? RightCurrent : (level > Unlocked ? RightLocked : RightUnlocked);
+			}
 
-			if (!oldInterac && btn.interactable)
-				// Going from disabled to enabled
-				// This is an easy bug fix for Unitys UI highlight bug.
-				btn.image.CrossFadeColor(btn.colors.normalColor, 0.1f, true, false);
+			btn.interactable = level <= Unlocked && level != Current;
 
 			UITooltip tooltip = btn.GetComponent<UITooltip>();
-			if (tooltip) {
+			if (tooltip)
+			{
 				tooltip.text = Manus.Loader.allManuses[level] != null ? "Demo" : "Nivå " + GetLevelNumber(level);
-				if (level == current) tooltip.text = "<color=green><b>" + tooltip.text + "</b></color> <color=grey>(Nuvarande)</color>";
-				if (level > unlocked) tooltip.text += " <color=grey>(Låst)</color>";
+				if (level == Current) tooltip.text = "<color=green><b>" + tooltip.text + "</b></color> <color=grey>(Nuvarande)</color>";
+				if (level > Unlocked) tooltip.text += " <color=grey>(Låst)</color>";
 				tooltip.ApplyTooltipTextChange();
 			}
 		}
 
-		public static int GetLevelNumber(int level) {
+		public static int GetLevelNumber(int level)
+		{
 			int num = 1;
-			for (int i=0; i<PMWrapper.numOfLevels; i++) {
+			for (int i = 0; i < PMWrapper.numOfLevels; i++)
+			{
 				if (level == i) break;
 				if (Manus.Loader.allManuses[i] == null) num++;
 			}
 			return num;
 		}
 
-		public void ChangeLevel(int level) {
-			if (level == current) return;
+		public void ChangeLevel(int level)
+		{
+			if (level == Current) return;
 
-			unlocked = Mathf.Max(level, unlocked);
+			Unlocked = Mathf.Max(level, Unlocked);
 
 			// Update which one is current one
-			UpdateButtons(level, unlocked);
+			UpdateButtons(level, Unlocked);
 
-			UISingleton.instance.levelHandler.LoadLevel (level);
+			UISingleton.instance.levelHandler.LoadLevel(level);
 		}
 
 	}
