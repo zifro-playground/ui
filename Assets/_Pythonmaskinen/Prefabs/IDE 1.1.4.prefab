@@ -5298,11 +5298,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa7cca886518244b97c56f6f381c9ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bigTDParent: {fileID: 1876409502061454}
-  smallTDParent: {fileID: 1118874714717222}
-  iconObject: {fileID: 1315238719864424}
-  taskDescriptionSmall: {fileID: 114358627620800600}
-  taskDescriptionBig: {fileID: 114694950820642792}
+  IconAnimator: {fileID: 95540606088066476}
+  LevelStartParent: {fileID: 1876409502061454}
+  LevelStartText: {fileID: 114694950820642792}
+  TaskBarParent: {fileID: 1118874714717222}
+  TaskBarText: {fileID: 114358627620800600}
   PositiveParent: {fileID: 1022816278589382}
   PositiveText: {fileID: 114936011148272806}
   NegativeParent: {fileID: 1374867457708818}
@@ -6681,8 +6681,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114153850390394292}
   m_HandleRect: {fileID: 224785401020524930}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 1
+  m_Value: 0
+  m_Size: 0.9999992
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -9820,7 +9820,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000038146973}
+  m_AnchoredPosition: {x: 0, y: 0.00015258789}
   m_SizeDelta: {x: -30, y: 75}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224306326154881538

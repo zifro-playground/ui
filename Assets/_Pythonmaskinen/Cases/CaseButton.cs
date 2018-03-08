@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using PM;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,12 +16,14 @@ public class CaseButton : MonoBehaviour
 
 	public void SetButtonDefault()
 	{
-		Image.sprite = Default;
+		if (!UISingleton.instance.levelHandler.currentLevel.caseHandler.AllCasesCompleted)
+			Image.sprite = Default;
 	}
 
 	public void SetButtonActive()
 	{
-		Image.sprite = Active;
+		if (!UISingleton.instance.levelHandler.currentLevel.caseHandler.AllCasesCompleted)
+			Image.sprite = Active;
 	}
 
 	public void SetButtonCompleted()
@@ -35,6 +38,9 @@ public class CaseButton : MonoBehaviour
 
 	public void SwitchToCase(int caseNumber)
 	{
+		if (PMWrapper.IsCompilerRunning || PMWrapper.IsCompilerUserPaused)
+			return;
+		
 		SetButtonActive();
 		PMWrapper.SwitchCase(caseNumber);
 	}

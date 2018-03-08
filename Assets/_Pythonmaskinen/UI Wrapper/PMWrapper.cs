@@ -165,6 +165,7 @@ public static class PMWrapper
 	/// </summary>
 	public static void RunCode()
 	{
+		UISingleton.instance.levelHandler.currentLevel.caseHandler.AllCasesCompleted = false;
 		UISingleton.instance.levelHandler.currentLevel.caseHandler.ResetHandlerAndButtons();
 		UISingleton.instance.levelHandler.currentLevel.caseHandler.RunCase(0);
 	}

@@ -8,6 +8,7 @@ namespace PM.Level
 	{
 		private int numberOfCases = 1;
 
+		public bool AllCasesCompleted = false;
 		public int CurrentCase = 0;
 		public List<GameObject> CaseButtons;
 
@@ -83,16 +84,7 @@ namespace PM.Level
 
 		public void CaseFailed()
 		{
-			UISingleton.instance.levelHandler.StartCoroutine(ResetFailButton());
-		}
-
-		private IEnumerator ResetFailButton()
-		{
 			CaseButtons[CurrentCase].GetComponent<CaseButton>().SetButtonFailed();
-			yield return new WaitForSeconds(2);
-			UISingleton.instance.answerBubble.HideMessage();
-			// TODO UISingleton.instance.errorBubble.HideMessage ();
-			ResetHandlerAndButtons();
 		}
 
 		private IEnumerator ShowFeedbackAndRunNextCase()
@@ -109,6 +101,7 @@ namespace PM.Level
 
 			if (CurrentCase >= numberOfCases)
 			{
+				AllCasesCompleted = true;
 				PMWrapper.SetLevelCompleted();
 				yield break;
 			}

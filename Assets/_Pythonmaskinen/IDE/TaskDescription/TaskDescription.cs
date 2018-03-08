@@ -4,14 +4,15 @@ using PM;
 
 public class TaskDescription : MonoBehaviour, IPMLevelChanged, IPMCompilerStarted
 {
-	[Header("Object references")]
-	public GameObject bigTDParent;
-	public GameObject smallTDParent;
-	public GameObject iconObject;
+	public Animator IconAnimator;
 
-	[Header("Text references")]
-	public Text taskDescriptionSmall;
-	public Text taskDescriptionBig;
+	[Header("Big task description")]
+	public GameObject LevelStartParent;
+	public Text LevelStartText;
+
+	[Header("Small task description")]
+	public GameObject TaskBarParent;
+	public Text TaskBarText;
 
 	[Header("Positive Feedback")]
 	public GameObject PositiveParent;
@@ -25,24 +26,24 @@ public class TaskDescription : MonoBehaviour, IPMLevelChanged, IPMCompilerStarte
 
 	private void Awake()
 	{
-		anim = iconObject.GetComponent<Animator>();
+		anim = IconAnimator;
 	}
 
 	public void SetTaskDescription (string taskDescription)
 	{
-		bigTDParent.SetActive (false);
+		LevelStartParent.SetActive (false);
 		if (taskDescription.Length < 1)
 		{
-			smallTDParent.SetActive (false);
+			TaskBarParent.SetActive (false);
 		}
 		else
 		{
-			smallTDParent.SetActive (true);
-			taskDescriptionSmall.text = taskDescription;
+			TaskBarParent.SetActive (true);
+			TaskBarText.text = taskDescription;
 			if (!UISingleton.instance.levelHandler.currentLevel.hasShownTaskDescription)
 			{
-				bigTDParent.SetActive (true);
-				taskDescriptionBig.text = taskDescription;
+				LevelStartParent.SetActive (true);
+				LevelStartText.text = taskDescription;
 				UISingleton.instance.levelHandler.currentLevel.hasShownTaskDescription = true;
 			}
 		}
