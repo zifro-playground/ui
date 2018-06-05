@@ -258,6 +258,7 @@ public static class PMWrapper
 	/// <summary>
 	/// Set the correct answeres for the current case.
 	/// </summary>
+	[Obsolete("SetCaseAnswer should not be used anymore. Use definition in json directly instead.", true)]
 	public static void SetCaseAnswer(params bool[] answer)
 	{
 		UISingleton.instance.levelHandler.currentLevel.levelAnswer = new PM.Level.LevelAnswer(answer);
