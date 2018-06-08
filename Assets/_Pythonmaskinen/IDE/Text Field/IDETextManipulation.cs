@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text.RegularExpressions;
 
 namespace PM
 {
@@ -25,10 +26,11 @@ namespace PM
 
         public static int countCodeLines(List<string> textLines){
             int count = 0; 
+            var regex = new Regex(@"^#|^\s*$|^\s*#");
             foreach (string line in textLines){
-                    line.Trim();
-                    if (line == "" || line[0] == '#') { }
-                    else { count++; }   
+                line.Trim();
+                if (regex.Match(line).Success||line=="") { }
+                else { count++; }   
             }
             return count;
         }
