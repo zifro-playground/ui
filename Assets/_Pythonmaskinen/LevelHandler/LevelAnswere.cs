@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Compiler;
 
-namespace PM.Level
+namespace PM
 {
 	public class LevelAnswer
 	{

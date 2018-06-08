@@ -26,7 +26,7 @@ public static class PMWrapper
 		set { UISingleton.instance.speed.currentSpeed = value; }
 	}
 
-	public static float codewalkerBaseSpeed
+	public static float walkerStepTime
 	{
 		get { return UISingleton.instance.walker.BaseWalkerWaitTime; }
 		set { UISingleton.instance.walker.BaseWalkerWaitTime = value; }
@@ -179,11 +179,11 @@ public static class PMWrapper
 	}
 
 	/// <summary>
-	/// Sets the compiler functions avalible for the user. Called from levelsettings when new level is loaded and adds functions from levelsettings text file.
+	/// Sets the compiler functions avalible for the user.
 	/// </summary>
-	public static void SetCompilerFunctions(params Compiler.Function[] functions)
+	public static void SetCompilerFunctions(List<Compiler.Function> functions)
 	{
-		UISingleton.instance.compiler.addedFunctions = new List<Compiler.Function>(functions);
+		UISingleton.instance.compiler.addedFunctions = functions;
 	}
 
 	/// <summary>
@@ -244,7 +244,7 @@ public static class PMWrapper
 	/// </summary>
 	public static void SetCaseAnswer(params int[] answer)
 	{
-		UISingleton.instance.levelHandler.currentLevel.levelAnswer = new PM.Level.LevelAnswer(answer);
+		UISingleton.instance.levelHandler.currentLevel.levelAnswer = new PM.LevelAnswer(answer);
 	}
 
 	/// <summary>
@@ -252,7 +252,7 @@ public static class PMWrapper
 	/// </summary>
 	public static void SetCaseAnswer(params string[] answer)
 	{
-		UISingleton.instance.levelHandler.currentLevel.levelAnswer = new PM.Level.LevelAnswer(answer);
+		UISingleton.instance.levelHandler.currentLevel.levelAnswer = new PM.LevelAnswer(answer);
 	}
 
 	/// <summary>
@@ -261,7 +261,7 @@ public static class PMWrapper
 	[Obsolete("SetCaseAnswer should not be used anymore. Use definition in json directly instead.", true)]
 	public static void SetCaseAnswer(params bool[] answer)
 	{
-		UISingleton.instance.levelHandler.currentLevel.levelAnswer = new PM.Level.LevelAnswer(answer);
+		UISingleton.instance.levelHandler.currentLevel.levelAnswer = new PM.LevelAnswer(answer);
 	}
 
 	/// <summary>
@@ -304,7 +304,7 @@ public static class PMWrapper
 	}
 
 	/// <summary>
-	/// Returns true if current level has defined AnswerFunction and the user is supposed to answer level.
+	/// Returns true if current level has defined Answer and the user is supposed to answer level.
 	/// </summary>
 	public static bool levelShouldBeAnswered
 	{
@@ -312,7 +312,7 @@ public static class PMWrapper
 		{
 			foreach (Compiler.Function fun in UISingleton.instance.compiler.addedFunctions)
 			{
-				if (fun.GetType() == new AnswerFunction().GetType())
+				if (fun.GetType() == new Answer().GetType())
 					return true;
 			}
 			return false;

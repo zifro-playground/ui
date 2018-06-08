@@ -62,7 +62,7 @@ public interface IPMCaseSwitched {
 }
 
 /// <summary>
-/// Executes <see cref="OnPMWrongAnswer()"/> when wrong answer is passed to the AnswerFunction.
+/// Executes <see cref="OnPMWrongAnswer()"/> when wrong answer is passed to the Answer.
 /// </summary>
 public interface IPMWrongAnswer
 {
@@ -70,7 +70,7 @@ public interface IPMWrongAnswer
 }
 
 /// <summary>
-/// Executes <see cref="OnPMCorrectAnswer()"/> when correct answer is passed to the AnswerFunction.
+/// Executes <see cref="OnPMCorrectAnswer()"/> when correct answer is passed to the Answer.
 /// </summary>
 public interface IPMCorrectAnswer
 {

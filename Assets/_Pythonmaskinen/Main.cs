@@ -1,30 +1,158 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
 using UnityEngine;
-using PM.Guide;
+using UnityEngine.SceneManagement;
 
 namespace PM
 {
-	[System.Serializable]
+	[Serializable]
 	public class Main : MonoBehaviour
 	{
-		public int numberOfLevels = 5;
-		public float gameSpeed = 1;
+		private string loadedScene;
+		public string GameDataFileName;
+
+		public GameDefinition GameDefinition;
+		//public int numberOfLevels = 5;
+		//public float gameSpeed = 1;
 		// TODO Set current language?
 
 		// Everything should be placed in Awake() but there are some things that needs to be set in Awake() in some other script before the things currently in Start() is called
 		private void Awake()
 		{
-			PMWrapper.codewalkerBaseSpeed = gameSpeed;
+			//PMWrapper.walkerStepTime = gameSpeed;
 		}
 
 		private void Start ()
 		{
-			PMWrapper.numOfLevels = numberOfLevels;
+			GameDefinition = ParseJson();
 
-			UISingleton.instance.levelHandler.BuildLevels ();
-			GuideLoader.BuildAll ();
+			// Will create level navigation buttons
+			PMWrapper.numOfLevels = GameDefinition.activeLevels.Count;
+
+			StartLevel(0);
+			//PMWrapper.numOfLevels = numberOfLevels;
+
+			//UISingleton.instance.levelHandler.BuildLevels ();
+			//GuideLoader.BuildAll ();
 
 			// TODO Load last level played from database
-			UISingleton.instance.levelHandler.LoadLevel (0);
+			//UISingleton.instance.levelHandler.LoadLevel (0);
+		}
+
+		private GameDefinition ParseJson()
+		{
+			var jsonAsset = Resources.Load<TextAsset>(GameDataFileName);
+
+			if (jsonAsset == null)
+				throw new Exception("Could not find the file \"" + GameDataFileName + "\" that should contain game data in json format.");
+
+			string jsonString = jsonAsset.text;
+
+			var gameDefinition = JsonConvert.DeserializeObject<GameDefinition>(jsonString);
+
+			return gameDefinition;
+		}
+
+		private void StartLevel(int levelIndex)
+		{
+			var sceneName = GameDefinition.activeLevels[levelIndex].sceneName;
+			LoadScene(sceneName);
+
+			var levelId = GameDefinition.activeLevels[levelIndex].levelId;
+			LoadLevel(levelId);
+		}
+
+		private void LoadScene(string sceneName)
+		{
+			if (sceneName != loadedScene)
+			{
+				var scenes = GameDefinition.scenes.Where(x => x.name == sceneName);
+
+				if (scenes.Count() > 1)
+					throw new Exception("There are more than one scene with name " + sceneName);
+				if (!scenes.Any())
+					throw new Exception("There is no scene with name " + sceneName);
+
+				var scene = scenes.First();
+
+				SetSceneSettings(scene);
+
+				if (loadedScene != null)
+					SceneManager.UnloadSceneAsync(loadedScene);
+
+				var sceneIndex = SceneUtility.GetBuildIndexByScenePath(scene.name);
+				if (sceneIndex < 0)
+					throw new Exception("Scene with name " + scene.name + " exists but is not added to build settings");
+
+				SceneManager.LoadScene(sceneIndex, LoadSceneMode.Additive);
+				loadedScene = sceneName;
+			}
+		}
+
+		private void SetSceneSettings(Scene scene)
+		{
+			var sceneSettings = scene.sceneSettings;
+
+			PMWrapper.walkerStepTime = sceneSettings.walkerStepTime;
+
+			if (sceneSettings.availableFunctions != null)
+			{
+				var availableFunctions = CreateFunctionsFromStrings(sceneSettings.availableFunctions);
+				PMWrapper.SetCompilerFunctions(availableFunctions);
+			}
+		}
+
+		private List<Compiler.Function> CreateFunctionsFromStrings(List<string> functionNames)
+		{
+			var functions = new List<Compiler.Function>();
+			// Use reflection to get an instance of compiler function class from string
+			foreach (string functionName in functionNames)
+			{
+				Type type = Type.GetType(functionName);
+
+				if (type == null)
+					throw new Exception("Error when trying to read available functions. Function name: \"" + functionName + "\" could not be found.");
+
+				Compiler.Function function = (Compiler.Function)Activator.CreateInstance(type);
+				functions.Add(function);
+			}
+
+			return functions;
+		}
+
+		private void LoadLevel(string levelId)
+		{
+			var levels = GameDefinition.scenes.First(x => x.name == loadedScene).levels.Where(x => x.id == levelId);
+
+			if (levels.Count() > 1)
+				throw new Exception("There are more than one level with id " + levelId);
+			if (!levels.Any())
+				throw new Exception("There is no level with id " + levelId);
+
+			var levelData = levels.First();
+
+			SetLevelSettings(levelData.levelSettings);
+		}
+
+		private void SetLevelSettings(LevelSettings levelSettings)
+		{
+			if (!String.IsNullOrEmpty(levelSettings.precode))
+				PMWrapper.preCode = levelSettings.precode;
+
+			if (!String.IsNullOrEmpty(levelSettings.startCode))
+				PMWrapper.AddCodeAtStart(levelSettings.startCode);
+
+			if (!String.IsNullOrEmpty(levelSettings.taskDescription))
+				PMWrapper.SetTaskDescription(levelSettings.taskDescription);
+			else
+				PMWrapper.SetTaskDescription("");
+
+			if (levelSettings.rowLimit > 0)
+				PMWrapper.codeRowsLimit = levelSettings.rowLimit;
+
+			
 		}
 	}
 }

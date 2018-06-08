@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnswerFunction : Compiler.Function
+public class Answer : Compiler.Function
 {
-	public AnswerFunction()
+	public Answer()
 	{
 		this.name = "svara";
 		this.inputParameterAmount.Add(0);

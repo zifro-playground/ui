@@ -1,12 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using PM;
 
-namespace PM.Level {
+namespace PM {
 
-	public class Level {
+	public class OldLevel {
 
 		private static readonly string[] linebreaks = new string[] { "\n\r", "\r\n", "\n", "\r" };
 
@@ -83,11 +81,11 @@ namespace PM.Level {
 					case "smartbuttons":
 						smartButtons = splittedRow [1].Trim().Replace(" ", "").Split (new char[] {','}, StringSplitOptions.RemoveEmptyEntries);
 
-						// Automatically add AnswerFunction if there is a smart button with name "svara()"
+						// Automatically add Answer if there is a smart button with name "svara()"
 						foreach (string buttonName in smartButtons)
 						{
 							if (buttonName == "svara()")
-								functions.Add(new AnswerFunction());
+								functions.Add(new Answer());
 						}
 						break;
 		

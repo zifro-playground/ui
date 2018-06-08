@@ -6,7 +6,6 @@ public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched, IPMWr
 {
 	void Awake()
 	{
-		PMWrapper.AddSmartButton("svara()");
 	}
 
 	// Use this for initialization

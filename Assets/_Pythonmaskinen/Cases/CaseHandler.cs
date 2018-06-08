@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PM.Level
+namespace PM
 {
 	public class CaseHandler
 	{

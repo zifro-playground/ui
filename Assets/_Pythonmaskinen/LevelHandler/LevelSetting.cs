@@ -1,10 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
-using System.Reflection;
+namespace PM
 
-namespace PM.Level
 {
 	public class LevelSetting
 	{
@@ -24,7 +19,7 @@ namespace PM.Level
 			this.startCode = startCode;
 			this.rowLimit = rowLimit;
 			this.caseCount = numberOfCases;
-			this.gameSpeed = gameSpeed < 0 ? PMWrapper.codewalkerBaseSpeed : gameSpeed;
+			this.gameSpeed = gameSpeed < 0 ? PMWrapper.walkerStepTime : gameSpeed;
 			this.smartButtons = smartButtons ?? new string[0];
 			this.functions = functions ?? new Compiler.Function[0];
 		}
@@ -36,9 +31,9 @@ namespace PM.Level
 			PMWrapper.preCode = preCode;
 			PMWrapper.AddCodeAtStart(startCode);
 			UISingleton.instance.levelHandler.currentLevel.caseHandler = new CaseHandler(caseCount);
-			PMWrapper.codewalkerBaseSpeed = gameSpeed;
+			PMWrapper.walkerStepTime = gameSpeed;
 			PMWrapper.SetSmartButtons(smartButtons);
-			PMWrapper.SetCompilerFunctions(functions);
+			//PMWrapper.SetCompilerFunctions(functions);
 		}
 	}
 }

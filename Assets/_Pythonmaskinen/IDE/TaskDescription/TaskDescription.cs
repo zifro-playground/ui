@@ -23,6 +23,7 @@ public class TaskDescription : MonoBehaviour, IPMLevelChanged, IPMCompilerStarte
 	public Text NegativeText;
 
 	private Animator anim;
+	private bool hasShownBigTaskDescription = false;
 
 	private void Awake()
 	{
@@ -40,11 +41,11 @@ public class TaskDescription : MonoBehaviour, IPMLevelChanged, IPMCompilerStarte
 		{
 			TaskBarParent.SetActive (true);
 			TaskBarText.text = taskDescription;
-			if (!UISingleton.instance.levelHandler.currentLevel.hasShownTaskDescription)
+			if (!hasShownBigTaskDescription)
 			{
 				LevelStartParent.SetActive (true);
 				LevelStartText.text = taskDescription;
-				UISingleton.instance.levelHandler.currentLevel.hasShownTaskDescription = true;
+				hasShownBigTaskDescription = true;
 			}
 		}
 

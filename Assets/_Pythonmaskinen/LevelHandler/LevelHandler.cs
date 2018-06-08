@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PM.Level
+namespace PM
 {
 	public class LevelHandler : MonoBehaviour, IPMCompilerStopped, IPMLevelChanged, IPMCaseSwitched
 	{
-		public const string settingsResourceName = "settings-master";
-		private static readonly string[] linebreaks = new string[] { "\n\r", "\r\n", "\n", "\r" };
+		//public const string settingsResourceName = "settings-master";
+		//private static readonly string[] linebreaks = new string[] { "\n\r", "\r\n", "\n", "\r" };
 
-		private Level[] levels;
-		public Level currentLevel { get { return levels[PMWrapper.currentLevel]; } }
+		private OldLevel[] levels;
+		public OldLevel currentLevel { get { return levels[PMWrapper.currentLevel]; } }
 
 		// Contains pre created buttons because script does not create buttons
 		public List<GameObject> caseButtons;
@@ -21,52 +21,52 @@ namespace PM.Level
 
 			// TODO Save mainCode to database
 			UISingleton.instance.saveData.ClearPreAndMainCode();
-			currentLevel.levelSetting.UseSettings();
+			//currentLevel.levelSetting.UseSettings();
 
 			// Call every implemented event
 			foreach (var ev in UISingleton.FindInterfaces<IPMLevelChanged>())
 				ev.OnPMLevelChanged();
 		}
 
-		public void BuildLevels()
-		{
-			TextAsset masterAsset = Resources.Load<TextAsset>(settingsResourceName);
+		//public void BuildLevels()
+		//{
+		//	TextAsset masterAsset = Resources.Load<TextAsset>(settingsResourceName);
 
-			if (masterAsset == null)
-			{
-				throw new Exception("The file settings-master.txt could not be found.");
-			}
+		//	if (masterAsset == null)
+		//	{
+		//		throw new Exception("The file settings-master.txt could not be found.");
+		//	}
 
-			string[] textRows = masterAsset.text.Split(linebreaks, StringSplitOptions.RemoveEmptyEntries);
+		//	string[] textRows = masterAsset.text.Split(linebreaks, StringSplitOptions.RemoveEmptyEntries);
 
-			levels = new Level[PMWrapper.numOfLevels];
-			int levelsBuilt = 0;
+		//	levels = new Level[PMWrapper.numOfLevels];
+		//	int levelsBuilt = 0;
 
-			for (int i = 0; i < textRows.Length; i++)
-			{
-				// Ignore comments
-				if (textRows[i].StartsWith("//") || textRows[i].StartsWith("#"))
-					continue;
+		//	for (int i = 0; i < textRows.Length; i++)
+		//	{
+		//		// Ignore comments
+		//		if (textRows[i].StartsWith("//") || textRows[i].StartsWith("#"))
+		//			continue;
 
-				// Check if there are more settings specified in master then there are levels
-				if (levelsBuilt >= PMWrapper.numOfLevels)
-					throw new Exception("There are more files specified in settings-master then in the UI numberOfLevels. Use // to comment out row");
+		//		// Check if there are more settings specified in master then there are levels
+		//		if (levelsBuilt >= PMWrapper.numOfLevels)
+		//			throw new Exception("There are more files specified in settings-master then in the UI numberOfLevels. Use // to comment out row");
 
-				levels[levelsBuilt] = new Level
-				{
-					levelAnswer = new LevelAnswer()
-				};
+		//		levels[levelsBuilt] = new Level
+		//		{
+		//			levelAnswer = new LevelAnswer()
+		//		};
 
 
-				string settingsFileName = textRows[i].Trim();
-				levels[levelsBuilt].BuildLevelSettings(levelsBuilt, settingsFileName);
+		//		string settingsFileName = textRows[i].Trim();
+		//		levels[levelsBuilt].BuildLevelSettings(levelsBuilt, settingsFileName);
 
-				levelsBuilt++;
-			}
+		//		levelsBuilt++;
+		//	}
 
-			if (levelsBuilt != PMWrapper.numOfLevels)
-				throw new Exception("The number of levels in settings-master.txt does not match the specified number in the UI.");
-		}
+		//	if (levelsBuilt != PMWrapper.numOfLevels)
+		//		throw new Exception("The number of levels in settings-master.txt does not match the specified number in the UI.");
+		//}
 
 		public void OnPMCompilerStopped(PM.HelloCompiler.StopStatus status)
 		{
