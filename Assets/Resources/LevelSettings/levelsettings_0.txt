@@ -4,4 +4,4 @@ startcode: svara(1)
 rowlimit: 60
 casecount: 3
 gameSpeed: 1
-smartbuttons: svara(), åk_mot_öst(), hej(), asghjkas(), jkagh(), hlasdgkagsj(), aghjksksa(),hehehehehe(),afjäladklgjadf,(),adglkjasdjklfakjls(),aklfalkjg(),kkljsafg(),ajklasgkl(), asjdfkajd()
+smartbuttons: svara(), åk_mot_öst()
