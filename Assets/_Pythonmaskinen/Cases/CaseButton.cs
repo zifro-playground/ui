@@ -22,7 +22,7 @@ public class CaseButton : MonoBehaviour
 
 	public void SetButtonActive()
 	{
-		if (!UISingleton.instance.levelHandler.currentLevel.caseHandler.AllCasesCompleted)
+		if (!Main.Instance.CaseHandler.AllCasesCompleted)
 			Image.sprite = Active;
 	}
 

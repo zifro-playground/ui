@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace PM.Guide {
 
 	public class LevelGuide {
-
-		public int level;
+		
 		public List<Guide> guides = new List<Guide>();
 		private Guide currentGuide { get { return guides [currentGuideIndex]; } }
-		public int numOfGuides { get { return guides.Count; } }
-		public bool hasNext { get { return currentGuideIndex < numOfGuides; } }
+		public bool hasNext { get { return currentGuideIndex < guides.Count; } }
 		public bool hasBeenPlayed = false;
 
 		public int currentGuideIndex = 0;
@@ -29,7 +25,7 @@ namespace PM.Guide {
 					UISingleton.instance.guideBubble.ShowMessage (UISingleton.instance.guidePlayer.guideTargets[index].guideTargets);
 				}
 
-				UISingleton.instance.guideBubble.SetGuideMessage(guides [currentGuideIndex].message, currentGuideIndex, numOfGuides);
+				UISingleton.instance.guideBubble.SetGuideMessage(guides [currentGuideIndex].message, currentGuideIndex, guides.Count);
 				currentGuideIndex++;
 				if (!hasNext)
 					hasBeenPlayed = true;

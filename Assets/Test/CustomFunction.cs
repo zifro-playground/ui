@@ -8,6 +8,7 @@ public class CustomFunction : Function {
 	public CustomFunction()
 	{
 		name = "AnpassadFunktion";
+		buttonText = "AnpassadFunktion()";
 		hasReturnVariable = false;
 		inputParameterAmount.Add(0);
 		pauseWalker = false;

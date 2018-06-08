@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
+using PM.Guide;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,13 +16,17 @@ namespace PM
 		public string GameDataFileName;
 
 		public GameDefinition GameDefinition;
-		//public int numberOfLevels = 5;
-		//public float gameSpeed = 1;
-		// TODO Set current language?
+		public Level LevelData;
+
+		public CaseHandler CaseHandler;
+
+		public static Main Instance;
 
 		// Everything should be placed in Awake() but there are some things that needs to be set in Awake() in some other script before the things currently in Start() is called
 		private void Awake()
 		{
+			if (Instance == null)
+				Instance = this;
 			//PMWrapper.walkerStepTime = gameSpeed;
 		}
 
@@ -77,7 +83,7 @@ namespace PM
 
 				var scene = scenes.First();
 
-				SetSceneSettings(scene);
+				SetSceneSettings(scene.sceneSettings);
 
 				if (loadedScene != null)
 					SceneManager.UnloadSceneAsync(loadedScene);
@@ -91,11 +97,10 @@ namespace PM
 			}
 		}
 
-		private void SetSceneSettings(Scene scene)
+		private void SetSceneSettings(SceneSettings sceneSettings)
 		{
-			var sceneSettings = scene.sceneSettings;
-
-			PMWrapper.walkerStepTime = sceneSettings.walkerStepTime;
+			if (sceneSettings.walkerStepTime > 0)
+				PMWrapper.walkerStepTime = sceneSettings.walkerStepTime;
 
 			if (sceneSettings.availableFunctions != null)
 			{
@@ -131,9 +136,52 @@ namespace PM
 			if (!levels.Any())
 				throw new Exception("There is no level with id " + levelId);
 
-			var levelData = levels.First();
+			LevelData = levels.First();
 
-			SetLevelSettings(levelData.levelSettings);
+			SetLevelSettings(LevelData.levelSettings);
+			BuildGuides(LevelData.guideBubbles);
+			BuildCases(LevelData.cases);
+			CaseHandler.SetCurrentCase(0);
+		}
+
+		private void BuildCases(List<Case> cases)
+		{
+			if (cases.Any())
+				CaseHandler = new CaseHandler(cases.Count);
+			else
+				CaseHandler = new CaseHandler(1);
+		}
+
+		private void BuildGuides(List<GuideBubble> guideBubbles)
+		{
+			if (guideBubbles != null && guideBubbles.Any())
+			{
+				var levelGuide = new LevelGuide();
+				foreach (var guideBubble in guideBubbles)
+				{
+					if (guideBubble.target == null || String.IsNullOrEmpty(guideBubble.text))
+						throw new Exception("A guide bubble for level with index " + PMWrapper.currentLevel + " is missing target or text");
+
+					// Check if target is a number
+					Match match = Regex.Match(guideBubble.target, @"^[0-9]+$");
+					if (match.Success)
+					{
+						int lineNumber;
+						int.TryParse(guideBubble.target, out lineNumber);
+						levelGuide.guides.Add(new Guide.Guide(guideBubble.target, guideBubble.text, lineNumber));
+					}
+					else
+					{
+						levelGuide.guides.Add(new Guide.Guide(guideBubble.target, guideBubble.text));
+					}
+				}
+
+				UISingleton.instance.guidePlayer.currentGuide = levelGuide;
+			}
+			else
+			{
+				UISingleton.instance.guidePlayer.currentGuide = null;
+			}
 		}
 
 		private void SetLevelSettings(LevelSettings levelSettings)
@@ -152,7 +200,11 @@ namespace PM
 			if (levelSettings.rowLimit > 0)
 				PMWrapper.codeRowsLimit = levelSettings.rowLimit;
 
-			
+			if (levelSettings.availableFunctions != null)
+			{
+				var availableFunctions = CreateFunctionsFromStrings(levelSettings.availableFunctions);
+				PMWrapper.SetCompilerFunctions(availableFunctions);
+			}
 		}
 	}
 }

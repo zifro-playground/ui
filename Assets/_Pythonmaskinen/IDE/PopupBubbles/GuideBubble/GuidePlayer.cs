@@ -19,7 +19,6 @@ namespace PM.Guide {
 		}
 
 		public void OnPMLevelChanged(){
-			currentGuide = GuideLoader.GetCurrentLevelGuide ();
 			if (currentGuide != null)
 				currentGuide.currentGuideIndex = 0;
 			shouldPlayNext = true;

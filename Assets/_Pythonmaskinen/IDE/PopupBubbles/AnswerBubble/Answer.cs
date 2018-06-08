@@ -6,13 +6,14 @@ public class Answer : Compiler.Function
 {
 	public Answer()
 	{
-		this.name = "svara";
-		this.inputParameterAmount.Add(0);
-		this.inputParameterAmount.Add(1);
-		this.inputParameterAmount.Add(2);
-		this.inputParameterAmount.Add(3);
-		this.hasReturnVariable = false;
-		this.pauseWalker = true;
+		name = "svara";
+		buttonText = "svara()";
+		inputParameterAmount.Add(0);
+		inputParameterAmount.Add(1);
+		inputParameterAmount.Add(2);
+		inputParameterAmount.Add(3);
+		hasReturnVariable = false;
+		pauseWalker = true;
 	}
 
 	#region implemented abstract members of Function

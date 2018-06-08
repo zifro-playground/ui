@@ -36,14 +36,13 @@ namespace PM.Guide {
 
 				LevelGuide guide = BuildFromPath (guideFileName);
 				if (guide != null) {
-					guide.level = guidesBuilt;
+					//guide.level = guidesBuilt;
 					allGuides.Add (guide);
 				}
 
 				guidesBuilt++;
 			}
 		}
-
 		public static LevelGuide BuildFromPath(string path) {
 			TextAsset asset = Resources.Load<TextAsset>(path);
 
@@ -56,8 +55,6 @@ namespace PM.Guide {
 				return null;
 			}
 		}
-
-
 		private static LevelGuide BuildFromString(string filename, string fileText) {
 			List<string> rows = new List<string>(fileText.Split(linebreaks, StringSplitOptions.RemoveEmptyEntries));
 			LevelGuide levelGuide = new LevelGuide ();
@@ -96,7 +93,7 @@ namespace PM.Guide {
 
 		public static LevelGuide GetCurrentLevelGuide(){
 			foreach (LevelGuide guide in allGuides) {
-				if (guide.level == PMWrapper.currentLevel)
+				if (/*guide.level*/0 == PMWrapper.currentLevel)
 					return guide;
 			}
 			return null;

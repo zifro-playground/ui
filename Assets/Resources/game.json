@@ -41,7 +41,7 @@
 						"rowLimit": 10,
 						"taskDescription": "Din uppgift är att svara 1. Gör du inte det kommer du att får fel och det är ju inte rätt.",
 						"availableFunctions": [
-							"ShortName", "Answer"
+							"Answer"
 						]
 					},
 					"levelDefinition": {

@@ -27,8 +27,8 @@ public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched, IPMWr
 
 	public void OnPMCaseSwitched(int caseNumber)
 	{
-		if (caseNumber == 0)
-			PMWrapper.SetCaseAnswer(1);
+		//if (caseNumber == 0)
+		//	PMWrapper.SetCaseAnswer(1);
 	}
 
 	public void OnPMWrongAnswer(string answer)

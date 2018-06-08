@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace PM
@@ -44,6 +46,8 @@ namespace PM
 
 		public void SetCurrentCase(int caseNumber)
 		{
+			SetCaseSettings(caseNumber);
+
 			if (caseNumber != CurrentCase)
 			{
 				// currentCaseButtonUnpressed
@@ -63,7 +67,21 @@ namespace PM
 			foreach (var ev in UISingleton.FindInterfaces<IPMCaseSwitched>())
 				ev.OnPMCaseSwitched(CurrentCase);
 		}
-		
+
+		private void SetCaseSettings(int caseNumber)
+		{
+			if (Main.Instance.LevelData.cases.Any())
+			{
+				var caseSettings = Main.Instance.LevelData.cases[caseNumber].caseSettings;
+
+				if (!String.IsNullOrEmpty(caseSettings.precode))
+					PMWrapper.preCode = caseSettings.precode;
+
+				if (caseSettings.walkerStepTime > 0)
+					PMWrapper.walkerStepTime = caseSettings.walkerStepTime;
+			}
+		}
+
 		public void RunCase(int caseNumber)
 		{
 			CaseFlash.Instance.HideFlash();

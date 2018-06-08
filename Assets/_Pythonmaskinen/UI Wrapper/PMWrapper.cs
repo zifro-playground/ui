@@ -2,6 +2,7 @@ using PM;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -183,6 +184,7 @@ public static class PMWrapper
 	/// </summary>
 	public static void SetCompilerFunctions(List<Compiler.Function> functions)
 	{
+		SetSmartButtons(functions.Select(function => function.buttonText).ToList());
 		UISingleton.instance.compiler.addedFunctions = functions;
 	}
 
@@ -212,6 +214,14 @@ public static class PMWrapper
 		for (int i = 0; i < codes.Length; i++)
 		{
 			UISingleton.instance.smartButtons.AddSmartButton(codes[i], codes[i]);
+		}
+	}
+	public static void SetSmartButtons(List<string> buttonTexts)
+	{
+		UISingleton.instance.smartButtons.ClearSmartButtons();
+		for (int i = 0; i < buttonTexts.Count; i++)
+		{
+			UISingleton.instance.smartButtons.AddSmartButton(buttonTexts[i], buttonTexts[i]);
 		}
 	}
 
