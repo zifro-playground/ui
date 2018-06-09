@@ -16,7 +16,7 @@ public class CaseButton : MonoBehaviour
 
 	public void SetButtonDefault()
 	{
-		if (!UISingleton.instance.levelHandler.currentLevel.caseHandler.AllCasesCompleted)
+		if (!Main.Instance.CaseHandler.AllCasesCompleted)
 			Image.sprite = Default;
 	}
 

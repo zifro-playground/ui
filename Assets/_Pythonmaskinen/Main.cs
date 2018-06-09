@@ -10,13 +10,15 @@ using UnityEngine.SceneManagement;
 namespace PM
 {
 	[Serializable]
-	public class Main : MonoBehaviour
+	public class Main : MonoBehaviour, IPMCompilerStopped, IPMLevelChanged, IPMCaseSwitched
 	{
 		private string loadedScene;
 		public string GameDataFileName;
 
 		public GameDefinition GameDefinition;
+
 		public Level LevelData;
+		public LevelAnswer LevelAnswer;
 
 		public CaseHandler CaseHandler;
 
@@ -53,7 +55,7 @@ namespace PM
 			return gameDefinition;
 		}
 
-		private void StartLevel(int levelIndex)
+		public void StartLevel(int levelIndex)
 		{
 			var sceneName = GameDefinition.activeLevels[levelIndex].sceneName;
 			LoadScene(sceneName);
@@ -159,16 +161,9 @@ namespace PM
 			}
 		}
 
-		private void BuildCases(List<Case> cases)
-		{
-			if (cases.Any())
-				CaseHandler = new CaseHandler(cases.Count);
-			else
-				CaseHandler = new CaseHandler(1);
-		}
-
 		private void BuildGuides(List<GuideBubble> guideBubbles)
 		{
+			print(guideBubbles);
 			if (guideBubbles != null && guideBubbles.Any())
 			{
 				var levelGuide = new LevelGuide();
@@ -195,8 +190,47 @@ namespace PM
 			}
 			else
 			{
+				UISingleton.instance.guideBubble.HideMessage();
 				UISingleton.instance.guidePlayer.currentGuide = null;
 			}
+		}
+
+		private void BuildCases(List<Case> cases)
+		{
+			if (cases != null && cases.Any())
+				CaseHandler = new CaseHandler(cases.Count);
+			else
+				CaseHandler = new CaseHandler(1);
+		}
+
+
+		public void OnPMCompilerStopped(HelloCompiler.StopStatus status)
+		{
+			if (LevelAnswer != null)
+				LevelAnswer.compilerHasBeenStopped = true;
+
+			if (status == HelloCompiler.StopStatus.RuntimeError)
+			{
+				CaseHandler.CaseFailed();
+			}
+
+			if (status == HelloCompiler.StopStatus.Finished)
+			{
+				if (PMWrapper.levelShouldBeAnswered)
+					PMWrapper.RaiseTaskError("Fick inget svar");
+			}
+		}
+
+		public void OnPMLevelChanged()
+		{
+			StopAllCoroutines();
+			CaseHandler.ResetHandlerAndButtons();
+		}
+
+		public void OnPMCaseSwitched(int caseNumber)
+		{
+			StopAllCoroutines();
+			UISingleton.instance.answerBubble.HideMessage();
 		}
 	}
 }

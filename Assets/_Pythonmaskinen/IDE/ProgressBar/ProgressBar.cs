@@ -149,7 +149,7 @@ namespace PM
 			// Update which one is current one
 			UpdateButtons(level, Unlocked);
 
-			UISingleton.instance.levelHandler.LoadLevel(level);
+			Main.Instance.StartLevel(level);
 		}
 
 	}

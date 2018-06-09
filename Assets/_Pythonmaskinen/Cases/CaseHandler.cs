@@ -70,7 +70,7 @@ namespace PM
 
 		private void SetCaseSettings(int caseNumber)
 		{
-			if (Main.Instance.LevelData.cases.Any())
+			if (Main.Instance.LevelData.cases != null && Main.Instance.LevelData.cases.Any())
 			{
 				var caseSettings = Main.Instance.LevelData.cases[caseNumber].caseSettings;
 
