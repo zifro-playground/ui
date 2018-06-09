@@ -123,7 +123,6 @@ GameObject:
   - component: {fileID: 128959924}
   - component: {fileID: 128959923}
   - component: {fileID: 128959922}
-  - component: {fileID: 128959921}
   - component: {fileID: 128959920}
   m_Layer: 0
   m_Name: Game Camera
@@ -145,13 +144,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   theRect: {fileID: 0}
   runInEditor: 1
---- !u!81 &128959921
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 128959919}
-  m_Enabled: 1
 --- !u!124 &128959922
 Behaviour:
   m_ObjectHideFlags: 0
