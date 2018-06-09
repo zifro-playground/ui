@@ -27,7 +27,6 @@ namespace PM
 		{
 			if (Instance == null)
 				Instance = this;
-			//PMWrapper.walkerStepTime = gameSpeed;
 		}
 
 		private void Start ()
@@ -37,14 +36,7 @@ namespace PM
 			// Will create level navigation buttons
 			PMWrapper.numOfLevels = GameDefinition.activeLevels.Count;
 
-			StartLevel(0);
-			//PMWrapper.numOfLevels = numberOfLevels;
-
-			//UISingleton.instance.levelHandler.BuildLevels ();
-			//GuideLoader.BuildAll ();
-
-			// TODO Load last level played from database
-			//UISingleton.instance.levelHandler.LoadLevel (0);
+			StartLevel(0); // TODO Load last level played from database
 		}
 
 		private GameDefinition ParseJson()
@@ -144,6 +136,29 @@ namespace PM
 			CaseHandler.SetCurrentCase(0);
 		}
 
+		private void SetLevelSettings(LevelSettings levelSettings)
+		{
+			if (!String.IsNullOrEmpty(levelSettings.precode))
+				PMWrapper.preCode = levelSettings.precode;
+
+			if (!String.IsNullOrEmpty(levelSettings.startCode))
+				PMWrapper.AddCodeAtStart(levelSettings.startCode);
+
+			if (!String.IsNullOrEmpty(levelSettings.taskDescription))
+				PMWrapper.SetTaskDescription(levelSettings.taskDescription);
+			else
+				PMWrapper.SetTaskDescription("");
+
+			if (levelSettings.rowLimit > 0)
+				PMWrapper.codeRowsLimit = levelSettings.rowLimit;
+
+			if (levelSettings.availableFunctions != null)
+			{
+				var availableFunctions = CreateFunctionsFromStrings(levelSettings.availableFunctions);
+				PMWrapper.SetCompilerFunctions(availableFunctions);
+			}
+		}
+
 		private void BuildCases(List<Case> cases)
 		{
 			if (cases.Any())
@@ -181,29 +196,6 @@ namespace PM
 			else
 			{
 				UISingleton.instance.guidePlayer.currentGuide = null;
-			}
-		}
-
-		private void SetLevelSettings(LevelSettings levelSettings)
-		{
-			if (!String.IsNullOrEmpty(levelSettings.precode))
-				PMWrapper.preCode = levelSettings.precode;
-
-			if (!String.IsNullOrEmpty(levelSettings.startCode))
-				PMWrapper.AddCodeAtStart(levelSettings.startCode);
-
-			if (!String.IsNullOrEmpty(levelSettings.taskDescription))
-				PMWrapper.SetTaskDescription(levelSettings.taskDescription);
-			else
-				PMWrapper.SetTaskDescription("");
-
-			if (levelSettings.rowLimit > 0)
-				PMWrapper.codeRowsLimit = levelSettings.rowLimit;
-
-			if (levelSettings.availableFunctions != null)
-			{
-				var availableFunctions = CreateFunctionsFromStrings(levelSettings.availableFunctions);
-				PMWrapper.SetCompilerFunctions(availableFunctions);
 			}
 		}
 	}
