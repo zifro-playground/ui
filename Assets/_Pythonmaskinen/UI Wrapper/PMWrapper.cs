@@ -138,22 +138,6 @@ public static class PMWrapper
 	public static bool IsCompilerUserPaused { get { return UISingleton.instance.walker.IsUserPaused; } }
 
 	/// <summary>
-	/// Wether or not the level is playing && is in "demo" mode.
-	/// </summary>
-	public static bool IsDemoingLevel
-	{
-		get { return PM.Manus.ManusPlayer.isPlaying; }
-	}
-	/// <summary>
-	/// Wether or not the current level has demo manus.
-	/// <para>"One could ask, is general Juhziz in charge?"</para>
-	/// </summary>
-	public static bool IsDemoLevel
-	{
-		get { return PMWrapper.currentLevel < PM.Manus.Loader.allManuses.Count && PMWrapper.currentLevel >= 0 && PM.Manus.Loader.allManuses[PMWrapper.currentLevel] != null; }
-	}
-
-	/// <summary>
 	/// Starts the compiler if it's not currently running. Static wrapper for <see cref="HelloCompiler.compileCode"/>
 	/// </summary>
 	public static void StartCompiler()
@@ -343,14 +327,6 @@ public static class PMWrapper
 	}
 
 	/// <summary>
-	/// The highest level that has had it's story revealed.
-	/// </summary>
-	public static int storydLevel
-	{
-		get { return UISingleton.instance.levelHints.storyRevealedForLevel; }
-	}
-
-	/// <summary>
 	/// Returns the index of the current case. Index starts from 0.
 	/// </summary>
 	public static int currentCase
@@ -398,22 +374,6 @@ public static class PMWrapper
 	public static void JumpToFirstLevel()
 	{
 		currentLevel = 0;
-	}
-
-	/// <summary>
-	/// Shows the "Help I'm stuck!" popup.
-	/// </summary>
-	public static void ShowHintsPopup()
-	{
-		UISingleton.instance.levelHints.ButtonShowHintScreen();
-	}
-
-	/// <summary>
-	/// Hides the "Help I'm stuck!" popup.
-	/// </summary>
-	public static void HideHintsPopup()
-	{
-		UISingleton.instance.levelHints.StartHideFading();
 	}
 
 	/// <summary>

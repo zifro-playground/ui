@@ -70,7 +70,6 @@ namespace PM
 
 				levels.Add(btn);
 			}
-			Manus.Loader.BuildAll();
 
 			UpdateButtons(current, unlocked);
 		}
@@ -122,22 +121,11 @@ namespace PM
 			UITooltip tooltip = btn.GetComponent<UITooltip>();
 			if (tooltip)
 			{
-				tooltip.text = Manus.Loader.allManuses[level] != null ? "Demo" : "Nivå " + GetLevelNumber(level);
+				tooltip.text = "Nivå " + PMWrapper.currentLevel;
 				if (level == Current) tooltip.text = "<color=green><b>" + tooltip.text + "</b></color> <color=grey>(Nuvarande)</color>";
 				if (level > Unlocked) tooltip.text += " <color=grey>(Låst)</color>";
 				tooltip.ApplyTooltipTextChange();
 			}
-		}
-
-		public static int GetLevelNumber(int level)
-		{
-			int num = 1;
-			for (int i = 0; i < PMWrapper.numOfLevels; i++)
-			{
-				if (level == i) break;
-				if (Manus.Loader.allManuses[i] == null) num++;
-			}
-			return num;
 		}
 
 		public void ChangeLevel(int level)

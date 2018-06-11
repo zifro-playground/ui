@@ -76,15 +76,15 @@ namespace PM {
 		private void _ShowWinScreen() {
 			continueButton.gameObject.SetActive(PMWrapper.currentLevel < PMWrapper.numOfLevels - 1);
 
-			if (PMWrapper.IsDemoLevel) winText.text = demoWinMsg;
-			else if (continueButton.gameObject.activeSelf) winText.text = winMsg;
-			else winText.text = lastWinMsg;
-
-			UISingleton.instance.levelHints.StartHideFading();
+			if (continueButton.gameObject.activeSelf)
+				winText.text = winMsg;
+			else
+				winText.text = lastWinMsg;
+			
 			topmostObject.SetActive(true);
 			state = State.Show;
 			timePassed = 0;
-			this.enabled = true;
+			enabled = true;
 			canvasGroup.interactable = true;
 			canvasGroup.blocksRaycasts = true;
 		}

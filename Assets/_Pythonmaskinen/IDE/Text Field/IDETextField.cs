@@ -129,16 +129,9 @@ namespace PM
 
 		public void MoveLineMarker()
 		{
-			if (PMWrapper.IsDemoingLevel)
-			{
-				IDELineMarker.instance.SetState(IDELineMarker.State.Hidden);
-			}
-			else
-			{
-				int preRows = (string.IsNullOrEmpty(preCode) ? 0 : preCode.Split('\n').Length) + 1;
-				int selected = preRows + IDEPARSER.calcCurrentSelectedLine(theInputField.caretPosition, theInputField.text);
-				IDELineMarker.SetIDEPosition(selected);
-			}
+			int preRows = (string.IsNullOrEmpty(preCode) ? 0 : preCode.Split('\n').Length) + 1;
+			int selected = preRows + IDEPARSER.calcCurrentSelectedLine(theInputField.caretPosition, theInputField.text);
+			IDELineMarker.SetIDEPosition(selected);
 		}
 
 		public float DetermineYOffset(int lineNumber)
@@ -402,14 +395,12 @@ namespace PM
 
 		void IPMCompilerStarted.OnPMCompilerStarted()
 		{
-			if (!PMWrapper.IsDemoingLevel)
-				deActivateField();
+			deActivateField();
 		}
 
 		void IPMCompilerStopped.OnPMCompilerStopped(HelloCompiler.StopStatus status)
 		{
-			if (!PMWrapper.IsDemoingLevel)
-				reActivateField();
+			reActivateField();
 		}
 	}
 

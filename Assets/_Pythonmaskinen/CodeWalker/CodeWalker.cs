@@ -22,8 +22,7 @@ namespace PM
 		float sleepTime = 3f;
 		private float sleepTimer;
 		#endregion
-
-		public static bool ManusPlayerSaysICanContinue = true;
+		
 		public static bool IsSleeping;
 		public static bool WalkerRunning = true;
 		public bool IsUserPaused { get; private set; }
@@ -46,7 +45,6 @@ namespace PM
 			doEndWalker = false;
 			stopCompiler = stopCompilerMeth;
 			IsUserPaused = false;
-			ManusPlayerSaysICanContinue = true;
 		}
 		#endregion
 
@@ -67,17 +65,9 @@ namespace PM
 					return;
 				}
 
-				if (PMWrapper.IsDemoingLevel && !ManusPlayerSaysICanContinue)
-					return;
-
 				try
 				{
 					Runtime.CodeWalker.parseLine();
-
-					if (PMWrapper.IsDemoingLevel)
-					{
-						ManusPlayerSaysICanContinue = false;
-					}
 				}
 				catch
 				{
