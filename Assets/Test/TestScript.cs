@@ -6,6 +6,7 @@ public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched, IPMWr
 {
 	void Awake()
 	{
+		PMWrapper.SetCaseAnswer(1);
 	}
 
 	// Use this for initialization
