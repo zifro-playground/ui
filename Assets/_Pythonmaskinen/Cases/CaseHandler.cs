@@ -17,7 +17,7 @@ namespace PM
 		public CaseHandler(int numOfCases)
 		{
 			numberOfCases = numOfCases;
-			CaseButtons = UISingleton.instance.levelHandler.caseButtons;
+			CaseButtons = CaseParent.Instance.CaseButtons;
 		}
 
 		public void SetButtons(List<GameObject> buttons)
@@ -103,7 +103,7 @@ namespace PM
 		{
 			PMWrapper.StopCompiler();
 
-			UISingleton.instance.levelHandler.StartCoroutine(ShowFeedbackAndRunNextCase());
+			Main.Instance.StartCoroutine(ShowFeedbackAndRunNextCase());
 		}
 
 		public void CaseFailed()

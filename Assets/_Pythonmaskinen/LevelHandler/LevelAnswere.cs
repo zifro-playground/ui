@@ -96,7 +96,7 @@ namespace PM
 							ans += ".";
 					}
 
-					UISingleton.instance.levelHandler.StartCoroutine(ShowAnswerBubble(lineNumber, ans, correctAnswer));
+					Main.Instance.StartCoroutine(ShowAnswerBubble(lineNumber, ans, correctAnswer));
 					break;
 
 				case VariableTypes.number:
@@ -114,7 +114,7 @@ namespace PM
 						else
 							ans += ".";
 					}
-					UISingleton.instance.levelHandler.StartCoroutine(ShowAnswerBubble(lineNumber, ans, correctAnswer));
+					Main.Instance.StartCoroutine(ShowAnswerBubble(lineNumber, ans, correctAnswer));
 					break;
 
 				case VariableTypes.textString:
@@ -132,7 +132,7 @@ namespace PM
 						else
 							ans += ".";
 					}
-					UISingleton.instance.levelHandler.StartCoroutine(ShowAnswerBubble(lineNumber, ans, correctAnswer));
+					Main.Instance.StartCoroutine(ShowAnswerBubble(lineNumber, ans, correctAnswer));
 					break;
 			}
 		}
