@@ -9,6 +9,7 @@ public class ActiveLevel
 public class SceneSettings
 {
 	public float walkerStepTime { get; set; }
+	public bool gameWindowUiLightTheme { get; set; }
 	public List<string> availableFunctions { get; set; }
 }
 

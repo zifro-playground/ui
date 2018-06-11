@@ -18,8 +18,10 @@
 			"name": "Scene1",
 			"sceneSettings": {
 				"walkerStepTime": 3.0,
+				"gameWindowUiLightTheme": false,
 				"availableFunctions": [
-					"Answer", "CustomFunction"
+					"Answer",
+					"CustomFunction"
 				]
 			},
 			"levels": [
@@ -57,15 +59,15 @@
 								"correctAnswer": "rätt svar!"
 							}
 						},
-            {
-              "caseDefinition": {
-                "correctAnswer": "rätt svar!"
-              },
-              "caseSettings": {
-                "precode": "x = 0\ny = 1",
-                "walkerStepTime": 1.0
-              }
-            }
+						{
+							"caseDefinition": {
+								"correctAnswer": "rätt svar!"
+							},
+							"caseSettings": {
+								"precode": "x = 0\ny = 1",
+								"walkerStepTime": 1.0
+							}
+						}
 					]
 				},
 				{
@@ -76,7 +78,7 @@
 						"rowLimit": 10,
 						"taskDescription": "Din uppgift är att svara 1. Gör du inte det kommer du att får fel och det är ju inte rätt.",
 						"availableFunctions": [
-								"Answer"
+							"Answer"
 						]
 					}
 				},
