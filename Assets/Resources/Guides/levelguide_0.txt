@@ -1,3 +1,0 @@
-﻿3: Klicka på play: för att köra koden! Nu är det faktiskt så att denna bubbla faktiskt har ganska lång text och frågan är då varför allt blir knas?
-3: Hej <b>på dig</b>
-4: Vad gör du?

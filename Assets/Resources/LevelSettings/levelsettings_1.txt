@@ -1,4 +1,0 @@
-﻿taskdescription: hejsan
-startcode: while True:\n\tx = 0\n\ty = 1
-casecount: 2
-smartbuttons: svara(), en_riktigt_lång_funktion(), åk_vänster()
