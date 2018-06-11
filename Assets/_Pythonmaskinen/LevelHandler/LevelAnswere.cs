@@ -160,7 +160,7 @@ namespace PM
 			}
 			else
 			{
-				UISingleton.instance.levelHandler.currentLevel.caseHandler.CaseFailed();
+				Main.Instance.CaseHandler.CaseFailed();
 
 				// Call every implemented event
 				foreach (var ev in UISingleton.FindInterfaces<IPMWrongAnswer>())
@@ -172,7 +172,7 @@ namespace PM
 		private void AbortCase()
 		{
 			UISingleton.instance.answerBubble.HideMessage();
-			UISingleton.instance.levelHandler.currentLevel.caseHandler.ResetHandlerAndButtons();
+			Main.Instance.CaseHandler.ResetHandlerAndButtons();
 		}
 	}
 }

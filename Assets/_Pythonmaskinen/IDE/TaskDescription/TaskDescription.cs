@@ -41,6 +41,8 @@ public class TaskDescription : MonoBehaviour, IPMLevelChanged, IPMCompilerStarte
 		{
 			TaskBarParent.SetActive (true);
 			TaskBarText.text = taskDescription;
+			hasShownBigTaskDescription = false; // TODO load from database
+
 			if (!hasShownBigTaskDescription)
 			{
 				LevelStartParent.SetActive (true);

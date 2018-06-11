@@ -74,6 +74,12 @@ namespace PM
 			{
 				var caseSettings = Main.Instance.LevelData.cases[caseNumber].caseSettings;
 
+				if (caseSettings == null)
+				{
+					PMWrapper.preCode = "";
+					return;
+				}
+
 				if (!String.IsNullOrEmpty(caseSettings.precode))
 					PMWrapper.preCode = caseSettings.precode;
 

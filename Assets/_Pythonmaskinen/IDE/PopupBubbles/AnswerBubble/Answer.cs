@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using PM;
 using UnityEngine;
 
 public class Answer : Compiler.Function
@@ -20,7 +21,7 @@ public class Answer : Compiler.Function
 
 	public override Compiler.Variable runFunction(Compiler.Scope currentScope, Compiler.Variable[] inputParas, int lineNumber)
 	{
-		PM.UISingleton.instance.levelHandler.currentLevel.levelAnswer.CheckAnswer(inputParas, lineNumber);
+		Main.Instance.LevelAnswer.CheckAnswer(inputParas, lineNumber);
 		return new Compiler.Variable();
 	}
 

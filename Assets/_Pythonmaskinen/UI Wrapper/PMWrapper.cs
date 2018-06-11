@@ -166,9 +166,9 @@ public static class PMWrapper
 	/// </summary>
 	public static void RunCode()
 	{
-		UISingleton.instance.levelHandler.currentLevel.caseHandler.AllCasesCompleted = false;
-		UISingleton.instance.levelHandler.currentLevel.caseHandler.ResetHandlerAndButtons();
-		UISingleton.instance.levelHandler.currentLevel.caseHandler.RunCase(0);
+		Main.Instance.CaseHandler.AllCasesCompleted = false;
+		Main.Instance.CaseHandler.ResetHandlerAndButtons();
+		Main.Instance.CaseHandler.RunCase(0);
 	}
 
 	/// <summary>
@@ -355,7 +355,7 @@ public static class PMWrapper
 	/// </summary>
 	public static int currentCase
 	{
-		get { return UISingleton.instance.levelHandler.currentLevel.caseHandler.CurrentCase; }
+		get { return Main.Instance.CaseHandler.CurrentCase; }
 	}
 
 	/// <summary>
@@ -371,7 +371,7 @@ public static class PMWrapper
 	/// </summary>
 	public static void SetCaseCompleted()
 	{
-		UISingleton.instance.levelHandler.currentLevel.caseHandler.CaseCompleted();
+		Main.Instance.CaseHandler.CaseCompleted();
 	}
 
 	/// <summary>
@@ -380,7 +380,7 @@ public static class PMWrapper
 	/// <param name="caseNumber">The case number to switch to.</param> 
 	public static void SwitchCase(int caseNumber)
 	{
-		UISingleton.instance.levelHandler.currentLevel.caseHandler.SetCurrentCase(caseNumber);
+		Main.Instance.CaseHandler.SetCurrentCase(caseNumber);
 	}
 
 	/// <summary>

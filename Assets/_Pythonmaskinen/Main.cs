@@ -140,6 +140,14 @@ namespace PM
 
 		private void SetLevelSettings(LevelSettings levelSettings)
 		{
+			UISingleton.instance.saveData.ClearPreAndMainCode();
+
+			if (levelSettings == null)
+			{
+				PMWrapper.SetTaskDescription("");
+				return;
+			}
+
 			if (!String.IsNullOrEmpty(levelSettings.precode))
 				PMWrapper.preCode = levelSettings.precode;
 
@@ -163,7 +171,6 @@ namespace PM
 
 		private void BuildGuides(List<GuideBubble> guideBubbles)
 		{
-			print(guideBubbles);
 			if (guideBubbles != null && guideBubbles.Any())
 			{
 				var levelGuide = new LevelGuide();
@@ -216,7 +223,7 @@ namespace PM
 
 			if (status == HelloCompiler.StopStatus.Finished)
 			{
-				if (PMWrapper.levelShouldBeAnswered)
+				if (PMWrapper.levelShouldBeAnswered && UISingleton.instance.taskDescription.isActiveAndEnabled)
 					PMWrapper.RaiseTaskError("Fick inget svar");
 			}
 		}

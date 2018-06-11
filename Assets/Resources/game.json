@@ -50,18 +50,22 @@
 					"cases": [
 						{
 							"caseSettings": {
-								"precode": "a = 0\nb = 1",
+								"precode": "x = 0\ny = 1",
 								"walkerStepTime": 1.0
 							},
 							"caseDefinition": {
 								"correctAnswer": "rätt svar!"
 							}
 						},
-						{
-							"caseDefinition": {
-								"correctAnswer": "rätt svar!"
-							}
-						}
+            {
+              "caseDefinition": {
+                "correctAnswer": "rätt svar!"
+              },
+              "caseSettings": {
+                "precode": "x = 0\ny = 1",
+                "walkerStepTime": 1.0
+              }
+            }
 					]
 				},
 				{
