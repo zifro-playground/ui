@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace PM {
 
 	public class IDELineMarker : MonoBehaviour, IPMCompilerStopped, IPMCompilerStarted {
-		
+
 		public IDEErrorBubble theErrorBubble;
 		private RectTransform theMarkerRect;
 		private IDEFocusLord theFocusLord;
@@ -20,7 +20,7 @@ namespace PM {
 
 		private Image theImage;
 		//private static readonly Color functionColor = new Color(0, 1, 1, 0.3f);
-		private static readonly Color walkerColor =  new Color(0, 1, 0, 0.3f);
+		private static readonly Color walkerColor =  new Color(0.2470588f, 0.7215686f, 0.6117647f, 0.4f);
 		private static readonly Color errorColor = new Color(1, 0, 0, 0.3f);
 		private static readonly Color IDEColor = new Color(1, 1, 1, 0.1f);
 
@@ -52,14 +52,14 @@ namespace PM {
 			theImage = GetComponentInChildren<Image>();
 			theErrorBubble.init(this);
 		}
-		
+
 		private void moveMarker() {
 			if (lineNumber < 0)
 				theMarkerRect.anchoredPosition = new Vector2(0, -5000);
 			else //+20 on x to fix offset. Should possibly be changed in UI instead
 				theMarkerRect.anchoredPosition = new Vector2(20, theTextField.DetermineYOffset(lineNumber));
 		}
-		
+
 		#region All setErrorMarkers
 		private void _setErrorMarker(string message) {
 			theFocusLord.selectEndOfLine(lineNumber + 1);
