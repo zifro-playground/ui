@@ -15,6 +15,7 @@ namespace PM
 		public IDELineMarker theLineMarker;
 		public IDEScrollLord theScrollLord;
 		public Text preText;
+        public Text text;
 		public Text visibleText;
 		public Text postText;
 		public IDESpeciallCommands theSpeciallCommands;
@@ -28,7 +29,7 @@ namespace PM
 
 		[NonSerialized]
 		public RectTransform inputRect;
-		private int maxChars = 45;
+		private int maxChars = 100;
 
 		private string lastText = "";
 		private float startYPos;
@@ -49,6 +50,8 @@ namespace PM
 
 		void Start()
 		{
+            text.horizontalOverflow = HorizontalWrapMode.Overflow;
+
 			theLineMarker.initLineMarker(this, theFocusLord);
 
 			inputRect = theInputField.GetComponent<RectTransform>();

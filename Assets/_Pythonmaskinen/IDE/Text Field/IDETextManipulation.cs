@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text.RegularExpressions;
 
 namespace PM
 {
@@ -23,13 +24,25 @@ namespace PM
 			return c;
 		}
 
+        public static int countCodeLines(List<string> textLines){
+            int count = 0; 
+            var regex = new Regex(@"^#|^\s*$|^\s*#");
+            foreach (string line in textLines){
+                line.Trim();
+                if (regex.Match(line).Success||line=="") { }
+                else { count++; }   
+            }
+            return count;
+        }
+
 		public static bool validateText(string fullText, int maxLines, int maxPerLine)
 		{
 			List<string> textLines = IDEPARSER.parseIntoLines(fullText);
+            var numCodeLines = countCodeLines(textLines);
 
-			UISingleton.instance.rowsLimit.UpdateRowsLeft(textLines.Count, maxLines);
+            UISingleton.instance.rowsLimit.UpdateRowsLeft(numCodeLines, maxLines);
 
-			if (textLines.Count > maxLines)
+            if (numCodeLines > maxLines)
 			{
 				// Too many rows
 				UISingleton.instance.rowsLimit.redness = 1;
@@ -44,7 +57,6 @@ namespace PM
 
 			return true;
 		}
-
 
 		private static int lineSize(string lineText)
 		{
