@@ -4,18 +4,11 @@ using UnityEngine;
 
 public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched, IPMWrongAnswer, IPMCorrectAnswer
 {
-	void Awake()
+	void Start()
 	{
 		PMWrapper.SetCaseAnswer(1);
 	}
-
-	// Use this for initialization
-	void Start()
-	{
-
-	}
-
-	// Update is called once per frame
+	
 	void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.U))

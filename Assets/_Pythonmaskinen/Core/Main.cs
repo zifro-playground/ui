@@ -95,6 +95,11 @@ namespace PM
 		{
 			if (sceneSettings.walkerStepTime > 0)
 				PMWrapper.walkerStepTime = sceneSettings.walkerStepTime;
+			
+			if (sceneSettings.gameWindowUiLightTheme)
+				GameWindow.Instance.SetGameWindowUiTheme(GameWindowUiTheme.light);
+			else
+				GameWindow.Instance.SetGameWindowUiTheme(GameWindowUiTheme.dark);
 
 			if (sceneSettings.availableFunctions != null)
 			{

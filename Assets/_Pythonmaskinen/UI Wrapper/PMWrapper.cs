@@ -238,7 +238,7 @@ public static class PMWrapper
 	/// </summary>
 	public static void SetCaseAnswer(params int[] answer)
 	{
-		Main.Instance.LevelAnswer = new PM.LevelAnswer(answer);
+		Main.Instance.LevelAnswer = new LevelAnswer(answer);
 	}
 
 	/// <summary>
@@ -246,7 +246,7 @@ public static class PMWrapper
 	/// </summary>
 	public static void SetCaseAnswer(params string[] answer)
 	{
-		Main.Instance.LevelAnswer = new PM.LevelAnswer(answer);
+		Main.Instance.LevelAnswer = new LevelAnswer(answer);
 	}
 
 	/// <summary>
