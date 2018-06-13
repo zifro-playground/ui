@@ -62,6 +62,9 @@ namespace PM
 
 			var levelId = GameDefinition.activeLevels[levelIndex].levelId;
 			LoadLevel(levelId);
+
+			foreach (var ev in UISingleton.FindInterfaces<IPMLevelChanged>())
+				ev.OnPMLevelChanged();
 		}
 
 		private void LoadScene(string sceneName)
