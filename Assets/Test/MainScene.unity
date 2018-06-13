@@ -747,6 +747,32 @@ Prefab:
       propertyPath: m_ShowMaskGraphic
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 224460267539462814, guid: addc02b0d76c3f54ab6e7b672f7f547b,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -60
+      objectReference: {fileID: 0}
+    - target: {fileID: 224460267539462814, guid: addc02b0d76c3f54ab6e7b672f7f547b,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224460267539462814, guid: addc02b0d76c3f54ab6e7b672f7f547b,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: -60
+      objectReference: {fileID: 0}
+    - target: {fileID: 224460267539462814, guid: addc02b0d76c3f54ab6e7b672f7f547b,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: -75
+      objectReference: {fileID: 0}
+    - target: {fileID: 114015180163511072, guid: addc02b0d76c3f54ab6e7b672f7f547b,
+        type: 2}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 5eb3cbc3d474e407da516b0054b76883,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: addc02b0d76c3f54ab6e7b672f7f547b, type: 2}
   m_IsPrefabParent: 0
