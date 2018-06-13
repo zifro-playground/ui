@@ -26,7 +26,6 @@ namespace PM
 			new GlobalFunctions.ConvertToInt("long"),
 			new GlobalFunctions.ConvertToString(),
 			new GlobalFunctions.LengthOf(),
-			new GlobalFunctions.PrintFunction(),
 			new GlobalFunctions.RoundedValue(),
 			new GlobalFunctions.MinimumValue(),
 			new GlobalFunctions.MaximumValue(),

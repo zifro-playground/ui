@@ -32,7 +32,6 @@ namespace PM
 		public CanvasGroup uiCanvasGroup;
 
 		[Header("Bubbles")]
-		public IDEPrintBubble printBubble;
 		public IDEGuideBubble guideBubble;
 		public AnswerBubble answerBubble;
 

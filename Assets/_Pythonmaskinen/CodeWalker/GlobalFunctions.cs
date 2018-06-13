@@ -4,39 +4,17 @@ using UnityEngine;
 using Compiler;
 using System;
 
-namespace PM.GlobalFunctions {
-	public class PrintFunction : Compiler.Function {
-
-		public PrintFunction() {
-			this.name = "print";
-			this.inputParameterAmount.Add(0);
-			this.inputParameterAmount.Add(1);
-			this.hasReturnVariable = false;
-			this.pauseWalker = true;
-		}
-
-		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber) {
-
-			UISingleton.instance.printBubble.ShowMessage(lineNumber);
-
-			if (inputParas.Length > 0)
-				UISingleton.instance.printBubble.SetPrintPopupValue(inputParas[0]);
-			else
-				UISingleton.instance.printBubble.SetPrintPopupValue(new Variable("NULL"));
-
-			return new Variable("NULL");
-		}
-
-	}
-
-	public class ConvertToInt : Compiler.Function {
-
+namespace PM.GlobalFunctions
+{
+	public class ConvertToInt : Compiler.Function
+	{
 		public const string onFail = "Misslyckades göra värde till heltal!";
 		public const string onFail2 = "Basen måste vara ett heltal!";
 		public const string onFail3 = "Basen måste vara mellan 2 och 16!";
 
 
-		public ConvertToInt(string name) {
+		public ConvertToInt(string name)
+		{
 			this.name = name;
 			this.inputParameterAmount.Add(0);
 			this.inputParameterAmount.Add(1);
@@ -46,17 +24,20 @@ namespace PM.GlobalFunctions {
 		}
 
 		private const string all_characters = "0123456789ABCDEF";
-		private static long ParseString(string inputString, int inputBase) {
-			string str = inputString.Trim('$','£','€',' ').TrimEnd(':',';','-').ToUpper();
-			string characters = all_characters.Substring(0,inputBase);
+		private static long ParseString(string inputString, int inputBase)
+		{
+			string str = inputString.Trim('$', '£', '€', ' ').TrimEnd(':', ';', '-').ToUpper();
+			string characters = all_characters.Substring(0, inputBase);
 			long result = 0;
 			bool neg = false;
 
-			for (int i = 0; i < str.Length; i++) {
+			for (int i = 0; i < str.Length; i++)
+			{
 				char c = str[i];
 
 				if (i == 0 && c == '-') neg = true;
-				else {
+				else
+				{
 					var indx = characters.IndexOf(c);
 					if (indx == -1) throw new Exception();
 					result = inputBase * result + indx;
@@ -65,7 +46,8 @@ namespace PM.GlobalFunctions {
 			return neg ? -result : result;
 		}
 
-		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber) {
+		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber)
+		{
 
 			if (inputParas.Length == 0) return new Variable("Heltal", 0);
 
@@ -77,11 +59,13 @@ namespace PM.GlobalFunctions {
 				PMWrapper.RaiseError(lineNumber, onFail2);
 
 			int inputBase = 10;
-			if (b != null) inputBase = (int) Math.Round(b.getNumber());
+			if (b != null) inputBase = (int)Math.Round(b.getNumber());
 			if (inputBase < 2 || inputBase > 16) PMWrapper.RaiseError(lineNumber, onFail3);
 
-			try {
-				switch (v.variableType) {
+			try
+			{
+				switch (v.variableType)
+				{
 					case VariableTypes.boolean:
 						return new Variable(v.name, v.getBool() ? 1 : 0);
 
@@ -89,9 +73,11 @@ namespace PM.GlobalFunctions {
 						return new Variable(v.name, ParseString(v.getString(), inputBase));
 
 					case VariableTypes.number:
-						return new Variable(v.name, (int) v.getNumber());
+						return new Variable(v.name, (int)v.getNumber());
 				}
-			} catch {
+			}
+			catch
+			{
 				PMWrapper.RaiseError(lineNumber, onFail);
 			}
 
@@ -102,11 +88,12 @@ namespace PM.GlobalFunctions {
 	/// <summary>
 	/// Actually converts to double. But in original python the function is called float()
 	/// </summary>
-	public class ConvertToFloat : Compiler.Function {
-
+	public class ConvertToFloat : Compiler.Function
+	{
 		public const string onFail = "Misslyckades göra värde till reellt tal!";
 
-		public ConvertToFloat() {
+		public ConvertToFloat()
+		{
 			this.name = "float";
 			this.inputParameterAmount.Add(0);
 			this.inputParameterAmount.Add(1);
@@ -114,13 +101,15 @@ namespace PM.GlobalFunctions {
 			this.pauseWalker = false;
 		}
 
-		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber) {
+		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber)
+		{
 
 			if (inputParas.Length == 0) return new Variable("Float", 0);
 
 			Variable v = inputParas[0];
 
-			switch (v.variableType) {
+			switch (v.variableType)
+			{
 				case VariableTypes.boolean:
 					return new Variable(v.name, v.getBool() ? 1 : 0);
 
@@ -141,9 +130,10 @@ namespace PM.GlobalFunctions {
 		}
 	}
 
-	public class ConvertToString : Compiler.Function {
-
-		public ConvertToString() {
+	public class ConvertToString : Compiler.Function
+	{
+		public ConvertToString()
+		{
 			this.name = "str";
 			this.inputParameterAmount.Add(0);
 			this.inputParameterAmount.Add(1);
@@ -151,13 +141,15 @@ namespace PM.GlobalFunctions {
 			this.pauseWalker = false;
 		}
 
-		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber) {
+		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber)
+		{
 
 			if (inputParas.Length == 0) return new Variable("Sträng", string.Empty);
 
 			Variable v = inputParas[0];
 
-			switch (v.variableType) {
+			switch (v.variableType)
+			{
 				case VariableTypes.boolean:
 					return new Variable(v.name, v.getBool() ? "True" : "False");
 
@@ -173,9 +165,10 @@ namespace PM.GlobalFunctions {
 		}
 	}
 
-	public class ConvertToBoolean : Compiler.Function {
-
-		public ConvertToBoolean() {
+	public class ConvertToBoolean : Compiler.Function
+	{
+		public ConvertToBoolean()
+		{
 			this.name = "bool";
 			this.inputParameterAmount.Add(0);
 			this.inputParameterAmount.Add(1);
@@ -183,13 +176,14 @@ namespace PM.GlobalFunctions {
 			this.pauseWalker = false;
 		}
 
-		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber) {
-
+		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber)
+		{
 			if (inputParas.Length == 0) return new Variable("Bool", false);
 
 			Variable v = inputParas[0];
 
-			switch (v.variableType) {
+			switch (v.variableType)
+			{
 				case VariableTypes.boolean:
 					return v;
 
@@ -205,20 +199,22 @@ namespace PM.GlobalFunctions {
 		}
 	}
 
-	public class LengthOf : Compiler.Function {
-
-		public LengthOf() {
+	public class LengthOf : Compiler.Function
+	{
+		public LengthOf()
+		{
 			this.name = "len";
 			this.inputParameterAmount.Add(1);
 			this.hasReturnVariable = true;
 			this.pauseWalker = false;
 		}
 
-		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber) {
-
+		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber)
+		{
 			Variable v = inputParas[0];
 
-			switch (v.variableType) {
+			switch (v.variableType)
+			{
 				case VariableTypes.textString:
 					return new Variable("LengthOf" + v.name, v.getString().Length);
 
@@ -237,20 +233,23 @@ namespace PM.GlobalFunctions {
 		}
 	}
 
-	public class AbsoluteValue : Compiler.Function {
-
-		public AbsoluteValue() {
+	public class AbsoluteValue : Compiler.Function
+	{
+		public AbsoluteValue()
+		{
 			this.name = "abs";
 			this.inputParameterAmount.Add(1);
 			this.hasReturnVariable = true;
 			this.pauseWalker = false;
 		}
 
-		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber) {
+		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber)
+		{
 
 			Variable v = inputParas[0];
 
-			switch (v.variableType) {
+			switch (v.variableType)
+			{
 				case VariableTypes.number:
 					return new Variable('|' + v.name + '|', Math.Abs(v.getNumber()));
 
@@ -269,20 +268,23 @@ namespace PM.GlobalFunctions {
 		}
 	}
 
-	public class RoundedValue : Compiler.Function {
-
-		public RoundedValue() {
+	public class RoundedValue : Compiler.Function
+	{
+		public RoundedValue()
+		{
 			this.name = "round";
 			this.inputParameterAmount.Add(1);
 			this.hasReturnVariable = true;
 			this.pauseWalker = false;
 		}
 
-		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber) {
+		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber)
+		{
 
 			Variable v = inputParas[0];
 
-			switch (v.variableType) {
+			switch (v.variableType)
+			{
 				case VariableTypes.number:
 					return new Variable("Rounded" + v.name, Math.Round(v.getNumber()));
 
@@ -301,24 +303,27 @@ namespace PM.GlobalFunctions {
 		}
 	}
 
-	public class ConvertToBinary : Compiler.Function {
+	public class ConvertToBinary : Compiler.Function
+	{
 
-		public ConvertToBinary() {
+		public ConvertToBinary()
+		{
 			this.name = "bin";
 			this.inputParameterAmount.Add(1);
 			this.hasReturnVariable = true;
 			this.pauseWalker = false;
 		}
 
-		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber) {
-
+		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber)
+		{
 			Variable v = inputParas[0];
 
-			switch (v.variableType) {
+			switch (v.variableType)
+			{
 				case VariableTypes.number:
 					if (Math.Abs(v.getNumber() - Math.Round(v.getNumber())) <= double.Epsilon)
 						// Close enough to whole number
-						return new Variable(v.name, Convert.ToString((long) Math.Round(v.getNumber()), 2));
+						return new Variable(v.name, Convert.ToString((long)Math.Round(v.getNumber()), 2));
 					PMWrapper.RaiseError(lineNumber, "Kan endast konvertera heltal till binärt!");
 					return null;
 
@@ -336,24 +341,26 @@ namespace PM.GlobalFunctions {
 		}
 	}
 
-	public class ConvertToHexadecimal : Compiler.Function {
-
-		public ConvertToHexadecimal() {
+	public class ConvertToHexadecimal : Compiler.Function
+	{
+		public ConvertToHexadecimal()
+		{
 			this.name = "hex";
 			this.inputParameterAmount.Add(1);
 			this.hasReturnVariable = true;
 			this.pauseWalker = false;
 		}
 
-		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber) {
-
+		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber)
+		{
 			Variable v = inputParas[0];
 
-			switch (v.variableType) {
+			switch (v.variableType)
+			{
 				case VariableTypes.number:
 					if (Math.Abs(v.getNumber() - Math.Round(v.getNumber())) <= double.Epsilon)
 						// Close enough to whole number
-						return new Variable(v.name, Convert.ToString((long) Math.Round(v.getNumber()), 16));
+						return new Variable(v.name, Convert.ToString((long)Math.Round(v.getNumber()), 16));
 					PMWrapper.RaiseError(lineNumber, "Kan endast konvertera heltal till hexadecimal!");
 					return null;
 
@@ -371,24 +378,26 @@ namespace PM.GlobalFunctions {
 		}
 	}
 
-	public class ConvertToOctal : Compiler.Function {
-
-		public ConvertToOctal() {
+	public class ConvertToOctal : Compiler.Function
+	{
+		public ConvertToOctal()
+		{
 			this.name = "oct";
 			this.inputParameterAmount.Add(1);
 			this.hasReturnVariable = true;
 			this.pauseWalker = false;
 		}
 
-		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber) {
-
+		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber)
+		{
 			Variable v = inputParas[0];
 
-			switch (v.variableType) {
+			switch (v.variableType)
+			{
 				case VariableTypes.number:
 					if (Math.Abs(v.getNumber() - Math.Round(v.getNumber())) <= double.Epsilon)
 						// Close enough to whole number
-						return new Variable(v.name, Convert.ToString((long) Math.Round(v.getNumber()), 8));
+						return new Variable(v.name, Convert.ToString((long)Math.Round(v.getNumber()), 8));
 					PMWrapper.RaiseError(lineNumber, "Kan endast konvertera heltal till oktaler!");
 					return null;
 
@@ -406,9 +415,10 @@ namespace PM.GlobalFunctions {
 		}
 	}
 
-	public class MinimumValue : Compiler.Function {
-
-		public MinimumValue() {
+	public class MinimumValue : Compiler.Function
+	{
+		public MinimumValue()
+		{
 			this.name = "min";
 			this.inputParameterAmount.Add(2);
 			this.inputParameterAmount.Add(3);
@@ -421,13 +431,14 @@ namespace PM.GlobalFunctions {
 			this.pauseWalker = false;
 		}
 
-		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber) {
-
+		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber)
+		{
 			object min = null;
 
-			for (int i=0; i<inputParas.Length; i++) {
+			for (int i = 0; i < inputParas.Length; i++)
+			{
 				var v = inputParas[i];
-				
+
 				// Checka så det är rätt datatyp
 				if ((v.variableType != VariableTypes.boolean && v.variableType != VariableTypes.number && v.variableType != VariableTypes.textString)
 					|| (v.variableType == VariableTypes.textString && v.getString() == null))
@@ -435,14 +446,16 @@ namespace PM.GlobalFunctions {
 					// or (null string) then error
 					PMWrapper.RaiseError(lineNumber, "Kan inte mäta 'None'!");
 
-				if (min == null) {
+				if (min == null)
+				{
 					if (v.variableType == VariableTypes.number) min = v.getNumber();
 					if (v.variableType == VariableTypes.boolean) min = v.getBool();
 					if (v.variableType == VariableTypes.textString) min = v.getString();
 					continue;
 				}
 
-				switch (v.variableType) {
+				switch (v.variableType)
+				{
 					case VariableTypes.boolean:
 						if (min is string) PMWrapper.RaiseError(lineNumber, "Kan inte jämföra text sträng med boolean!");
 						if (min is double)
@@ -468,20 +481,21 @@ namespace PM.GlobalFunctions {
 			}
 
 			if (min is string)
-				return new Variable("Minimum", (string) min);
+				return new Variable("Minimum", (string)min);
 			if (min is double)
-				return new Variable("Minimum", (double) min);
+				return new Variable("Minimum", (double)min);
 			if (min is bool)
-				return new Variable("Minimum", (bool) min);
+				return new Variable("Minimum", (bool)min);
 
 			return null;
 		}
 	}
 
 
-	public class MaximumValue : Compiler.Function {
-
-		public MaximumValue() {
+	public class MaximumValue : Compiler.Function
+	{
+		public MaximumValue()
+		{
 			this.name = "max";
 			this.inputParameterAmount.Add(2);
 			this.inputParameterAmount.Add(3);
@@ -494,11 +508,12 @@ namespace PM.GlobalFunctions {
 			this.pauseWalker = false;
 		}
 
-		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber) {
-
+		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber)
+		{
 			object max = null;
 
-			for (int i = 0; i < inputParas.Length; i++) {
+			for (int i = 0; i < inputParas.Length; i++)
+			{
 				var v = inputParas[i];
 
 				// Checka så det är rätt datatyp
@@ -508,32 +523,34 @@ namespace PM.GlobalFunctions {
 					// or (null string) then error
 					PMWrapper.RaiseError(lineNumber, "Kan inte mäta 'None'!");
 
-				if (max == null) {
+				if (max == null)
+				{
 					if (v.variableType == VariableTypes.number) max = v.getNumber();
 					if (v.variableType == VariableTypes.boolean) max = v.getBool();
 					if (v.variableType == VariableTypes.textString) max = v.getString();
 					continue;
 				}
 
-				switch (v.variableType) {
+				switch (v.variableType)
+				{
 					case VariableTypes.boolean:
 						if (max is string) PMWrapper.RaiseError(lineNumber, "Kan inte jämföra text sträng med boolean!");
 						if (max is double)
 							// True=1 False=0
-							if ((v.getBool() ? 1 : 0) > (double) max) max = v.getBool();
-						if (max is bool) max = (bool) max || v.getBool();
+							if ((v.getBool() ? 1 : 0) > (double)max) max = v.getBool();
+						if (max is bool) max = (bool)max || v.getBool();
 						break;
 
 					case VariableTypes.number:
 						if (max is string) PMWrapper.RaiseError(lineNumber, "Kan inte jämföra text sträng med siffra!");
-						if (max is double) max = Math.Max((double) max, v.getNumber());
+						if (max is double) max = Math.Max((double)max, v.getNumber());
 						if (max is bool)
 							// True=1 False=0
-							if (v.getNumber() > ((bool) max == true ? 1 : 0)) max = v.getNumber();
+							if (v.getNumber() > ((bool)max == true ? 1 : 0)) max = v.getNumber();
 						break;
 
 					case VariableTypes.textString:
-						if (max is string) if (v.getString().CompareTo((string) max) > 0) max = v.getString();
+						if (max is string) if (v.getString().CompareTo((string)max) > 0) max = v.getString();
 						if (max is double) PMWrapper.RaiseError(lineNumber, "Kan inte jämföra text sträng med siffra!");
 						if (max is bool) PMWrapper.RaiseError(lineNumber, "Kan inte jämföra text sträng med boolean!");
 						break;
@@ -541,29 +558,31 @@ namespace PM.GlobalFunctions {
 			}
 
 			if (max is string)
-				return new Variable("Minimum", (string) max);
+				return new Variable("Minimum", (string)max);
 			if (max is double)
-				return new Variable("Minimum", (double) max);
+				return new Variable("Minimum", (double)max);
 			if (max is bool)
-				return new Variable("Minimum", (bool) max);
+				return new Variable("Minimum", (bool)max);
 
 			return null;
 		}
 	}
 
-	public class GetTime : Compiler.Function {
-
+	public class GetTime : Compiler.Function
+	{
 		private static readonly DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-		public GetTime() {
+		public GetTime()
+		{
 			this.name = "time";
 			this.inputParameterAmount.Add(0);
 			this.hasReturnVariable = true;
 			this.pauseWalker = false;
 		}
 
-		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber) {
-			return new Variable("Unix", (int) (DateTime.UtcNow - epoch).TotalSeconds);
+		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber)
+		{
+			return new Variable("Unix", (int)(DateTime.UtcNow - epoch).TotalSeconds);
 		}
 	}
 
