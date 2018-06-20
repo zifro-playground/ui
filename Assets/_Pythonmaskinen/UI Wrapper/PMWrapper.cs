@@ -33,6 +33,10 @@ public static class PMWrapper
 		set { UISingleton.instance.walker.BaseWalkerWaitTime = value; }
 	}
 
+    public static Level LevelData{
+        get { return Main.Instance.LevelData; }
+    }
+
 	/// <summary>
 	/// The pre code, i.e. the un-changeable code BEFORE the main code.
 	/// <para>Changing this value will automatically offset the main codes Y position.</para>
