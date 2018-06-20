@@ -28,7 +28,7 @@ public class LevelSettings
 	public List<string> availableFunctions { get; set; }
 }
 
-public class LevelDefinition
+public partial class LevelDefinition
 {
 	public string correctAnswer { get; set; }
 }
@@ -39,9 +39,8 @@ public class CaseSettings
 	public float walkerStepTime { get; set; }
 }
 
-public class CaseDefinition
+public partial class CaseDefinition
 {
-	public string correctAnswer { get; set; }
 }
 
 public class Case
