@@ -216,6 +216,9 @@ namespace PM
 				CaseHandler = new CaseHandler(cases.Count);
 			else
 				CaseHandler = new CaseHandler(1);
+
+            foreach (var ev in UISingleton.FindInterfaces<IPMCaseSwitched>())
+                ev.OnPMCaseSwitched(0);
 		}
 
 
