@@ -26,6 +26,9 @@ namespace PM
 		public static bool IsSleeping;
 		public static bool WalkerRunning = true;
 		public bool IsUserPaused { get; private set; }
+		public static bool IsWaitingForInput;
+
+		public static int CurrentLineNumber;
 
 		private static bool doEndWalker;
 		private static Action<HelloCompiler.StopStatus> stopCompiler;
@@ -40,11 +43,19 @@ namespace PM
 		public void ActivateWalker(Action<HelloCompiler.StopStatus> stopCompilerMeth)
 		{
 			Compiler.SyntaxCheck.CompileCode(PMWrapper.fullCode, EndWalker, PauseWalker, IDELineMarker.activateFunctionCall, IDELineMarker.SetWalkerPosition);
+			stopCompiler = stopCompilerMeth;
+
 			enabled = true;
 			WalkerRunning = true;
 			doEndWalker = false;
-			stopCompiler = stopCompilerMeth;
 			IsUserPaused = false;
+			IsWaitingForInput = false;
+
+			CurrentLineNumber = 0;
+
+			// Call event
+			foreach (var ev in UISingleton.FindInterfaces<IPMActivateWalker>())
+				ev.OnPMActivateWalker();
 		}
 		#endregion
 
@@ -57,7 +68,7 @@ namespace PM
 		{
 			if (IsUserPaused) return;
 
-			if (WalkerRunning && !IsSleeping)
+			if (WalkerRunning && !IsSleeping && !IsWaitingForInput)
 			{
 				if (doEndWalker)
 				{
@@ -68,6 +79,12 @@ namespace PM
 				try
 				{
 					Runtime.CodeWalker.parseLine();
+
+					// Call event
+					foreach (var ev in UISingleton.FindInterfaces<IPMLineParsed>())
+						ev.OnPMLineParsed();
+
+					CurrentLineNumber++;
 				}
 				catch
 				{
@@ -87,7 +104,7 @@ namespace PM
 		{
 			sleepTimer += Time.deltaTime;
 			float firstInterval = sleepTime - sleepTime / 20;
-			if (sleepTimer > firstInterval)
+			if (sleepTimer > firstInterval && !IsWaitingForInput)
 			{
 				IDELineMarker.instance.SetState(IDELineMarker.State.Hidden);
 				if (sleepTimer > sleepTime)

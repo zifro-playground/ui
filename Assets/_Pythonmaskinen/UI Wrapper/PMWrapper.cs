@@ -119,6 +119,11 @@ public static class PMWrapper
 		UISingleton.instance.textField.InsertMainCodeAtStart(code);
 	}
 
+	public static int CurrentLineNumber
+	{
+		get { return CodeWalker.CurrentLineNumber; }
+	}
+
 	/// <summary>
 	/// Scrolls so that the <paramref name="lineNumber"/> is visible in the IDE.
 	/// </summary>
@@ -144,6 +149,12 @@ public static class PMWrapper
 	/// Boolean representing wether the walker is currently paused by the user (via pressing the pause button).
 	/// </summary>
 	public static bool IsCompilerUserPaused { get { return UISingleton.instance.walker.IsUserPaused; } }
+
+	public static bool IsWaitingForUserInput
+	{
+		get { return CodeWalker.IsWaitingForInput; }
+		set { CodeWalker.IsWaitingForInput = value; }
+	}
 
 	/// <summary>
 	/// Starts the compiler if it's not currently running. Static wrapper for <see cref="HelloCompiler.compileCode"/>
@@ -454,5 +465,4 @@ public static class PMWrapper
 			UISingleton.instance.ideRoot.parent = null;
 		UnityEngine.Object.DontDestroyOnLoad(UISingleton.instance.ideRoot);
 	}
-
 }
