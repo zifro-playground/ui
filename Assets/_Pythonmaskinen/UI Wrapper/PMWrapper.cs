@@ -27,11 +27,19 @@ public static class PMWrapper
 		set { UISingleton.instance.speed.currentSpeed = value; }
 	}
 
+	/// <summary>
+	/// A base factor in how long it takes for the walker to take one step in the code. 
+	/// It is multiplied with <see cref="speedMultiplier"/> to calculate the actual step time.
+	/// </summary>
 	public static float walkerStepTime
 	{
 		get { return UISingleton.instance.walker.BaseWalkerWaitTime; }
 		set { UISingleton.instance.walker.BaseWalkerWaitTime = value; }
 	}
+
+    public static Level LevelData{
+        get { return Main.Instance.LevelData; }
+    }
 
 	/// <summary>
 	/// The pre code, i.e. the un-changeable code BEFORE the main code.
