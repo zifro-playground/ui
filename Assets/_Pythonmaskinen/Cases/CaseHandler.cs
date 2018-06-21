@@ -113,7 +113,13 @@ namespace PM
 
 		private IEnumerator ShowFeedbackAndRunNextCase()
 		{
-			UISingleton.instance.taskDescription.ShowPositiveMessage("Test " + (CurrentCase + 1) + " avklarat!");
+            string positiveMassage;
+            if (numberOfCases == 1)
+                positiveMassage = "Bra jobbat!";
+            else
+                positiveMassage = "Test " + (CurrentCase + 1) + " avklarat!";
+
+            UISingleton.instance.taskDescription.ShowPositiveMessage(positiveMassage);
 
 			yield return new WaitForSeconds(3 * (1 - PMWrapper.speedMultiplier));
 

@@ -28,9 +28,12 @@ public class LevelSettings
 	public List<string> availableFunctions { get; set; }
 }
 
-public class LevelDefinition
+/// <summary>
+/// Can be used to specify custom level definitions in json. 
+/// Should be implemented as partial class in file outside of _Pythonmaskinen.
+/// </summary>
+public partial class LevelDefinition
 {
-	public string correctAnswer { get; set; }
 }
 
 public class CaseSettings
@@ -39,9 +42,12 @@ public class CaseSettings
 	public float walkerStepTime { get; set; }
 }
 
-public class CaseDefinition
+/// <summary>
+/// Can be used to specify custom case definitions in json. 
+/// Should be implemented as partial class in file outside of _Pythonmaskinen.
+/// </summary>
+public partial class CaseDefinition
 {
-	public string correctAnswer { get; set; }
 }
 
 public class Case
