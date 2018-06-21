@@ -76,3 +76,13 @@ public interface IPMCorrectAnswer
 {
 	void OnPMCorrectAnswer(string answer);
 }
+
+public interface IPMActivateWalker
+{
+	void OnPMActivateWalker();
+}
+
+public interface IPMLineParsed
+{
+	void OnPMLineParsed();
+}
