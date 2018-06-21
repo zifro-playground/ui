@@ -236,9 +236,9 @@ public static class PMWrapper
 	/// <summary>
 	/// Set the task description for current level. If passed empty string, both placeholders for task description will be deactivated.
 	/// </summary>
-	public static void SetTaskDescription(string taskDescription)
+    public static void SetTaskDescription(string taskDescriptionHead,string taskDescriptionBody)
 	{
-		UISingleton.instance.taskDescription.SetTaskDescription(taskDescription);
+        UISingleton.instance.taskDescription.SetTaskDescription(taskDescriptionHead,taskDescriptionBody);
 	}
 
 	/// <summary>

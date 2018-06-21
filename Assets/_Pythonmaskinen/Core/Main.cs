@@ -152,7 +152,7 @@ namespace PM
 
 			if (levelSettings == null)
 			{
-				PMWrapper.SetTaskDescription("");
+				PMWrapper.SetTaskDescription("","");
 				return;
 			}
 
@@ -162,10 +162,10 @@ namespace PM
 			if (!String.IsNullOrEmpty(levelSettings.startCode))
 				PMWrapper.AddCodeAtStart(levelSettings.startCode);
 
-			if (!String.IsNullOrEmpty(levelSettings.taskDescription))
-				PMWrapper.SetTaskDescription(levelSettings.taskDescription);
+            if (!(levelSettings.taskDescription==null))
+                PMWrapper.SetTaskDescription(levelSettings.taskDescription.head,levelSettings.taskDescription.body);
 			else
-				PMWrapper.SetTaskDescription("");
+				PMWrapper.SetTaskDescription("","");
 
 			if (levelSettings.rowLimit > 0)
 				PMWrapper.codeRowsLimit = levelSettings.rowLimit;

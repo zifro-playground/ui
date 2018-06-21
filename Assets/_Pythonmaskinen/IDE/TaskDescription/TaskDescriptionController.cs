@@ -2,17 +2,18 @@
 using UnityEngine.UI;
 using PM;
 
-public class TaskDescription : MonoBehaviour, IPMLevelChanged, IPMCompilerStarted
+public class TaskDescriptionController : MonoBehaviour, IPMLevelChanged, IPMCompilerStarted
 {
 	public Animator IconAnimator;
 
 	[Header("Big task description")]
-	public GameObject LevelStartParent;
-	public Text LevelStartText;
+	public GameObject BigTaskDescription;
+	public Text BigTaskDescriptionHead;
+    public Text BigTaskDescriptionBody;
 
 	[Header("Small task description")]
-	public GameObject TaskBarParent;
-	public Text TaskBarText;
+	public GameObject SmallTaskDescription;
+	public Text SmallTaskDescriptionText;
 
 	[Header("Positive Feedback")]
 	public GameObject PositiveParent;
@@ -30,23 +31,24 @@ public class TaskDescription : MonoBehaviour, IPMLevelChanged, IPMCompilerStarte
 		anim = IconAnimator;
 	}
 
-	public void SetTaskDescription (string taskDescription)
+	public void SetTaskDescription (string taskDescriptionHead,string taskDescriptionBody)
 	{
-		LevelStartParent.SetActive (false);
-		if (taskDescription.Length < 1)
+		BigTaskDescription.SetActive (false);
+		if (taskDescriptionHead.Length < 1)
 		{
-			TaskBarParent.SetActive (false);
+			SmallTaskDescription.SetActive (false);
 		}
 		else
 		{
-			TaskBarParent.SetActive (true);
-			TaskBarText.text = taskDescription;
+			SmallTaskDescription.SetActive (true);
+			SmallTaskDescriptionText.text = taskDescriptionHead;
 			hasShownBigTaskDescription = false; // TODO load from database
 
 			if (!hasShownBigTaskDescription)
 			{
-				LevelStartParent.SetActive (true);
-				LevelStartText.text = taskDescription;
+				BigTaskDescription.SetActive (true);
+                BigTaskDescriptionHead.text = taskDescriptionHead;
+                BigTaskDescriptionBody.text = taskDescriptionBody;
 				hasShownBigTaskDescription = true;
 			}
 		}
