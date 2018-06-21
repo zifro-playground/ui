@@ -114,12 +114,10 @@ namespace PM
 		private IEnumerator ShowFeedbackAndRunNextCase()
 		{
             string positiveMassage;
-            if (numberOfCases == 1){
+            if (numberOfCases == 1)
                 positiveMassage = "Bra jobbat!";
-            }
-            else{
+            else
                 positiveMassage = "Test " + (CurrentCase + 1) + " avklarat!";
-            }
 
             UISingleton.instance.taskDescription.ShowPositiveMessage(positiveMassage);
 
