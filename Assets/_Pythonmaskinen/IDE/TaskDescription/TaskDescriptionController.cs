@@ -25,7 +25,6 @@ public class TaskDescriptionController : MonoBehaviour, IPMLevelChanged, IPMComp
 	public Text NegativeText;
 
 	private Animator anim;
-	private bool hasShownBigTaskDescription = false;
 
 	private void Awake()
 	{
@@ -42,13 +41,7 @@ public class TaskDescriptionController : MonoBehaviour, IPMLevelChanged, IPMComp
 		else
 		{
 			SetSmallTaskDescription(header, body);
-
-			hasShownBigTaskDescription = false;
-
-			if (!hasShownBigTaskDescription)
-			{
-				SetBigTaskDescription(header, body);
-			}
+			SetBigTaskDescription(header, body);
 		}
 	}
 
@@ -64,10 +57,15 @@ public class TaskDescriptionController : MonoBehaviour, IPMLevelChanged, IPMComp
 
 	private void SetBigTaskDescription(string header, string body)
 	{
-		BigTaskDescription.SetActive(true);
-		BigTaskDescriptionHead.text = header;
-		BigTaskDescriptionBody.text = body;
-		hasShownBigTaskDescription = true;
+		if (!UserData.HasSeenDescriptionForLevel.ContainsKey(PMWrapper.currentLevel) ||
+		    !UserData.HasSeenDescriptionForLevel[PMWrapper.currentLevel])
+		{
+			BigTaskDescription.SetActive(true);
+			BigTaskDescriptionHead.text = header;
+			BigTaskDescriptionBody.text = body;
+
+			UserData.HasSeenDescriptionForLevel[PMWrapper.currentLevel] = true;
+		}
 	}
 
 	public void ShowTaskError(string message)
