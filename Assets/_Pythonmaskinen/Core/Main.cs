@@ -152,7 +152,7 @@ namespace PM
 
 			if (levelSettings == null)
 			{
-				PMWrapper.SetTaskDescription("","");
+				PMWrapper.SetTaskDescription("", "");
 				return;
 			}
 
