@@ -19,12 +19,17 @@ public class GuideBubble
 	public string text { get; set; }
 }
 
+public class TaskDescription{
+    public string header { get; set; }
+    public string body { get; set; }
+}
+
 public class LevelSettings
 {
 	public string precode { get; set; }
 	public string startCode { get; set; }
 	public int rowLimit { get; set; }
-	public string taskDescription { get; set; }
+    public TaskDescription taskDescription { get; set; }
 	public List<string> availableFunctions { get; set; }
 }
 

@@ -4912,10 +4912,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IconAnimator: {fileID: 95629955592854524}
-  LevelStartParent: {fileID: 1937726073980182}
-  LevelStartText: {fileID: 114507497575394140}
-  TaskBarParent: {fileID: 1214622348341766}
-  TaskBarText: {fileID: 114423963995240710}
+  BigTaskDescription: {fileID: 0}
+  BigTaskDescriptionHead: {fileID: 0}
+  BigTaskDescriptionBody: {fileID: 0}
+  SmallTaskDescription: {fileID: 0}
+  SmallTaskDescriptionText: {fileID: 0}
   PositiveParent: {fileID: 1691339463794966}
   PositiveText: {fileID: 114279307735605358}
   NegativeParent: {fileID: 1110981664529898}
@@ -5280,7 +5281,6 @@ MonoBehaviour:
   tooltipParent: {fileID: 224844470878066990}
   taskDescription: {fileID: 114542965761304800}
   uiCanvasGroup: {fileID: 225127945370016392}
-  printBubble: {fileID: 0}
   guideBubble: {fileID: 114747664486140560}
   answerBubble: {fileID: 114746377906418498}
   uiCamera: {fileID: 20198239648933164}

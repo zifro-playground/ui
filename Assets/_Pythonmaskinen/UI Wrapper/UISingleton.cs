@@ -28,7 +28,7 @@ namespace PM
 		public GameObject uiTooltipPrefab;
 		public GameObject varTooltipPrefab;
 		public RectTransform tooltipParent;
-		public TaskDescription taskDescription;
+		public TaskDescriptionController taskDescription;
 		public CanvasGroup uiCanvasGroup;
 
 		[Header("Bubbles")]
