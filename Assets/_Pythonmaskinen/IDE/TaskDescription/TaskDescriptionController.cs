@@ -32,33 +32,42 @@ public class TaskDescriptionController : MonoBehaviour, IPMLevelChanged, IPMComp
 		anim = IconAnimator;
 	}
 
-	public void SetTaskDescription (string taskDescriptionHead,string taskDescriptionBody)
+	public void SetTaskDescription (string header, string body)
 	{
 		BigTaskDescription.SetActive (false);
-		if (taskDescriptionHead.Length < 1)
+		if (header.Length < 1)
 		{
 			SmallTaskDescription.SetActive (false);
 		}
 		else
 		{
-			SmallTaskDescription.SetActive (true);
-			SmallTaskDescriptionText.text = taskDescriptionHead;
-			if (string.IsNullOrEmpty(taskDescriptionBody))
-				ReadMoreButton.SetActive(false);
-			else
-				ReadMoreButton.SetActive(true);
+			SetSmallTaskDescription(header, body);
 
 			hasShownBigTaskDescription = false;
 
 			if (!hasShownBigTaskDescription)
 			{
-				BigTaskDescription.SetActive (true);
-                BigTaskDescriptionHead.text = taskDescriptionHead;
-                BigTaskDescriptionBody.text = taskDescriptionBody;
-				hasShownBigTaskDescription = true;
+				SetBigTaskDescription(header, body);
 			}
 		}
+	}
 
+	private void SetSmallTaskDescription(string header, string body)
+	{
+		SmallTaskDescription.SetActive(true);
+		SmallTaskDescriptionText.text = header;
+		if (string.IsNullOrEmpty(body))
+			ReadMoreButton.SetActive(false);
+		else
+			ReadMoreButton.SetActive(true);
+	}
+
+	private void SetBigTaskDescription(string header, string body)
+	{
+		BigTaskDescription.SetActive(true);
+		BigTaskDescriptionHead.text = header;
+		BigTaskDescriptionBody.text = body;
+		hasShownBigTaskDescription = true;
 	}
 
 	public void ShowTaskError(string message)

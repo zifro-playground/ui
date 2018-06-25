@@ -20,7 +20,7 @@ public class GuideBubble
 }
 
 public class TaskDescription{
-    public string head { get; set; }
+    public string header { get; set; }
     public string body { get; set; }
 }
 

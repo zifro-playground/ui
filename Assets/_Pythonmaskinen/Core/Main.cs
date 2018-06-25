@@ -162,10 +162,10 @@ namespace PM
 			if (!String.IsNullOrEmpty(levelSettings.startCode))
 				PMWrapper.AddCodeAtStart(levelSettings.startCode);
 
-            if (!(levelSettings.taskDescription==null))
-                PMWrapper.SetTaskDescription(levelSettings.taskDescription.head,levelSettings.taskDescription.body);
+            if (levelSettings.taskDescription != null)
+                PMWrapper.SetTaskDescription(levelSettings.taskDescription.header,levelSettings.taskDescription.body);
 			else
-				PMWrapper.SetTaskDescription("","");
+				PMWrapper.SetTaskDescription("", "");
 
 			if (levelSettings.rowLimit > 0)
 				PMWrapper.codeRowsLimit = levelSettings.rowLimit;
