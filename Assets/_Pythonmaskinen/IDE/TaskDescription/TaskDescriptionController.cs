@@ -13,6 +13,7 @@ public class TaskDescriptionController : MonoBehaviour, IPMLevelChanged, IPMComp
 
 	[Header("Small task description")]
 	public GameObject SmallTaskDescription;
+	public GameObject ReadMoreButton;
 	public Text SmallTaskDescriptionText;
 
 	[Header("Positive Feedback")]
@@ -42,7 +43,12 @@ public class TaskDescriptionController : MonoBehaviour, IPMLevelChanged, IPMComp
 		{
 			SmallTaskDescription.SetActive (true);
 			SmallTaskDescriptionText.text = taskDescriptionHead;
-			hasShownBigTaskDescription = false; // TODO load from database
+			if (string.IsNullOrEmpty(taskDescriptionBody))
+				ReadMoreButton.SetActive(false);
+			else
+				ReadMoreButton.SetActive(true);
+
+			hasShownBigTaskDescription = false;
 
 			if (!hasShownBigTaskDescription)
 			{
