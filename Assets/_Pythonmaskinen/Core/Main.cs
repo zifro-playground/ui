@@ -248,6 +248,7 @@ namespace PM
 		}
 		public void OnPMLevelChanged()
 		{
+			PMWrapper.StopCompiler();
 			StopAllCoroutines();
 			CaseHandler.ResetHandlerAndButtons();
 		}
