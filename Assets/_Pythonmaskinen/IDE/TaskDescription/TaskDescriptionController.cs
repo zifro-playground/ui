@@ -1,102 +1,104 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using PM;
 
-public class TaskDescriptionController : MonoBehaviour, IPMLevelChanged, IPMCompilerStarted
+namespace PM
 {
-	public Animator IconAnimator;
-
-	[Header("Big task description")]
-	public GameObject BigTaskDescription;
-	public Text BigTaskDescriptionHead;
-    public Text BigTaskDescriptionBody;
-
-	[Header("Small task description")]
-	public GameObject SmallTaskDescription;
-	public GameObject ReadMoreButton;
-	public Text SmallTaskDescriptionText;
-
-	[Header("Positive Feedback")]
-	public GameObject PositiveParent;
-	public Text PositiveText;
-
-	[Header("Positive Feedback")]
-	public GameObject NegativeParent;
-	public Text NegativeText;
-
-	private Animator anim;
-
-	private void Awake()
+	public class TaskDescriptionController : MonoBehaviour, IPMLevelChanged, IPMCompilerStarted
 	{
-		anim = IconAnimator;
-	}
+		public Animator IconAnimator;
 
-	public void SetTaskDescription (string header, string body)
-	{
-		BigTaskDescription.SetActive (false);
-		if (header.Length < 1)
+		[Header("Big task description")]
+		public GameObject BigTaskDescription;
+		public Text BigTaskDescriptionHead;
+		public Text BigTaskDescriptionBody;
+
+		[Header("Small task description")]
+		public GameObject SmallTaskDescription;
+		public GameObject ReadMoreButton;
+		public Text SmallTaskDescriptionText;
+
+		[Header("Positive Feedback")]
+		public GameObject PositiveParent;
+		public Text PositiveText;
+
+		[Header("Positive Feedback")]
+		public GameObject NegativeParent;
+		public Text NegativeText;
+
+		private Animator anim;
+
+		private void Awake()
 		{
-			SmallTaskDescription.SetActive (false);
+			anim = IconAnimator;
 		}
-		else
+
+		public void SetTaskDescription (string header, string body)
 		{
-			SetSmallTaskDescription(header, body);
-			SetBigTaskDescription(header, body);
+			BigTaskDescription.SetActive (false);
+			if (header.Length < 1)
+			{
+				SmallTaskDescription.SetActive (false);
+			}
+			else
+			{
+				SetSmallTaskDescription(header, body);
+				SetBigTaskDescription(header, body);
+			}
 		}
-	}
 
-	private void SetSmallTaskDescription(string header, string body)
-	{
-		SmallTaskDescription.SetActive(true);
-		SmallTaskDescriptionText.text = header;
-		if (string.IsNullOrEmpty(body))
-			ReadMoreButton.SetActive(false);
-		else
-			ReadMoreButton.SetActive(true);
-	}
-
-	private void SetBigTaskDescription(string header, string body)
-	{
-		BigTaskDescriptionHead.text = header;
-		BigTaskDescriptionBody.text = body;
-
-		if (!UserData.HasSeenDescriptionForLevel.ContainsKey(PMWrapper.currentLevel) ||
-		    !UserData.HasSeenDescriptionForLevel[PMWrapper.currentLevel])
+		private void SetSmallTaskDescription(string header, string body)
 		{
-			BigTaskDescription.SetActive(true);
-			UserData.HasSeenDescriptionForLevel[PMWrapper.currentLevel] = true;
+			SmallTaskDescription.SetActive(true);
+			SmallTaskDescriptionText.text = header;
+			if (string.IsNullOrEmpty(body))
+				ReadMoreButton.SetActive(false);
+			else
+				ReadMoreButton.SetActive(true);
 		}
-	}
 
-	public void ShowTaskError(string message)
-	{
-		NegativeParent.SetActive(true);
-		NegativeText.text = message;
+		private void SetBigTaskDescription(string header, string body)
+		{
+			BigTaskDescriptionHead.text = header;
+			BigTaskDescriptionBody.text = body;
 
-		anim.SetTrigger("Shake");
-	}
+			if (!UserData.HasSeenDescriptionForLevel.ContainsKey(PMWrapper.currentLevel) ||
+				!UserData.HasSeenDescriptionForLevel[PMWrapper.currentLevel])
+			{
+				BigTaskDescription.SetActive(true);
+				UserData.HasSeenDescriptionForLevel[PMWrapper.currentLevel] = true;
+			}
+		}
 
-	public void HideTaskFeedback()
-	{
-		NegativeParent.SetActive(false);
-		PositiveParent.SetActive(false);
+		public void ShowTaskError(string message)
+		{
+			NegativeParent.SetActive(true);
+			NegativeText.text = message;
 
-	}
+			anim.SetTrigger("Shake");
+		}
 
-	public void ShowPositiveMessage(string message)
-	{
-		PositiveParent.SetActive(true);
-		PositiveText.text = message;
+		public void HideTaskFeedback()
+		{
+			NegativeParent.SetActive(false);
+			PositiveParent.SetActive(false);
 
-		anim.SetTrigger("Jump");
-	}
+		}
 
-	public void OnPMLevelChanged()
-	{
-		HideTaskFeedback();
-	}
-	public void OnPMCompilerStarted()
-	{
-		HideTaskFeedback();
+		public void ShowPositiveMessage(string message)
+		{
+			PositiveParent.SetActive(true);
+			PositiveText.text = message;
+
+			anim.SetTrigger("Jump");
+		}
+
+		public void OnPMLevelChanged()
+		{
+			HideTaskFeedback();
+		}
+		public void OnPMCompilerStarted()
+		{
+			HideTaskFeedback();
+		}
 	}
 }

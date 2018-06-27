@@ -2957,7 +2957,7 @@ MonoBehaviour:
   BigTaskDescriptionBody: {fileID: 114115256145560258}
   SmallTaskDescription: {fileID: 1262203075825620}
   ReadMoreButton: {fileID: 1090726684602476}
-  SmallTaskDescriptionText: {fileID: 114955986395335734}
+  SmallTaskDescriptionText: {fileID: 114815006877574510}
   PositiveParent: {fileID: 1426985315834048}
   PositiveText: {fileID: 114842718408580272}
   NegativeParent: {fileID: 1448551856249072}
@@ -3000,8 +3000,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114950205692822366}
   m_HandleRect: {fileID: 224748445048110122}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.99999976
+  m_Value: 1
+  m_Size: 0.9999998
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4062,7 +4062,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224931850316661708}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.9999986
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -8297,7 +8297,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000015258789}
+  m_AnchoredPosition: {x: -0.000061035156, y: -0.0001373291}
   m_SizeDelta: {x: -9.999908, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224359304086668098
@@ -8967,7 +8967,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -5, y: -0.00020599365}
+  m_AnchoredPosition: {x: -5, y: -0.000038146973}
   m_SizeDelta: {x: -30, y: 75}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224726586035599310

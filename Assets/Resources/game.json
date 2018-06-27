@@ -41,8 +41,8 @@
 						"startCode": "z = x + y\nsvara(z)",
 						"rowLimit": 10,
 						"taskDescription": {
-              "header": "Din uppgift är att svara 1. Gör du inte det kommer du att får fel och det är ju inte rätt.",
-              "body":  "...."
+							"header": "Din uppgift är att svara 1. Gör du inte det kommer du att får fel och det är ju inte rätt.",
+							"body": "* Gör detta vilket leder till punkt 2\n* Här ska du göra något annat\n* Använd det du lärt dig i det tidigare punkterna till att göra detta...\n* sammanställ och ge svar"
 						},
 						"availableFunctions": [
 							"Answer"
@@ -78,10 +78,9 @@
 						"precode": "x = 0\ny = 1",
 						"startCode": "z = x + y\nsvara(z)",
 						"rowLimit": 10,
-            "taskDescription": {
-              "header": "Din uppgift är att svara 1. Gör du inte det kommer du att får fel och det är ju inte rätt.",
-              "body": "* Gör detta vilket leder till punkt 2\n* Här ska du göra något annat\n* Använd det du lärt dig i det tidigare punkterna till att göra detta...\n* sammanställ och ge svar"
-            },
+						"taskDescription": {
+							"header": "Din uppgift är att svara 1. Gör du inte det kommer du att får fel och det är ju inte rätt."
+						},
 						"availableFunctions": [
 							"Answer"
 						]
