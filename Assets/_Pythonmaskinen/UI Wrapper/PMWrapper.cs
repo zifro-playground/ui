@@ -3,7 +3,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Runtime;
 using UnityEngine;
+using CodeWalker = PM.CodeWalker;
 
 /// <summary>
 /// PMWrapper, short for "Python Machine Wrapper".
@@ -78,7 +80,7 @@ public static class PMWrapper
 
 	/// <summary>
 	/// All codes combined, i.e. <see cref="preCode"/> + <see cref="mainCode"/> + <see cref="postCode"/> (with linebreaks inbetween).
-	/// <para>This is the property that <seealso cref="CodeWalker"/> uses when sending the code to compile to the <seealso cref="Compiler.SyntaxCheck"/>.</para>
+	/// <para>This is the property that <seealso cref="PM.CodeWalker"/> uses when sending the code to compile to the <seealso cref="Compiler.SyntaxCheck"/>.</para>
 	/// </summary>
 	public static string fullCode
 	{
@@ -194,8 +196,18 @@ public static class PMWrapper
 	/// <summary>
 	/// Adds a list of functions to the already existing list of compiler functions.
 	/// </summary>
+	public static void AddCompilerFunctions(List<Compiler.Function> functions)
+	{
+		AddSmartButtons(functions.Select(function => function.buttonText).ToList());
+		UISingleton.instance.compiler.addedFunctions.AddRange(functions);
+	}
+
+	/// <summary>
+	/// Adds all parameters of type <see cref="HelloCompiler.stopCompiler(Compiler.Function)"/> to the already existing list of compiler functions.
+	/// </summary>
 	public static void AddCompilerFunctions(params Compiler.Function[] functions)
 	{
+		AddSmartButtons(functions.Select(function => function.buttonText).ToList());
 		UISingleton.instance.compiler.addedFunctions.AddRange(functions);
 	}
 
@@ -208,8 +220,7 @@ public static class PMWrapper
 	}
 
 	/// <summary>
-	/// Creates multiple smart buttons below the code view. Once pressed, it inserts code into the main code view.
-	/// <para>If you wish to clear away all smart buttons, run this function or <seealso cref="SetSmartRichButtons(string[])"/> with empty parameters.</para>
+	/// Set smart buttons from parameters.
 	/// </summary>
 	public static void SetSmartButtons(params string[] codes)
 	{
@@ -219,6 +230,10 @@ public static class PMWrapper
 			UISingleton.instance.smartButtons.AddSmartButton(codes[i], codes[i]);
 		}
 	}
+
+	/// <summary>
+	/// Set smart buttons from list.
+	/// </summary>
 	public static void SetSmartButtons(List<string> buttonTexts)
 	{
 		UISingleton.instance.smartButtons.ClearSmartButtons();
@@ -229,11 +244,24 @@ public static class PMWrapper
 	}
 
 	/// <summary>
-	/// Creates one smart button below the code view. Once pressed, it inserts code into the main code view.
+	/// Add one smart button below code window.
+	/// <para>Text on button</para>
 	/// </summary>
-	public static void AddSmartButton(string code)
+	public static void AddSmartButton(string buttonText)
 	{
-		UISingleton.instance.smartButtons.AddSmartButton(code, code);
+		UISingleton.instance.smartButtons.AddSmartButton(buttonText, buttonText);
+	}
+
+	/// <summary>
+	/// Add one smart button below code window.
+	/// <para>Text on button</para>
+	/// </summary>
+	public static void AddSmartButtons(List<string> buttonTexts)
+	{
+		for (int i = 0; i < buttonTexts.Count; i++)
+		{
+			UISingleton.instance.smartButtons.AddSmartButton(buttonTexts[i], buttonTexts[i]);
+		}
 	}
 
 	/// <summary>

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Compiler;
 using Newtonsoft.Json;
 using PM.Guide;
 using UnityEngine;
@@ -23,6 +24,8 @@ namespace PM
 		public CaseHandler CaseHandler;
 
 		public static Main Instance;
+
+		private SceneSettings currentSceneSettings;
 
 		// Everything should be placed in Awake() but there are some things that needs to be set in Awake() in some other script before the things currently in Start() is called
 		private void Awake()
@@ -71,16 +74,16 @@ namespace PM
 		{
 			if (sceneName != loadedScene)
 			{
-				var scenes = GameDefinition.scenes.Where(x => x.name == sceneName);
+				var scenes = GameDefinition.scenes.Where(x => x.name == sceneName).ToList();
 
-				if (scenes.Count() > 1)
+				if (scenes.Count > 1)
 					throw new Exception("There are more than one scene with name " + sceneName);
 				if (!scenes.Any())
 					throw new Exception("There is no scene with name " + sceneName);
 
 				var scene = scenes.First();
 
-				SetSceneSettings(scene.sceneSettings);
+				currentSceneSettings = scene.sceneSettings;
 
 				if (loadedScene != null)
 					SceneManager.UnloadSceneAsync(loadedScene);
@@ -93,76 +96,63 @@ namespace PM
 				loadedScene = sceneName;
 			}
 		}
-
-		private void SetSceneSettings(SceneSettings sceneSettings)
-		{
-			if (sceneSettings.walkerStepTime > 0)
-				PMWrapper.walkerStepTime = sceneSettings.walkerStepTime;
-			
-			if (sceneSettings.gameWindowUiLightTheme)
-				GameWindow.Instance.SetGameWindowUiTheme(GameWindowUiTheme.light);
-			else
-				GameWindow.Instance.SetGameWindowUiTheme(GameWindowUiTheme.dark);
-
-			if (sceneSettings.availableFunctions != null)
-			{
-				var availableFunctions = CreateFunctionsFromStrings(sceneSettings.availableFunctions);
-				PMWrapper.SetCompilerFunctions(availableFunctions);
-			}
-		}
-
-		private List<Compiler.Function> CreateFunctionsFromStrings(List<string> functionNames)
-		{
-			var functions = new List<Compiler.Function>();
-			// Use reflection to get an instance of compiler function class from string
-			foreach (string functionName in functionNames)
-			{
-				Type type = Type.GetType(functionName);
-
-				if (type == null)
-					throw new Exception("Error when trying to read available functions. Function name: \"" + functionName + "\" could not be found.");
-
-				Compiler.Function function = (Compiler.Function)Activator.CreateInstance(type);
-				functions.Add(function);
-			}
-
-			return functions;
-		}
-
 		private void LoadLevel(string levelId)
 		{
-			var levels = GameDefinition.scenes.First(x => x.name == loadedScene).levels.Where(x => x.id == levelId);
+			var levels = GameDefinition.scenes.First(x => x.name == loadedScene).levels.Where(x => x.id == levelId).ToList();
 
-			if (levels.Count() > 1)
+			if (levels.Count > 1)
 				throw new Exception("There are more than one level with id " + levelId);
 			if (!levels.Any())
 				throw new Exception("There is no level with id " + levelId);
 
 			LevelData = levels.First();
 
+			ClearSettings();
+			SetSceneSettings(currentSceneSettings);
 			SetLevelSettings(LevelData.levelSettings);
+
 			BuildGuides(LevelData.guideBubbles);
 			BuildCases(LevelData.cases);
 			CaseHandler.SetCurrentCase(0);
 		}
 
+		private void ClearSettings()
+		{
+			PMWrapper.SetTaskDescription("", "");
+			PMWrapper.SetCompilerFunctions(new List<Function>());
+		}
+		private void SetSceneSettings(SceneSettings sceneSettings)
+		{
+			currentSceneSettings = sceneSettings;
+
+			if (sceneSettings.walkerStepTime > 0)
+				PMWrapper.walkerStepTime = sceneSettings.walkerStepTime;
+
+			if (sceneSettings.gameWindowUiLightTheme)
+				GameWindow.Instance.SetGameWindowUiTheme(GameWindowUiTheme.light);
+			else
+				GameWindow.Instance.SetGameWindowUiTheme(GameWindowUiTheme.dark);
+
+			if (currentSceneSettings.availableFunctions != null)
+			{
+				var availableFunctions = CreateFunctionsFromStrings(currentSceneSettings.availableFunctions);
+				PMWrapper.SetCompilerFunctions(availableFunctions);
+			}
+		}
 		private void SetLevelSettings(LevelSettings levelSettings)
 		{
 			UISingleton.instance.saveData.ClearPreAndMainCode();
 
 			if (levelSettings == null)
-			{
-				PMWrapper.SetTaskDescription("", "");
 				return;
-			}
 
 			if (!String.IsNullOrEmpty(levelSettings.precode))
 				PMWrapper.preCode = levelSettings.precode;
 
 			if (!String.IsNullOrEmpty(levelSettings.startCode))
 				PMWrapper.AddCodeAtStart(levelSettings.startCode);
-
-            if (levelSettings.taskDescription != null)
+			
+			if (levelSettings.taskDescription != null)
                 PMWrapper.SetTaskDescription(levelSettings.taskDescription.header,levelSettings.taskDescription.body);
 			else
 				PMWrapper.SetTaskDescription("", "");
@@ -173,7 +163,7 @@ namespace PM
 			if (levelSettings.availableFunctions != null)
 			{
 				var availableFunctions = CreateFunctionsFromStrings(levelSettings.availableFunctions);
-				PMWrapper.SetCompilerFunctions(availableFunctions);
+				PMWrapper.AddCompilerFunctions(availableFunctions);
 			}
 		}
 
@@ -209,7 +199,6 @@ namespace PM
 				UISingleton.instance.guidePlayer.currentGuide = null;
 			}
 		}
-
 		private void BuildCases(List<Case> cases)
 		{
 			if (cases != null && cases.Any())
@@ -220,6 +209,25 @@ namespace PM
             foreach (var ev in UISingleton.FindInterfaces<IPMCaseSwitched>())
                 ev.OnPMCaseSwitched(0);
 		}
+
+		private List<Function> CreateFunctionsFromStrings(List<string> functionNames)
+		{
+			var functions = new List<Function>();
+			// Use reflection to get an instance of compiler function class from string
+			foreach (string functionName in functionNames)
+			{
+				Type type = Type.GetType(functionName);
+
+				if (type == null)
+					throw new Exception("Error when trying to read available functions. Function name: \"" + functionName + "\" could not be found.");
+
+				Function function = (Function)Activator.CreateInstance(type);
+				functions.Add(function);
+			}
+
+			return functions;
+		}
+
 
 
 		public void OnPMCompilerStopped(HelloCompiler.StopStatus status)
@@ -238,13 +246,11 @@ namespace PM
 					PMWrapper.RaiseTaskError("Fick inget svar");
 			}
 		}
-
 		public void OnPMLevelChanged()
 		{
 			StopAllCoroutines();
 			CaseHandler.ResetHandlerAndButtons();
 		}
-
 		public void OnPMCaseSwitched(int caseNumber)
 		{
 			StopAllCoroutines();

@@ -57,13 +57,13 @@ public class TaskDescriptionController : MonoBehaviour, IPMLevelChanged, IPMComp
 
 	private void SetBigTaskDescription(string header, string body)
 	{
+		BigTaskDescriptionHead.text = header;
+		BigTaskDescriptionBody.text = body;
+
 		if (!UserData.HasSeenDescriptionForLevel.ContainsKey(PMWrapper.currentLevel) ||
 		    !UserData.HasSeenDescriptionForLevel[PMWrapper.currentLevel])
 		{
 			BigTaskDescription.SetActive(true);
-			BigTaskDescriptionHead.text = header;
-			BigTaskDescriptionBody.text = body;
-
 			UserData.HasSeenDescriptionForLevel[PMWrapper.currentLevel] = true;
 		}
 	}

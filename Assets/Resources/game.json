@@ -20,7 +20,6 @@
 				"walkerStepTime": 3.0,
 				"gameWindowUiLightTheme": false,
 				"availableFunctions": [
-					"Answer",
 					"CustomFunction"
 				]
 			},
@@ -81,7 +80,7 @@
 						"rowLimit": 10,
             "taskDescription": {
               "header": "Din uppgift är att svara 1. Gör du inte det kommer du att får fel och det är ju inte rätt.",
-              "body": "* Gör detta vilket leder till punkt 2\n* Här ska du göra något annat\n* Använd det du lärt dig i det tidigare punkterna till att göra detta...\n* samman ställ och ge svar"
+              "body": "* Gör detta vilket leder till punkt 2\n* Här ska du göra något annat\n* Använd det du lärt dig i det tidigare punkterna till att göra detta...\n* sammanställ och ge svar"
             },
 						"availableFunctions": [
 							"Answer"
