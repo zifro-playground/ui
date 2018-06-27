@@ -3,55 +3,58 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CaseFlash : MonoBehaviour
+namespace PM
 {
-	[HideInInspector]
-	public static CaseFlash Instance;
-
-	public Image NumberImage;
-	public Sprite[] CaseImages;
-
-	public float Duration;
-
-	private Coroutine coroutine;
-
-	private void Awake()
+	public class CaseFlash : MonoBehaviour
 	{
-		Instance = this;
-	}
+		[HideInInspector]
+		public static CaseFlash Instance;
 
-	public void ShowNewCaseFlash(int caseNumber, bool startCompilerWhenFinished = false)
-	{
-		if (coroutine != null)
-			StopCoroutine(coroutine);
+		public Image NumberImage;
+		public Sprite[] CaseImages;
 
-		if (caseNumber < 0 || caseNumber > PMWrapper.numOfLevels-1)
-			throw new ArgumentOutOfRangeException();
+		public float Duration;
 
-		NumberImage.sprite = CaseImages[caseNumber];
+		private Coroutine coroutine;
 
-		coroutine = StartCoroutine(ShowFlash(startCompilerWhenFinished));
-	}
-
-	private IEnumerator ShowFlash(bool startCompilerWhenFinished)
-	{
-		foreach (Transform child in transform)
+		private void Awake()
 		{
-			child.gameObject.SetActive(true);
+			Instance = this;
 		}
-		yield return new WaitForSeconds(Duration);
 
-		HideFlash();
-
-		if (startCompilerWhenFinished)
-			PMWrapper.StartCompiler();
-	}
-
-	public void HideFlash()
-	{
-		foreach (Transform child in transform)
+		public void ShowNewCaseFlash(int caseNumber, bool startCompilerWhenFinished = false)
 		{
-			child.gameObject.SetActive(false);
+			if (coroutine != null)
+				StopCoroutine(coroutine);
+
+			if (caseNumber < 0 || caseNumber > Main.Instance.CaseHandler.numberOfCases-1)
+				throw new ArgumentOutOfRangeException();
+
+			NumberImage.sprite = CaseImages[caseNumber];
+
+			coroutine = StartCoroutine(ShowFlash(startCompilerWhenFinished));
+		}
+
+		private IEnumerator ShowFlash(bool startCompilerWhenFinished)
+		{
+			foreach (Transform child in transform)
+			{
+				child.gameObject.SetActive(true);
+			}
+			yield return new WaitForSeconds(Duration);
+
+			HideFlash();
+
+			if (startCompilerWhenFinished)
+				PMWrapper.StartCompiler();
+		}
+
+		public void HideFlash()
+		{
+			foreach (Transform child in transform)
+			{
+				child.gameObject.SetActive(false);
+			}
 		}
 	}
 }

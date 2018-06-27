@@ -8,7 +8,7 @@ namespace PM
 {
 	public class CaseHandler
 	{
-		private int numberOfCases = 1;
+		public int numberOfCases = 1;
 
 		public bool AllCasesCompleted = false;
 		public int CurrentCase = 0;
