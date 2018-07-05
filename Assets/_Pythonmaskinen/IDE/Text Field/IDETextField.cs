@@ -251,8 +251,7 @@ namespace PM
 			}
 
 			FocusCursor();
-
-			// Save
+			
 			SaveData.SaveMainCode();
 
 			theLineMarker.removeErrorMessage();
@@ -356,6 +355,7 @@ namespace PM
 
 		public void InsertMainCodeAtStart(string code)
 		{
+			// TODO should check if student has played level before
 			if (theInputField.text.Length == 0)
 			{
 				theInputField.text = code;

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace PM
 {
@@ -12,7 +9,7 @@ namespace PM
 
 		public void ClearPreAndMainCode()
 		{
-			if (!this.enabled) return;
+			if (!enabled) return;
 
 			if (codes.ContainsKey(PMWrapper.currentLevel))
 				PMWrapper.mainCode = codes[PMWrapper.currentLevel];
