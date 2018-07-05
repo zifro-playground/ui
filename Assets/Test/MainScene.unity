@@ -178,7 +178,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1001 &674547340
+--- !u!1001 &962515415
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -216,11 +216,6 @@ Prefab:
     - target: {fileID: 4117731266435366, guid: c1102003f15f4b740b556583089108c0, type: 2}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114830615684473328, guid: c1102003f15f4b740b556583089108c0,
-        type: 2}
-      propertyPath: ReadMoreButton
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 224394712161318912, guid: c1102003f15f4b740b556583089108c0,
         type: 2}
@@ -290,26 +285,16 @@ Prefab:
     - target: {fileID: 224889325608080336, guid: c1102003f15f4b740b556583089108c0,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000015258789
+      value: -0.0001373291
       objectReference: {fileID: 0}
     - target: {fileID: 224008826726704052, guid: c1102003f15f4b740b556583089108c0,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -0.000061035156
       objectReference: {fileID: 0}
     - target: {fileID: 224008826726704052, guid: c1102003f15f4b740b556583089108c0,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00016784668
-      objectReference: {fileID: 0}
-    - target: {fileID: 224484508165296806, guid: c1102003f15f4b740b556583089108c0,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224787295953558294, guid: c1102003f15f4b740b556583089108c0,
-        type: 2}
-      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -455,7 +440,7 @@ MonoBehaviour:
 RectTransform:
   m_PrefabParentObject: {fileID: 224706379009283450, guid: c1102003f15f4b740b556583089108c0,
     type: 2}
-  m_PrefabInternal: {fileID: 674547340}
+  m_PrefabInternal: {fileID: 962515415}
 --- !u!1 &2119721121
 GameObject:
   m_ObjectHideFlags: 0

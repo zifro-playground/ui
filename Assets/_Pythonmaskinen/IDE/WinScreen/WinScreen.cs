@@ -1,40 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace PM {
-
-	public class WinScreen : MonoBehaviour, IPMLevelChanged, IPMCompilerStarted {
-
+namespace PM
+{
+	public class WinScreen : MonoBehaviour, IPMLevelChanged, IPMCompilerStarted
+	{
 		[Header("UI elements")]
-		public GameObject topmostObject;
-		public Button continueButton;
-		public Button closeButton;
-		public Text winText;
-		public CanvasGroup canvasGroup;
-		[Header("Settings")]
-		[TextArea]
-		public string winMsg;
-		[TextArea]
-		public string lastWinMsg;
-		[TextArea]
-		public string demoWinMsg;
-		public float fadeTime = 0.5f;
+		public Button ContinueButton;
+		public Button CloseButton;
+		public Text LevelFinishedText;
+		public Text GameFinishedText;
 
-		private float timePassed = 0;
-		private State state = State.Idle;
-
-		public void OnPMLevelChanged(){
-			CloseWinScreen ();
+		public void OnPMLevelChanged()
+		{
+			CloseWinScreen();
 		}
 
-		public void OnPMCompilerStarted(){
-			CloseWinScreen ();
+		public void OnPMCompilerStarted()
+		{
+			CloseWinScreen();
 		}
 
-		public void SetLevelCompleted() {
+		public void SetLevelCompleted()
+		{
 			PMWrapper.StopCompiler();
 
 			foreach (var ev in UISingleton.FindInterfaces<IPMLevelCompleted>())
@@ -49,76 +37,43 @@ namespace PM {
 		}
 
 		// Called by UnityActions on closeButton
-		public void CloseWinScreen() {
+		public void CloseWinScreen()
+		{
 			_HideWinScrren();
-
-			//if (!SaveData.gottenLevelTip) {
-			//	SaveData.gottenLevelTip = true;
-			//	UISingleton.instance.manusBubble.SetMessageContent("Nivåfältet","Här kan du klicka fram och tillbaka mellan nivåerna!\n\nDu kan även hoppa tillbaka till en gammal nivå för att se din tidigare lösning.");
-			//	UISingleton.instance.manusBubble.ShowMessage(UISingleton.instance.manusSelectables.First(x=>x.names.Contains("level0")).selectable.transform as RectTransform);
-			//}
 		}
 
 		// Called by UnityActions on continueButton
-		public void ContinueToNextLevel() {
+		public void ContinueToNextLevel()
+		{
 			_HideWinScrren();
 			PMWrapper.currentLevel += 1;
 		}
 
-		private void _HideWinScrren() {
-			state = State.Hide;
-			timePassed = 0;
-			this.enabled = true;
-			canvasGroup.blocksRaycasts = false;
-			canvasGroup.interactable = false;
-		}
-
-		private void _ShowWinScreen() {
-			continueButton.gameObject.SetActive(PMWrapper.currentLevel < PMWrapper.numOfLevels - 1);
-
-			if (continueButton.gameObject.activeSelf)
-				winText.text = winMsg;
-			else
-				winText.text = lastWinMsg;
-			
-			topmostObject.SetActive(true);
-			state = State.Show;
-			timePassed = 0;
-			enabled = true;
-			canvasGroup.interactable = true;
-			canvasGroup.blocksRaycasts = true;
-		}
-
-		private void Update() {
-			if (state == State.Idle) return;
-
-			timePassed += Time.deltaTime;
-
-			if (timePassed > fadeTime) {
-				// Done fading
-
-				// Reset them
-				canvasGroup.alpha = state == State.Show ? 1 : 0;
-
-				if (state == State.Hide)
-					topmostObject.SetActive(false);
-
-				state = State.Idle;
-				this.enabled = false;
-			} else {
-				// Fade them
-				canvasGroup.alpha = state == State.Show
-					? timePassed / fadeTime
-					: 1 - timePassed / fadeTime;
+		private void _HideWinScrren()
+		{
+			foreach (Transform child in transform)
+			{
+				child.gameObject.SetActive(false);
 			}
 		}
-		
-		private enum State {
-			Idle,
-			Show,
-			Hide
+
+		private void _ShowWinScreen()
+		{
+			foreach (Transform child in transform)
+			{
+				child.gameObject.SetActive(true);
+			}
+
+			if (PMWrapper.currentLevel < PMWrapper.numOfLevels - 1)
+			{
+				ContinueButton.gameObject.SetActive(true);
+				GameFinishedText.gameObject.SetActive(false);
+			}
+			else
+			{
+				ContinueButton.gameObject.SetActive(false);
+				GameFinishedText.gameObject.SetActive(true);
+			}
 		}
-
 	}
-
 }
