@@ -6,9 +6,9 @@ using System;
 
 namespace PM.GlobalFunctions
 {
-	public class ConvertToInt : Compiler.Function
+	public class ConvertToInt : Function
 	{
-		public const string onFail = "Misslyckades göra värde till heltal!";
+		public const string onFail = "Kan inte göra om indata till heltal. Det som ska göras om måste vara siffor.";
 		public const string onFail2 = "Basen måste vara ett heltal!";
 		public const string onFail3 = "Basen måste vara mellan 2 och 16!";
 
