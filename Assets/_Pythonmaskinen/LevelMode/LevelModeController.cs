@@ -96,7 +96,8 @@ namespace PM
 
 			if (status == HelloCompiler.StopStatus.RuntimeError)
 			{
-				Main.Instance.CaseHandler.CaseFailed(); // TODO Check what happens when case fails
+				if (LevelMode == LevelMode.Case)
+					Main.Instance.CaseHandler.CaseFailed();
 			}
 		}
 
