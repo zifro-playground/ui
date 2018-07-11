@@ -7,7 +7,7 @@ using System;
 
 namespace PM {
 
-	public class VariableWindow : MonoBehaviour, IPMLevelChanged {
+	public class VariableWindow : MonoBehaviour, IPMLevelChanged, IPMCompilerStarted {
 
 		[SerializeField]
 		RectTransform contentRect;
@@ -84,6 +84,10 @@ namespace PM {
 			resetList();
 		}
 
+		public void OnPMCompilerStarted()
+		{
+			resetList();
+		}
 	}
 
 }

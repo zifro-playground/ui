@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched, IPMWrongAnswer, IPMCorrectAnswer
+public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched, IPMWrongAnswer, IPMCorrectAnswer, IPMTimeToCorrectCase
 {
 	void Start()
 	{
@@ -30,6 +30,11 @@ public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched, IPMWr
 	}
 
 	public void OnPMCorrectAnswer(string answer)
+	{
+		PMWrapper.SetCaseCompleted();
+	}
+
+	public void OnPMTimeToCorrectCase()
 	{
 		PMWrapper.SetCaseCompleted();
 	}
