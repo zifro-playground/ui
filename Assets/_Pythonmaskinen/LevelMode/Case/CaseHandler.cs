@@ -11,7 +11,7 @@ namespace PM
 		public int numberOfCases = 1;
 
 		public bool AllCasesCompleted = false;
-		public int CurrentCase = -1;
+		public int CurrentCase = 0;
 
 		public CaseHandler(int numOfCases)
 		{

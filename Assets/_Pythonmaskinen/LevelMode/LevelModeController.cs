@@ -40,7 +40,6 @@ namespace PM
 
 			LevelModeButtons.Instance.SetSandboxButtonState(LevelModeButtonState.Active);
 			LevelModeButtons.Instance.SetCaseButtonsToDefault();
-			Main.Instance.CaseHandler.CurrentCase = -1;
 		}
 
 		public void InitCaseMode()
