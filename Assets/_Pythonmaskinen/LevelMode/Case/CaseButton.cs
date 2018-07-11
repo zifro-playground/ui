@@ -16,14 +16,12 @@ public class CaseButton : MonoBehaviour
 
 	public void SetButtonDefault()
 	{
-		if (!Main.Instance.CaseHandler.AllCasesCompleted)
-			Image.sprite = Default;
+		Image.sprite = Default;
 	}
 
 	public void SetButtonActive()
 	{
-		if (!Main.Instance.CaseHandler.AllCasesCompleted)
-			Image.sprite = Active;
+		Image.sprite = Active;
 	}
 
 	public void SetButtonCompleted()
@@ -40,8 +38,15 @@ public class CaseButton : MonoBehaviour
 	{
 		if (PMWrapper.IsCompilerRunning || PMWrapper.IsCompilerUserPaused)
 			return;
-		
+
+		LevelModeButtons.Instance.SetSandboxButtonToDefault();
 		SetButtonActive();
 		PMWrapper.SwitchCase(caseNumber);
+	}
+
+	public void SwitchToSandbox()
+	{
+		LevelModeController.Instance.InitSandboxMode();
+		SetButtonActive();
 	}
 }

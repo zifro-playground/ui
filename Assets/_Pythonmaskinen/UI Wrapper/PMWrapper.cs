@@ -165,9 +165,7 @@ public static class PMWrapper
 	/// </summary>
 	public static void RunCode()
 	{
-		Main.Instance.CaseHandler.AllCasesCompleted = false;
-		Main.Instance.CaseHandler.ResetHandlerAndButtons();
-		Main.Instance.CaseHandler.RunCase(0);
+		LevelModeController.Instance.RunProgram();
 	}
 
 	/// <summary>
