@@ -41,6 +41,31 @@ public partial class LevelDefinition
 {
 }
 
+public class SandboxSettings
+{
+	public string precode { get; set; }
+	public float walkerStepTime { get; set; }
+}
+
+/// <summary>
+/// Can be used to specify custom sandbox definitions in json. 
+/// Should be implemented as partial class in file outside of _Pythonmaskinen.
+/// </summary>
+public partial class SandboxDefinition
+{
+}
+
+/// <summary>
+/// If Sandbox exists the user will get to test level without the program being corrected.
+/// If there are cases after Sandbox, they will correct the program.
+/// Sandbox currently does not have any properties but is a object to make it easy to add properties in the future.
+/// </summary>
+public class Sandbox
+{
+	public SandboxSettings sandboxSettings { get; set; }
+	public SandboxDefinition sandboxDefinition { get; set; }
+}
+
 public class CaseSettings
 {
 	public string precode { get; set; }
@@ -67,6 +92,7 @@ public class Level
 	public List<GuideBubble> guideBubbles { get; set; }
 	public LevelSettings levelSettings { get; set; }
 	public LevelDefinition levelDefinition { get; set; }
+	public Sandbox sandbox { get; set; }
 	public List<Case> cases { get; set; }
 }
 

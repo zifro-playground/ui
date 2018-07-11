@@ -2,6 +2,10 @@
 	"activeLevels": [
 		{
 			"sceneName": "Scene1",
+			"levelId": "aaa"
+		},
+	  {
+			"sceneName": "Scene1",
 			"levelId": "abc"
 		},
 		{
@@ -25,6 +29,55 @@
 			},
 			"levels": [
 				{
+					"id": "aaa",
+					"guideBubbles": [
+						{
+							"target": "1",
+							"text": "Hej! Detta är första guidebubblan med lite <i>italic</i> och <b>bold</b> i sig."
+						},
+						{
+							"target": "2",
+							"text": "Nu är det dags för bubbla två. Den är tänkt att vara försökräckligt lång. Sådär lång att man inte riktigt tror att det är något som någonsin kommer vara så långt. Skulle det vara så så är det troligtvis lite väl mycket ordbajsande. Släng på lite <i>italic</i> och <b>bold</b> på det också..."
+						}
+					],
+					"levelSettings": {
+						"precode": "x = 0\ny = 1",
+						"startCode": "z = x + y\nsvara(z)",
+						"rowLimit": 10,
+						"taskDescription": {
+							"header": "Din uppgift är att svara 1. Gör du inte det kommer du att får fel och det är ju inte rätt.",
+							"body": "* Gör detta vilket leder till punkt 2\n* Här ska du göra något annat\n* Använd det du lärt dig i det tidigare punkterna till att göra detta...\n* sammanställ och ge svar"
+						},
+						"availableFunctions": [
+							"Answer"
+						]
+					},
+          "levelDefinition":
+          {
+            "correctAnswer": "hejsan"
+          },
+					"cases": [
+						{
+							"caseSettings": {
+								"precode": "x = 0\ny = 1",
+								"walkerStepTime": 1.0
+							},
+							"caseDefinition": {
+								"correctAnswer": "rätt svar!"
+							}
+						},
+						{
+							"caseDefinition": {
+								"correctAnswer": "rätt svar!"
+							},
+							"caseSettings": {
+								"precode": "x = 0\ny = 1",
+								"walkerStepTime": 1.0
+							}
+						}
+					]
+				},
+			  {
 					"id": "abc",
 					"guideBubbles": [
 						{
@@ -87,7 +140,28 @@
 					}
 				},
 				{
-					"id": "rst"
+          "id": "rst",
+          "sandbox": {},
+          "cases": [
+            {
+              "caseSettings": {
+                "precode": "x = 0\ny = 1",
+                "walkerStepTime": 1.0
+              },
+              "caseDefinition": {
+                "correctAnswer": "rätt svar!"
+              }
+            },
+            {
+              "caseDefinition": {
+                "correctAnswer": "rätt svar!"
+              },
+              "caseSettings": {
+                "precode": "x = 0\ny = 1",
+                "walkerStepTime": 1.0
+              }
+            }
+          ]
 				}
 			]
 		}

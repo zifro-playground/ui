@@ -111,10 +111,16 @@ namespace PM
 			SetSceneSettings(currentSceneSettings);
 			SetLevelSettings(LevelData.levelSettings);
 
+			LevelModeButtons.Instance.CreateButtons();
+
 			BuildGuides(LevelData.guideBubbles);
 			BuildCases(LevelData.cases);
-			CaseHandler.SetCurrentCase(0);
-		}
+
+			if (LevelData.sandbox != null)
+				LevelModeController.Instance.InitSandboxMode();
+			else
+				LevelModeController.Instance.InitCaseMode();
+		}	
 
 		private void ClearSettings()
 		{
@@ -235,11 +241,6 @@ namespace PM
 			if (LevelAnswer != null)
 				LevelAnswer.compilerHasBeenStopped = true;
 
-			if (status == HelloCompiler.StopStatus.RuntimeError)
-			{
-				CaseHandler.CaseFailed();
-			}
-
 			if (status == HelloCompiler.StopStatus.Finished)
 			{
 				if (PMWrapper.levelShouldBeAnswered && UISingleton.instance.taskDescription.isActiveAndEnabled)
@@ -250,7 +251,6 @@ namespace PM
 		{
 			PMWrapper.StopCompiler();
 			StopAllCoroutines();
-			CaseHandler.ResetHandlerAndButtons();
 		}
 		public void OnPMCaseSwitched(int caseNumber)
 		{

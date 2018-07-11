@@ -55,10 +55,6 @@ namespace PM
 			IsUserPaused = false;
 
 			CurrentLineNumber = 0;
-
-			// Call event
-			foreach (var ev in UISingleton.FindInterfaces<IPMActivateWalker>())
-				ev.OnPMActivateWalker();
 		}
 		#endregion
 
@@ -82,10 +78,6 @@ namespace PM
 				try
 				{
 					Runtime.CodeWalker.parseLine();
-
-					// Call event
-					foreach (var ev in UISingleton.FindInterfaces<IPMLineParsed>())
-						ev.OnPMLineParsed();
 
 					CurrentLineNumber++;
 				}

@@ -77,12 +77,10 @@ public interface IPMCorrectAnswer
 	void OnPMCorrectAnswer(string answer);
 }
 
-public interface IPMActivateWalker
+/// <summary>
+/// Executes <see cref="OnPMTimeToCorrectCase()"/> when codewalker har finished and it is time to correct the case.
+/// </summary>
+public interface IPMTimeToCorrectCase
 {
-	void OnPMActivateWalker();
-}
-
-public interface IPMLineParsed
-{
-	void OnPMLineParsed();
+	void OnPMTimeToCorrectCase();
 }

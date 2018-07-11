@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Compiler;
+﻿using Compiler;
 using System;
 
 namespace PM.GlobalFunctions
@@ -11,6 +8,7 @@ namespace PM.GlobalFunctions
 		public const string onFail = "Kan inte göra om indata till heltal. Det som ska göras om måste vara siffor.";
 		public const string onFail2 = "Basen måste vara ett heltal!";
 		public const string onFail3 = "Basen måste vara mellan 2 och 16!";
+		public const string onFail4 = "Fel indata. Indata kan bara vara en sträng med siffror men indata var en tom sträng.";
 
 
 		public ConvertToInt(string name)
@@ -61,6 +59,12 @@ namespace PM.GlobalFunctions
 			int inputBase = 10;
 			if (b != null) inputBase = (int)Math.Round(b.getNumber());
 			if (inputBase < 2 || inputBase > 16) PMWrapper.RaiseError(lineNumber, onFail3);
+
+			if (v.variableType == VariableTypes.textString && string.IsNullOrEmpty(v.getString()))
+			{
+				PMWrapper.RaiseError(lineNumber, onFail4);
+				return new Variable();
+			}
 
 			try
 			{

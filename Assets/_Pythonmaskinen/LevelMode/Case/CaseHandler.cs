@@ -12,35 +12,16 @@ namespace PM
 
 		public bool AllCasesCompleted = false;
 		public int CurrentCase = 0;
-		public List<GameObject> CaseButtons;
 
 		public CaseHandler(int numOfCases)
 		{
 			numberOfCases = numOfCases;
-			CaseButtons = CaseParent.Instance.CaseButtons;
-		}
-
-		public void SetButtons(List<GameObject> buttons)
-		{
-			CaseButtons = buttons;
 		}
 
 		// Is called OnLevelChanged and OnRunButtonClicked
 		public void ResetHandlerAndButtons()
 		{
-			for (int i = 0; i < CaseButtons.Count; i++)
-			{
-				// Don't show buttons if there is only one case
-				if (i < numberOfCases && numberOfCases > 1)
-				{
-					CaseButtons[i].SetActive(true);
-					CaseButtons[i].GetComponent<CaseButton>().SetButtonDefault();
-				}
-				else
-				{
-					CaseButtons[i].SetActive(false);
-				}
-			}
+			LevelModeButtons.Instance.SetCaseButtonsToDefault();
 			SetCurrentCase(0);
 		}
 
@@ -51,7 +32,7 @@ namespace PM
 			if (caseNumber != CurrentCase)
 			{
 				// currentCaseButtonUnpressed
-				CaseButtons[CurrentCase].GetComponent<CaseButton>().SetButtonDefault();
+				LevelModeButtons.Instance.SetCaseButtonsToDefault();
 
 				CurrentCase = Mathf.Clamp(caseNumber, 0, numberOfCases);
 
@@ -61,7 +42,7 @@ namespace PM
 			}
 
 			// currentCaseButtonPressed
-			CaseButtons[CurrentCase].GetComponent<CaseButton>().SetButtonActive();
+			LevelModeButtons.Instance.SetCurrentCaseButtonState(LevelModeButtonState.Active);
 
 			// Call every implemented event
 			foreach (var ev in UISingleton.FindInterfaces<IPMCaseSwitched>())
@@ -97,8 +78,7 @@ namespace PM
 				PMWrapper.StartCompiler();
 
 		}
-
-
+		
 		public void CaseCompleted()
 		{
 			PMWrapper.StopCompiler();
@@ -108,7 +88,7 @@ namespace PM
 
 		public void CaseFailed()
 		{
-			CaseButtons[CurrentCase].GetComponent<CaseButton>().SetButtonFailed();
+			LevelModeButtons.Instance.SetCurrentCaseButtonState(LevelModeButtonState.Failed);
 		}
 
 		private IEnumerator ShowFeedbackAndRunNextCase()
@@ -125,7 +105,7 @@ namespace PM
 
 			UISingleton.instance.answerBubble.HideMessage();
 			UISingleton.instance.taskDescription.HideTaskFeedback();
-			CaseButtons[CurrentCase].GetComponent<CaseButton>().SetButtonCompleted();
+			LevelModeButtons.Instance.SetCurrentCaseButtonState(LevelModeButtonState.Completed);
 
 			CurrentCase++;
 
