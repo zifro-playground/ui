@@ -20,6 +20,14 @@ public static class PMWrapper
 	public const string Version = "1.2.0";
 
 	/// <summary>
+	/// Tells which mode the level is currently running. See <see cref="PM.LevelMode"/> for avaliable modes.
+	/// </summary>
+	public static LevelMode LevelMode
+	{
+		get { return LevelModeController.Instance.LevelMode; }
+	}
+
+	/// <summary>
 	/// Value from the speed slider. Ranges from 0 to 1, with a default of 0.5.
 	/// <para>To get instant updates from the speed change, use <see cref="IPMSpeedChanged"/>.</para>
 	/// </summary>
