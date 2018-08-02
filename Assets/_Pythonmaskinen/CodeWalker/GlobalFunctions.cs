@@ -18,34 +18,8 @@ namespace PM.GlobalFunctions
 			this.name = name;
 			this.inputParameterAmount.Add(0);
 			this.inputParameterAmount.Add(1);
-			this.inputParameterAmount.Add(2);
 			this.hasReturnVariable = true;
 			this.pauseWalker = false;
-		}
-
-		private const string all_characters = "0123456789ABCDEF";
-		private static float ParseString(string inputString, int inputBase)
-		{
-			string str = inputString.Trim('$', '£', '€', ' ').TrimEnd(':', ';', '-').ToUpper();
-			string characters = all_characters.Substring(0, inputBase);
-			long result = 0;
-			bool neg = false;
-
-			for (int i = 0; i < str.Length; i++)
-			{
-				char c = str[i];
-
-				if (i == 0 && c == '-')
-					neg = true;
-				else
-				{
-					var indx = characters.IndexOf(c);
-					if (indx == -1)
-						throw new Exception();
-					result = inputBase * result + indx;
-				}
-			}
-			return neg ? -result : result;
 		}
 
 		public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber)
@@ -54,15 +28,8 @@ namespace PM.GlobalFunctions
 			if (inputParas.Length == 0) return new Variable("Heltal", 0);
 
 			Variable v = inputParas[0];
-			Variable b = inputParas.Length == 2 ? inputParas[1] : null;
-
-			// if got b but b isnt int
-			if (b != null && (b.variableType != VariableTypes.number || Math.Abs(b.getNumber() - Math.Round(b.getNumber())) > double.Epsilon))
-				PMWrapper.RaiseError(lineNumber, onFail2);
-
-			int inputBase = 10;
-			if (b != null) inputBase = (int)Math.Round(b.getNumber());
-			if (inputBase < 2 || inputBase > 16) PMWrapper.RaiseError(lineNumber, onFail3);
+			if (inputParas.Length == 2)
+				PMWrapper.RaiseError("För många argument. Konvertering från annan talbas är inte tillgängligt i denna aktivitet");
 
 			if (v.variableType == VariableTypes.textString && string.IsNullOrEmpty(v.getString()))
 			{
@@ -78,7 +45,7 @@ namespace PM.GlobalFunctions
 						return new Variable(v.name, v.getBool() ? 1 : 0);
 
 					case VariableTypes.textString:
-						return new Variable(v.name, ParseString(v.getString(), inputBase));
+						return new Variable(v.name, int.Parse(v.getString()));
 
 					case VariableTypes.number:
 						return new Variable(v.name, (int)v.getNumber());
