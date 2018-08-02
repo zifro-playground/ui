@@ -264,9 +264,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0.500625
-    y: 0.13662761
-    width: 0.4475
-    height: 0.68485975
+    y: 0.136692
+    width: 0.44749993
+    height: 0.6851825
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -400,6 +400,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 224783826171757102, guid: 0505d3053fcc51e4b876d4f76104c7bb,
         type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224783826171757102, guid: 0505d3053fcc51e4b876d4f76104c7bb,
+        type: 2}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
@@ -417,11 +422,6 @@ Prefab:
         type: 2}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224317984499313808, guid: 0505d3053fcc51e4b876d4f76104c7bb,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -0.00015258789
       objectReference: {fileID: 0}
     - target: {fileID: 224544970837503594, guid: 0505d3053fcc51e4b876d4f76104c7bb,
         type: 2}
@@ -431,17 +431,12 @@ Prefab:
     - target: {fileID: 224544970837503594, guid: 0505d3053fcc51e4b876d4f76104c7bb,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00015258789
+      value: -0.000091552734
       objectReference: {fileID: 0}
-    - target: {fileID: 224783826171757102, guid: 0505d3053fcc51e4b876d4f76104c7bb,
+    - target: {fileID: 224317984499313808, guid: 0505d3053fcc51e4b876d4f76104c7bb,
         type: 2}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224308266445166650, guid: 0505d3053fcc51e4b876d4f76104c7bb,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: 0
+      propertyPath: m_AnchoredPosition.y
+      value: -0.000061035156
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0505d3053fcc51e4b876d4f76104c7bb, type: 2}

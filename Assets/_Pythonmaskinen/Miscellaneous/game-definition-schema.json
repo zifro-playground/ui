@@ -1,5 +1,5 @@
 ﻿{
-	"$id": "http://example.com/example.json",
+	"$id": "C:\Users\Tifos\Documents\GitHub\ui\Assets\_Pythonmaskinen\Miscellaneous\game-definition-schema.json",
 	"type": "object",
 	"definitions": {
 		"smallSettings": {
