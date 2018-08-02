@@ -263,10 +263,10 @@ Camera:
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.5005734
-    y: 0.1365819
-    width: 0.4474079
-    height: 0.68437386
+    x: 0.500625
+    y: 0.13662761
+    width: 0.4475
+    height: 0.68485975
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -318,8 +318,8 @@ MonoBehaviour:
 RectTransform:
   m_PrefabParentObject: {fileID: 224096210290756314, guid: 0505d3053fcc51e4b876d4f76104c7bb,
     type: 2}
-  m_PrefabInternal: {fileID: 1933793441}
---- !u!1001 &1933793441
+  m_PrefabInternal: {fileID: 1889343933}
+--- !u!1001 &1889343933
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -400,6 +400,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 224783826171757102, guid: 0505d3053fcc51e4b876d4f76104c7bb,
         type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224783826171757102, guid: 0505d3053fcc51e4b876d4f76104c7bb,
+        type: 2}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
@@ -421,22 +426,17 @@ Prefab:
     - target: {fileID: 224317984499313808, guid: 0505d3053fcc51e4b876d4f76104c7bb,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000061035156
+      value: -0.000015258789
       objectReference: {fileID: 0}
     - target: {fileID: 224544970837503594, guid: 0505d3053fcc51e4b876d4f76104c7bb,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: -0.000030517578
-      objectReference: {fileID: 0}
-    - target: {fileID: 224783826171757102, guid: 0505d3053fcc51e4b876d4f76104c7bb,
-        type: 2}
-      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 224308266445166650, guid: 0505d3053fcc51e4b876d4f76104c7bb,
+    - target: {fileID: 224544970837503594, guid: 0505d3053fcc51e4b876d4f76104c7bb,
         type: 2}
-      propertyPath: m_SizeDelta.x
-      value: 0
+      propertyPath: m_AnchoredPosition.y
+      value: -0.000061035156
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0505d3053fcc51e4b876d4f76104c7bb, type: 2}
