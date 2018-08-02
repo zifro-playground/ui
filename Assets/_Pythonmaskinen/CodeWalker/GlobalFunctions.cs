@@ -1,11 +1,13 @@
 ﻿using Compiler;
 using System;
+using System.Globalization;
+using UnityEngine;
 
 namespace PM.GlobalFunctions
 {
 	public class ConvertToInt : Function
 	{
-		public const string onFail = "Kan inte göra om indata till heltal. Det som ska göras om måste vara siffor.";
+		public const string onFail = "Kan inte göra om indata till heltal. Det som ska göras om får bara vara siffor.";
 		public const string onFail2 = "Basen måste vara ett heltal!";
 		public const string onFail3 = "Basen måste vara mellan 2 och 16!";
 		public const string onFail4 = "Fel indata. Indata kan bara vara en sträng med siffror men indata var en tom sträng.";
@@ -22,7 +24,7 @@ namespace PM.GlobalFunctions
 		}
 
 		private const string all_characters = "0123456789ABCDEF";
-		private static long ParseString(string inputString, int inputBase)
+		private static float ParseString(string inputString, int inputBase)
 		{
 			string str = inputString.Trim('$', '£', '€', ' ').TrimEnd(':', ';', '-').ToUpper();
 			string characters = all_characters.Substring(0, inputBase);
@@ -33,11 +35,13 @@ namespace PM.GlobalFunctions
 			{
 				char c = str[i];
 
-				if (i == 0 && c == '-') neg = true;
+				if (i == 0 && c == '-')
+					neg = true;
 				else
 				{
 					var indx = characters.IndexOf(c);
-					if (indx == -1) throw new Exception();
+					if (indx == -1)
+						throw new Exception();
 					result = inputBase * result + indx;
 				}
 			}
@@ -118,6 +122,9 @@ namespace PM.GlobalFunctions
 					return new Variable(v.name, v.getBool() ? 1 : 0);
 
 				case VariableTypes.textString:
+					if (v.getString().Contains(","))
+						PMWrapper.RaiseError(lineNumber, onFail);
+
 					double num;
 					if (double.TryParse(v.getString(), out num))
 						return new Variable(v.name, num);
