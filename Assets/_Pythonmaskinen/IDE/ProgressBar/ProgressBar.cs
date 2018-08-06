@@ -121,7 +121,7 @@ namespace PM
 			UITooltip tooltip = btn.GetComponent<UITooltip>();
 			if (tooltip)
 			{
-				tooltip.text = "Nivå " + PMWrapper.currentLevel;
+				tooltip.text = "Nivå " + level;
 				if (level == Current) tooltip.text = "<color=green><b>" + tooltip.text + "</b></color> <color=grey>(Nuvarande)</color>";
 				if (level > Unlocked) tooltip.text += " <color=grey>(Låst)</color>";
 				tooltip.ApplyTooltipTextChange();
