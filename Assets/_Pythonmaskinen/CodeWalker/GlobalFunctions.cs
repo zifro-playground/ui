@@ -1,6 +1,7 @@
 ﻿using Compiler;
 using System;
 using System.Globalization;
+using Runtime;
 using UnityEngine;
 
 namespace PM.GlobalFunctions
@@ -264,7 +265,41 @@ namespace PM.GlobalFunctions
 			switch (v.variableType)
 			{
 				case VariableTypes.number:
-					return new Variable("Rounded" + v.name, Math.Round(v.getNumber()));
+
+					// Special parsing is needed for round(2.5) to become 3 as in Python. In C# round(2.5) becomes 2.
+
+					double result = 0;
+					if (v.getNumber() >= 0)
+					{
+						var numberAsString = v.getNumber().ToString(CultureInfo.InvariantCulture);
+						var decimalPointIndex = numberAsString.IndexOf(".", StringComparison.InvariantCulture);
+
+						if (decimalPointIndex > 0)
+						{
+							if (numberAsString[decimalPointIndex + 1] == '5')
+								result = double.Parse(numberAsString.Substring(0, decimalPointIndex)) + 1;
+							else
+								result = Math.Round(v.getNumber());
+						}
+						else
+						{
+							result = Math.Round(v.getNumber());
+						}
+					}
+					else
+					{
+						// Remove minus sign to be able to parse to double
+						var numberWithoutMinusSign = -v.getNumber();
+						var numberAsString = numberWithoutMinusSign.ToString(CultureInfo.InvariantCulture);
+						var decimalPointIndex = numberAsString.IndexOf(".", StringComparison.InvariantCulture);
+
+						if (numberAsString[decimalPointIndex + 1] == '5')
+							result = -double.Parse(numberAsString.Substring(0, decimalPointIndex));
+						else
+							result = Math.Round(v.getNumber());
+					}
+
+					return new Variable("Rounded" + v.name, result);
 
 				case VariableTypes.boolean:
 					PMWrapper.RaiseError(lineNumber, "Kan inte beräkna avrundat värdet av en boolean!");
