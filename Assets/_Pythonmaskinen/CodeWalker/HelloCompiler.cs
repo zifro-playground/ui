@@ -82,13 +82,11 @@ namespace PM
 		#region stop methods
 		public void stopCompilerButton()
 		{
-			stopCompiler(StopStatus.Forced);
+			stopCompiler(StopStatus.UserForced);
 		}
 
-		public void stopCompiler(StopStatus status = StopStatus.Forced)
+		public void stopCompiler(StopStatus status = StopStatus.CodeForced)
 		{
-			//if (!isRunning) return;
-			/*else*/
 			isRunning = false;
 
 			theCodeWalker.StopWalker();
@@ -102,9 +100,13 @@ namespace PM
 		public enum StopStatus
 		{
 			/// <summary>
-			/// The compiler was force-stopped mid execution. Example via pressing the stop button.
+			/// The compiler was stopped by user via pressing the stop button.
 			/// </summary>
-			Forced,
+			UserForced,
+			/// <summary>
+			/// The compiler was stopped by code via e.g. PMWrapper.
+			/// </summary>
+			CodeForced,
 			/// <summary>
 			/// The compiler finished successfully.
 			/// </summary>

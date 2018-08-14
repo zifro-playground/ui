@@ -154,23 +154,14 @@
 							"caseDefinition": {
 								"correctAnswer": "rätt svar!"
 							}
-						},
-						{
-							"caseDefinition": {
-								"correctAnswer": "rätt svar!"
-							},
-							"caseSettings": {
-								"precode": "x = 0\ny = 1",
-								"walkerStepTime": 1.0
-							}
 						}
 					]
 				},
 				{
 					"id": "cba",
-									"levelSettings": {
-										"startCode": "x = 2.5\ny = round(x)"
-									}
+					"levelSettings": {
+						"startCode": "x = 2.5\ny = round(x)"
+					}
 				}
 			]
 		}

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -8,9 +7,10 @@ namespace PM
 {
 	public class CaseHandler
 	{
+		public bool IsCasesRunning;
 		public int numberOfCases = 1;
 
-		public bool AllCasesCompleted = false;
+		public bool AllCasesCompleted;
 		public int CurrentCase = 0;
 
 		public CaseHandler(int numOfCases)
@@ -71,6 +71,8 @@ namespace PM
 
 		public void RunCase(int caseNumber)
 		{
+			IsCasesRunning = true;
+
 			CaseFlash.Instance.HideFlash();
 			if (numberOfCases > 1)
 				CaseFlash.Instance.ShowNewCaseFlash(CurrentCase, true);
@@ -88,6 +90,7 @@ namespace PM
 
 		public void CaseFailed()
 		{
+			IsCasesRunning = false;
 			LevelModeButtons.Instance.SetCurrentCaseButtonState(LevelModeButtonState.Failed);
 		}
 
@@ -111,6 +114,7 @@ namespace PM
 
 			if (CurrentCase >= numberOfCases)
 			{
+				IsCasesRunning = false;
 				AllCasesCompleted = true;
 				PMWrapper.SetLevelCompleted();
 				yield break;

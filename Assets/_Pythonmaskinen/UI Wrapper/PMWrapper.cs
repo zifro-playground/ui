@@ -149,6 +149,11 @@ public static class PMWrapper
 	}
 
 	/// <summary>
+	/// Boolean representing wether cases is currently running or not.
+	/// </summary>
+	public static bool IsCasesRunning { get { return Main.Instance.CaseHandler.IsCasesRunning; } }
+
+	/// <summary>
 	/// Boolean representing wether the compiler is currently executing or not.
 	/// </summary>
 	public static bool IsCompilerRunning { get { return UISingleton.instance.compiler.isRunning; } }
@@ -175,11 +180,11 @@ public static class PMWrapper
 	}
 
 	/// <summary>
-	/// Stops the compiler if it's currently running. Static wrapper for <see cref="HelloCompiler.stopCompiler(HelloCompiler.StopStatus)"/> with the argument <seealso cref="HelloCompiler.StopStatus.Forced"/>
+	/// Stops the compiler if it's currently running. Static wrapper for <see cref="HelloCompiler.stopCompiler(HelloCompiler.StopStatus)"/> with the argument <seealso cref="HelloCompiler.StopStatus.CodeForced"/>
 	/// </summary>
 	public static void StopCompiler()
 	{
-		UISingleton.instance.compiler.stopCompiler(HelloCompiler.StopStatus.Forced);
+		UISingleton.instance.compiler.stopCompiler(HelloCompiler.StopStatus.CodeForced);
 	}
 
 	/// <summary>
@@ -478,6 +483,7 @@ public static class PMWrapper
 	public static void RaiseTaskError(string message)
 	{
 		UISingleton.instance.taskDescription.ShowTaskError(message);
+		Main.Instance.CaseHandler.CaseFailed();
 		StopCompiler();
 	}
 

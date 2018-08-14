@@ -234,6 +234,32 @@ namespace PM
 			return functions;
 		}
 
+		public void SetSandboxSettings()
+		{
+			if (LevelData.sandbox != null)
+			{
+				var sandboxSettings = LevelData.sandbox.sandboxSettings;
+
+				if (sandboxSettings == null)
+				{
+					if (LevelData.levelSettings == null || string.IsNullOrEmpty(LevelData.levelSettings.precode))
+						PMWrapper.preCode = "";
+					return;
+				}
+
+				if (!String.IsNullOrEmpty(sandboxSettings.precode))
+					PMWrapper.preCode = sandboxSettings.precode;
+
+				if (sandboxSettings.walkerStepTime > 0)
+					PMWrapper.walkerStepTime = sandboxSettings.walkerStepTime;
+			}
+			else
+			{
+				if (LevelData.levelSettings == null || string.IsNullOrEmpty(LevelData.levelSettings.precode))
+					PMWrapper.preCode = "";
+			}
+		}
+
 
 
 		public void OnPMCompilerStopped(HelloCompiler.StopStatus status)

@@ -62,6 +62,14 @@ public interface IPMCaseSwitched {
 }
 
 /// <summary>
+/// Executes <see cref="OnPMSwitchedToSandbox()"/> when game is switched to sandbox mode.
+/// </summary>
+public interface IPMSwitchedToSandbox
+{
+	void OnPMSwitchedToSandbox();
+}
+
+/// <summary>
 /// Executes <see cref="OnPMWrongAnswer()"/> when wrong answer is passed to the Answer.
 /// </summary>
 public interface IPMWrongAnswer

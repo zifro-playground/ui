@@ -38,6 +38,6 @@ public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched, IPMWr
 
 	public void OnPMTimeToCorrectCase()
 	{
-		//PMWrapper.SetCaseCompleted();
+		PMWrapper.SetCaseCompleted();
 	}
 }

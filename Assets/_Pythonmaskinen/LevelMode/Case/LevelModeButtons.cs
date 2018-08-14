@@ -52,8 +52,8 @@ namespace PM
 			
 			for (int i = 0; i < CaseButtons.Count; i++)
 			{
-				// Don't show buttons if there is only one case
-				if (i < numberOfCases && numberOfCases > 1)
+				// Don't show buttons if there is only one case except if there is a sandbox before
+				if (i < numberOfCases && (numberOfCases > 1 || SandboxButton.activeInHierarchy))
 				{
 					CaseButtons[i].SetActive(true);
 					CaseButtons[i].GetComponent<CaseButton>().SetButtonDefault();
