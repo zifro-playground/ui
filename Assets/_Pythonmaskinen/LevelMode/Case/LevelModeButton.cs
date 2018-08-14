@@ -4,7 +4,7 @@ using PM;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CaseButton : MonoBehaviour
+public class LevelModeButton : MonoBehaviour
 {
 	[Header("Button states")]
 	public Sprite Default;

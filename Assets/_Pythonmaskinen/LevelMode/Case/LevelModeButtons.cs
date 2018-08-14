@@ -33,13 +33,13 @@ namespace PM
 			var caseNumber = Main.Instance.CaseHandler.CurrentCase;
 			
 			if (state == LevelModeButtonState.Default)
-				CaseButtons[caseNumber].GetComponent<CaseButton>().SetButtonDefault();
+				CaseButtons[caseNumber].GetComponent<LevelModeButton>().SetButtonDefault();
 			else if (state == LevelModeButtonState.Active)
-				CaseButtons[caseNumber].GetComponent<CaseButton>().SetButtonActive();
+				CaseButtons[caseNumber].GetComponent<LevelModeButton>().SetButtonActive();
 			else if (state == LevelModeButtonState.Completed)
-				CaseButtons[caseNumber].GetComponent<CaseButton>().SetButtonCompleted();
+				CaseButtons[caseNumber].GetComponent<LevelModeButton>().SetButtonCompleted();
 			else if (state == LevelModeButtonState.Failed)
-				CaseButtons[caseNumber].GetComponent<CaseButton>().SetButtonFailed();
+				CaseButtons[caseNumber].GetComponent<LevelModeButton>().SetButtonFailed();
 		}
 
 		public void SetCaseButtonsToDefault()
@@ -56,7 +56,7 @@ namespace PM
 				if (i < numberOfCases && (numberOfCases > 1 || SandboxButton.activeInHierarchy))
 				{
 					CaseButtons[i].SetActive(true);
-					CaseButtons[i].GetComponent<CaseButton>().SetButtonDefault();
+					CaseButtons[i].GetComponent<LevelModeButton>().SetButtonDefault();
 				}
 				else
 				{
@@ -67,19 +67,19 @@ namespace PM
 
 		public void SetSandboxButtonToDefault()
 		{
-			SandboxButton.GetComponent<CaseButton>().SetButtonDefault();
+			SandboxButton.GetComponent<LevelModeButton>().SetButtonDefault();
 		}
 
 		public void SetSandboxButtonState(LevelModeButtonState state)
 		{
 			if (state == LevelModeButtonState.Default)
-				SandboxButton.GetComponent<CaseButton>().SetButtonDefault();
+				SandboxButton.GetComponent<LevelModeButton>().SetButtonDefault();
 			else if (state == LevelModeButtonState.Active)
-				SandboxButton.GetComponent<CaseButton>().SetButtonActive();
+				SandboxButton.GetComponent<LevelModeButton>().SetButtonActive();
 			else if (state == LevelModeButtonState.Completed)
-				SandboxButton.GetComponent<CaseButton>().SetButtonCompleted();
+				SandboxButton.GetComponent<LevelModeButton>().SetButtonCompleted();
 			else if (state == LevelModeButtonState.Failed)
-				SandboxButton.GetComponent<CaseButton>().SetButtonFailed();
+				SandboxButton.GetComponent<LevelModeButton>().SetButtonFailed();
 		}
 	}
 

@@ -2,10 +2,6 @@
 	"activeLevels": [
 		{
 			"sceneName": "Scene1",
-			"levelId": "cba"
-		},
-		{
-			"sceneName": "Scene1",
 			"levelId": "aaa"
 		},
 		{
@@ -19,6 +15,10 @@
 		{
 			"sceneName": "Scene1",
 			"levelId": "rst"
+		},
+		{
+			"sceneName": "Scene1",
+			"levelId": "cba"
 		}
 	],
 	"scenes": [
@@ -62,7 +62,6 @@
 					"cases": [
 						{
 							"caseSettings": {
-								"precode": "x = 0\ny = 1",
 								"walkerStepTime": 1.0
 							},
 							"caseDefinition": {
@@ -74,7 +73,6 @@
 								"correctAnswer": "rätt svar!"
 							},
 							"caseSettings": {
-								"precode": "x = 0\ny = 1",
 								"walkerStepTime": 1.0
 							}
 						}
@@ -93,7 +91,6 @@
 						}
 					],
 					"levelSettings": {
-						"precode": "x = 0\ny = 1",
 						"startCode": "z = x + y\nsvara(z)",
 						"rowLimit": 10,
 						"taskDescription": {
@@ -107,6 +104,7 @@
 					"levelDefinition": {
 						"correctAnswer": "hejsan"
 					},
+					"sandbox": {},
 					"cases": [
 						{
 							"caseSettings": {
@@ -131,7 +129,6 @@
 				{
 					"id": "xyz",
 					"levelSettings": {
-						"precode": "x = 0\ny = 1",
 						"startCode": "z = x + y\nsvara(z)",
 						"rowLimit": 10,
 						"taskDescription": {
@@ -144,11 +141,15 @@
 				},
 				{
 					"id": "rst",
-					"sandbox": {},
+					"sandbox": {
+						"sandboxSettings": {
+							"precode": "x = 0\ny = 1",
+							"walkerStepTime": 1.0
+						}
+					},
 					"cases": [
 						{
 							"caseSettings": {
-								"precode": "x = 0\ny = 1",
 								"walkerStepTime": 1.0
 							},
 							"caseDefinition": {

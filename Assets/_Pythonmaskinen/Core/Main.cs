@@ -26,6 +26,7 @@ namespace PM
 		public static Main Instance;
 
 		private SceneSettings currentSceneSettings;
+		private LevelSettings currentLevelSettings;
 
 		// Everything should be placed in Awake() but there are some things that needs to be set in Awake() in some other script before the things currently in Start() is called
 		private void Awake()
@@ -107,34 +108,45 @@ namespace PM
 
 			LevelData = levels.First();
 
-			ClearSettings();
-			SetSceneSettings(currentSceneSettings);
-			SetLevelSettings(LevelData.levelSettings);
+			currentLevelSettings = LevelData.levelSettings;
 
 			LevelModeButtons.Instance.CreateButtons();
 
 			BuildGuides(LevelData.guideBubbles);
 			BuildCases(LevelData.cases);
 
+			SetSettings();
+
 			if (LevelData.sandbox != null)
 				LevelModeController.Instance.InitSandboxMode();
 			else
 				LevelModeController.Instance.InitCaseMode();
-		}	
+		}
 
+		public void SetSettings()
+		{
+			ClearSettings();
+			SetSceneSettings();
+			SetLevelSettings();
+
+			if (PMWrapper.LevelMode == LevelMode.Sandbox)
+				SetSandboxSettings();
+			else if (PMWrapper.LevelMode == LevelMode.Case)
+				SetCaseSettings();
+		}
 		private void ClearSettings()
 		{
 			PMWrapper.SetTaskDescription("", "");
 			PMWrapper.SetCompilerFunctions(new List<Function>());
+			PMWrapper.preCode = "";
 		}
-		private void SetSceneSettings(SceneSettings sceneSettings)
+
+		private void SetSceneSettings()
 		{
-			currentSceneSettings = sceneSettings;
+			if (currentSceneSettings.walkerStepTime > 0)
+				PMWrapper.walkerStepTime = currentSceneSettings.walkerStepTime;
 
-			if (sceneSettings.walkerStepTime > 0)
-				PMWrapper.walkerStepTime = sceneSettings.walkerStepTime;
-
-			if (sceneSettings.gameWindowUiLightTheme)
+			if (currentSceneSettings.gameWindowUiLightTheme)
 				GameWindow.Instance.SetGameWindowUiTheme(GameWindowUiTheme.light);
 			else
 				GameWindow.Instance.SetGameWindowUiTheme(GameWindowUiTheme.dark);
@@ -145,31 +157,63 @@ namespace PM
 				PMWrapper.SetCompilerFunctions(availableFunctions);
 			}
 		}
-		private void SetLevelSettings(LevelSettings levelSettings)
+		private void SetLevelSettings()
 		{
 			UISingleton.instance.saveData.ClearPreAndMainCode();
 
-			if (levelSettings == null)
+			if (currentLevelSettings == null)
 				return;
 
-			if (!String.IsNullOrEmpty(levelSettings.precode))
-				PMWrapper.preCode = levelSettings.precode;
+			if (!String.IsNullOrEmpty(currentLevelSettings.precode))
+				PMWrapper.preCode = currentLevelSettings.precode;
 
-			if (!String.IsNullOrEmpty(levelSettings.startCode))
-				PMWrapper.AddCodeAtStart(levelSettings.startCode);
+			if (!String.IsNullOrEmpty(currentLevelSettings.startCode))
+				PMWrapper.AddCodeAtStart(currentLevelSettings.startCode);
 			
-			if (levelSettings.taskDescription != null)
-                PMWrapper.SetTaskDescription(levelSettings.taskDescription.header,levelSettings.taskDescription.body);
+			if (currentLevelSettings.taskDescription != null)
+                PMWrapper.SetTaskDescription(currentLevelSettings.taskDescription.header,currentLevelSettings.taskDescription.body);
 			else
 				PMWrapper.SetTaskDescription("", "");
 
-			if (levelSettings.rowLimit > 0)
-				PMWrapper.codeRowsLimit = levelSettings.rowLimit;
+			if (currentLevelSettings.rowLimit > 0)
+				PMWrapper.codeRowsLimit = currentLevelSettings.rowLimit;
 
-			if (levelSettings.availableFunctions != null)
+			if (currentLevelSettings.availableFunctions != null)
 			{
-				var availableFunctions = CreateFunctionsFromStrings(levelSettings.availableFunctions);
+				var availableFunctions = CreateFunctionsFromStrings(currentLevelSettings.availableFunctions);
 				PMWrapper.AddCompilerFunctions(availableFunctions);
+			}
+		}
+		private void SetCaseSettings()
+		{
+			if (LevelData.cases != null && LevelData.cases.Any())
+			{
+				var caseSettings = LevelData.cases[PMWrapper.currentCase].caseSettings;
+
+				if (caseSettings == null)
+					return;
+
+				if (!String.IsNullOrEmpty(caseSettings.precode))
+					PMWrapper.preCode = caseSettings.precode;
+
+				if (caseSettings.walkerStepTime > 0)
+					PMWrapper.walkerStepTime = caseSettings.walkerStepTime;
+			}
+		}
+		private void SetSandboxSettings()
+		{
+			if (LevelData.sandbox != null)
+			{
+				var sandboxSettings = LevelData.sandbox.sandboxSettings;
+
+				if (sandboxSettings == null)
+					return;
+
+				if (!String.IsNullOrEmpty(sandboxSettings.precode))
+					PMWrapper.preCode = sandboxSettings.precode;
+
+				if (sandboxSettings.walkerStepTime > 0)
+					PMWrapper.walkerStepTime = sandboxSettings.walkerStepTime;
 			}
 		}
 
@@ -233,34 +277,6 @@ namespace PM
 
 			return functions;
 		}
-
-		public void SetSandboxSettings()
-		{
-			if (LevelData.sandbox != null)
-			{
-				var sandboxSettings = LevelData.sandbox.sandboxSettings;
-
-				if (sandboxSettings == null)
-				{
-					if (LevelData.levelSettings == null || string.IsNullOrEmpty(LevelData.levelSettings.precode))
-						PMWrapper.preCode = "";
-					return;
-				}
-
-				if (!String.IsNullOrEmpty(sandboxSettings.precode))
-					PMWrapper.preCode = sandboxSettings.precode;
-
-				if (sandboxSettings.walkerStepTime > 0)
-					PMWrapper.walkerStepTime = sandboxSettings.walkerStepTime;
-			}
-			else
-			{
-				if (LevelData.levelSettings == null || string.IsNullOrEmpty(LevelData.levelSettings.precode))
-					PMWrapper.preCode = "";
-			}
-		}
-
-
 
 		public void OnPMCompilerStopped(HelloCompiler.StopStatus status)
 		{

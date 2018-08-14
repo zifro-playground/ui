@@ -35,10 +35,10 @@ namespace PM
 		public void InitSandboxMode()
 		{
 			LevelMode = LevelMode.Sandbox;
-			Main.Instance.SetSandboxSettings();
-
 			LevelModeButtons.Instance.SetSandboxButtonState(LevelModeButtonState.Active);
 			LevelModeButtons.Instance.SetCaseButtonsToDefault();
+
+			Main.Instance.SetSettings();
 
 			foreach (var ev in UISingleton.FindInterfaces<IPMSwitchedToSandbox>())
 				ev.OnPMSwitchedToSandbox();
@@ -49,6 +49,12 @@ namespace PM
 			LevelMode = LevelMode.Case;
 			LevelModeButtons.Instance.SetSandboxButtonToDefault();
 			Main.Instance.CaseHandler.SetCurrentCase(0);
+		}
+
+		public void SwitchToCaseMode()
+		{
+			LevelMode = LevelMode.Case;
+			Main.Instance.SetSettings();
 		}
 
 		public void StartCorrection()
