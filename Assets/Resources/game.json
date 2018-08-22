@@ -176,7 +176,7 @@
 				{
 					"id": "cba",
 					"levelSettings": {
-						"startCode": "x = 2.5\ny = round(x)"
+						"startCode": "x = 2\ny = 2 * x - 1"
 					}
 				}
 			]
