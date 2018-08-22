@@ -115,8 +115,6 @@ namespace PM
 			BuildGuides(LevelData.guideBubbles);
 			BuildCases(LevelData.cases);
 
-			SetSettings();
-
 			if (LevelData.sandbox != null)
 				LevelModeController.Instance.InitSandboxMode();
 			else
@@ -254,10 +252,10 @@ namespace PM
 			if (cases != null && cases.Any())
 				CaseHandler = new CaseHandler(cases.Count);
 			else
-				CaseHandler = new CaseHandler(1);
-
-            foreach (var ev in UISingleton.FindInterfaces<IPMCaseSwitched>())
-                ev.OnPMCaseSwitched(0);
+			{
+				if (LevelData.sandbox == null)
+					CaseHandler = new CaseHandler(1);
+			}
 		}
 
 		private List<Function> CreateFunctionsFromStrings(List<string> functionNames)

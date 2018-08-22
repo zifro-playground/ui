@@ -18,6 +18,10 @@
 		},
 		{
 			"sceneName": "Scene1",
+			"levelId": "dfg"
+		},
+		{
+			"sceneName": "Scene1",
 			"levelId": "cba"
 		}
 	],
@@ -157,6 +161,17 @@
 							}
 						}
 					]
+				},
+				{
+					"id": "dfg",
+					"levelSettings": {
+						"startCode": "x = 2.5\ny = round(x)",
+						"taskDescription": {
+							"header": "Din uppgift är att svara 1. Gör du inte det kommer du att får fel och det är ju inte rätt.",
+							"body": "* Gör detta vilket leder till punkt 2\n* Här ska du göra något annat\n* Använd det du lärt dig i det tidigare punkterna till att göra detta...\n* sammanställ och ge svar"
+						}
+					},
+					"sandbox": {}
 				},
 				{
 					"id": "cba",

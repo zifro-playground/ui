@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -44,12 +45,17 @@ namespace PM
 
 		public void SetCaseButtonsToDefault()
 		{
-			int numberOfCases;
-			if (Main.Instance.LevelData.cases != null)
+			int numberOfCases = 0;
+			if (Main.Instance.LevelData.cases != null && Main.Instance.LevelData.cases.Any())
+			{
 				numberOfCases = Main.Instance.LevelData.cases.Count;
+			}
 			else
-				numberOfCases = 1;
-			
+			{
+				if (Main.Instance.LevelData.sandbox == null)
+					numberOfCases = 1;
+			}
+
 			for (int i = 0; i < CaseButtons.Count; i++)
 			{
 				// Don't show buttons if there is only one case except if there is a sandbox before
