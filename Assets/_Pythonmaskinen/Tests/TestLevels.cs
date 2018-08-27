@@ -4,13 +4,14 @@ using UnityEngine;
 
 namespace PM
 {
-    public class TestLevels : MonoBehaviour, IPMLevelCompleted, IPMCompilerStopped, IPMWrongAnswer
+    public class TestLevels : MonoBehaviour, IPMLevelCompleted, IPMCompilerStopped
     {
+        private List<TestError> testErrors = new List<TestError>(); 
 
         // Use this for initialization
         void Start()
         {
-
+            
         }
 
         // Update is called once per frame
@@ -47,21 +48,36 @@ namespace PM
                 PMWrapper.currentLevel++;
                 TestLevel();
             }
+            else
+            {
+                print(testErrors.Count);
+                foreach(TestError te in testErrors)
+                {
+                    print(te.levelId + " " + te.errorType);
+                }
+            }
         }
 
         public void OnPMCompilerStopped(HelloCompiler.StopStatus status)
         {
-            if (status == HelloCompiler.StopStatus.RuntimeError)
+            if (status == HelloCompiler.StopStatus.RuntimeError || status == HelloCompiler.StopStatus.TaskError)
             {
-                print("Runtime Error on level: " + Main.Instance.LevelData.id);
+                testErrors.Add(new TestError(Main.Instance.LevelData.id, status.ToString()));
+                //print("Runtime Error on level: " + Main.Instance.LevelData.id);
                 TestNextLevel();
             }
         }
 
-        public void OnPMWrongAnswer(string answer)
+        private struct TestError
         {
-            print("Wrong Answer on level: " + Main.Instance.LevelData.id);
-            TestNextLevel();
+            public string errorType;
+            public string levelId;
+
+            public TestError(string CaseLevelId, string caseErrorType)
+            {
+                levelId = CaseLevelId;
+                errorType = caseErrorType;
+            }
         }
     }
 }

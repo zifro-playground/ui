@@ -484,8 +484,8 @@ public static class PMWrapper
 	{
 		UISingleton.instance.taskDescription.ShowTaskError(message);
 		Main.Instance.CaseHandler.CaseFailed();
-		StopCompiler();
-	}
+        UISingleton.instance.compiler.stopCompiler(HelloCompiler.StopStatus.TaskError);
+    }
 
 	/// <summary>
 	/// Makes the IDE not destroy on load, i.e. on level change and such.
