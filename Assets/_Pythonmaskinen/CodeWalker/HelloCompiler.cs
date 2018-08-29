@@ -115,6 +115,10 @@ namespace PM
 			/// The compiler had an error during runtime. For example some missing variable or syntax error.
 			/// </summary>
 			RuntimeError,
+            /// <summary>
+			/// The compiler was stopped due to task error. For example user submitted wrong answer or uncompleted task. 
+			/// </summary>
+            TaskError,
 		}
 	}
 
