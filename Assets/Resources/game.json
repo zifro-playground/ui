@@ -10,7 +10,7 @@
     },
     {
       "sceneName": "Scene1",
-      "levelId": "aac"
+      "levelId": "hej"
     } /*,
 		{
 			"sceneName": "Scene1",
@@ -192,7 +192,7 @@
           "levelSettings": {
             "startCode": "z = x + y\nsvara(z)",
             "precode": "x = 0\ny = 1",
-            "exampleSolutionCode": "svara(x + y + 1)",
+            //"exampleSolutionCode": "svara(x + y + 1)",
             "rowLimit": 10,
             "taskDescription": {
               "header": "Din uppgift är att svara 1. Gör du inte det kommer du att får fel och det är ju inte rätt.",
@@ -275,6 +275,9 @@
           "levelSettings": {
             "startCode": "x = 2\ny = 2 * x - 1"
           }
+        },
+        {
+          "id": "hej"
         }
       ]
 		}
