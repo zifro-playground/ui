@@ -18,6 +18,7 @@ namespace PM
         public Text text;
 		public Text visibleText;
 		public IDESpeciallCommands theSpeciallCommands;
+		public int codeLineCount;
 		public int codeRowsLimit = 32;
 		public bool devBuild = false;
 
