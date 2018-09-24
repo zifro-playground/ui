@@ -1,28 +1,29 @@
 ﻿{
+	"gameId": "testGameId", 
   "activeLevels": [
     {
       "sceneName": "Scene1",
-      "levelId": "aaa"
+      "levelId": "testGameId_aaa"
     },
     {
       "sceneName": "Scene1",
-      "levelId": "aab"
+      "levelId": "testGameId_aab"
     },
     {
       "sceneName": "Scene1",
-      "levelId": "hej"
+      "levelId": "testGameId_hej"
     } /*,
 		{
 			"sceneName": "Scene1",
-			"levelId": "aaa"
+			"levelId": "testGameId_aaa"
 		},
 		{
 			"sceneName": "Scene1",
-			"levelId": "aaa"
+			"levelId": "testGameId_aaa"
 		},
 		{
 			"sceneName": "Scene1",
-			"levelId": "aaa"
+			"levelId": "testGameId_aaa"
 		}*/
   ],
 	"scenes": [
@@ -37,7 +38,7 @@
 			},
       "levels": [
         {
-          "id": "aaa",
+          "id": "testGameId_aaa",
           "guideBubbles": [
             {
               "target": "1",
@@ -84,7 +85,7 @@
           ]
         },
         {
-          "id": "aac",
+          "id": "testGameId_aac",
           "guideBubbles": [
             {
               "target": "1",
@@ -131,7 +132,7 @@
           ]
         },
         {
-          "id": "aab",
+          "id": "testGameId_aab",
           "guideBubbles": [
             {
               "target": "1",
@@ -145,7 +146,7 @@
           "levelSettings": {
             "precode": "x = 0\ny = 1",
             "startCode": "z = x + y\nsvara(z)",
-            "exampleSolutionCode": "svara(x + y +1 )",
+            "exampleSolutionCode": "svara(x + y + 1)",
             "rowLimit": 10,
             "taskDescription": {
               "header": "Din uppgift är att svara 1. Gör du inte det kommer du att får fel och det är ju inte rätt.",
@@ -178,7 +179,7 @@
           ]
         },
         {
-          "id": "abc",
+          "id": "testGameId_abc",
           "guideBubbles": [
             {
               "target": "1",
@@ -228,7 +229,7 @@
           ]
         },
         {
-          "id": "xyz",
+          "id": "testGameId_xyz",
           "levelSettings": {
             "startCode": "z = x + y\nsvara(z)",
             "rowLimit": 10,
@@ -241,7 +242,7 @@
           }
         },
         {
-          "id": "rst",
+          "id": "testGameId_rst",
           "sandbox": {
             "sandboxSettings": {
               "precode": "x = 0\ny = 1",
@@ -260,7 +261,7 @@
           ]
         },
         {
-          "id": "dfg",
+          "id": "testGameId_dfg",
           "levelSettings": {
             "startCode": "x = 2.5\ny = round(x)",
             "taskDescription": {
@@ -271,13 +272,13 @@
           "sandbox": {}
         },
         {
-          "id": "cba",
+          "id": "testGameId_cba",
           "levelSettings": {
             "startCode": "x = 2\ny = 2 * x - 1"
           }
         },
         {
-          "id": "hej"
+          "id": "testGameId_hej"
         }
       ]
 		}
