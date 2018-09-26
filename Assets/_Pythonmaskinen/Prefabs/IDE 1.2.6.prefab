@@ -1874,6 +1874,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4070694740749218}
   - component: {fileID: 114058800418198708}
+  - component: {fileID: 114869045782316872}
   m_Layer: 0
   m_Name: Progress Handler
   m_TagString: Untagged
@@ -3910,7 +3911,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224114598715625782}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999964
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4991,7 +4992,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114810217086141358}
   m_HandleRect: {fileID: 224320417308036924}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -7285,6 +7286,21 @@ MonoBehaviour:
   - guideTargets: {fileID: 224006713695284992}
     names:
     - rowlimit
+--- !u!114 &114869045782316872
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1753344439365938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a4deebb1b5a05f499e304d6f2911652, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Version:
+    Major: 1
+    Minor: 0
+    Build: 1
 --- !u!114 &114876482615991140
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8674,7 +8690,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -5, y: 0.00011444092}
+  m_AnchoredPosition: {x: -5, y: -0.000015258789}
   m_SizeDelta: {x: -30, y: 75}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224033668579450886
@@ -9453,7 +9469,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000030517578, y: 0.00015258789}
+  m_AnchoredPosition: {x: -0.000061035156, y: 0.00012207031}
   m_SizeDelta: {x: -9.999908, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224298765346510636
@@ -9565,7 +9581,7 @@ RectTransform:
   m_Father: {fileID: 224797692792142350}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.000000059604645, y: 0}
   m_AnchorMax: {x: 0.99999994, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}

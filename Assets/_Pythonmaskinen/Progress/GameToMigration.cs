@@ -6,20 +6,27 @@ namespace PM
 {
 	public class GameToMigration : MonoBehaviour
 	{
-		public static Version Version;
+		[SerializeField]
+		public  Version Version;
 
-		private void Update()
+		public static GameToMigration Instance;
+
+		private void Start()
 		{
-			if (Input.GetKeyDown(KeyCode.A))
-				CreateMigration();
+			if (Instance == null)
+				Instance = this;
 		}
 
-		public void CreateMigration()
+		public void CreateMigrationFromJson()
 		{
 			var game = Main.Instance.GameDefinition;
 
-			Version = new Version(1, 0, 1);
-			var path = "C:/Users/Tifos/Documents/GitHub/Zifro/App_Code/Persistance/Migrations/GameUpgrades/TargetVersion_" + Version.PrintWithUnderscore() + ".cs";
+			var basePath = "C:/Users/Tifos/Documents/GitHub/Zifro/App_Code/Persistance/Migrations/GameUpgrades/";
+			var fileName = "TargetVersion_" + Version.PrintWithUnderscore() + ".cs";
+			var path = basePath + fileName;
+
+			if (File.Exists(path))
+				throw new IOException("The file \"" + fileName + "\" already exists at \"" + basePath + "\"");
 
 			using (var tw = new StreamWriter(path))
 			{
@@ -74,9 +81,11 @@ namespace PM
 				tw.WriteLine("	}");
 				tw.WriteLine("}");
 			}
+			Debug.Log("Migration created successfully at " + path);
 		}
 	}
 
+	[Serializable]
 	public struct Version
 	{
 		public int Major, Minor, Build;
