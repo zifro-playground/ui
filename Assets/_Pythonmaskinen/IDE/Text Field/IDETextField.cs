@@ -250,11 +250,8 @@ namespace PM
 				theInputField.caretPosition = lastCharInsertIndex;
 			}
 
-			FocusCursor();
-			
 			Progress.Instance.LevelData[PMWrapper.currentLevel].MainCode = PMWrapper.mainCode;
-			print("Saving main code: " + PMWrapper.mainCode);
-
+			FocusCursor();
 			theLineMarker.removeErrorMessage();
 		}
 		#endregion
@@ -361,6 +358,7 @@ namespace PM
 			{
 				theInputField.text = code;
 				inserting = true;
+				Progress.Instance.LevelData[PMWrapper.currentLevel].MainCode = PMWrapper.mainCode;
 			}
 		}
 

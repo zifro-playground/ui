@@ -39,6 +39,16 @@ public interface IPMCompilerUserPaused {
 public interface IPMSpeedChanged {
 	void OnPMSpeedChanged(float speed);
 }
+
+/// <summary>
+/// Executes <see cref="OnPMUnloadLevel()"/> before loading next level when the current level in the UI is changed.
+/// <para>See also: <seealso cref="PMWrapper.currentLevel"/> and <seealso cref="PMWrapper.previousLevel"/></para>
+/// </summary>
+public interface IPMUnloadLevel
+{
+	void OnPMUnloadLevel();
+}
+
 /// <summary>
 /// Executes <see cref="OnPMLevelChanged()"/> when the current level in the UI is changed.
 /// <para>See also: <seealso cref="PMWrapper.currentLevel"/> and <seealso cref="PMWrapper.previousLevel"/></para>

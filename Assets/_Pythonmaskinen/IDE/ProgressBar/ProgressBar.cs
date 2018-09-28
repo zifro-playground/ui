@@ -132,6 +132,9 @@ namespace PM
 		{
 			if (level == Current) return;
 
+			foreach (var ev in UISingleton.FindInterfaces<IPMUnloadLevel>())
+				ev.OnPMUnloadLevel();
+
 			Unlocked = Mathf.Max(level, Unlocked);
 
 			// Update which one is current one

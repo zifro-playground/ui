@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 
 namespace PM
 {
-	public class Progress : MonoBehaviour, IPMLevelCompleted, IPMLevelChanged
+	public class Progress : MonoBehaviour, IPMLevelCompleted, IPMUnloadLevel
 	{
 		private const string saveUrl = "http://localhost:51419/umbraco/api/levels/save";
 
@@ -18,7 +18,7 @@ namespace PM
 
 		public static Progress Instance;
 
-		private void Start()
+		private void Awake()
 		{
 			if (Instance == null)
 				Instance = this;
@@ -29,8 +29,10 @@ namespace PM
 			SecondsSpentOnCurrentLevel += Time.deltaTime;
 		}
 
-		public void SaveUserProgress()
+		public void SaveUserLevelProgress()
 		{
+			SaveAndResetSecondsSpent();
+
 			var userProgress = CollectUserProgress();
 			var rawBody = CreateRawRequestBody(userProgress);
 			//StartCoroutine(SendRequest(rawBody));
@@ -72,29 +74,35 @@ namespace PM
 			else
 				Debug.Log(request.downloadHandler.text);
 		}
-
-		public void ClearCodeWindow()
-		{
-			PMWrapper.preCode = string.Empty;
-			PMWrapper.mainCode = string.Empty;
-		}
+		
 		public void LoadMainCode()
 		{
 			if (LevelData.ContainsKey(PMWrapper.currentLevel))
 				PMWrapper.mainCode = LevelData[PMWrapper.currentLevel].MainCode;
 		}
 
+		private int SaveAndResetSecondsSpent()
+		{
+			var secondsSpent = (int) SecondsSpentOnCurrentLevel;
+			LevelData[PMWrapper.currentLevel].SecondsSpent += secondsSpent;
+
+			SecondsSpentOnCurrentLevel = 0;
+
+			return secondsSpent;
+		}
+
 		public void OnPMLevelCompleted()
 		{
 			LevelData[PMWrapper.currentLevel].IsCompleted = true;
-
-			SaveUserProgress();
+			SaveUserLevelProgress();
 		}
 
-		public void OnPMLevelChanged()
+		public void OnPMUnloadLevel()
 		{
-			LevelData[PMWrapper.currentLevel].SecondsSpent += (int)SecondsSpentOnCurrentLevel;
-			SecondsSpentOnCurrentLevel = 0;
+			if (LevelData.ContainsKey(PMWrapper.currentLevel))
+			{
+				SaveUserLevelProgress();
+			}
 		}
 	}
 }

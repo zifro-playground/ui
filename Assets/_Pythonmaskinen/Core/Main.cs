@@ -163,16 +163,13 @@ namespace PM
 		}
 		private void SetLevelSettings()
 		{
-			Progress.Instance.ClearCodeWindow();
+			LoadMainCode();
 
 			if (currentLevelSettings == null)
 				return;
 
 			if (!string.IsNullOrEmpty(currentLevelSettings.precode))
 				PMWrapper.preCode = currentLevelSettings.precode;
-
-			if (!string.IsNullOrEmpty(currentLevelSettings.startCode))
-				PMWrapper.AddCodeAtStart(currentLevelSettings.startCode);
 			
 			if (currentLevelSettings.taskDescription != null)
                 PMWrapper.SetTaskDescription(currentLevelSettings.taskDescription.header,currentLevelSettings.taskDescription.body);
@@ -264,6 +261,20 @@ namespace PM
 			}
 		}
 
+		private void LoadMainCode()
+		{
+			if (Progress.Instance.LevelData[PMWrapper.currentLevel].IsStarted)
+			{
+				PMWrapper.mainCode = Progress.Instance.LevelData[PMWrapper.currentLevel].MainCode;
+			}
+			else
+			{
+				if (currentLevelSettings != null && currentLevelSettings.startCode != null)
+					PMWrapper.AddCodeAtStart(currentLevelSettings.startCode);
+				else
+					PMWrapper.mainCode = string.Empty;
+			}
+		}
 		private List<Function> CreateFunctionsFromStrings(List<string> functionNames)
 		{
 			var functions = new List<Function>();
