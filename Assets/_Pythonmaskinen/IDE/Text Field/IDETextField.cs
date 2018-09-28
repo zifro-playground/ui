@@ -250,7 +250,7 @@ namespace PM
 				theInputField.caretPosition = lastCharInsertIndex;
 			}
 
-			Progress.Instance.LevelData[PMWrapper.currentLevel].MainCode = PMWrapper.mainCode;
+			Progress.Instance.LevelData[PMWrapper.CurrentLevelIndex].MainCode = PMWrapper.mainCode;
 			FocusCursor();
 			theLineMarker.removeErrorMessage();
 		}
@@ -354,11 +354,11 @@ namespace PM
 		public void InsertMainCodeAtStart(string code)
 		{
 			// TODO should check if student has played level before
-			if (!Progress.Instance.LevelData[PMWrapper.currentLevel].IsStarted)
+			if (!Progress.Instance.LevelData[PMWrapper.CurrentLevelIndex].IsStarted)
 			{
 				theInputField.text = code;
 				inserting = true;
-				Progress.Instance.LevelData[PMWrapper.currentLevel].MainCode = PMWrapper.mainCode;
+				Progress.Instance.LevelData[PMWrapper.CurrentLevelIndex].MainCode = PMWrapper.mainCode;
 			}
 		}
 

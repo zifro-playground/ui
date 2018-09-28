@@ -67,7 +67,7 @@ namespace PM
 			var levelId = GameDefinition.activeLevels[levelIndex].levelId;
 			LoadLevel(levelId);
 
-			Progress.Instance.LevelData[PMWrapper.currentLevel].IsStarted = true;
+			Progress.Instance.LevelData[PMWrapper.CurrentLevelIndex].IsStarted = true;
 
 			foreach (var ev in UISingleton.FindInterfaces<IPMLevelChanged>())
 				ev.OnPMLevelChanged();
@@ -113,8 +113,8 @@ namespace PM
 			currentLevelSettings = LevelDefinition.levelSettings;
 
 			//TODO Load level progress from database
-			if (!Progress.Instance.LevelData.ContainsKey(PMWrapper.currentLevel))
-				Progress.Instance.LevelData[PMWrapper.currentLevel] = new LevelData(LevelDefinition.id);
+			if (!Progress.Instance.LevelData.ContainsKey(PMWrapper.CurrentLevelIndex))
+				Progress.Instance.LevelData[PMWrapper.CurrentLevelIndex] = new LevelData(LevelDefinition.id);
 
 			LevelModeButtons.Instance.CreateButtons();
 
@@ -226,7 +226,7 @@ namespace PM
 				foreach (var guideBubble in guideBubbles)
 				{
 					if (guideBubble.target == null || String.IsNullOrEmpty(guideBubble.text))
-						throw new Exception("A guide bubble for level with index " + PMWrapper.currentLevel + " is missing target or text");
+						throw new Exception("A guide bubble for level with index " + PMWrapper.CurrentLevelIndex + " is missing target or text");
 
 					// Check if target is a number
 					Match match = Regex.Match(guideBubble.target, @"^[0-9]+$");
@@ -263,9 +263,9 @@ namespace PM
 
 		private void LoadMainCode()
 		{
-			if (Progress.Instance.LevelData[PMWrapper.currentLevel].IsStarted)
+			if (Progress.Instance.LevelData[PMWrapper.CurrentLevelIndex].IsStarted)
 			{
-				PMWrapper.mainCode = Progress.Instance.LevelData[PMWrapper.currentLevel].MainCode;
+				PMWrapper.mainCode = Progress.Instance.LevelData[PMWrapper.CurrentLevelIndex].MainCode;
 			}
 			else
 			{

@@ -40,7 +40,7 @@ namespace PM
 		}
 		private Dictionary<string, string> CollectUserProgress()
 		{
-			var levelData = LevelData[PMWrapper.currentLevel];
+			var levelData = LevelData[PMWrapper.CurrentLevelIndex];
 
 			var userProgress = new Dictionary<string, string>
 			{
@@ -92,14 +92,14 @@ namespace PM
 
 		public void LoadMainCode()
 		{
-			if (LevelData.ContainsKey(PMWrapper.currentLevel))
-				PMWrapper.mainCode = LevelData[PMWrapper.currentLevel].MainCode;
+			if (LevelData.ContainsKey(PMWrapper.CurrentLevelIndex))
+				PMWrapper.mainCode = LevelData[PMWrapper.CurrentLevelIndex].MainCode;
 		}
 
 		private int SaveAndResetSecondsSpent()
 		{
 			var secondsSpent = (int)SecondsSpentOnCurrentLevel;
-			LevelData[PMWrapper.currentLevel].SecondsSpent += secondsSpent;
+			LevelData[PMWrapper.CurrentLevelIndex].SecondsSpent += secondsSpent;
 
 			SecondsSpentOnCurrentLevel = 0;
 
@@ -108,13 +108,13 @@ namespace PM
 
 		public void OnPMLevelCompleted()
 		{
-			LevelData[PMWrapper.currentLevel].IsCompleted = true;
+			LevelData[PMWrapper.CurrentLevelIndex].IsCompleted = true;
 			SaveUserLevelProgress();
 		}
 
 		public void OnPMUnloadLevel()
 		{
-			if (LevelData.ContainsKey(PMWrapper.currentLevel))
+			if (LevelData.ContainsKey(PMWrapper.CurrentLevelIndex))
 			{
 				SaveUserLevelProgress();
 			}

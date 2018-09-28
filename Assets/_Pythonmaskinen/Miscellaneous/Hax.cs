@@ -14,17 +14,17 @@ namespace PM {
 			{
 				if (Input.GetKeyDown(KeyCode.RightArrow))
 				{
-					if (PMWrapper.currentLevel < PMWrapper.numOfLevels - 1)
+					if (PMWrapper.CurrentLevelIndex < PMWrapper.numOfLevels - 1)
 					{
-						if (PMWrapper.unlockedLevel < PMWrapper.currentLevel + 1)
-							PMWrapper.unlockedLevel = PMWrapper.currentLevel + 1;
-						PMWrapper.currentLevel += 1;
+						if (PMWrapper.unlockedLevel < PMWrapper.CurrentLevelIndex + 1)
+							PMWrapper.unlockedLevel = PMWrapper.CurrentLevelIndex + 1;
+						PMWrapper.CurrentLevelIndex += 1;
 					}
 				}
 				else if (Input.GetKeyDown(KeyCode.LeftArrow))
 				{
-					if(PMWrapper.currentLevel > 0)
-						PMWrapper.currentLevel -= 1;
+					if(PMWrapper.CurrentLevelIndex > 0)
+						PMWrapper.CurrentLevelIndex -= 1;
 				}
 				else if (Input.GetKeyDown(KeyCode.UpArrow))
 				{

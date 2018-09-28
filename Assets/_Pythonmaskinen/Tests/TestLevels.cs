@@ -31,9 +31,9 @@ namespace PM
 
         public void TestNextLevel()
         {
-            if (PMWrapper.currentLevel < PMWrapper.numOfLevels - 1)
+            if (PMWrapper.CurrentLevelIndex < PMWrapper.numOfLevels - 1)
             {
-                PMWrapper.currentLevel++;
+                PMWrapper.CurrentLevelIndex++;
                 TestLevel();
             }
             else

@@ -45,7 +45,7 @@ public static class PMWrapper
 		set { UISingleton.instance.walker.BaseWalkerWaitTime = value; }
 	}
 
-    public static Level LevelDefinition{
+    public static Level CurreLevel{
         get { return Main.Instance.LevelDefinition; }
     }
 
@@ -311,8 +311,8 @@ public static class PMWrapper
 	/// Represents the current level. Setting this value will automatically setoff <see cref="IPMLevelChanged.OnPMLevelChanged(int)"/>
 	/// <para>If set to a value higher than highest unlocked level then <seealso cref="unlockedLevel"/> will also be set to the same value.</para>
 	/// </summary>
-	/// <exception cref="ArgumentOutOfRangeException">Thrown if set to value outside of levels list index range, i.e. thrown if <seealso cref="currentLevel"/>.set &lt; 0 or ≥ <seealso cref="numOfLevels"/></exception>
-	public static int currentLevel
+	/// <exception cref="ArgumentOutOfRangeException">Thrown if set to value outside of levels list index range, i.e. thrown if <seealso cref="CurrentLevelIndex"/>.set &lt; 0 or ≥ <seealso cref="numOfLevels"/></exception>
+	public static int CurrentLevelIndex
 	{
 		get { return UISingleton.instance.levelbar.Current; }
 		set
@@ -325,7 +325,7 @@ public static class PMWrapper
 	}
 
 	/// <summary>
-	/// Represents the previous value of <see cref="currentLevel"/>. When there hasen't been a previous level, previousLevel has a value of -1.
+	/// Represents the previous value of <see cref="CurrentLevelIndex"/>. When there hasen't been a previous level, previousLevel has a value of -1.
 	/// </summary>
 	public static int previousLevel
 	{
@@ -341,7 +341,7 @@ public static class PMWrapper
 		get { return UISingleton.instance.levelbar.NumberOfLevels; }
 		set
 		{
-			if (value > 0) UISingleton.instance.levelbar.RecreateButtons(value, Mathf.Clamp(currentLevel, 0, value - 1), unlockedLevel);
+			if (value > 0) UISingleton.instance.levelbar.RecreateButtons(value, Mathf.Clamp(CurrentLevelIndex, 0, value - 1), unlockedLevel);
 			else throw new ArgumentOutOfRangeException("numOfLevels", value, "Zero and negative values are not accepted!");
 		}
 	}
@@ -371,7 +371,7 @@ public static class PMWrapper
 		get { return UISingleton.instance.levelbar.Unlocked; }
 		set
 		{
-			if (value >= 0 && value < numOfLevels) UISingleton.instance.levelbar.UpdateButtons(currentLevel, value);
+			if (value >= 0 && value < numOfLevels) UISingleton.instance.levelbar.UpdateButtons(CurrentLevelIndex, value);
 			else throw new ArgumentOutOfRangeException("unlockedLevel", value, "Level value is out of range of existing levels.");
 		}
 	}
@@ -415,7 +415,7 @@ public static class PMWrapper
 	/// <param name="ignoreUnlocked">If true, it will jump to the absolute last level. If false, it will jump to the last unlocked level.</param>
 	public static void JumpToLastLevel(bool ignoreUnlocked = false)
 	{
-		currentLevel = ignoreUnlocked ? numOfLevels - 1 : unlockedLevel;
+		CurrentLevelIndex = ignoreUnlocked ? numOfLevels - 1 : unlockedLevel;
 	}
 
 	/// <summary>
@@ -423,7 +423,7 @@ public static class PMWrapper
 	/// </summary>
 	public static void JumpToFirstLevel()
 	{
-		currentLevel = 0;
+		CurrentLevelIndex = 0;
 	}
 
 	/// <summary>
