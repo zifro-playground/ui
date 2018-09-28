@@ -25,15 +25,15 @@ namespace PM
 		{
 			PMWrapper.StopCompiler();
 
-			foreach (var ev in UISingleton.FindInterfaces<IPMLevelCompleted>())
-				ev.OnPMLevelCompleted();
-
 			// If theres more levels && next level is locked
 			if (PMWrapper.currentLevel < PMWrapper.numOfLevels - 1 && PMWrapper.currentLevel == PMWrapper.unlockedLevel)
 				// Unlock next level
 				UISingleton.instance.levelbar.UpdateButtons(PMWrapper.currentLevel, PMWrapper.currentLevel + 1);
 
 			_ShowWinScreen();
+
+			foreach (var ev in UISingleton.FindInterfaces<IPMLevelCompleted>())
+				ev.OnPMLevelCompleted();
 		}
 
 		// Called by UnityActions on closeButton

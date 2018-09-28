@@ -18,7 +18,6 @@ namespace PM
         public Text text;
 		public Text visibleText;
 		public IDESpeciallCommands theSpeciallCommands;
-		public int codeLineCount;
 		public int codeRowsLimit = 32;
 		public bool devBuild = false;
 
@@ -253,7 +252,8 @@ namespace PM
 
 			FocusCursor();
 			
-			SaveData.SaveMainCode();
+			Progress.Instance.LevelData[PMWrapper.currentLevel].MainCode = PMWrapper.mainCode;
+			print("Saving main code: " + PMWrapper.mainCode);
 
 			theLineMarker.removeErrorMessage();
 		}
@@ -357,7 +357,7 @@ namespace PM
 		public void InsertMainCodeAtStart(string code)
 		{
 			// TODO should check if student has played level before
-			if (theInputField.text.Length == 0)
+			if (!Progress.Instance.LevelData[PMWrapper.currentLevel].IsStarted)
 			{
 				theInputField.text = code;
 				inserting = true;

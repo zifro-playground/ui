@@ -21,7 +21,7 @@ namespace PM
 
 		public void RunProgram()
 		{
-			if (Main.Instance.LevelData.sandbox != null)
+			if (Main.Instance.LevelDefinition.sandbox != null)
 			{
 				InitSandboxMode();
 				PMWrapper.StartCompiler();
@@ -68,7 +68,7 @@ namespace PM
 		{
 			if (status == HelloCompiler.StopStatus.Finished)
 			{
-				if (LevelMode == LevelMode.Sandbox && Main.Instance.LevelData.cases != null && Main.Instance.LevelData.cases.Count > 0)
+				if (LevelMode == LevelMode.Sandbox && Main.Instance.LevelDefinition.cases != null && Main.Instance.LevelDefinition.cases.Count > 0)
 					CorrectProgramPanel.SetActive(true);
 				else if (LevelMode == LevelMode.Case)
 					foreach (var ev in UISingleton.FindInterfaces<IPMTimeToCorrectCase>())

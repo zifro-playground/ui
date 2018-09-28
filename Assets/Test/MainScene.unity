@@ -317,13 +317,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3a63e1cf17805946a88ff7227cbf88c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  theRect: {fileID: 1623532355}
-  runInEditor: 1
---- !u!224 &1623532355 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 224234578667969970, guid: 11a7fc7f0bf60a9498f5c99ee27a2609,
-    type: 2}
-  m_PrefabInternal: {fileID: 1912911169}
+  theRect: {fileID: 0}
+  runInEditor: 0
 --- !u!1001 &1912911169
 Prefab:
   m_ObjectHideFlags: 0
@@ -366,7 +361,7 @@ Prefab:
     - target: {fileID: 224030522351681392, guid: 11a7fc7f0bf60a9498f5c99ee27a2609,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000045776367
+      value: -0.000030517578
       objectReference: {fileID: 0}
     - target: {fileID: 224298056314586050, guid: 11a7fc7f0bf60a9498f5c99ee27a2609,
         type: 2}
@@ -376,7 +371,7 @@ Prefab:
     - target: {fileID: 224298056314586050, guid: 11a7fc7f0bf60a9498f5c99ee27a2609,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000091552734
+      value: 0.00012207031
       objectReference: {fileID: 0}
     - target: {fileID: 224961170954712864, guid: 11a7fc7f0bf60a9498f5c99ee27a2609,
         type: 2}
@@ -387,6 +382,21 @@ Prefab:
         type: 2}
       propertyPath: m_AnchorMin.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224961170954712864, guid: 11a7fc7f0bf60a9498f5c99ee27a2609,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0.99999976
+      objectReference: {fileID: 0}
+    - target: {fileID: 224114598715625782, guid: 11a7fc7f0bf60a9498f5c99ee27a2609,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224114598715625782, guid: 11a7fc7f0bf60a9498f5c99ee27a2609,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0.99999994
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11a7fc7f0bf60a9498f5c99ee27a2609, type: 2}

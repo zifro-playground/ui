@@ -18,7 +18,7 @@ namespace PM
 
 		public GameDefinition GameDefinition;
 
-		public Level LevelData;
+		public Level LevelDefinition;
 		public LevelAnswer LevelAnswer;
 
 		public CaseHandler CaseHandler;
@@ -67,6 +67,8 @@ namespace PM
 			var levelId = GameDefinition.activeLevels[levelIndex].levelId;
 			LoadLevel(levelId);
 
+			Progress.Instance.LevelData[PMWrapper.currentLevel].IsStarted = true;
+
 			foreach (var ev in UISingleton.FindInterfaces<IPMLevelChanged>())
 				ev.OnPMLevelChanged();
 		}
@@ -106,16 +108,20 @@ namespace PM
 			if (!levels.Any())
 				throw new Exception("There is no level with id " + levelId);
 
-			LevelData = levels.First();
+			LevelDefinition = levels.First();
 
-			currentLevelSettings = LevelData.levelSettings;
+			currentLevelSettings = LevelDefinition.levelSettings;
+
+			//TODO Load level progress from database
+			if (!Progress.Instance.LevelData.ContainsKey(PMWrapper.currentLevel))
+				Progress.Instance.LevelData[PMWrapper.currentLevel] = new LevelData(LevelDefinition.id);
 
 			LevelModeButtons.Instance.CreateButtons();
 
-			BuildGuides(LevelData.guideBubbles);
-			BuildCases(LevelData.cases);
+			BuildGuides(LevelDefinition.guideBubbles);
+			BuildCases(LevelDefinition.cases);
 
-			if (LevelData.sandbox != null)
+			if (LevelDefinition.sandbox != null)
 				LevelModeController.Instance.InitSandboxMode();
 			else
 				LevelModeController.Instance.InitCaseMode();
@@ -157,15 +163,15 @@ namespace PM
 		}
 		private void SetLevelSettings()
 		{
-			UISingleton.instance.saveData.ClearPreAndMainCode();
+			Progress.Instance.ClearCodeWindow();
 
 			if (currentLevelSettings == null)
 				return;
 
-			if (!String.IsNullOrEmpty(currentLevelSettings.precode))
+			if (!string.IsNullOrEmpty(currentLevelSettings.precode))
 				PMWrapper.preCode = currentLevelSettings.precode;
 
-			if (!String.IsNullOrEmpty(currentLevelSettings.startCode))
+			if (!string.IsNullOrEmpty(currentLevelSettings.startCode))
 				PMWrapper.AddCodeAtStart(currentLevelSettings.startCode);
 			
 			if (currentLevelSettings.taskDescription != null)
@@ -184,9 +190,9 @@ namespace PM
 		}
 		private void SetCaseSettings()
 		{
-			if (LevelData.cases != null && LevelData.cases.Any())
+			if (LevelDefinition.cases != null && LevelDefinition.cases.Any())
 			{
-				var caseSettings = LevelData.cases[PMWrapper.currentCase].caseSettings;
+				var caseSettings = LevelDefinition.cases[PMWrapper.currentCase].caseSettings;
 
 				if (caseSettings == null)
 					return;
@@ -200,9 +206,9 @@ namespace PM
 		}
 		private void SetSandboxSettings()
 		{
-			if (LevelData.sandbox != null)
+			if (LevelDefinition.sandbox != null)
 			{
-				var sandboxSettings = LevelData.sandbox.sandboxSettings;
+				var sandboxSettings = LevelDefinition.sandbox.sandboxSettings;
 
 				if (sandboxSettings == null)
 					return;
@@ -253,7 +259,7 @@ namespace PM
 				CaseHandler = new CaseHandler(cases.Count);
 			else
 			{
-				if (LevelData.sandbox == null)
+				if (LevelDefinition.sandbox == null)
 					CaseHandler = new CaseHandler(1);
 			}
 		}

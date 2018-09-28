@@ -45,8 +45,8 @@ public static class PMWrapper
 		set { UISingleton.instance.walker.BaseWalkerWaitTime = value; }
 	}
 
-    public static Level LevelData{
-        get { return Main.Instance.LevelData; }
+    public static Level LevelDefinition{
+        get { return Main.Instance.LevelDefinition; }
     }
 
 	/// <summary>
