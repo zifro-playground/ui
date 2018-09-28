@@ -10,8 +10,6 @@ namespace PM
 {
 	public class Progress : MonoBehaviour, IPMLevelCompleted, IPMUnloadLevel
 	{
-		private const string saveUrl = "http://localhost:51419/umbraco/api/levels/save";
-
 		private float SecondsSpentOnCurrentLevel;
 
 		public Dictionary<int, LevelData> LevelData = new Dictionary<int, LevelData>();
@@ -27,6 +25,9 @@ namespace PM
 		void Update()
 		{
 			SecondsSpentOnCurrentLevel += Time.deltaTime;
+
+			if (Input.GetKeyDown(KeyCode.Escape))
+				SaveUserLevelProgress();
 		}
 
 		public void SaveUserLevelProgress()
@@ -35,7 +36,7 @@ namespace PM
 
 			var userProgress = CollectUserProgress();
 			var rawBody = CreateRawRequestBody(userProgress);
-			//StartCoroutine(SendRequest(rawBody));
+			StartCoroutine(SendRequest("/levels/save", rawBody));
 		}
 		private Dictionary<string, string> CollectUserProgress()
 		{
@@ -60,9 +61,12 @@ namespace PM
 
 			return rawBody;
 		}
-		private IEnumerator SendRequest(byte[] rawBody)
+		private IEnumerator SendRequest(string endpoint, byte[] rawBody)
 		{
-			var request = new UnityWebRequest(saveUrl, "POST");
+			var url = GetBaseUrl() + endpoint;
+			print(url);
+
+			var request = new UnityWebRequest(url, "POST");
 			request.uploadHandler = new UploadHandlerRaw(rawBody);
 			request.downloadHandler = new DownloadHandlerBuffer();
 			request.SetRequestHeader("Content-Type", "application/json");
@@ -71,10 +75,21 @@ namespace PM
 
 			if (request.isNetworkError || request.isHttpError)
 				Debug.Log(request.error);
-			else
-				Debug.Log(request.downloadHandler.text);
+			Debug.Log(request.downloadHandler.text);
 		}
-		
+
+		private string GetBaseUrl()
+		{
+			string baseUrl;
+#if UNITY_EDITOR
+			baseUrl = "http://localhost:51419";
+#elif UNITY_WEBGL
+			var uri = new Uri(Application.absoluteURL);
+			baseUrl = uri.Scheme + "://" + uri.Authority;
+#endif
+			return baseUrl + "/umbraco/api";
+		}
+
 		public void LoadMainCode()
 		{
 			if (LevelData.ContainsKey(PMWrapper.currentLevel))
@@ -83,7 +98,7 @@ namespace PM
 
 		private int SaveAndResetSecondsSpent()
 		{
-			var secondsSpent = (int) SecondsSpentOnCurrentLevel;
+			var secondsSpent = (int)SecondsSpentOnCurrentLevel;
 			LevelData[PMWrapper.currentLevel].SecondsSpent += secondsSpent;
 
 			SecondsSpentOnCurrentLevel = 0;

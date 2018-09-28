@@ -21,7 +21,7 @@ namespace PM
 		{
 			var game = Main.Instance.GameDefinition;
 
-			var basePath = "C:/Users/Tifos/Documents/GitHub/Zifro/App_Code/Persistance/Migrations/GameUpgrades/";
+			var basePath = "C:/Users/Jonathan/Documents/GitHub/Zifro/App_Code/Persistance/Migrations/GameUpgrades/";
 			var fileName = "TargetVersion_" + Version.PrintWithUnderscore() + ".cs";
 			var path = basePath + fileName;
 
