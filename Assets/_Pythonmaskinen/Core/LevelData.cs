@@ -14,5 +14,15 @@
 		{
 			Id = id;
 		}
+
+		public LevelData(LevelProgress levelProgress)
+		{
+			Id = levelProgress.levelId;
+			HasShownDescription = true;
+			IsStarted = true;
+			IsCompleted = levelProgress.isCompleted;
+			MainCode = levelProgress.mainCode;
+			CodeLineCount = levelProgress.codeLineCount;
+		}
 	}
 }

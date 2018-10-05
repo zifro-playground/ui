@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 namespace PM
@@ -7,7 +8,9 @@ namespace PM
 	public class GameToMigration : MonoBehaviour
 	{
 		[SerializeField]
-		public  Version Version;
+		public Version Version;
+
+		public string BaseOutputPath;
 
 		public static GameToMigration Instance;
 
@@ -21,7 +24,7 @@ namespace PM
 		{
 			var game = Main.Instance.GameDefinition;
 
-			var basePath = "C:/Users/Jonathan/Documents/GitHub/Zifro/App_Code/Persistance/Migrations/GameUpgrades/";
+			var basePath = BaseOutputPath + "Zifro/App_Code/Persistance/Migrations/GameUpgrades/";
 			var fileName = "TargetVersion_" + Version.PrintWithUnderscore() + ".cs";
 			var path = basePath + fileName;
 
@@ -66,10 +69,48 @@ namespace PM
 				}
 				tw.WriteLine("				};\n");
 
+				tw.WriteLine("				var levelsPrecode = new Dictionary<string, string>()");
+				tw.WriteLine("				{");
+				foreach (var activeLevel in game.activeLevels)
+				{
+					var levels = game.scenes.First(scene => scene.name == activeLevel.sceneName).levels;
+					var level = levels.First(lvl => lvl.id == activeLevel.levelId);
+					var levelPrecode = "";
+
+					if (level.levelSettings != null)
+					{
+						levelPrecode = level.levelSettings.precode;
+					}
+
+					if (level.cases != null && level.cases.Any() && level.cases.First().caseSettings != null)
+					{
+						if (!string.IsNullOrEmpty(level.cases.First().caseSettings.precode) && level.sandbox == null)
+							levelPrecode = level.cases.First().caseSettings.precode;
+					}
+
+					if (!string.IsNullOrEmpty(levelPrecode))
+						tw.WriteLine("					{ \"" + activeLevel.levelId + "\", \"" + levelPrecode + "\" },");
+				}
+				tw.WriteLine("				};\n");
+
 				tw.WriteLine("				foreach (var levelToUpdate in levelsToUpdate)");
 				tw.WriteLine("				{");
-				tw.WriteLine("					if (!levelsInDatabase.Any(x => x.LevelId == levelToUpdate))");
-				tw.WriteLine("						dbContext.PlaygroundLevel.Add(new PlaygroundLevel() {LevelId = levelToUpdate, GameId = game.GameId, PlaygroundGame = game});");
+				tw.WriteLine("					var level = levelsInDatabase.FirstOrDefault(x => x.LevelId == levelToUpdate);");
+				tw.WriteLine("					var precode = levelsPrecode.ContainsKey(levelToUpdate) ? levelsPrecode[levelToUpdate] : null;\n");
+				tw.WriteLine("					if (level == null)");
+				tw.WriteLine("					{");
+				tw.WriteLine("						dbContext.PlaygroundLevel.Add(new PlaygroundLevel()");
+				tw.WriteLine("						{");
+				tw.WriteLine("							LevelId = levelToUpdate,");
+				tw.WriteLine("							GameId = game.GameId,");
+				tw.WriteLine("							Precode = precode,");
+				tw.WriteLine("							PlaygroundGame = game");
+				tw.WriteLine("						});");
+				tw.WriteLine("					}");
+				tw.WriteLine("					else");
+				tw.WriteLine("					{");
+				tw.WriteLine("						level.Precode = precode;");
+				tw.WriteLine("					}");
 				tw.WriteLine("				}\n");
 
 				tw.WriteLine("				dbContext.SaveChanges();");

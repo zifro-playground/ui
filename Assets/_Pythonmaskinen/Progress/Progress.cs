@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
@@ -10,9 +9,9 @@ namespace PM
 {
 	public class Progress : MonoBehaviour, IPMLevelCompleted, IPMUnloadLevel
 	{
-		private float SecondsSpentOnCurrentLevel;
+		private float secondsSpentOnCurrentLevel;
 
-		public Dictionary<int, LevelData> LevelData = new Dictionary<int, LevelData>();
+		public Dictionary<string, LevelData> LevelData = new Dictionary<string, LevelData>();
 
 		public static Progress Instance;
 
@@ -24,10 +23,45 @@ namespace PM
 
 		void Update()
 		{
-			SecondsSpentOnCurrentLevel += Time.deltaTime;
+			secondsSpentOnCurrentLevel += Time.deltaTime;
 
 			if (Input.GetKeyDown(KeyCode.Escape))
 				SaveUserLevelProgress();
+		}
+
+		public IEnumerator LoadUserGameProgress(string endpoint)
+		{
+			var url = GetBaseUrl() + endpoint;
+			print(url);
+
+			using (var request = new UnityWebRequest(url, "GET"))
+			{
+				request.downloadHandler = new DownloadHandlerBuffer();
+				request.SetRequestHeader("Content-Type", "application/json");
+
+				yield return request.SendWebRequest();
+
+				if (request.isNetworkError || request.isHttpError)
+				{
+					Debug.Log(request.error);
+					Debug.Log(request.downloadHandler.text);
+					Main.Instance.StartGame();
+				}
+				else
+				{
+					HandlePositiveLevelProgressResponse(request.downloadHandler.text);
+				}
+			}
+		}
+		private void HandlePositiveLevelProgressResponse(string response)
+		{
+			var gameProgress = JsonConvert.DeserializeObject<GameProgress>(response);
+
+			foreach (var levelProgress in gameProgress.levels)
+			{
+				LevelData[levelProgress.levelId] = new LevelData(levelProgress);
+			}
+			Main.Instance.StartGame();
 		}
 
 		public void SaveUserLevelProgress()
@@ -35,47 +69,44 @@ namespace PM
 			SaveAndResetSecondsSpent();
 
 			var userProgress = CollectUserProgress();
-			var rawBody = CreateRawRequestBody(userProgress);
-			StartCoroutine(SendRequest("/levels/save", rawBody));
-		}
-		private Dictionary<string, string> CollectUserProgress()
-		{
-			var levelData = LevelData[PMWrapper.CurrentLevelIndex];
+			var jsonData = JsonConvert.SerializeObject(userProgress);
+			byte[] rawBody = Encoding.UTF8.GetBytes(jsonData);
 
-			var userProgress = new Dictionary<string, string>
+			StartCoroutine(SendPostRequest("/levels/save", rawBody));
+		}
+
+		private LevelProgress CollectUserProgress()
+		{
+			var levelData = LevelData[PMWrapper.CurrentLevel.id];
+
+			var userProgress = new LevelProgress()
 			{
-				{"levelId", levelData.Id},
-				{"isCompleted", levelData.IsCompleted.ToString()},
-				{"mainCode", levelData.MainCode},
-				{"codeLineCount", levelData.CodeLineCount.ToString()},
-				{"secondsSpent", levelData.SecondsSpent.ToString()}
+				levelId = levelData.Id,
+				isCompleted = levelData.IsCompleted,
+				mainCode = levelData.MainCode,
+				codeLineCount = levelData.CodeLineCount,
+				secondsSpent = levelData.SecondsSpent
 			};
 
 			return userProgress;
 		}
-		private byte[] CreateRawRequestBody(Dictionary<string, string> formData)
-		{
-			var jsonData = JsonConvert.SerializeObject(formData);
-			print("Save is triggered!\n" + jsonData);
-			byte[] rawBody = Encoding.UTF8.GetBytes(jsonData);
-
-			return rawBody;
-		}
-		private IEnumerator SendRequest(string endpoint, byte[] rawBody)
+		private IEnumerator SendPostRequest(string endpoint, byte[] rawBody)
 		{
 			var url = GetBaseUrl() + endpoint;
 			print(url);
 
-			var request = new UnityWebRequest(url, "POST");
-			request.uploadHandler = new UploadHandlerRaw(rawBody);
-			request.downloadHandler = new DownloadHandlerBuffer();
-			request.SetRequestHeader("Content-Type", "application/json");
+			using (var request = new UnityWebRequest(url, "POST"))
+			{
+				request.uploadHandler = new UploadHandlerRaw(rawBody);
+				request.downloadHandler = new DownloadHandlerBuffer();
+				request.SetRequestHeader("Content-Type", "application/json");
 
-			yield return request.SendWebRequest();
+				yield return request.SendWebRequest();
 
-			if (request.isNetworkError || request.isHttpError)
-				Debug.Log(request.error);
-			Debug.Log(request.downloadHandler.text);
+				if (request.isNetworkError || request.isHttpError)
+					Debug.Log(request.error);
+				Debug.Log(request.downloadHandler.text);
+			}
 		}
 
 		private string GetBaseUrl()
@@ -90,34 +121,25 @@ namespace PM
 			return baseUrl + "/umbraco/api";
 		}
 
-		public void LoadMainCode()
-		{
-			if (LevelData.ContainsKey(PMWrapper.CurrentLevelIndex))
-				PMWrapper.mainCode = LevelData[PMWrapper.CurrentLevelIndex].MainCode;
-		}
-
 		private int SaveAndResetSecondsSpent()
 		{
-			var secondsSpent = (int)SecondsSpentOnCurrentLevel;
-			LevelData[PMWrapper.CurrentLevelIndex].SecondsSpent += secondsSpent;
+			var secondsSpent = (int)secondsSpentOnCurrentLevel;
+			LevelData[PMWrapper.CurrentLevel.id].SecondsSpent = secondsSpent;
 
-			SecondsSpentOnCurrentLevel = 0;
+			secondsSpentOnCurrentLevel = 0;
 
 			return secondsSpent;
 		}
 
 		public void OnPMLevelCompleted()
 		{
-			LevelData[PMWrapper.CurrentLevelIndex].IsCompleted = true;
+			LevelData[PMWrapper.CurrentLevel.id].IsCompleted = true;
 			SaveUserLevelProgress();
 		}
-
 		public void OnPMUnloadLevel()
 		{
-			if (LevelData.ContainsKey(PMWrapper.CurrentLevelIndex))
-			{
+			if (LevelData.ContainsKey(PMWrapper.CurrentLevel.id))
 				SaveUserLevelProgress();
-			}
 		}
 	}
 }

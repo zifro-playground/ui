@@ -13,11 +13,6 @@ using CodeWalker = PM.CodeWalker;
 public static class PMWrapper
 {
 	/// <summary>
-	/// Version of the Pythonmachine wrapper/UI.
-	/// </summary>
-	public const string Version = "1.2.0";
-
-	/// <summary>
 	/// Tells which mode the level is currently running. See <see cref="PM.LevelMode"/> for avaliable modes.
 	/// </summary>
 	public static LevelMode LevelMode
@@ -45,7 +40,7 @@ public static class PMWrapper
 		set { UISingleton.instance.walker.BaseWalkerWaitTime = value; }
 	}
 
-    public static Level CurreLevel{
+    public static Level CurrentLevel{
         get { return Main.Instance.LevelDefinition; }
     }
 
