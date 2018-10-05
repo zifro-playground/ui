@@ -320,14 +320,6 @@ public static class PMWrapper
 	}
 
 	/// <summary>
-	/// Represents the previous value of <see cref="CurrentLevelIndex"/>. When there hasen't been a previous level, previousLevel has a value of -1.
-	/// </summary>
-	public static int previousLevel
-	{
-		get { return UISingleton.instance.levelbar.Previous; }
-	}
-
-	/// <summary>
 	/// This value determites how many levels are shown on the levelbar in the UI.
 	/// </summary>
 	/// <exception cref="ArgumentOutOfRangeException">In the case of non-positive values in setting <see cref="numOfLevels"/>.</exception>

@@ -27,13 +27,11 @@ namespace PM
 
 		public int NumberOfLevels { get { return levels.Count; } }
 		public int Current { get; private set; }
-		public int Previous { get; private set; }
 		public int Unlocked { get; private set; }
 		private List<Button> levels = new List<Button>();
 
 		private void Awake()
 		{
-			Previous = -1;
 			Current = -1;
 		}
 
@@ -74,73 +72,64 @@ namespace PM
 			UpdateButtons(current, unlocked);
 		}
 
-		private void UpdateButtons()
+		public void UpdateButtons(int newCurrent, int newUnlocked)
 		{
+			Unlocked = newUnlocked;
+			Current = newCurrent;
+			
 			for (int i = 0; i < levels.Count; i++)
 			{
 				UpdateSingleButton(i);
 			}
 		}
 
-		public void UpdateButtons(int newCurrent, int newUnlocked)
+		private void UpdateSingleButton(int levelIndex)
 		{
-			bool levelChange = newCurrent != Current;
+			var btn = levels[levelIndex];
 
-			Unlocked = newUnlocked;
+			var levelId = Main.Instance.GameDefinition.activeLevels[levelIndex].levelId;
+			var levelData = Progress.Instance.LevelData[levelId];
 
-			if (levelChange)
+			if (levelIndex == 0)
 			{
-				Previous = Current;
-				Current = newCurrent;
-			}
-
-			UpdateButtons();
-		}
-
-		private void UpdateSingleButton(int level)
-		{
-			var btn = levels[level];
-
-			if (level == 0)
-			{
-				btn.image.sprite = level == Current ? LeftCurrent : (level > Unlocked ? LeftLocked : LeftUnlocked);
+				btn.image.sprite = levelIndex == Current ? LeftCurrent : (levelIndex <= Unlocked || levelData.IsStarted ? LeftUnlocked : LeftLocked);
 				if (NumberOfLevels == 1)
 					ProgressBarParent.SetActive(false);
 			}
-			else if (level < NumberOfLevels - 1)
+			else if (levelIndex < NumberOfLevels - 1)
 			{
-				btn.image.sprite = level == Current ? MidCurrent : (level > Unlocked ? MidLocked : MidUnlocked);
+				btn.image.sprite = levelIndex == Current ? MidCurrent : (levelIndex <= Unlocked || levelData.IsStarted ? MidUnlocked : MidLocked);
 			}
 			else
 			{
-				btn.image.sprite = level == Current ? RightCurrent : (level > Unlocked ? RightLocked : RightUnlocked);
+				btn.image.sprite = levelIndex == Current ? RightCurrent : (levelIndex <= Unlocked || levelData.IsStarted ? RightUnlocked : RightLocked);
 			}
 
-			btn.interactable = level <= Unlocked && level != Current;
+			btn.interactable = (levelIndex <= Unlocked || levelData.IsStarted) && levelIndex != Current;
 
 			UITooltip tooltip = btn.GetComponent<UITooltip>();
 			if (tooltip)
 			{
-				tooltip.text = "Nivå " + level;
-				if (level == Current) tooltip.text = "<color=green><b>" + tooltip.text + "</b></color> <color=grey>(Nuvarande)</color>";
-				if (level > Unlocked) tooltip.text += " <color=grey>(Låst)</color>";
+				tooltip.text = "Nivå " + levelIndex;
+				if (levelIndex == Current) tooltip.text = "<color=green><b>" + tooltip.text + "</b></color> <color=grey>(Nuvarande)</color>";
+				if (levelIndex > Unlocked && !levelData.IsStarted) tooltip.text += " <color=grey>(Låst)</color>";
 				tooltip.ApplyTooltipTextChange();
 			}
 		}
 
-		public void ChangeLevel(int level)
+		public void ChangeLevel(int levelIndex)
 		{
-			if (level == Current) return;
+			if (levelIndex == Current) return;
 
 			foreach (var ev in UISingleton.FindInterfaces<IPMUnloadLevel>())
 				ev.OnPMUnloadLevel();
 
-			Unlocked = Mathf.Max(level, Unlocked);
+			Unlocked = Mathf.Max(levelIndex, Unlocked);
 
 			// Update which one is current one
-			UpdateButtons(level, Unlocked);
+			UpdateButtons(levelIndex, Unlocked);
 
-			Main.Instance.StartLevel(level);
+			Main.Instance.StartLevel(levelIndex);
 		}
 
 	}

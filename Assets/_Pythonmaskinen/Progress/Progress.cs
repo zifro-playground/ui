@@ -61,6 +61,12 @@ namespace PM
 			{
 				LevelData[levelProgress.levelId] = new LevelData(levelProgress);
 			}
+
+			foreach (var level in Main.Instance.GameDefinition.activeLevels)
+			{
+				if (!LevelData.ContainsKey(level.levelId))
+					LevelData[level.levelId] = new LevelData(level.levelId);
+			}
 			Main.Instance.StartGame();
 		}
 

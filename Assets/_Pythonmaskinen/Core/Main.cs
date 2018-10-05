@@ -113,9 +113,6 @@ namespace PM
 			LevelDefinition = levels.First();
 
 			currentLevelSettings = LevelDefinition.levelSettings;
-			
-			if (!Progress.Instance.LevelData.ContainsKey(PMWrapper.CurrentLevel.id))
-				Progress.Instance.LevelData[PMWrapper.CurrentLevel.id] = new LevelData(LevelDefinition.id);
 
 			LevelModeButtons.Instance.CreateButtons();
 
