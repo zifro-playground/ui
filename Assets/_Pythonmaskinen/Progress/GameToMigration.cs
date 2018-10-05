@@ -89,7 +89,7 @@ namespace PM
 					}
 
 					if (!string.IsNullOrEmpty(levelPrecode))
-						tw.WriteLine("					{ \"" + activeLevel.levelId + "\", \"" + levelPrecode + "\" },");
+						tw.WriteLine("					{ \"" + activeLevel.levelId + "\", \"" + levelPrecode.Replace("\n", "\\n") + "\" },");
 				}
 				tw.WriteLine("				};\n");
 
