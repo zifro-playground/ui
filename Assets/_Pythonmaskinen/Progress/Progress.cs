@@ -30,31 +30,19 @@ namespace PM
 				SaveUserLevelProgress();
 		}
 
-		public IEnumerator LoadUserGameProgress(string endpoint)
+		public void LoadUserGameProgress()
 		{
-			var url = GetBaseUrl() + endpoint;
-			print(url);
-
-			using (var request = new UnityWebRequest(url, "GET"))
+			var request = new Request
 			{
-				request.downloadHandler = new DownloadHandlerBuffer();
-				request.SetRequestHeader("Content-Type", "application/json");
-
-				yield return request.SendWebRequest();
-
-				if (request.isNetworkError || request.isHttpError)
-				{
-					Debug.Log(request.error);
-					Debug.Log(request.downloadHandler.text);
-					Main.Instance.StartGame();
-				}
-				else
-				{
-					HandlePositiveLevelProgressResponse(request.downloadHandler.text);
-				}
-			}
+				Method = HttpMethod.GET,
+				Endpoint = "/levels/load?gameId=" + Main.Instance.GameDefinition.gameId,
+				OkResponsCallback = HandleOkGetResponse,
+				ErrorResponsCallback = HandleErrorGetResponse
+			};
+			ApiHandler.Instance.AddRequestToQueue(request);
 		}
-		private void HandlePositiveLevelProgressResponse(string response)
+
+		public void HandleOkGetResponse(string response)
 		{
 			var gameProgress = JsonConvert.DeserializeObject<GameProgress>(response);
 
@@ -63,12 +51,23 @@ namespace PM
 				LevelData[levelProgress.levelId] = new LevelData(levelProgress);
 			}
 
+			AddMissingLevelData();
+			Main.Instance.StartGame();
+		}
+
+		public void HandleErrorGetResponse(string response)
+		{
+			AddMissingLevelData();
+			Main.Instance.StartGame();
+		}
+
+		private void AddMissingLevelData()
+		{
 			foreach (var level in Main.Instance.GameDefinition.activeLevels)
 			{
 				if (!LevelData.ContainsKey(level.levelId))
 					LevelData[level.levelId] = new LevelData(level.levelId);
 			}
-			Main.Instance.StartGame();
 		}
 
 		public void SaveUserLevelProgress()
@@ -77,9 +76,14 @@ namespace PM
 
 			var userProgress = CollectUserProgress();
 			var jsonData = JsonConvert.SerializeObject(userProgress);
-			byte[] rawBody = Encoding.UTF8.GetBytes(jsonData);
 
-			StartCoroutine(SendPostRequest("/levels/save", rawBody));
+			var request = new Request
+			{
+				Method = HttpMethod.POST,
+				Endpoint = "/levels/save",
+				JsonString = jsonData
+			};
+			ApiHandler.Instance.AddRequestToQueue(request);
 		}
 
 		private LevelProgress CollectUserProgress()
@@ -96,36 +100,6 @@ namespace PM
 			};
 
 			return userProgress;
-		}
-		private IEnumerator SendPostRequest(string endpoint, byte[] rawBody)
-		{
-			var url = GetBaseUrl() + endpoint;
-			print(url);
-
-			using (var request = new UnityWebRequest(url, "POST"))
-			{
-				request.uploadHandler = new UploadHandlerRaw(rawBody);
-				request.downloadHandler = new DownloadHandlerBuffer();
-				request.SetRequestHeader("Content-Type", "application/json");
-
-				yield return request.SendWebRequest();
-
-				if (request.isNetworkError || request.isHttpError)
-					Debug.Log(request.error);
-				Debug.Log(request.downloadHandler.text);
-			}
-		}
-
-		private string GetBaseUrl()
-		{
-			string baseUrl;
-#if UNITY_EDITOR
-			baseUrl = "http://localhost:51419";
-#elif UNITY_WEBGL
-			var uri = new Uri(Application.absoluteURL);
-			baseUrl = uri.Scheme + "://" + uri.Authority;
-#endif
-			return baseUrl + "/umbraco/api";
 		}
 
 		private int SaveAndResetSecondsSpent()

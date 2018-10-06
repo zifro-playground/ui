@@ -39,7 +39,7 @@ namespace PM
 		{
 			GameDefinition = ParseJson();
 
-			StartCoroutine(Progress.Instance.LoadUserGameProgress("/levels/load?gameId=" + GameDefinition.gameId));
+			Progress.Instance.LoadUserGameProgress();
 		}
 
 		private GameDefinition ParseJson()
