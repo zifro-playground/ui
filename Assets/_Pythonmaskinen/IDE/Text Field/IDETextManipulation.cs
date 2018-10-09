@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text.RegularExpressions;
@@ -37,19 +37,23 @@ namespace PM
 
 		public static bool validateText(string fullText, int maxLines, int maxPerLine)
 		{
-			List<string> textLines = IDEPARSER.parseIntoLines(fullText);
-            var numCodeLines = countCodeLines(textLines);
+			List<string> preCodeTextLines = IDEPARSER.parseIntoLines(PMWrapper.preCode);
+			var preCodeLineCount = countCodeLines(preCodeTextLines);
 
-            UISingleton.instance.rowsLimit.UpdateRowsLeft(numCodeLines, maxLines);
+			List<string> mainCodeTextLines = IDEPARSER.parseIntoLines(fullText);
+            var mainCodeLineCount = countCodeLines(mainCodeTextLines);
 
-            if (numCodeLines > maxLines)
+			Progress.Instance.LevelData[PMWrapper.CurrentLevel.id].CodeLineCount = mainCodeLineCount + preCodeLineCount;
+            UISingleton.instance.rowsLimit.UpdateRowsLeft(mainCodeLineCount, maxLines);
+
+            if (mainCodeLineCount > maxLines)
 			{
 				// Too many rows
 				UISingleton.instance.rowsLimit.redness = 1;
 				return false;
 			}
 
-			foreach (string t in textLines)
+			foreach (string t in mainCodeTextLines)
 			{
 				if (lineSize(t) > maxPerLine)
 					return false;

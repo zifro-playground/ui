@@ -21,7 +21,7 @@ namespace PM
 
 		public void CreateButtons()
 		{
-			if (Main.Instance.LevelData.sandbox != null)
+			if (Main.Instance.LevelDefinition.sandbox != null)
 				SandboxButton.SetActive(true);
 			else
 				SandboxButton.SetActive(false);
@@ -46,13 +46,13 @@ namespace PM
 		public void SetCaseButtonsToDefault()
 		{
 			int numberOfCases = 0;
-			if (Main.Instance.LevelData.cases != null && Main.Instance.LevelData.cases.Any())
+			if (Main.Instance.LevelDefinition.cases != null && Main.Instance.LevelDefinition.cases.Any())
 			{
-				numberOfCases = Main.Instance.LevelData.cases.Count;
+				numberOfCases = Main.Instance.LevelDefinition.cases.Count;
 			}
 			else
 			{
-				if (Main.Instance.LevelData.sandbox == null)
+				if (Main.Instance.LevelDefinition.sandbox == null)
 					numberOfCases = 1;
 			}
 

@@ -18,7 +18,7 @@ namespace PM
 
 		public GameDefinition GameDefinition;
 
-		public Level LevelData;
+		public Level LevelDefinition;
 		public LevelAnswer LevelAnswer;
 
 		public CaseHandler CaseHandler;
@@ -39,10 +39,7 @@ namespace PM
 		{
 			GameDefinition = ParseJson();
 
-			// Will create level navigation buttons
-			PMWrapper.numOfLevels = GameDefinition.activeLevels.Count;
-
-			StartLevel(0); // TODO Load last level played from database
+			Progress.Instance.LoadUserGameProgress();
 		}
 
 		private GameDefinition ParseJson()
@@ -59,6 +56,13 @@ namespace PM
 			return gameDefinition;
 		}
 
+		public void StartGame()
+		{
+			// Will create level navigation buttons
+			PMWrapper.numOfLevels = GameDefinition.activeLevels.Count;
+
+			StartLevel(0);
+		}
 		public void StartLevel(int levelIndex)
 		{
 			var sceneName = GameDefinition.activeLevels[levelIndex].sceneName;
@@ -106,16 +110,16 @@ namespace PM
 			if (!levels.Any())
 				throw new Exception("There is no level with id " + levelId);
 
-			LevelData = levels.First();
+			LevelDefinition = levels.First();
 
-			currentLevelSettings = LevelData.levelSettings;
+			currentLevelSettings = LevelDefinition.levelSettings;
 
 			LevelModeButtons.Instance.CreateButtons();
 
-			BuildGuides(LevelData.guideBubbles);
-			BuildCases(LevelData.cases);
+			BuildGuides(LevelDefinition.guideBubbles);
+			BuildCases(LevelDefinition.cases);
 
-			if (LevelData.sandbox != null)
+			if (LevelDefinition.sandbox != null)
 				LevelModeController.Instance.InitSandboxMode();
 			else
 				LevelModeController.Instance.InitCaseMode();
@@ -131,6 +135,8 @@ namespace PM
 				SetSandboxSettings();
 			else if (PMWrapper.LevelMode == LevelMode.Case)
 				SetCaseSettings();
+
+			LoadMainCode();
 		}
 		private void ClearSettings()
 		{
@@ -157,16 +163,11 @@ namespace PM
 		}
 		private void SetLevelSettings()
 		{
-			UISingleton.instance.saveData.ClearPreAndMainCode();
-
 			if (currentLevelSettings == null)
 				return;
 
-			if (!String.IsNullOrEmpty(currentLevelSettings.precode))
+			if (!string.IsNullOrEmpty(currentLevelSettings.precode))
 				PMWrapper.preCode = currentLevelSettings.precode;
-
-			if (!String.IsNullOrEmpty(currentLevelSettings.startCode))
-				PMWrapper.AddCodeAtStart(currentLevelSettings.startCode);
 			
 			if (currentLevelSettings.taskDescription != null)
                 PMWrapper.SetTaskDescription(currentLevelSettings.taskDescription.header,currentLevelSettings.taskDescription.body);
@@ -184,9 +185,9 @@ namespace PM
 		}
 		private void SetCaseSettings()
 		{
-			if (LevelData.cases != null && LevelData.cases.Any())
+			if (LevelDefinition.cases != null && LevelDefinition.cases.Any())
 			{
-				var caseSettings = LevelData.cases[PMWrapper.currentCase].caseSettings;
+				var caseSettings = LevelDefinition.cases[PMWrapper.currentCase].caseSettings;
 
 				if (caseSettings == null)
 					return;
@@ -200,9 +201,9 @@ namespace PM
 		}
 		private void SetSandboxSettings()
 		{
-			if (LevelData.sandbox != null)
+			if (LevelDefinition.sandbox != null)
 			{
-				var sandboxSettings = LevelData.sandbox.sandboxSettings;
+				var sandboxSettings = LevelDefinition.sandbox.sandboxSettings;
 
 				if (sandboxSettings == null)
 					return;
@@ -223,7 +224,7 @@ namespace PM
 				foreach (var guideBubble in guideBubbles)
 				{
 					if (guideBubble.target == null || String.IsNullOrEmpty(guideBubble.text))
-						throw new Exception("A guide bubble for level with index " + PMWrapper.currentLevel + " is missing target or text");
+						throw new Exception("A guide bubble for level with index " + PMWrapper.CurrentLevelIndex + " is missing target or text");
 
 					// Check if target is a number
 					Match match = Regex.Match(guideBubble.target, @"^[0-9]+$");
@@ -253,11 +254,27 @@ namespace PM
 				CaseHandler = new CaseHandler(cases.Count);
 			else
 			{
-				if (LevelData.sandbox == null)
+				if (LevelDefinition.sandbox == null)
 					CaseHandler = new CaseHandler(1);
 			}
 		}
 
+		private void LoadMainCode()
+		{
+			if (Progress.Instance.LevelData[PMWrapper.CurrentLevel.id].IsStarted)
+			{
+				PMWrapper.mainCode = Progress.Instance.LevelData[PMWrapper.CurrentLevel.id].MainCode;
+			}
+			else
+			{
+				if (currentLevelSettings != null && currentLevelSettings.startCode != null)
+					PMWrapper.AddCodeAtStart(currentLevelSettings.startCode);
+				else
+					PMWrapper.mainCode = string.Empty;
+
+				Progress.Instance.LevelData[PMWrapper.CurrentLevel.id].IsStarted = true;
+			}
+		}
 		private List<Function> CreateFunctionsFromStrings(List<string> functionNames)
 		{
 			var functions = new List<Function>();

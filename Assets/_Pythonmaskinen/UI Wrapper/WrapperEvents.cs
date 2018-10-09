@@ -39,16 +39,26 @@ public interface IPMCompilerUserPaused {
 public interface IPMSpeedChanged {
 	void OnPMSpeedChanged(float speed);
 }
+
+/// <summary>
+/// Executes <see cref="OnPMUnloadLevel()"/> before loading next level when the current level in the UI is changed.
+/// <para>See also: <seealso cref="PMWrapper.CurrentLevelIndex"/> and <seealso cref="PMWrapper.previousLevel"/></para>
+/// </summary>
+public interface IPMUnloadLevel
+{
+	void OnPMUnloadLevel();
+}
+
 /// <summary>
 /// Executes <see cref="OnPMLevelChanged()"/> when the current level in the UI is changed.
-/// <para>See also: <seealso cref="PMWrapper.currentLevel"/> and <seealso cref="PMWrapper.previousLevel"/></para>
+/// <para>See also: <seealso cref="PMWrapper.CurrentLevelIndex"/> and <seealso cref="PMWrapper.previousLevel"/></para>
 /// </summary>
 public interface IPMLevelChanged {
 	void OnPMLevelChanged();
 }
 /// <summary>
 /// Executes <see cref="OnPMLevelCompleted()"/> when the current level in the UI is marked as complete by the <seealso cref="PMWrapper.SetLevelCompleted"/> function.
-/// <para>See also: <seealso cref="PMWrapper.currentLevel"/> and <seealso cref="PMWrapper.previousLevel"/></para>
+/// <para>See also: <seealso cref="PMWrapper.CurrentLevelIndex"/> and <seealso cref="PMWrapper.previousLevel"/></para>
 /// </summary>
 public interface IPMLevelCompleted {
 	void OnPMLevelCompleted();
