@@ -37,6 +37,8 @@ namespace PM
 
 		private void Start ()
 		{
+			LoadingScreen.Instance.Show();
+
 			GameDefinition = ParseJson();
 
 			Progress.Instance.LoadUserGameProgress();
@@ -62,6 +64,8 @@ namespace PM
 			PMWrapper.numOfLevels = GameDefinition.activeLevels.Count;
 
 			StartLevel(0);
+
+			LoadingScreen.Instance.Hide();
 		}
 		public void StartLevel(int levelIndex)
 		{
