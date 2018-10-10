@@ -17,7 +17,6 @@ namespace PM
 		public CodeWalker walker;
 		public GlobalSpeed speed;
 		public Guide.GuidePlayer guidePlayer;
-		public SaveData saveData;
 
 		[Header("UI")]
 		public IDERowsLimit rowsLimit;

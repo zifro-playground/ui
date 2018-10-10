@@ -61,11 +61,11 @@ namespace PM
 			BigTaskDescriptionHead.text = header;
 			BigTaskDescriptionBody.text = body;
 
-			if (!UserData.HasSeenDescriptionForLevel.ContainsKey(PMWrapper.currentLevel) ||
-				!UserData.HasSeenDescriptionForLevel[PMWrapper.currentLevel])
+			var levelData = Progress.Instance.LevelData[PMWrapper.CurrentLevel.id];
+			if (!levelData.HasShownDescription && !levelData.IsCompleted)
 			{
 				BigTaskDescription.SetActive(true);
-				UserData.HasSeenDescriptionForLevel[PMWrapper.currentLevel] = true;
+				levelData.HasShownDescription = true;
 			}
 		}
 

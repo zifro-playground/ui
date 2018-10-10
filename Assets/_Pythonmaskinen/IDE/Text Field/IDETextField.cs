@@ -250,10 +250,8 @@ namespace PM
 				theInputField.caretPosition = lastCharInsertIndex;
 			}
 
+			Progress.Instance.LevelData[PMWrapper.CurrentLevel.id].MainCode = PMWrapper.mainCode;
 			FocusCursor();
-			
-			SaveData.SaveMainCode();
-
 			theLineMarker.removeErrorMessage();
 		}
 		#endregion
@@ -355,11 +353,11 @@ namespace PM
 
 		public void InsertMainCodeAtStart(string code)
 		{
-			// TODO should check if student has played level before
-			if (theInputField.text.Length == 0)
+			if (!Progress.Instance.LevelData[PMWrapper.CurrentLevel.id].IsStarted)
 			{
 				theInputField.text = code;
 				inserting = true;
+				Progress.Instance.LevelData[PMWrapper.CurrentLevel.id].MainCode = PMWrapper.mainCode;
 			}
 		}
 

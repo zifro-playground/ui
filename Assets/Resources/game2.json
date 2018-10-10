@@ -1,30 +1,18 @@
 ﻿{
-	"gameId": "testGameId", 
+	"gameId": "testGame2Id", 
   "activeLevels": [
     {
       "sceneName": "Scene1",
-      "levelId": "testGameId_aaa"
+      "levelId": "testGame2Id_zxc"
     },
     {
       "sceneName": "Scene1",
-      "levelId": "testGameId_aab"
+      "levelId": "testGame2Id_xcv"
     },
     {
       "sceneName": "Scene1",
-      "levelId": "testGameId_hej"
-    } /*,
-		{
-			"sceneName": "Scene1",
-			"levelId": "testGameId_aaa"
-		},
-		{
-			"sceneName": "Scene1",
-			"levelId": "testGameId_aaa"
-		},
-		{
-			"sceneName": "Scene1",
-			"levelId": "testGameId_aaa"
-		}*/
+      "levelId": "testGame2Id_cvb"
+    }
   ],
 	"scenes": [
 		{
@@ -38,7 +26,7 @@
 			},
       "levels": [
         {
-          "id": "testGameId_aaa",
+          "id": "testGame2Id_zxc",
           "guideBubbles": [
             {
               "target": "1",
@@ -85,7 +73,7 @@
           ]
         },
         {
-          "id": "testGameId_aac",
+          "id": "testGame2Id_xcv",
           "guideBubbles": [
             {
               "target": "1",
@@ -132,7 +120,7 @@
           ]
         },
         {
-          "id": "testGameId_aab",
+          "id": "testGame2Id_cvb",
           "guideBubbles": [
             {
               "target": "1",

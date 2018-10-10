@@ -25,15 +25,15 @@ namespace PM
 		{
 			PMWrapper.StopCompiler();
 
-			foreach (var ev in UISingleton.FindInterfaces<IPMLevelCompleted>())
-				ev.OnPMLevelCompleted();
-
 			// If theres more levels && next level is locked
-			if (PMWrapper.currentLevel < PMWrapper.numOfLevels - 1 && PMWrapper.currentLevel == PMWrapper.unlockedLevel)
+			if (PMWrapper.CurrentLevelIndex < PMWrapper.numOfLevels - 1 && PMWrapper.CurrentLevelIndex == PMWrapper.unlockedLevel)
 				// Unlock next level
-				UISingleton.instance.levelbar.UpdateButtons(PMWrapper.currentLevel, PMWrapper.currentLevel + 1);
+				UISingleton.instance.levelbar.UpdateButtons(PMWrapper.CurrentLevelIndex, PMWrapper.CurrentLevelIndex + 1);
 
 			_ShowWinScreen();
+
+			foreach (var ev in UISingleton.FindInterfaces<IPMLevelCompleted>())
+				ev.OnPMLevelCompleted();
 		}
 
 		// Called by UnityActions on closeButton
@@ -46,7 +46,7 @@ namespace PM
 		public void ContinueToNextLevel()
 		{
 			_HideWinScrren();
-			PMWrapper.currentLevel += 1;
+			PMWrapper.CurrentLevelIndex += 1;
 		}
 
 		private void _HideWinScrren()
@@ -64,7 +64,7 @@ namespace PM
 				child.gameObject.SetActive(true);
 			}
 
-			if (PMWrapper.currentLevel < PMWrapper.numOfLevels - 1)
+			if (PMWrapper.CurrentLevelIndex < PMWrapper.numOfLevels - 1)
 			{
 				ContinueButton.gameObject.SetActive(true);
 				GameFinishedText.gameObject.SetActive(false);

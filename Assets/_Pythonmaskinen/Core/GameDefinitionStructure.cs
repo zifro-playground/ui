@@ -109,6 +109,7 @@ public class Scene
 
 public class GameDefinition
 {
+	public string gameId { get; set; }
 	public List<ActiveLevel> activeLevels { get; set; }
 	public List<Scene> scenes { get; set; }
 }
