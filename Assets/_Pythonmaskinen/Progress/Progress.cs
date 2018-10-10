@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.Networking;
 
 namespace PM
 {
@@ -26,7 +22,7 @@ namespace PM
 		{
 			secondsSpentOnCurrentLevel += Time.deltaTime;
 
-			if (Input.GetKeyDown(KeyCode.Escape))
+			if (Input.GetKeyDown(KeyCode.Escape) && Screen.fullScreen)
 				SaveUserLevelProgress();
 		}
 
