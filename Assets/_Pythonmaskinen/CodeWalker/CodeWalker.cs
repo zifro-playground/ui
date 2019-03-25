@@ -92,7 +92,7 @@ namespace PM
 
 				sleepTimeLeft -= Time.deltaTime;
 
-				if (before>firstInterval && sleepTimeLeft <= firstInterval)
+				if (before > firstInterval && sleepTimeLeft <= firstInterval)
 				{
 					IDELineMarker.instance.SetState(IDELineMarker.State.Hidden);
 				}
@@ -102,16 +102,25 @@ namespace PM
 
 			try
 			{
+				IDELineMarker.SetWalkerPosition(CurrentLineNumber);
+
 				compiledCode.WalkLine();
 
 				if (!compiledCode.CurrentSource.IsFromClr)
 				{
 					CurrentLineNumber = compiledCode.CurrentSource.FromRow;
-					IDELineMarker.SetWalkerPosition(CurrentLineNumber);
 				}
 
 				theVarWindow.UpdateList(compiledCode);
-				sleepTimeLeft = Mathf.Clamp(sleepTime * (1 - PMWrapper.speedMultiplier), 0.01f, 1000);
+
+				if (compiledCode.State == ProcessState.Yielded)
+				{
+					sleepTimeLeft = sleepTime * (1 - sleepHideLineAfterMultiplier);
+				}
+				else
+				{
+					sleepTimeLeft = Mathf.Clamp(sleepTime * (1 - PMWrapper.speedMultiplier), 0.01f, 1000);
+				}
 			}
 			catch (Exception e)
 			{
