@@ -8,82 +8,79 @@ Defining functions is the core of the compiler.
 
 And it's quite the simple task.
 
+> **NOTE:** Since 2.0.0, the old compiler has been replaced by the new Mellis compiler.
+> With this includes changes in signature and namespaces.
+>
+> Please take note of the new syntax below.
+
 ---
 
 ## Function requirements
 
 - Each function is specified into its own class. _(This does not mean its own file since you can have multiple classes in the same file)_
 
-- The class shall inherit from `Compiler.Function`.
-
-- The function is required to define certain fields:
-  - the name of the function the user can call via python
-  - acceptable amounts of parameters
-  - whether or not it pauses the CodeWalker
-  - whether or not it has a return value
-
-
-- The class is required to define the `runFunction` method.
+- The class shall inherit from `Mellis.ClrFunction`.
+- The function is required to define the name of the function the user can call via python
+- The class is required to define the `Invoke` method.
 
 ---
 
 ## The constructor
 
-It's easiest to define the fields in the class constructor.
-
-> `inputParameterAmount` may not be so self explanatory. It's a list of the accepted parameter counts. If you have a function without any parameters, you then add this to the constructor:<br>
-> `this.inputParameterAmount.Add(0);`
+You assign the name of the function via in the base class via the constructor.
+This is done by adding the `: base("myFuncName")` to your constructor.
 
 ### Example
 
-> In these examples we will create a function that rounds a number.<br>
+> In these examples we will create a function that rounds a number.  
 > The usage of this function will in python be `x = Round(5.5)`
 
 ```CS
-public class MyFunction : Compiler.Function {
-    public MyFunction() {
-        this.name = "Round";
-        this.inputParameterAmount.Add(1);
-        this.pauseWalker = false;
-        this.hasReturnVariable = true;
+public class MyFunction : ClrFunction {
+    public MyFunction()
+        : base("Round")
+    {
     }
+    // ...
 }
 ```
 
 ---
 
-## The `runFunction` method
+## The `Invoke` method
 
-When the user calls your function _(as defined by the `name`)_ the compiler will execute the `runFunction` method.
+When the user calls your function _(as defined by the `: base(name)`)_ the compiler will execute the `Invoke` method.
 
-- The `runFunction` method must be defined as such:
+- The `Invoke` method must be defined as such:
+
 ```CS
-public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber) { }
+public override IScriptType Invoke(params IScriptType[] arguments) { }
 ```
 
-- The `runFunction` method must return a value of type `Variable`.
-Even if you intend on not returning any values you must return a `None` which is done by making a new variable with only a name (no value). For example `new Variable("None")`
+- The `Invoke` method must return a value of type `IScriptType`.
+Even if you intend on not returning any values you must return a `None` which is done via using the value factory that can be accessed through the `Processor` variable. For example `Processor.Factory.Null` for the python `None` value.
 
 ### Example
 
-> Continuing with the example of creating a rounding function.<br>
-> _**Note:** Here we're using `Math` (System) and not `Mathf` (UnityEngine) because `Variable.getNumber()` gives us a `double` which `Mathf.Round` can't handle._
+> Continuing with the example of creating a rounding function.  
+> _**Note:** Here we're using `Math` (System) and not `Mathf` (UnityEngine). This is an implementation detail as `Mathf` does not support double maths._
 
 ```CS
-public class MyFunction : Compiler.Function {
-    public MyFunction() {
-        this.name = "Round";
-        this.inputParameterAmount.Add(1);
-        this.pauseWalker = false;
-        this.hasReturnVariable = true;
+using Mellis;
+
+public class MyFunction : ClrFunction
+{
+    public MyFunction()
+        : base("Round")
+    {
     }
 
-    public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber) {
-
-        double number = inputParas[0].getNumber();
+    public override IScriptType Invoke(params IScriptType[] arguments)
+    {
+        double number = arguments[0].TryConvert<double>();
         double rounded = Math.Round(number);
 
-        return new Variable("Rounded value", rounded);
+        return Processor.Factory.Create(rounded);
     }
 }
 ```
@@ -96,58 +93,72 @@ public class MyFunction : Compiler.Function {
 
 ---
 
-## Pausing functions
+## Yielding functions
 
-Some functions may need longer time to process than an instant. For example you want an animation to finish playing before moving on in the code. This is where pausing the CodeWalker comes in.
+Some functions may need longer time to process than an instant. For example you want an animation to finish playing before moving on in the code. This is where yielding the CodeWalker comes in.
 
-To make a function pause the CodeWalker, start by setting the `pauseWalker` value to `true`.
+To make a function yield the CodeWalker, you inherit from `ClrYieldingFunction` instead of `ClrFunction`.
 
 Then to resume the CodeWalker you call the wrappers `UnpauseWalker` function.
 
+### Yielding functions `InvokeEnter` and `InvokeExit` methods
+
+Compared with the `Invoke` from `ClrFunction`, a **yielding** function has two methods. One `InvokeEnter` and an `InvokeExit`.
+
+It is required to override the `InvokeEnter`, but it cannot handle return values. You can override InvokeExit, that is called from `PMWrapper.UnpauseWalker()`, to specify the return value.
+
+You can also pass a return value directly to `PMWrapper.UnpauseWalker(IScriptType)`, that is with the default implementation of `InvokeExit` used as the return value.
+
 ### Specifications for `PMWrapper.UnpauseWalker`
 
-> Scope: `PMWrapper`<br>
-> Definition: `public static void UnpauseWalker()`<br>
-> Available since version: `0.5`<br>
+> Scope: `PMWrapper`  
+> Definition: `public static void UnpauseWalker()`  
+> Available since version: `0.5`  
+
+> Scope: `PMWrapper`  
+> Definition: `public static void UnpauseWalker(IScriptType returnValue)`  
+> Available since version: `2.0`  
 
 ### Example
 
 ```CS
-public class MyScript : MonoBehaviour {
-    [NonSerialized]
+public class MyScript : MonoBehaviour
+{
     public float movingRemaining;
 
-    private void Start() {
+    private void Start()
+    {
         PMWrapper.SetCompilerFunctions(new MyFunction(this));
     }
 
-    private void Update() {
-        if (movingRemaining > 0) {
+    private void Update()
+    {
+        if (movingRemaining > 0)
+        {
             movingRemaining -= Time.deltaTime;
             transform.position += Vector3.right * Time.deltaTime;
 
             if (movingRemaining <= 0)
+            {
                 PMWrapper.UnpauseWalker();
+            }
         }
     }
 }
 
-public class MyFunction : Compiler.Function {
+public class MyFunction : ClrYieldingFunction
+{
     private MyScript myScript;
 
-    public MyFunction(MyScript myScript) {
-        this.name = "move_right";
-        this.inputParameterAmount.Add(0);
-        this.hasReturnVariable = false;
-        this.pauseWalker = true;
-
+    public MyFunction(MyScript myScript)
+        : base("move_right")
+    {
         this.myScript = myScript;
     }
 
-    public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber) {
+    public override void InvokeEnter(params IScriptType[] arguments)
+    {
         myScript.movingRemaining = 2;
-
-        return new Variable("None");
     }
 }
 ```

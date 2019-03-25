@@ -20,21 +20,31 @@ Setting/changing which functions are included in the compiler at launch is done 
 
 There's two distinct differences between those two functions.  
 1. The `Set` function overrides the entire list. Useful upon level change where you need to scrap all the previous functions.  
-2. The `Add` function adds a set of functions to the existing list. ~~This is useful if you want to...~~<br>
+2. The `Add` function adds a set of functions to the existing list. ~~This is useful if you want to...~~  
 _I can't come up with any good reasons. But the option is there._
 
 
 ### Specifications for `PMWrapper.SetCompilerFunctions`
 
-> Scope: `PMWrapper`<br>
-> Definition: `public static void SetCompilerFunctions(params Compiler.Function[] functions)`<br>
-> Available since version: `0.5`<br>
+> ~~Scope: `PMWrapper`  
+> Definition: `public static void SetCompilerFunctions(params Compiler.Function[] functions)`  
+> Available since version: `0.5`~~  
+> _**DEPRECATED!** See below!_
+
+> Scope: `PMWrapper`  
+> Definition: `public static void SetCompilerFunctions(params IEmbeddedType[] functions)`  
+> Available since version: `2.0`  
 
 ### Specifications for `PMWrapper.AddCompilerFunctions`
 
-> Scope: `PMWrapper`<br>
-> Definition: `public static void AddCompilerFunctions(params Compiler.Function[] functions)`<br>
-> Available since version: `0.5`<br>
+> ~~Scope: `PMWrapper`  
+> Definition: `public static void AddCompilerFunctions(params Compiler.Function[] functions)`  
+> Available since version: `0.5`~~  
+> _**DEPRECATED!** See below!_
+
+> Scope: `PMWrapper`  
+> Definition: `public static void AddCompilerFunctions(params IEmbeddedType[] functions)`  
+> Available since version: `2.0`  
 
 ### Example
 
@@ -68,22 +78,22 @@ The `StopStatus` can have one of the following values:
 
 ### Specifications for `OnPMCompilerStarted`
 
-> Interface: `IPMCompilerStarted`<br>
-> Definition: `void OnPMCompilerStarted()`<br>
-> Available since version: `0.5`<br>
+> Interface: `IPMCompilerStarted`  
+> Definition: `void OnPMCompilerStarted()`  
+> Available since version: `0.5`  
 
 ### Specifications for `OnPMCompilerStopped`
 
-> Interface: `IPMCompilerStopped`<br>
-> _~~Definition: `void OnPMCompilerStopped(HelloCompiler.StopStatus status)`~~ CHANGED IN VERSION `0.7`_<br>
+> Interface: `IPMCompilerStopped`  
+> _~~Definition: `void OnPMCompilerStopped(HelloCompiler.StopStatus status)`~~ CHANGED IN VERSION `0.7`_  
 > Definition: `void OnPMCompilerStopped(PM.HelloCompiler.StopStatus status)`
-> Available since version: `0.5`<br>
+> Available since version: `0.5`  
 
 ### Specifications for `isCompilerRunning`
 
-> Scope: `PMWrapper`<br>
-> Definition: `public static bool isCompilerRunning { get; }`<br>
-> Available since version: `0.5`<br>
+> Scope: `PMWrapper`  
+> Definition: `public static bool isCompilerRunning { get; }`  
+> Available since version: `0.5`  
 
 ### Example
 
@@ -112,21 +122,21 @@ Sensing the pausing can be done in different ways:
 
 ### Specifications for `OnPMCompilerUserPaused`
 
-> Interface: `IPMCompilerUserPaused`<br>
-> Definition: `void OnPMCompilerUserPaused()`<br>
-> Available since version: `0.7`<br>
+> Interface: `IPMCompilerUserPaused`  
+> Definition: `void OnPMCompilerUserPaused()`  
+> Available since version: `0.7`  
 
 ### Specifications for `OnPMCompilerUserUnpaused`
 
-> Interface: `IPMCompilerUserUnPaused`<br>
-> Definition: `void OnPMCompilerUserUnpaused()`<br>
-> Available since version: `0.7`<br>
+> Interface: `IPMCompilerUserUnPaused`  
+> Definition: `void OnPMCompilerUserUnpaused()`  
+> Available since version: `0.7`  
 
 ### Specifications for `isCompilerUserPaused`
 
-> Scope: `PMWrapper`<br>
-> Definition: `public static bool isCompilerUserPaused { get; }`<br>
-> Available since version: `0.7`<br>
+> Scope: `PMWrapper`  
+> Definition: `public static bool isCompilerUserPaused { get; }`  
+> Available since version: `0.7`  
 
 ---
 
@@ -140,15 +150,15 @@ Using these functions will also enable/disable the code window so it's not possi
 
 ### Specifications for `PMWrapper.StartCompiler`
 
-> Scope: `PMWrapper`<br>
-> Definition: `public static void StartCompiler()`<br>
-> Available since version: `0.5`<br>
+> Scope: `PMWrapper`  
+> Definition: `public static void StartCompiler()`  
+> Available since version: `0.5`  
 
 ### Specifications for `PMWrapper.StopCompiler`
 
-> Scope: `PMWrapper`<br>
-> Definition: `public static void StartCompiler()`<br>
-> Available since version: `0.5`<br>
+> Scope: `PMWrapper`  
+> Definition: `public static void StartCompiler()`  
+> Available since version: `0.5`  
 
 ---
 
