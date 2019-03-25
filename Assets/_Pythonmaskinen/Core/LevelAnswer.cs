@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Mellis.Core.Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -47,6 +48,11 @@ namespace PM
 			// TODO
 			//type = VariableTypes.boolean;
 			this.answer = answers.Select(ans => ans.ToString()).ToArray();
+		}
+
+		public void CheckAnswer(IScriptType[] inputParams)
+		{
+			// TODO
 		}
 
 		// TODO

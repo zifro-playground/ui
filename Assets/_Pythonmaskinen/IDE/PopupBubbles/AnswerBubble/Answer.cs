@@ -1,30 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mellis;
+using Mellis.Core.Interfaces;
 using PM;
 using UnityEngine;
 
-// TODO
-//public class Answer : Compiler.Function
-//{
-//	public Answer()
-//	{
-//		name = "svara";
-//		buttonText = "svara()";
-//		inputParameterAmount.Add(0);
-//		inputParameterAmount.Add(1);
-//		inputParameterAmount.Add(2);
-//		inputParameterAmount.Add(3);
-//		hasReturnVariable = false;
-//		pauseWalker = true;
-//	}
 
-//	#region implemented abstract members of Function
+public class Answer : ClrFunction
+{
+	public Answer()
+		: base("svara")
+	{
+	}
 
-//	public override Compiler.Variable runFunction(Compiler.Scope currentScope, Compiler.Variable[] inputParas, int lineNumber)
-//	{
-//		Main.Instance.LevelAnswer.CheckAnswer(inputParas, lineNumber);
-//		return new Compiler.Variable();
-//	}
+	public override IScriptType Invoke(params IScriptType[] arguments)
+	{
+		Main.Instance.LevelAnswer.CheckAnswer(arguments);
 
-//	#endregion
-//}
+		return Processor.Factory.Null;
+	}
+}

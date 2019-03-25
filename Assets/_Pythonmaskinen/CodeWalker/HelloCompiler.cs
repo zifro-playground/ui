@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
+using Mellis.Core.Interfaces;
 
 namespace PM
 {
@@ -10,14 +12,13 @@ namespace PM
 		public bool isRunning { get; private set; }
 
 		public CodeWalker theCodeWalker;
-		public VariableWindow theVarWindow;
 
 		[NonSerialized]
 		//public List<Compiler.Function> addedFunctions = new List<Compiler.Function>();
-		public List<object> addedFunctions = new List<object>();
+		public readonly List<IEmbeddedType> addedFunctions = new List<IEmbeddedType>();
 
 		// TODO
-		public readonly ReadOnlyCollection<object> globalFunctions = new ReadOnlyCollection<object>(new List<object>());
+		readonly IReadOnlyCollection<IEmbeddedType> globalFunctions = new IEmbeddedType[0];
 		//public readonly ReadOnlyCollection<Function> globalFunctions = new ReadOnlyCollection<Function>(new Function[] {
 		//	new GlobalFunctions.AbsoluteValue(),
 		//	new GlobalFunctions.ConvertToBinary(),
@@ -34,26 +35,7 @@ namespace PM
 		//	new GlobalFunctions.GetTime(),
 		//});
 
-		// TODO
-		//public List<Function> allAddedFunctions
-		//{
-		//	get
-		//	{
-		//		List<Function> allFunctions = new List<Function>(globalFunctions);
-		//		allFunctions.AddRange(addedFunctions);
-		//		return allFunctions;
-		//	}
-		//}
-		public List<object> allAddedFunctions
-		{
-			get { return new List<object>(); }
-		}
-
-		void Start()
-		{
-			// TODO
-			//Runtime.Print.printFunction = prettyPrint;
-		}
+		IEnumerable<IEmbeddedType> allAddedFunctions => globalFunctions.Concat(addedFunctions);
 
 		public void compileCode()
 		{
@@ -66,14 +48,8 @@ namespace PM
 
 			try
 			{
-				// TODO
-				//Runtime.VariableWindow.setVariableWindowFunctions(theVarWindow.addVariable, theVarWindow.resetList);
-				//ErrorHandler.ErrorMessage.setLanguage();
-				//ErrorHandler.ErrorMessage.setErrorMethod(PMWrapper.RaiseError);
-
-				//GameFunctions.setGameFunctions(allAddedFunctions);
-
-				theCodeWalker.ActivateWalker(stopCompiler);
+				IProcessor compiled = theCodeWalker.ActivateWalker(stopCompiler);
+				compiled.AddBuiltin(allAddedFunctions.ToArray());
 			}
 			catch
 			{
@@ -101,8 +77,10 @@ namespace PM
 			theCodeWalker.StopWalker();
 
 			// Call stop events
-			foreach (var ev in UISingleton.FindInterfaces<IPMCompilerStopped>())
+			foreach (IPMCompilerStopped ev in UISingleton.FindInterfaces<IPMCompilerStopped>())
+			{
 				ev.OnPMCompilerStopped(status);
+			}
 		}
 		#endregion
 

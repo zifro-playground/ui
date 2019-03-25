@@ -2,8 +2,8 @@ using PM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mellis.Core.Interfaces;
 using UnityEngine;
-using CodeWalker = PM.CodeWalker;
 
 /// <summary>
 /// PMWrapper, short for "Python Machine Wrapper".
@@ -15,10 +15,7 @@ public static class PMWrapper
 	/// <summary>
 	/// Tells which mode the level is currently running. See <see cref="PM.LevelMode"/> for avaliable modes.
 	/// </summary>
-	public static LevelMode LevelMode
-	{
-		get { return LevelModeController.Instance.LevelMode; }
-	}
+	public static LevelMode LevelMode => LevelModeController.Instance.LevelMode;
 
 	/// <summary>
 	/// Value from the speed slider. Ranges from 0 to 1, with a default of 0.5.
@@ -26,8 +23,8 @@ public static class PMWrapper
 	/// </summary>
 	public static float speedMultiplier
 	{
-		get { return UISingleton.instance.speed.currentSpeed; }
-		set { UISingleton.instance.speed.currentSpeed = value; }
+		get => UISingleton.instance.speed.currentSpeed;
+		set => UISingleton.instance.speed.currentSpeed = value;
 	}
 
 	/// <summary>
@@ -36,13 +33,11 @@ public static class PMWrapper
 	/// </summary>
 	public static float walkerStepTime
 	{
-		get { return UISingleton.instance.walker.BaseWalkerWaitTime; }
-		set { UISingleton.instance.walker.BaseWalkerWaitTime = value; }
+		get => UISingleton.instance.walker.sleepTime;
+		set => UISingleton.instance.walker.sleepTime = value;
 	}
 
-	public static Level CurrentLevel{
-		get { return Main.Instance.LevelDefinition; }
-	}
+	public static Level CurrentLevel => Main.Instance.LevelDefinition;
 
 	/// <summary>
 	/// The pre code, i.e. the un-changeable code BEFORE the main code.
@@ -50,7 +45,7 @@ public static class PMWrapper
 	/// </summary>
 	public static string preCode
 	{
-		get { return UISingleton.instance.textField.preCode; }
+		get => UISingleton.instance.textField.preCode;
 		set
 		{
 			UISingleton.instance.textField.preCode = value;
@@ -65,8 +60,8 @@ public static class PMWrapper
 	/// </summary>
 	public static string mainCode
 	{
-		get { return UISingleton.instance.textField.theInputField.text; }
-		set { UISingleton.instance.textField.InsertMainCode(value);	}
+		get => UISingleton.instance.textField.theInputField.text;
+		set => UISingleton.instance.textField.InsertMainCode(value);
 	}
 	/// <summary>
 	/// The post code, i.e. the un-changeable code AFTER the main code.
@@ -75,18 +70,15 @@ public static class PMWrapper
 	/// <exception cref="NotImplementedException">IDE doesn't have full support for post code yet.</exception>
 	public static string postCode
 	{
-		get { throw new NotImplementedException("IDE doesn't have full support for post code yet!"); }
-		set { throw new NotImplementedException("IDE doesn't have full support for post code yet!"); }
+		get => throw new NotImplementedException("IDE doesn't have full support for post code yet!");
+		set => throw new NotImplementedException("IDE doesn't have full support for post code yet!");
 	}
 
 	/// <summary>
 	/// All codes combined, i.e. <see cref="preCode"/> + <see cref="mainCode"/> + <see cref="postCode"/> (with linebreaks inbetween).
 	/// <para>This is the property that <seealso cref="PM.CodeWalker"/> uses when sending the code to compile to the <seealso cref="Compiler.SyntaxCheck"/>.</para>
 	/// </summary>
-	public static string fullCode
-	{
-		get { return (preCode.Length > 0 ? preCode + '\n' + mainCode : mainCode) /*+ '\n' + postCode*/; }
-	}
+	public static string fullCode => (preCode.Length > 0 ? preCode + '\n' + mainCode : mainCode);
 
 	/// <summary>
 	/// Replacement for <see cref="IDETextField.amountOfRows"/>. Defines how many lines of code the user is allowed to enter.
@@ -95,7 +87,7 @@ public static class PMWrapper
 	/// <exception cref="ArgumentOutOfRangeException">Thrown when setting this to any non-positive values.</exception>
 	public static int codeRowsLimit
 	{
-		get { return UISingleton.instance.textField.codeRowsLimit; }
+		get => UISingleton.instance.textField.codeRowsLimit;
 		set
 		{
 			if (value > 0)
@@ -122,10 +114,7 @@ public static class PMWrapper
 		UISingleton.instance.textField.InsertMainCodeAtStart(code);
 	}
 
-	public static int CurrentLineNumber
-	{
-		get { return CodeWalker.CurrentLineNumber; }
-	}
+	public static int CurrentLineNumber => CodeWalker.CurrentLineNumber;
 
 	/// <summary>
 	/// Scrolls so that the <paramref name="lineNumber"/> is visible in the IDE.
@@ -146,17 +135,17 @@ public static class PMWrapper
 	/// <summary>
 	/// Boolean representing wether cases is currently running or not.
 	/// </summary>
-	public static bool IsCasesRunning { get { return Main.Instance.CaseHandler.IsCasesRunning; } }
+	public static bool IsCasesRunning => Main.Instance.CaseHandler.IsCasesRunning;
 
 	/// <summary>
 	/// Boolean representing wether the compiler is currently executing or not.
 	/// </summary>
-	public static bool IsCompilerRunning { get { return UISingleton.instance.compiler.isRunning; } }
+	public static bool IsCompilerRunning => UISingleton.instance.compiler.isRunning;
 
 	/// <summary>
 	/// Boolean representing wether the walker is currently paused by the user (via pressing the pause button).
 	/// </summary>
-	public static bool IsCompilerUserPaused { get { return UISingleton.instance.walker.IsUserPaused; } }
+	public static bool IsCompilerUserPaused => UISingleton.instance.walker.isUserPaused;
 
 	/// <summary>
 	/// Starts the compiler if it's not currently running. Static wrapper for <see cref="HelloCompiler.compileCode"/>
@@ -183,44 +172,61 @@ public static class PMWrapper
 	}
 
 	/// <summary>
-	/// Sets the compiler functions avalible for the user.
+	/// Sets the available functions of type <see cref="IClrFunction"/> or <see cref="IClrYieldingFunction"/> in the compiler.
 	/// </summary>
-	// TODO
-	[Obsolete("New compiler. Use SetCompilerFunctions(List<IEmbeddedValue>) with IClrFunction or IClrYieldingFunction instead.")]
-	public static void SetCompilerFunctions<T>(List<T> functions)
+	public static void SetCompilerFunctions(List<IEmbeddedType> functions)
 	{
-		//SetSmartButtons(functions.Select(function => function.buttonText).ToList());
-		//UISingleton.instance.compiler.addedFunctions = functions;
+		AddSmartButtons(functions.Select(function => function.FunctionName + "()").ToList());
+		UISingleton.instance.compiler.addedFunctions.Clear();
+		UISingleton.instance.compiler.addedFunctions.AddRange(functions);
 	}
 
 	/// <summary>
-	/// Adds a list of functions to the already existing list of compiler functions.
+	/// Sets the available functions of type <see cref="IClrFunction"/> or <see cref="IClrYieldingFunction"/> in the compiler.
 	/// </summary>
-	// TODO
-	[Obsolete("New compiler. Use AddCompilerFunctions(List<IEmbeddedValue>) with IClrFunction or IClrYieldingFunction instead.")]
-	public static void AddCompilerFunctions<T>(List<T> functions)
+	public static void SetCompilerFunctions(params IEmbeddedType[] functions)
 	{
-		//AddSmartButtons(functions.Select(function => function.buttonText).ToList());
-		//UISingleton.instance.compiler.addedFunctions.AddRange(functions);
+		AddSmartButtons(functions.Select(function => function.FunctionName + "()").ToList());
+		UISingleton.instance.compiler.addedFunctions.Clear();
+		UISingleton.instance.compiler.addedFunctions.AddRange(functions);
 	}
 
 	/// <summary>
-	/// Adds all parameters of type <see cref="HelloCompiler.stopCompiler(Compiler.Function)"/> to the already existing list of compiler functions.
+	/// Adds to the available list of functions of type <see cref="IClrFunction"/> or <see cref="IClrYieldingFunction"/> to the already existing list of compiler functions.
 	/// </summary>
-	// TODO
-	[Obsolete("New compiler. Use AddCompilerFunctions(params IEmbeddedValue[]) with IClrFunction or IClrYieldingFunction instead.")]
-	public static void AddCompilerFunctions<T>(params T[] functions)
+	public static void AddCompilerFunctions(List<IEmbeddedType> functions)
 	{
-		//AddSmartButtons(functions.Select(function => function.buttonText).ToList());
-		//UISingleton.instance.compiler.addedFunctions.AddRange(functions);
+		AddSmartButtons(functions.Select(function => function.FunctionName + "()").ToList());
+		UISingleton.instance.compiler.addedFunctions.AddRange(functions);
 	}
 
 	/// <summary>
-	/// Replacement for <see cref="CodeWalker.unPauseWalker"/>
+	/// Adds to the available list of functions of type <see cref="IClrFunction"/> or <see cref="IClrYieldingFunction"/> to the already existing list of compiler functions.
+	/// </summary>
+	public static void AddCompilerFunctions(params IEmbeddedType[] functions)
+	{
+		AddSmartButtons(functions.Select(function => function.FunctionName + "()").ToList());
+		UISingleton.instance.compiler.addedFunctions.AddRange(functions);
+	}
+
+	/// <summary>
+	/// Used to resolve a yielded function <see cref="IClrYieldingFunction"/>
+	/// and uses the compilers NULL representation <see cref="IScriptTypeFactory.Null"/> as return value.
+	/// <para>Replacement for <seealso cref="CodeWalker.unPauseWalker"/></para>
 	/// </summary>
 	public static void UnpauseWalker()
 	{
 		UISingleton.instance.walker.ResumeWalker();
+	}
+
+	/// <summary>
+	/// Used to resolve a yielded function <see cref="IClrYieldingFunction"/>
+	/// and uses parameter <paramref name="returnValue"/> as return value.
+	/// <para>Replacement for <seealso cref="CodeWalker.unPauseWalker"/></para>
+	/// </summary>
+	public static void UnpauseWalker(IScriptType returnValue)
+	{
+		UISingleton.instance.walker.ResumeWalker(returnValue);
 	}
 
 	/// <summary>
@@ -316,7 +322,7 @@ public static class PMWrapper
 	/// <exception cref="ArgumentOutOfRangeException">Thrown if set to value outside of levels list index range, i.e. thrown if <seealso cref="CurrentLevelIndex"/>.set &lt; 0 or ≥ <seealso cref="numOfLevels"/></exception>
 	public static int CurrentLevelIndex
 	{
-		get { return UISingleton.instance.levelbar.Current; }
+		get => UISingleton.instance.levelbar.Current;
 		set
 		{
 			if (value < 0 || value >= numOfLevels)
@@ -332,7 +338,7 @@ public static class PMWrapper
 	/// <exception cref="ArgumentOutOfRangeException">In the case of non-positive values in setting <see cref="numOfLevels"/>.</exception>
 	public static int numOfLevels
 	{
-		get { return UISingleton.instance.levelbar.NumberOfLevels; }
+		get => UISingleton.instance.levelbar.NumberOfLevels;
 		set
 		{
 			if (value > 0) UISingleton.instance.levelbar.RecreateButtons(value, Mathf.Clamp(CurrentLevelIndex, 0, value - 1), unlockedLevel);
@@ -343,19 +349,7 @@ public static class PMWrapper
 	/// <summary>
 	/// Returns true if current level has defined Answer and the user is supposed to answer level.
 	/// </summary>
-	public static bool levelShouldBeAnswered
-	{
-		get
-		{
-			// TODO
-			//foreach (Compiler.Function fun in UISingleton.instance.compiler.addedFunctions)
-			//{
-			//	if (fun.GetType() == new Answer().GetType())
-			//		return true;
-			//}
-			return false;
-		}
-	}
+	public static bool levelShouldBeAnswered => false;
 
 	/// <summary>
 	/// The highest level that's unlocked. Value of 0 means only first level is unlocked. Value of (<seealso cref="numOfLevels"/> - 1) means last level is unlocked, i.e. all levels.
@@ -363,7 +357,7 @@ public static class PMWrapper
 	/// <exception cref="ArgumentOutOfRangeException">In the case of invalid values in setting <see cref="unlockedLevel"/></exception>
 	public static int unlockedLevel
 	{
-		get { return UISingleton.instance.levelbar.Unlocked; }
+		get => UISingleton.instance.levelbar.Unlocked;
 		set
 		{
 			if (value >= 0 && value < numOfLevels) UISingleton.instance.levelbar.UpdateButtons(CurrentLevelIndex, value);
@@ -374,10 +368,7 @@ public static class PMWrapper
 	/// <summary>
 	/// Returns the index of the current case. Index starts from 0.
 	/// </summary>
-	public static int currentCase
-	{
-		get { return Main.Instance.CaseHandler.CurrentCase; }
-	}
+	public static int currentCase => Main.Instance.CaseHandler.CurrentCase;
 
 	/// <summary>
 	/// Stops the compiler, shows the "Level complete!" popup, marks the current level as complete and unlocks the next level.
@@ -492,4 +483,38 @@ public static class PMWrapper
 			UISingleton.instance.ideRoot.parent = null;
 		UnityEngine.Object.DontDestroyOnLoad(UISingleton.instance.ideRoot);
 	}
+
+	#region OBSOLETE
+
+	/// <summary>
+	/// Sets the compiler functions avalible for the user.
+	/// </summary>
+	[Obsolete("New compiler. Use SetCompilerFunctions(List<IEmbeddedValue>) with IClrFunction or IClrYieldingFunction instead.", error: true)]
+	public static void SetCompilerFunctions<T>(List<T> functions)
+	{
+		//SetSmartButtons(functions.Select(function => function.buttonText).ToList());
+		//UISingleton.instance.compiler.addedFunctions = functions;
+	}
+
+	/// <summary>
+	/// Adds a list of functions to the already existing list of compiler functions.
+	/// </summary>
+	[Obsolete("New compiler. Use AddCompilerFunctions(List<IEmbeddedValue>) with IClrFunction or IClrYieldingFunction instead.", error: true)]
+	public static void AddCompilerFunctions<T>(List<T> functions)
+	{
+		//AddSmartButtons(functions.Select(function => function.buttonText).ToList());
+		//UISingleton.instance.compiler.addedFunctions.AddRange(functions);
+	}
+
+	/// <summary>
+	/// Adds all parameters of type <see cref="Compiler.Function"/> to the already existing list of compiler functions.
+	/// </summary>
+	[Obsolete("New compiler. Use AddCompilerFunctions(params IEmbeddedValue[]) with IClrFunction or IClrYieldingFunction instead.", error: true)]
+	public static void AddCompilerFunctions<T>(params T[] functions)
+	{
+		//AddSmartButtons(functions.Select(function => function.buttonText).ToList());
+		//UISingleton.instance.compiler.addedFunctions.AddRange(functions);
+	}
+
+	#endregion
 }
