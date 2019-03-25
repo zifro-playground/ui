@@ -73,13 +73,6 @@ namespace PM
 				return;
 			}
 
-			if (!walkerRunning)
-			{
-				enabled = false;
-				stopCompiler.Invoke(HelloCompiler.StopStatus.Finished);
-				return;
-			}
-
 			if (compiledCode.State == ProcessState.Yielded)
 			{
 				return;
@@ -97,6 +90,13 @@ namespace PM
 					IDELineMarker.instance.SetState(IDELineMarker.State.Hidden);
 				}
 
+				return;
+			}
+
+			if (!walkerRunning)
+			{
+				enabled = false;
+				stopCompiler.Invoke(HelloCompiler.StopStatus.Finished);
 				return;
 			}
 
