@@ -176,7 +176,7 @@ public static class PMWrapper
 	/// </summary>
 	public static void SetCompilerFunctions(List<IEmbeddedType> functions)
 	{
-		AddSmartButtons(functions.Select(function => function.FunctionName + "()").ToList());
+		SetSmartButtons(functions.Select(function => function.FunctionName + "()").ToList());
 		UISingleton.instance.compiler.addedFunctions.Clear();
 		UISingleton.instance.compiler.addedFunctions.AddRange(functions);
 	}
@@ -186,7 +186,7 @@ public static class PMWrapper
 	/// </summary>
 	public static void SetCompilerFunctions(params IEmbeddedType[] functions)
 	{
-		AddSmartButtons(functions.Select(function => function.FunctionName + "()").ToList());
+		SetSmartButtons(functions.Select(function => function.FunctionName + "()").ToList());
 		UISingleton.instance.compiler.addedFunctions.Clear();
 		UISingleton.instance.compiler.addedFunctions.AddRange(functions);
 	}

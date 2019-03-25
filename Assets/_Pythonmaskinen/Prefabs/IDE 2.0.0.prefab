@@ -2755,12 +2755,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contentRect: {fileID: 1822300590939991397}
   theWindow: {fileID: 1896745290836149981}
+  variablePrefab: {fileID: 114777131196616810, guid: 4160ffa243b79a242be722711a21cabb,
+    type: 3}
   minVariableWidth: 80
   maxVariableWidth: 240
   characterWidth: 10
   paddingWidth: 15
-  variablePrefab: {fileID: 114777131196616810, guid: 4160ffa243b79a242be722711a21cabb,
-    type: 3}
+  nameTextColor: {r: 0.37, g: 0.38, b: 0.36, a: 1}
+  boolText: {r: 0.87, g: 0.031, b: 0.44, a: 1}
+  stringText: {r: 0.49, g: 0.74, b: 0.3, a: 1}
+  numberText: {r: 0.9, g: 0.65, b: 0.3, a: 1}
+  nullText: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1896494367873036165
 GameObject:
   m_ObjectHideFlags: 0
@@ -3102,7 +3107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9b04f13b045f480b9263ac65bfe0833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxChars: 16
   nameText: {fileID: 2000137286598020117}
   valueText: {fileID: 1999847672001144809}
 --- !u!1 &1896509830794125105
@@ -10044,7 +10048,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1898430069519136207}
-  - component: {fileID: 1999779018769784247}
   - component: {fileID: 2004090166086885611}
   m_Layer: 0
   m_Name: IDE 2.0.0
@@ -10075,18 +10078,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1999779018769784247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1897131548874636795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6387c7003df74d84ab1fdf9e04d9ff41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2004090166086885611
 MonoBehaviour:
   m_ObjectHideFlags: 0
