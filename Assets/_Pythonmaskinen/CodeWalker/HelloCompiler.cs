@@ -14,26 +14,18 @@ namespace PM
 		public CodeWalker theCodeWalker;
 
 		[NonSerialized]
-		//public List<Compiler.Function> addedFunctions = new List<Compiler.Function>();
 		public readonly List<IEmbeddedType> addedFunctions = new List<IEmbeddedType>();
 
-		// TODO
-		readonly IReadOnlyCollection<IEmbeddedType> globalFunctions = new IEmbeddedType[0];
-		//public readonly ReadOnlyCollection<Function> globalFunctions = new ReadOnlyCollection<Function>(new Function[] {
-		//	new GlobalFunctions.AbsoluteValue(),
-		//	new GlobalFunctions.ConvertToBinary(),
-		//	new GlobalFunctions.ConvertToBoolean(),
-		//	new GlobalFunctions.ConvertToFloat(),
-		//	new GlobalFunctions.ConvertToHexadecimal(),
-		//	new GlobalFunctions.ConvertToInt("int"),
-		//	new GlobalFunctions.ConvertToInt("long"),
-		//	new GlobalFunctions.ConvertToString(),
-		//	new GlobalFunctions.LengthOf(),
-		//	new GlobalFunctions.RoundedValue(),
-		//	new GlobalFunctions.MinimumValue(),
-		//	new GlobalFunctions.MaximumValue(),
-		//	new GlobalFunctions.GetTime(),
-		//});
+		readonly IReadOnlyCollection<IEmbeddedType> globalFunctions = new IEmbeddedType[] {
+			new GlobalFunctions.AbsoluteValue(),
+			new GlobalFunctions.ConvertToBinary(),
+			new GlobalFunctions.ConvertToHexadecimal(),
+			new GlobalFunctions.LengthOf(),
+			new GlobalFunctions.RoundedValue(),
+			new GlobalFunctions.MinimumValue(),
+			new GlobalFunctions.MaximumValue(),
+			new GlobalFunctions.GetTime(),
+		};
 
 		IEnumerable<IEmbeddedType> allAddedFunctions => globalFunctions.Concat(addedFunctions);
 
