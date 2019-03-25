@@ -11,7 +11,7 @@ public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched, IPMWr
 	
 	void Update()
 	{
-        
+		
 		if (Input.GetKeyDown(KeyCode.U))
 			PMWrapper.RaiseTaskError("Nu glömde du att göra något...");
 	}

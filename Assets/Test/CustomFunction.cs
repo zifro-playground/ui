@@ -1,23 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mellis;
+using Mellis.Core.Interfaces;
 using UnityEngine;
-using Compiler;
 
-public class CustomFunction : Function {
-
+public class CustomFunction : ClrFunction
+{
 	public CustomFunction()
+		: base("AnpassadFunktion")
 	{
-		name = "AnpassadFunktion";
-		buttonText = "AnpassadFunktion()";
-		hasReturnVariable = false;
-		inputParameterAmount.Add(0);
-		pauseWalker = false;
 	}
 
-	public override Variable runFunction(Scope currentScope, Variable[] inputParas, int lineNumber)
+	public override IScriptType Invoke(params IScriptType[] arguments)
 	{
 		Debug.Log("Hej! Nu kör jag den anpassade funktionen.");
 
-		return new Variable();
+		return Processor.Factory.Null;
 	}
 }

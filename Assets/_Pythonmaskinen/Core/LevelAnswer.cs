@@ -1,21 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Mellis.Core.Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
-using Compiler;
 
 namespace PM
 {
 	public class LevelAnswer
 	{
 		private int parameterAmount;
-		private VariableTypes type;
+		// TODO
+		//private VariableTypes type;
+		private object type;
 		private string[] answer;
 
 		public bool compilerHasBeenStopped;
 
-		public LevelAnswer(int paramAmount = 0, VariableTypes t = VariableTypes.unknown, string[] ans = null)
+		// TODO
+		//public LevelAnswer(int paramAmount = 0, VariableTypes t = VariableTypes.unknown, string[] ans = null)
+		public LevelAnswer(int paramAmount = 0, object t = null, string[] ans = null)
 		{
 			parameterAmount = paramAmount;
 			type = t;
@@ -25,25 +29,35 @@ namespace PM
 		public LevelAnswer(params int[] answers)
 		{
 			parameterAmount = answers.Length;
-			type = VariableTypes.number;
+			// TODO
+			//type = VariableTypes.number;
 			this.answer = answers.Select(ans => ans.ToString()).ToArray();
 		}
 
 		public LevelAnswer(params string[] answers)
 		{
 			parameterAmount = answers.Length;
-			type = VariableTypes.textString;
+			// TODO
+			//type = VariableTypes.textString;
 			this.answer = answers;
 		}
 
 		public LevelAnswer(params bool[] answers)
 		{
 			parameterAmount = answers.Length;
-			type = VariableTypes.boolean;
+			// TODO
+			//type = VariableTypes.boolean;
 			this.answer = answers.Select(ans => ans.ToString()).ToArray();
 		}
 
-		public void CheckAnswer(Variable[] inputParams, int lineNumber)
+		public void CheckAnswer(IScriptType[] inputParams)
+		{
+			// TODO
+		}
+
+		// TODO
+		//public void CheckAnswer(Variable[] inputParams, int lineNumber)
+		public void CheckAnswer<T>(T[] inputParams, int lineNumber)
 		{
 			if (parameterAmount == 0)
 				PMWrapper.RaiseError(lineNumber, "I detta problem behövs inte svara() för att klara problemet");
@@ -52,89 +66,91 @@ namespace PM
 			if (inputParams.Length > parameterAmount)
 				PMWrapper.RaiseError(lineNumber, "För många svar, det ska vara " + parameterAmount + " st svar.");
 
-			foreach (Variable param in inputParams)
-			{
-				if (param.variableType != type)
-				{
-					switch (type)
-					{
-						case VariableTypes.boolean:
-							PMWrapper.RaiseError(lineNumber, "Fel typ, svaret ska vara True eller False.");
-							break;
-						case VariableTypes.number:
-							PMWrapper.RaiseError(lineNumber, "Fel typ, svaret ska vara ett tal.");
-							break;
-						case VariableTypes.textString:
-							PMWrapper.RaiseError(lineNumber, "Fel typ, svaret ska vara en text.");
-							break;
-						default:
-							PMWrapper.RaiseError(lineNumber, "Fel typ av svar.");
-							break;
-					}
-				}
-			}
+			// TODO
+			//foreach (Variable param in inputParams)
+			//{
+			//	if (param.variableType != type)
+			//	{
+			//		switch (type)
+			//		{
+			//			case VariableTypes.boolean:
+			//				PMWrapper.RaiseError(lineNumber, "Fel typ, svaret ska vara True eller False.");
+			//				break;
+			//			case VariableTypes.number:
+			//				PMWrapper.RaiseError(lineNumber, "Fel typ, svaret ska vara ett tal.");
+			//				break;
+			//			case VariableTypes.textString:
+			//				PMWrapper.RaiseError(lineNumber, "Fel typ, svaret ska vara en text.");
+			//				break;
+			//			default:
+			//				PMWrapper.RaiseError(lineNumber, "Fel typ av svar.");
+			//				break;
+			//		}
+			//	}
+			//}
 
 			string guess;
 			string ans = "";
 			bool correctAnswer = true;
 
-			switch (type)
-			{
-				case VariableTypes.boolean:
-					for (int i = 0; i < inputParams.Length; i++)
-					{
-						guess = inputParams[i].getBool().ToString();
+			// TODO
+			//switch (type)
+			//{
+			//	case VariableTypes.boolean:
+			//		for (int i = 0; i < inputParams.Length; i++)
+			//		{
+			//			guess = inputParams[i].getBool().ToString();
 
-						if (guess != answer[i])
-							correctAnswer = false;
+			//			if (guess != answer[i])
+			//				correctAnswer = false;
 
-						ans += guess;
+			//			ans += guess;
 
-						if (i < inputParams.Length - 1)
-							ans += ", ";
-						else
-							ans += ".";
-					}
+			//			if (i < inputParams.Length - 1)
+			//				ans += ", ";
+			//			else
+			//				ans += ".";
+			//		}
 
-					Main.Instance.StartCoroutine(ShowAnswerBubble(lineNumber, ans, correctAnswer));
-					break;
+			//		Main.Instance.StartCoroutine(ShowAnswerBubble(lineNumber, ans, correctAnswer));
+			//		break;
 
-				case VariableTypes.number:
-					for (int i = 0; i < inputParams.Length; i++)
-					{
-						guess = inputParams[i].getNumber().ToString();
+			//	case VariableTypes.number:
+			//		for (int i = 0; i < inputParams.Length; i++)
+			//		{
+			//			guess = inputParams[i].getNumber().ToString();
 
-						if (guess != answer[i])
-							correctAnswer = false;
+			//			if (guess != answer[i])
+			//				correctAnswer = false;
 
-						ans += guess;
+			//			ans += guess;
 
-						if (i < inputParams.Length - 1)
-							ans += ", ";
-						else
-							ans += ".";
-					}
-					Main.Instance.StartCoroutine(ShowAnswerBubble(lineNumber, ans, correctAnswer));
-					break;
+			//			if (i < inputParams.Length - 1)
+			//				ans += ", ";
+			//			else
+			//				ans += ".";
+			//		}
+			//		Main.Instance.StartCoroutine(ShowAnswerBubble(lineNumber, ans, correctAnswer));
+			//		break;
 
-				case VariableTypes.textString:
-					for (int i = 0; i < inputParams.Length; i++)
-					{
-						guess = inputParams[i].getString().ToString();
+			//	case VariableTypes.textString:
+			//		for (int i = 0; i < inputParams.Length; i++)
+			//		{
+			//			guess = inputParams[i].getString().ToString();
 
-						if (guess != answer[i])
-							correctAnswer = false;
+			//			if (guess != answer[i])
+			//				correctAnswer = false;
 
-						ans += guess;
+			//			ans += guess;
 
-						if (i < inputParams.Length - 1)
-							ans += ", ";
-						else
-							ans += ".";
-					}
-					Main.Instance.StartCoroutine(ShowAnswerBubble(lineNumber, ans, correctAnswer));
-					break;
-			}
+			//			if (i < inputParams.Length - 1)
+			//				ans += ", ";
+			//			else
+			//				ans += ".";
+			//		}
+			//		Main.Instance.StartCoroutine(ShowAnswerBubble(lineNumber, ans, correctAnswer));
+			//		break;
+			//}
 		}
 
 		private IEnumerator ShowAnswerBubble(int lineNumber, string answer, bool correct)

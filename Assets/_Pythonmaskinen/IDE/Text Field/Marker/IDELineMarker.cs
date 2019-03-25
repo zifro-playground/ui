@@ -36,9 +36,6 @@ namespace PM {
 			instance.SetState(State.IDE);
 		}
 
-		public static void activateFunctionCall() {
-		}
-
 		public void initLineMarker(IDETextField theTextField, IDEFocusLord theFocusLord) {
 			instance = this;
 
