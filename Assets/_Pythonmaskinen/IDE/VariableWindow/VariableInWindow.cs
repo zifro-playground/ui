@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-using Compiler;
-
 public class VariableInWindow : MonoBehaviour {
 
 	public int maxChars = 16;
 	public Text nameText;
 	public Text valueText;
-	private Variable targetVariable;
+	// TODO
+	//private Variable targetVariable;
+	private object targetVariable;
 	private const string nullValue = "None";
 
 	#region
@@ -22,37 +22,41 @@ public class VariableInWindow : MonoBehaviour {
 	#endregion Color Coding
 
 
-	public void initVariable(Variable targetVariable) {
+	// TODO
+	//public void initVariable(Variable targetVariable) {
+	public void initVariable<T>(T targetVariable) {
 		this.targetVariable = targetVariable;
 		setVariableAttributes();
 	}
 
 	private void setVariableAttributes() {
-		nameText.text = targetVariable.name;
+		// TODO
+		//nameText.text = targetVariable.name;
 		nameText.color = nameTextColor;
 
-		switch (targetVariable.variableType) {
+		// TODO
+  //      switch (targetVariable.variableType) {
 
-		case VariableTypes.boolean:
-			valueText.color = boolText;
-			valueText.text = compressString(targetVariable.getBool().ToString());
-			break;
+		//case VariableTypes.boolean:
+		//	valueText.color = boolText;
+		//	valueText.text = compressString(targetVariable.getBool().ToString());
+		//	break;
 
-		case VariableTypes.number:
-			valueText.color = numberText;
-			valueText.text = compressString(targetVariable.getNumber().ToString(), isNumberValue: true);
-			break;
+		//case VariableTypes.number:
+		//	valueText.color = numberText;
+		//	valueText.text = compressString(targetVariable.getNumber().ToString(), isNumberValue: true);
+		//	break;
 
-		case VariableTypes.textString:
-			valueText.color = stringText;
-			valueText.text = compressString(targetVariable.getString(), isStringValue: true);
-			break;
+		//case VariableTypes.textString:
+		//	valueText.color = stringText;
+		//	valueText.text = compressString(targetVariable.getString(), isStringValue: true);
+		//	break;
 
-		default:
-			valueText.color = nullText;
-			valueText.text = nullValue;
-			break;
-		}
+		//default:
+		//	valueText.color = nullText;
+		//	valueText.text = nullValue;
+		//	break;
+		//}
 	}
 
 	private string compressString(string s, bool isStringValue = false, bool isNumberValue = false) {

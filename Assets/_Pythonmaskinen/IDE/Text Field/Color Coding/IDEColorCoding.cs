@@ -24,14 +24,6 @@ namespace PM {
 			"<<=", ">>=", "&=", "|=", "^=",
 		};
 
-		private static List<string> functionNames {
-			get {
-				var list = UISingleton.instance.compiler.allAddedFunctions.ConvertAll(f => f.name);
-				list.Add("range");
-				return list;
-			}
-		}
-
 		private const string keyWordsColor = "#FF3F85";
 		private const string functionColor = "#DDDD11";
 		private const string textHexaColor = "#68CC47";

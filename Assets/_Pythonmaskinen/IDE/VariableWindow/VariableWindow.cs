@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Compiler;
 using System;
 
 namespace PM {
@@ -32,16 +31,19 @@ namespace PM {
 			theWindow.SetActive(false);
 		}
 
-		public void addVariable(Variable newVariable) {
+		// TODO
+		//public void addVariable(Variable newVariable) {
+		public void addVariable(object newVariable) {
 			if (currentVariables.Count == 0)
 				theWindow.SetActive(true);
 
 			VariableInWindow clone = Instantiate (variablePrefab);
 			clone.transform.SetParent (contentRect.transform, false);
 
-			float width = calcVariableWidth (newVariable);
-			clone.setWidth(width);
-			clone.maxChars = calcNoCharacters(width);
+			// TODO
+			//float width = calcVariableWidth (newVariable);
+			//clone.setWidth(width);
+			//clone.maxChars = calcNoCharacters(width);
 
 			clone.initVariable(newVariable);
 
@@ -49,35 +51,41 @@ namespace PM {
 
 		}
 
-		private float calcVariableWidth(Variable newVariable) {
+		// TODO
+		//private float calcVariableWidth(Variable newVariable) {
+		private float calcVariableWidth(object newVariable) {
 			
-			int nameLength = newVariable.name.Length;
-			int valueLength = getValueString (newVariable).Length;
-			int maxLength = Mathf.Max (nameLength, valueLength);
+			//int nameLength = newVariable.name.Length;
+			//int valueLength = getValueString (newVariable).Length;
+			//int maxLength = Mathf.Max (nameLength, valueLength);
 
-			float variableWidth = (maxLength + 1) * characterWidth + 2 * paddingWidth;
+			//float variableWidth = (maxLength + 1) * characterWidth + 2 * paddingWidth;
 
-			return Mathf.Clamp (variableWidth, minVariableWidth, maxVariableWidth);
+			//return Mathf.Clamp (variableWidth, minVariableWidth, maxVariableWidth);
+			return 0;
 		}
 
 		private int calcNoCharacters(float variableWidth){
 			return (int) Mathf.Floor((variableWidth - 2 * paddingWidth) / characterWidth) - 1;
 		}
 
-		private string getValueString(Variable newVariable) {
-			switch (newVariable.variableType) {
-				case VariableTypes.boolean:
-					return newVariable.getBool().ToString();
+		// TODO
+		//private string getValueString(Variable newVariable) {
+		private string getValueString(object newVariable) {
+			//switch (newVariable.variableType) {
+			//	case VariableTypes.boolean:
+			//		return newVariable.getBool().ToString();
 
-				case VariableTypes.number:
-					return newVariable.getNumber().ToString();
+			//	case VariableTypes.number:
+			//		return newVariable.getNumber().ToString();
 
-				case VariableTypes.textString:
-					return "\"" + newVariable.getString().ToString() + "\"";
+			//	case VariableTypes.textString:
+			//		return "\"" + newVariable.getString().ToString() + "\"";
 
-				default:
-					return "None";
-			}
+			//	default:
+			//		return "None";
+			//}
+			return "N/A";
 		}
 
 		void IPMLevelChanged.OnPMLevelChanged() {

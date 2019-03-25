@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
-using Compiler;
 using System.Collections.ObjectModel;
 
 namespace PM
@@ -14,37 +13,46 @@ namespace PM
 		public VariableWindow theVarWindow;
 
 		[NonSerialized]
-		public List<Compiler.Function> addedFunctions = new List<Compiler.Function>();
+		//public List<Compiler.Function> addedFunctions = new List<Compiler.Function>();
+		public List<object> addedFunctions = new List<object>();
 
-		public readonly ReadOnlyCollection<Function> globalFunctions = new ReadOnlyCollection<Function>(new Function[] {
-			new GlobalFunctions.AbsoluteValue(),
-			new GlobalFunctions.ConvertToBinary(),
-			new GlobalFunctions.ConvertToBoolean(),
-			new GlobalFunctions.ConvertToFloat(),
-			new GlobalFunctions.ConvertToHexadecimal(),
-			new GlobalFunctions.ConvertToInt("int"),
-			new GlobalFunctions.ConvertToInt("long"),
-			new GlobalFunctions.ConvertToString(),
-			new GlobalFunctions.LengthOf(),
-			new GlobalFunctions.RoundedValue(),
-			new GlobalFunctions.MinimumValue(),
-			new GlobalFunctions.MaximumValue(),
-			new GlobalFunctions.GetTime(),
-		});
+		// TODO
+		public readonly ReadOnlyCollection<object> globalFunctions = new ReadOnlyCollection<object>(new List<object>());
+		//public readonly ReadOnlyCollection<Function> globalFunctions = new ReadOnlyCollection<Function>(new Function[] {
+		//	new GlobalFunctions.AbsoluteValue(),
+		//	new GlobalFunctions.ConvertToBinary(),
+		//	new GlobalFunctions.ConvertToBoolean(),
+		//	new GlobalFunctions.ConvertToFloat(),
+		//	new GlobalFunctions.ConvertToHexadecimal(),
+		//	new GlobalFunctions.ConvertToInt("int"),
+		//	new GlobalFunctions.ConvertToInt("long"),
+		//	new GlobalFunctions.ConvertToString(),
+		//	new GlobalFunctions.LengthOf(),
+		//	new GlobalFunctions.RoundedValue(),
+		//	new GlobalFunctions.MinimumValue(),
+		//	new GlobalFunctions.MaximumValue(),
+		//	new GlobalFunctions.GetTime(),
+		//});
 
-		public List<Function> allAddedFunctions
+		// TODO
+		//public List<Function> allAddedFunctions
+		//{
+		//	get
+		//	{
+		//		List<Function> allFunctions = new List<Function>(globalFunctions);
+		//		allFunctions.AddRange(addedFunctions);
+		//		return allFunctions;
+		//	}
+		//}
+		public List<object> allAddedFunctions
 		{
-			get
-			{
-				List<Function> allFunctions = new List<Function>(globalFunctions);
-				allFunctions.AddRange(addedFunctions);
-				return allFunctions;
-			}
+			get { return new List<object>(); }
 		}
 
 		void Start()
 		{
-			Runtime.Print.printFunction = prettyPrint;
+			// TODO
+			//Runtime.Print.printFunction = prettyPrint;
 		}
 
 		public void compileCode()
@@ -58,11 +66,12 @@ namespace PM
 
 			try
 			{
-				Runtime.VariableWindow.setVariableWindowFunctions(theVarWindow.addVariable, theVarWindow.resetList);
-				ErrorHandler.ErrorMessage.setLanguage();
-				ErrorHandler.ErrorMessage.setErrorMethod(PMWrapper.RaiseError);
+				// TODO
+				//Runtime.VariableWindow.setVariableWindowFunctions(theVarWindow.addVariable, theVarWindow.resetList);
+				//ErrorHandler.ErrorMessage.setLanguage();
+				//ErrorHandler.ErrorMessage.setErrorMethod(PMWrapper.RaiseError);
 
-				GameFunctions.setGameFunctions(allAddedFunctions);
+				//GameFunctions.setGameFunctions(allAddedFunctions);
 
 				theCodeWalker.ActivateWalker(stopCompiler);
 			}
@@ -115,10 +124,10 @@ namespace PM
 			/// The compiler had an error during runtime. For example some missing variable or syntax error.
 			/// </summary>
 			RuntimeError,
-            /// <summary>
+			/// <summary>
 			/// The compiler was stopped due to task error. For example user submitted wrong answer or uncompleted task. 
 			/// </summary>
-            TaskError,
+			TaskError,
 		}
 	}
 

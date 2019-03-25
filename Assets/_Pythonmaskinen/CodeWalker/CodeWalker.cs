@@ -1,6 +1,5 @@
 using UnityEngine;
 using System;
-using Compiler;
 
 namespace PM
 {
@@ -34,8 +33,9 @@ namespace PM
 		private static Action<HelloCompiler.StopStatus> stopCompiler;
 
 		// Properties needed for input connections to compiler 
-		public static Scope CurrentScope;
-		public static Action<string, Scope> SubmitInput;
+		// TODO
+		//public static Scope CurrentScope;
+		//public static Action<string, Scope> SubmitInput;
 
 		//This Script needs to be added to an object in the scene
 		//To start the compiler simply call "ActivateWalker" Method
@@ -46,7 +46,8 @@ namespace PM
 		/// </summary>
 		public void ActivateWalker(Action<HelloCompiler.StopStatus> stopCompilerMeth)
 		{
-			Compiler.SyntaxCheck.CompileCode(PMWrapper.fullCode, EndWalker, PauseWalker, LinkInputSubmitter, IDELineMarker.activateFunctionCall, IDELineMarker.SetWalkerPosition);
+			// TODO
+			//Compiler.SyntaxCheck.CompileCode(PMWrapper.fullCode, EndWalker, PauseWalker, LinkInputSubmitter, IDELineMarker.activateFunctionCall, IDELineMarker.SetWalkerPosition);
 			stopCompiler = stopCompilerMeth;
 
 			enabled = true;
@@ -77,7 +78,8 @@ namespace PM
 
 				try
 				{
-					Runtime.CodeWalker.parseLine();
+					// TODO
+					//Runtime.CodeWalker.parseLine();
 
 					CurrentLineNumber++;
 				}
@@ -99,7 +101,8 @@ namespace PM
 		{
 			sleepTimer += Time.deltaTime;
 			float firstInterval = sleepTime - sleepTime / 20;
-			if (sleepTimer > firstInterval && !Runtime.CodeWalker.isWaitingForUserInput)
+			// TODO
+			if (sleepTimer > firstInterval /*&& !Runtime.CodeWalker.isWaitingForUserInput*/)
 			{
 				IDELineMarker.instance.SetState(IDELineMarker.State.Hidden);
 				if (sleepTimer > sleepTime)
@@ -125,10 +128,12 @@ namespace PM
 			WalkerRunning = false;
 		}
 
-		public static void LinkInputSubmitter(Action<string, Scope> submitInput, Scope currentScope)
+		// TODO
+		//public static void LinkInputSubmitter(Action<string, Scope> submitInput, Scope currentScope)
+		public static void LinkInputSubmitter(Action<string, object> submitInput, object currentScope)
 		{
-			SubmitInput = submitInput;
-			CurrentScope = currentScope;
+			//SubmitInput = submitInput;
+			//CurrentScope = currentScope;
 		}
 		#endregion
 

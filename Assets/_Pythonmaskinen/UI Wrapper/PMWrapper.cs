@@ -40,9 +40,9 @@ public static class PMWrapper
 		set { UISingleton.instance.walker.BaseWalkerWaitTime = value; }
 	}
 
-    public static Level CurrentLevel{
-        get { return Main.Instance.LevelDefinition; }
-    }
+	public static Level CurrentLevel{
+		get { return Main.Instance.LevelDefinition; }
+	}
 
 	/// <summary>
 	/// The pre code, i.e. the un-changeable code BEFORE the main code.
@@ -185,28 +185,34 @@ public static class PMWrapper
 	/// <summary>
 	/// Sets the compiler functions avalible for the user.
 	/// </summary>
-	public static void SetCompilerFunctions(List<Compiler.Function> functions)
+	// TODO
+	[Obsolete("New compiler. Use SetCompilerFunctions(List<IEmbeddedValue>) with IClrFunction or IClrYieldingFunction instead.")]
+	public static void SetCompilerFunctions<T>(List<T> functions)
 	{
-		SetSmartButtons(functions.Select(function => function.buttonText).ToList());
-		UISingleton.instance.compiler.addedFunctions = functions;
+		//SetSmartButtons(functions.Select(function => function.buttonText).ToList());
+		//UISingleton.instance.compiler.addedFunctions = functions;
 	}
 
 	/// <summary>
 	/// Adds a list of functions to the already existing list of compiler functions.
 	/// </summary>
-	public static void AddCompilerFunctions(List<Compiler.Function> functions)
+	// TODO
+	[Obsolete("New compiler. Use AddCompilerFunctions(List<IEmbeddedValue>) with IClrFunction or IClrYieldingFunction instead.")]
+	public static void AddCompilerFunctions<T>(List<T> functions)
 	{
-		AddSmartButtons(functions.Select(function => function.buttonText).ToList());
-		UISingleton.instance.compiler.addedFunctions.AddRange(functions);
+		//AddSmartButtons(functions.Select(function => function.buttonText).ToList());
+		//UISingleton.instance.compiler.addedFunctions.AddRange(functions);
 	}
 
 	/// <summary>
 	/// Adds all parameters of type <see cref="HelloCompiler.stopCompiler(Compiler.Function)"/> to the already existing list of compiler functions.
 	/// </summary>
-	public static void AddCompilerFunctions(params Compiler.Function[] functions)
+	// TODO
+	[Obsolete("New compiler. Use AddCompilerFunctions(params IEmbeddedValue[]) with IClrFunction or IClrYieldingFunction instead.")]
+	public static void AddCompilerFunctions<T>(params T[] functions)
 	{
-		AddSmartButtons(functions.Select(function => function.buttonText).ToList());
-		UISingleton.instance.compiler.addedFunctions.AddRange(functions);
+		//AddSmartButtons(functions.Select(function => function.buttonText).ToList());
+		//UISingleton.instance.compiler.addedFunctions.AddRange(functions);
 	}
 
 	/// <summary>
@@ -267,15 +273,16 @@ public static class PMWrapper
 	/// </summary>
 	public static void AutoSetSmartButtons()
 	{
-		SetSmartButtons(UISingleton.instance.compiler.addedFunctions.ConvertAll(f => f.name + "()").ToArray());
+		// TODO
+		//SetSmartButtons(UISingleton.instance.compiler.addedFunctions.ConvertAll(f => f.name + "()").ToArray());
 	}
 
 	/// <summary>
 	/// Set the task description for current level. If passed empty string, both placeholders for task description will be deactivated.
 	/// </summary>
-    public static void SetTaskDescription(string header,string body)
+	public static void SetTaskDescription(string header,string body)
 	{
-        UISingleton.instance.taskDescription.SetTaskDescription(header, body);
+		UISingleton.instance.taskDescription.SetTaskDescription(header, body);
 	}
 
 	/// <summary>
@@ -340,11 +347,12 @@ public static class PMWrapper
 	{
 		get
 		{
-			foreach (Compiler.Function fun in UISingleton.instance.compiler.addedFunctions)
-			{
-				if (fun.GetType() == new Answer().GetType())
-					return true;
-			}
+			// TODO
+			//foreach (Compiler.Function fun in UISingleton.instance.compiler.addedFunctions)
+			//{
+			//	if (fun.GetType() == new Answer().GetType())
+			//		return true;
+			//}
 			return false;
 		}
 	}
@@ -471,8 +479,8 @@ public static class PMWrapper
 	{
 		UISingleton.instance.taskDescription.ShowTaskError(message);
 		Main.Instance.CaseHandler.CaseFailed();
-        UISingleton.instance.compiler.stopCompiler(HelloCompiler.StopStatus.TaskError);
-    }
+		UISingleton.instance.compiler.stopCompiler(HelloCompiler.StopStatus.TaskError);
+	}
 
 	/// <summary>
 	/// Makes the IDE not destroy on load, i.e. on level change and such.

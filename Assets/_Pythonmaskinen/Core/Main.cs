@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Compiler;
 using Newtonsoft.Json;
 using PM.Guide;
 using UnityEngine;
@@ -145,7 +144,8 @@ namespace PM
 		private void ClearSettings()
 		{
 			PMWrapper.SetTaskDescription("", "");
-			PMWrapper.SetCompilerFunctions(new List<Function>());
+			// TODO
+			//PMWrapper.SetCompilerFunctions(new List<Function>());
 			PMWrapper.preCode = "";
 		}
 
@@ -174,7 +174,7 @@ namespace PM
 				PMWrapper.preCode = currentLevelSettings.precode;
 			
 			if (currentLevelSettings.taskDescription != null)
-                PMWrapper.SetTaskDescription(currentLevelSettings.taskDescription.header,currentLevelSettings.taskDescription.body);
+				PMWrapper.SetTaskDescription(currentLevelSettings.taskDescription.header,currentLevelSettings.taskDescription.body);
 			else
 				PMWrapper.SetTaskDescription("", "");
 
@@ -279,9 +279,10 @@ namespace PM
 				Progress.Instance.LevelData[PMWrapper.CurrentLevel.id].IsStarted = true;
 			}
 		}
-		private List<Function> CreateFunctionsFromStrings(List<string> functionNames)
+		// TODO
+		private List<object> CreateFunctionsFromStrings(List<string> functionNames)
 		{
-			var functions = new List<Function>();
+			//var functions = new List<Function>();
 			// Use reflection to get an instance of compiler function class from string
 			foreach (string functionName in functionNames)
 			{
@@ -290,11 +291,12 @@ namespace PM
 				if (type == null)
 					throw new Exception("Error when trying to read available functions. Function name: \"" + functionName + "\" could not be found.");
 
-				Function function = (Function)Activator.CreateInstance(type);
-				functions.Add(function);
+				//Function function = (Function)Activator.CreateInstance(type);
+				//functions.Add(function);
 			}
 
-			return functions;
+			//return functions;
+			return new List<object>();
 		}
 
 		public void OnPMCompilerStopped(HelloCompiler.StopStatus status)
