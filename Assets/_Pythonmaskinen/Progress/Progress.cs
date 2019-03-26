@@ -34,8 +34,7 @@ namespace PM
 
 		public void LoadUserGameProgress()
 		{
-			var request = new Request
-			{
+			var request = new Request {
 				method = HttpMethod.GET,
 				endpoint = "/levels/load?gameId=" + Main.instance.gameDefinition.gameId,
 				okResponsCallback = HandleOkGetResponse,
@@ -81,8 +80,7 @@ namespace PM
 			LevelProgress userProgress = CollectUserProgress();
 			string jsonData = JsonConvert.SerializeObject(userProgress);
 
-			var request = new Request
-			{
+			var request = new Request {
 				method = HttpMethod.POST,
 				endpoint = "/levels/save",
 				jsonString = jsonData
@@ -94,8 +92,7 @@ namespace PM
 		{
 			LevelData levelData = this.levelData[PMWrapper.currentLevel.id];
 
-			var userProgress = new LevelProgress()
-			{
+			var userProgress = new LevelProgress() {
 				levelId = levelData.id,
 				isCompleted = levelData.isCompleted,
 				mainCode = levelData.mainCode,
@@ -121,6 +118,7 @@ namespace PM
 			levelData[PMWrapper.currentLevel.id].isCompleted = true;
 			SaveUserLevelProgress();
 		}
+
 		public void OnPMUnloadLevel()
 		{
 			if (levelData.ContainsKey(PMWrapper.currentLevel.id))

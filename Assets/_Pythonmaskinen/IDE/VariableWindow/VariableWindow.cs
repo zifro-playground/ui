@@ -18,12 +18,14 @@ namespace PM
 
 		[Header("For variable width calculation")]
 		public float minVariableWidth = 80;
+
 		public float maxVariableWidth = 240;
 		public float characterWidth = 10;
 		public float paddingWidth = 15;
 
 		[Header("Color settings")]
 		public Color nameTextColor = new Color(0.37f, 0.38f, 0.36f);
+
 		public Color boolText = new Color(0.87f, 0.031f, 0.44f);
 		public Color stringText = new Color(0.49f, 0.74f, 0.3f);
 		public Color numberText = new Color(0.9f, 0.65f, 0.3f);
@@ -45,7 +47,7 @@ namespace PM
 				VariableInWindow clone = Instantiate(variablePrefab, contentRect.transform, false);
 
 				string valueString = variable.ToString();
-				
+
 				float width = CalcVariableWidth(Mathf.Max(variable.Name.Length, valueString.Length));
 				int maxChars = CalcNoCharacters(width);
 				clone.SetWidth(width);
@@ -125,7 +127,11 @@ namespace PM
 			}
 		}
 
-		private static string CompressString(string s, int maxChars, bool isNumberValue = false, bool isStringValue = false)
+		private static string CompressString(
+			string s,
+			int maxChars,
+			bool isNumberValue = false,
+			bool isStringValue = false)
 		{
 			if (s.Length <= maxChars)
 			{

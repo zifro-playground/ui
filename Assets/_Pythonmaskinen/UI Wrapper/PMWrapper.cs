@@ -53,6 +53,7 @@ public static class PMWrapper
 			UISingleton.instance.textField.ColorCodeDaCode();
 		}
 	}
+
 	/// <summary>
 	/// The main code, i.e. the code the user is able to change.
 	/// Colorcoding is automatically applied if <seealso cref="IDETextField"/> is disabled.
@@ -63,6 +64,7 @@ public static class PMWrapper
 		get => UISingleton.instance.textField.theInputField.text;
 		set => UISingleton.instance.textField.InsertMainCode(value);
 	}
+
 	/// <summary>
 	/// The post code, i.e. the un-changeable code AFTER the main code.
 	/// <para>At the moment post code is not available and will throw an <seealso cref="NotImplementedException"/>.</para>
@@ -96,7 +98,8 @@ public static class PMWrapper
 			}
 			else
 			{
-				throw new ArgumentOutOfRangeException("codeRowsLimit", value, "Zero and negative values are not accepted!");
+				throw new ArgumentOutOfRangeException("codeRowsLimit", value,
+					"Zero and negative values are not accepted!");
 			}
 		}
 	}
@@ -288,7 +291,7 @@ public static class PMWrapper
 	/// <summary>
 	/// Set the task description for current level. If passed empty string, both placeholders for task description will be deactivated.
 	/// </summary>
-	public static void SetTaskDescription(string header,string body)
+	public static void SetTaskDescription(string header, string body)
 	{
 		UISingleton.instance.taskDescription.SetTaskDescription(header, body);
 	}
@@ -355,11 +358,13 @@ public static class PMWrapper
 		{
 			if (value > 0)
 			{
-				UISingleton.instance.levelbar.RecreateButtons(value, Mathf.Clamp(currentLevelIndex, 0, value - 1), unlockedLevel);
+				UISingleton.instance.levelbar.RecreateButtons(value, Mathf.Clamp(currentLevelIndex, 0, value - 1),
+					unlockedLevel);
 			}
 			else
 			{
-				throw new ArgumentOutOfRangeException(nameof(numOfLevels), value, "Zero and negative values are not accepted!");
+				throw new ArgumentOutOfRangeException(nameof(numOfLevels), value,
+					"Zero and negative values are not accepted!");
 			}
 		}
 	}
@@ -367,7 +372,7 @@ public static class PMWrapper
 	/// <summary>
 	/// Returns true if current level has defined Answer and the user is supposed to answer level.
 	/// </summary>
-	public static bool levelShouldBeAnswered 
+	public static bool levelShouldBeAnswered
 		=> UISingleton.instance.compiler.addedFunctions.OfType<Answer>().Any();
 
 	/// <summary>
@@ -385,7 +390,8 @@ public static class PMWrapper
 			}
 			else
 			{
-				throw new ArgumentOutOfRangeException(nameof(unlockedLevel), value, "Level value is out of range of existing levels.");
+				throw new ArgumentOutOfRangeException(nameof(unlockedLevel), value,
+					"Level value is out of range of existing levels.");
 			}
 		}
 	}
@@ -445,6 +451,7 @@ public static class PMWrapper
 	{
 		UISingleton.instance.textField.theLineMarker.SetErrorMarker(currentLineNumber, message);
 	}
+
 	/// <summary>
 	/// Stops the compiler and shows a dialog box containing the error message on the target <paramref name="newLineNumber"/>.
 	/// </summary>
@@ -453,6 +460,7 @@ public static class PMWrapper
 	{
 		UISingleton.instance.textField.theLineMarker.SetErrorMarker(newLineNumber, message);
 	}
+
 	/// <summary>
 	/// Stops the compiler and shows a dialog box containing the error message on the target <see cref="UnityEngine.UI.Selectable"/>.
 	/// </summary>
@@ -461,6 +469,7 @@ public static class PMWrapper
 	{
 		UISingleton.instance.textField.theLineMarker.SetErrorMarker(targetSelectable, message);
 	}
+
 	/// <summary>
 	/// Stops the compiler and shows a dialog box containing the error message on the target <see cref="RectTransform"/>.
 	/// </summary>
@@ -469,6 +478,7 @@ public static class PMWrapper
 	{
 		UISingleton.instance.textField.theLineMarker.SetErrorMarker(targetRectTransform, message);
 	}
+
 	/// <summary>
 	/// Stops the compiler and shows a dialog box containing the error message on the target canvas position.
 	/// </summary>
@@ -477,6 +487,7 @@ public static class PMWrapper
 	{
 		UISingleton.instance.textField.theLineMarker.SetErrorMarker(targetCanvasPosition, message);
 	}
+
 	/// <summary>
 	/// Stops the compiler and shows a dialog box containing the error message on the target world position.
 	/// <para>NOTE: The game camera must be marked with the "Main Camera" tag for this to work.</para>
@@ -486,7 +497,6 @@ public static class PMWrapper
 	{
 		UISingleton.instance.textField.theLineMarker.SetErrorMarker(targetWorldPosition, message);
 	}
-
 
 	/// <summary>
 	/// Stops compiler and shows feedback dialog from robot.
@@ -518,7 +528,9 @@ public static class PMWrapper
 	/// <summary>
 	/// Sets the compiler functions avalible for the user.
 	/// </summary>
-	[Obsolete("New compiler. Use SetCompilerFunctions(List<IEmbeddedValue>) with IClrFunction or IClrYieldingFunction instead.", error: true)]
+	[Obsolete(
+		"New compiler. Use SetCompilerFunctions(List<IEmbeddedValue>) with IClrFunction or IClrYieldingFunction instead.",
+		error: true)]
 	public static void SetCompilerFunctions<T>(List<T> functions)
 	{
 	}
@@ -526,7 +538,9 @@ public static class PMWrapper
 	/// <summary>
 	/// Adds a list of functions to the already existing list of compiler functions.
 	/// </summary>
-	[Obsolete("New compiler. Use AddCompilerFunctions(List<IEmbeddedValue>) with IClrFunction or IClrYieldingFunction instead.", error: true)]
+	[Obsolete(
+		"New compiler. Use AddCompilerFunctions(List<IEmbeddedValue>) with IClrFunction or IClrYieldingFunction instead.",
+		error: true)]
 	public static void AddCompilerFunctions<T>(List<T> functions)
 	{
 	}
@@ -534,7 +548,9 @@ public static class PMWrapper
 	/// <summary>
 	/// Adds all parameters of type <see cref="Compiler.Function"/> to the already existing list of compiler functions.
 	/// </summary>
-	[Obsolete("New compiler. Use AddCompilerFunctions(params IEmbeddedValue[]) with IClrFunction or IClrYieldingFunction instead.", error: true)]
+	[Obsolete(
+		"New compiler. Use AddCompilerFunctions(params IEmbeddedValue[]) with IClrFunction or IClrYieldingFunction instead.",
+		error: true)]
 	public static void AddCompilerFunctions<T>(params T[] functions)
 	{
 	}

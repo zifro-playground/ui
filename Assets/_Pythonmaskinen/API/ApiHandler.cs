@@ -29,7 +29,7 @@ namespace PM
 				StartCoroutine(SendRequest(request));
 			}
 		}
-		
+
 		private IEnumerator SendRequest(Request request)
 		{
 			string url = GetBaseUrl() + request.endpoint;
@@ -41,6 +41,7 @@ namespace PM
 					byte[] rawBody = Encoding.UTF8.GetBytes(request.jsonString);
 					unityWebRequest.uploadHandler = new UploadHandlerRaw(rawBody);
 				}
+
 				unityWebRequest.downloadHandler = new DownloadHandlerBuffer();
 				unityWebRequest.SetRequestHeader("Content-Type", "application/json");
 

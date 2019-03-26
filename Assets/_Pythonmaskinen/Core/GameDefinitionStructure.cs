@@ -19,21 +19,24 @@ public class GuideBubble
 	public string text { get; set; }
 }
 
-public class TaskDescription{
-    public string header { get; set; }
-    public string body { get; set; }
+public class TaskDescription
+{
+	public string header { get; set; }
+	public string body { get; set; }
 }
 
 public class LevelSettings
 {
 	public string precode { get; set; }
 	public string startCode { get; set; }
-    /// <summary>
-    /// Example of sultion code for current level. Precode is excluded.
-    /// </summary>
-    public string exampleSolutionCode { get; set; }
-    public int rowLimit { get; set; }
-    public TaskDescription taskDescription { get; set; }
+
+	/// <summary>
+	/// Example of sultion code for current level. Precode is excluded.
+	/// </summary>
+	public string exampleSolutionCode { get; set; }
+
+	public int rowLimit { get; set; }
+	public TaskDescription taskDescription { get; set; }
 	public List<string> availableFunctions { get; set; }
 }
 

@@ -6,11 +6,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace PM {
-	public class UITooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
-		
+namespace PM
+{
+	public class UITooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+	{
 		public virtual Vector2 offset => new Vector2(10, 10);
-		protected static readonly Vector2 SIZE_INCREMENT = new Vector2(20,5);
+		protected static readonly Vector2 SIZE_INCREMENT = new Vector2(20, 5);
 
 		public string text = "Tooltip";
 		public float fadeInAfter = 0.5f;
@@ -20,9 +21,12 @@ namespace PM {
 		protected Text tooltipText;
 		protected List<Graphic> tooltipGraphics;
 
-		private Vector3 targetPos {
-			get {
-				Vector3 pos = UISingleton.instance.uiCamera.ScreenToWorldPoint(Input.mousePosition) + transform.TransformVector(offset);
+		private Vector3 targetPos
+		{
+			get
+			{
+				Vector3 pos = UISingleton.instance.uiCamera.ScreenToWorldPoint(Input.mousePosition) +
+				              transform.TransformVector(offset);
 				pos.z = -50;
 				return pos;
 			}
@@ -31,40 +35,46 @@ namespace PM {
 		public virtual GameObject prefab => UISingleton.instance.uiTooltipPrefab;
 
 #if UNITY_EDITOR
-		private void OnDrawGizmosSelected() {
+		private void OnDrawGizmosSelected()
+		{
 			Gizmos.color = Color.cyan;
-			Gizmos.DrawWireCube(transform.TransformPoint(new Vector3(offset.x, offset.y) + new Vector3(100, 25)), transform.TransformVector(new Vector3(200, 50)));
+			Gizmos.DrawWireCube(transform.TransformPoint(new Vector3(offset.x, offset.y) + new Vector3(100, 25)),
+				transform.TransformVector(new Vector3(200, 50)));
 			Gizmos.DrawLine(transform.position, transform.TransformPoint(offset));
 		}
 #endif
 
 		protected bool initialized = false;
-		protected virtual void Init() {
+
+		protected virtual void Init()
+		{
 			GameObject clone = Instantiate(prefab);
 			clone.transform.SetParent(UISingleton.instance.tooltipParent, false);
 
 			tooltipRect = clone.transform as RectTransform;
 			FetchTextReferences();
 			tooltipGraphics = new List<Graphic>(clone.GetComponentsInChildren<Graphic>());
-			
+
 			initialized = true;
 			tooltipGraphics.ForEach(g => g.canvasRenderer.SetAlpha(0));
-			
-			ApplyTooltipTextChange();
 
+			ApplyTooltipTextChange();
 		}
 
-		protected virtual void FetchTextReferences() {
+		protected virtual void FetchTextReferences()
+		{
 			tooltipText = tooltipRect.GetComponentInChildren<Text>();
 		}
 
-		public virtual void ApplyTooltipTextChange() {
+		public virtual void ApplyTooltipTextChange()
+		{
 			if (!initialized)
 			{
 				Init();
 			}
 
-			if (tooltipText) {
+			if (tooltipText)
+			{
 				tooltipText.text = text;
 
 				// Reset size
@@ -76,10 +86,12 @@ namespace PM {
 			}
 		}
 
-		protected virtual void ResizeToFit() {
+		protected virtual void ResizeToFit()
+		{
 			var parent = tooltipRect.parent as RectTransform;
 
-			while (GetPrefferedTextHeight() > tooltipText.rectTransform.rect.height) {
+			while (GetPrefferedTextHeight() > tooltipText.rectTransform.rect.height)
+			{
 				tooltipRect.sizeDelta += SIZE_INCREMENT;
 				tooltipRect.sizeDelta = new Vector2(
 					Mathf.Min(tooltipRect.sizeDelta.x + SIZE_INCREMENT.x, parent.sizeDelta.x),
@@ -97,7 +109,8 @@ namespace PM {
 			);
 		}
 
-		protected void LockInsideParent() {
+		protected void LockInsideParent()
+		{
 			// Assuming pivot of parent to be at 0.5
 			// Also assuming pivot of tooltipRect to be (0,0)
 
@@ -105,18 +118,23 @@ namespace PM {
 			// Too much to the right
 			if (tooltipRect.anchoredPosition.x + tooltipRect.sizeDelta.x > halfSize.x)
 			{
-				tooltipRect.anchoredPosition = new Vector2(halfSize.x - tooltipRect.sizeDelta.x, tooltipRect.anchoredPosition.y);
+				tooltipRect.anchoredPosition =
+					new Vector2(halfSize.x - tooltipRect.sizeDelta.x, tooltipRect.anchoredPosition.y);
 			}
+
 			// Too much to the left
 			if (tooltipRect.anchoredPosition.x < -halfSize.x)
 			{
 				tooltipRect.anchoredPosition = new Vector2(-halfSize.x, tooltipRect.anchoredPosition.y);
 			}
+
 			// Too much upwards
 			if (tooltipRect.anchoredPosition.y + tooltipRect.sizeDelta.y > halfSize.y)
 			{
-				tooltipRect.anchoredPosition = new Vector2(tooltipRect.anchoredPosition.x, halfSize.y - tooltipRect.sizeDelta.y);
+				tooltipRect.anchoredPosition =
+					new Vector2(tooltipRect.anchoredPosition.x, halfSize.y - tooltipRect.sizeDelta.y);
 			}
+
 			// Too much downwards
 			if (tooltipRect.anchoredPosition.y < -halfSize.y)
 			{
@@ -124,12 +142,14 @@ namespace PM {
 			}
 		}
 
-		private float GetPrefferedTextHeight() {
+		private float GetPrefferedTextHeight()
+		{
 			Canvas.ForceUpdateCanvases();
 			return tooltipText.preferredHeight;
 		}
 
-		private void Start() {
+		private void Start()
+		{
 			// Spawn Tooltip
 			if (!initialized)
 			{
@@ -137,14 +157,17 @@ namespace PM {
 			}
 		}
 
-		private void FixedUpdate() {
-			if (tooltipGraphics.All(g => g.color.a > float.Epsilon) && initialized) {
+		private void FixedUpdate()
+		{
+			if (tooltipGraphics.All(g => g.color.a > float.Epsilon) && initialized)
+			{
 				tooltipRect.position = targetPos;
 				LockInsideParent();
 			}
 		}
 
-		void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) {
+		void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
+		{
 			if (!initialized)
 			{
 				Init();
@@ -153,7 +176,8 @@ namespace PM {
 			StartCoroutine(WaitBeforeAppearing());
 		}
 
-		void IPointerExitHandler.OnPointerExit(PointerEventData eventData) {
+		void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
+		{
 			if (!initialized)
 			{
 				Init();
@@ -164,27 +188,35 @@ namespace PM {
 			tooltipGraphics.ForEach(g => g.CrossFadeAlpha(0, fadeDuration, false));
 		}
 
-		IEnumerator WaitBeforeAppearing() {
+		IEnumerator WaitBeforeAppearing()
+		{
 			yield return new WaitForSeconds(fadeInAfter);
-			
+
 			tooltipGraphics.ForEach(g => g.CrossFadeAlpha(1, fadeDuration, false));
 		}
 
-		private void OnDisable() {
+		private void OnDisable()
+		{
 			if (!initialized)
 			{
 				Init();
 			}
 
 			StopAllCoroutines();
-			
-			tooltipGraphics.ForEach(g => { if (g) { g.CrossFadeAlpha(0, fadeDuration, false); } });
+
+			tooltipGraphics.ForEach(g =>
+			{
+				if (g)
+				{
+					g.CrossFadeAlpha(0, fadeDuration, false);
+				}
+			});
 		}
 
-		private void OnDestroy() {
+		private void OnDestroy()
+		{
 			Destroy(tooltipRect.gameObject);
 			StopAllCoroutines();
 		}
-
 	}
 }

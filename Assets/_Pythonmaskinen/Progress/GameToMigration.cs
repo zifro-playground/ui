@@ -47,9 +47,11 @@ namespace PM
 				tw.WriteLine("using Umbraco.Core.Persistence.SqlSyntax;");
 				tw.WriteLine("using Zifro.Code;\n");
 
-				tw.WriteLine("namespace Zifro.Persistance.Migrations.GameUpgrades.TargetVersion_" + version.PrintWithUnderscore());
+				tw.WriteLine("namespace Zifro.Persistance.Migrations.GameUpgrades.TargetVersion_" +
+				             version.PrintWithUnderscore());
 				tw.WriteLine("{");
-				tw.WriteLine("	[Migration(\"" + version.PrintWithDots() + "\", 1, Constants.Application.GameMigrationName)]");
+				tw.WriteLine("	[Migration(\"" + version.PrintWithDots() +
+				             "\", 1, Constants.Application.GameMigrationName)]");
 				tw.WriteLine("	public class UpdatePlaygroundGameData : MigrationBase");
 				tw.WriteLine("	{");
 				tw.WriteLine("		public UpdatePlaygroundGameData(ISqlSyntaxProvider sqlSyntax, ILogger logger)");
@@ -63,9 +65,11 @@ namespace PM
 				tw.WriteLine("				var game = dbContext.PlaygroundGame.Find(\"" + game.gameId + "\");\n");
 
 				tw.WriteLine("				if (game == null)");
-				tw.WriteLine("					game = dbContext.PlaygroundGame.Add(new PlaygroundGame() {GameId = \"" + game.gameId + "\"});\n");
+				tw.WriteLine("					game = dbContext.PlaygroundGame.Add(new PlaygroundGame() {GameId = \"" +
+				             game.gameId + "\"});\n");
 
-				tw.WriteLine("				var levelsInDatabase = dbContext.PlaygroundLevel.Where(x => x.GameId == game.GameId);\n");
+				tw.WriteLine(
+					"				var levelsInDatabase = dbContext.PlaygroundLevel.Where(x => x.GameId == game.GameId);\n");
 
 				tw.WriteLine("				var levelsToUpdate = new List<string>");
 				tw.WriteLine("				{");
@@ -73,13 +77,15 @@ namespace PM
 				{
 					tw.WriteLine("					\"" + level.levelId + "\",");
 				}
+
 				tw.WriteLine("				};\n");
 
 				tw.WriteLine("				var levelsPrecode = new Dictionary<string, string>()");
 				tw.WriteLine("				{");
 				foreach (ActiveLevel activeLevel in game.activeLevels)
 				{
-					System.Collections.Generic.List<Level> levels = game.scenes.First(scene => scene.name == activeLevel.sceneName).levels;
+					System.Collections.Generic.List<Level> levels =
+						game.scenes.First(scene => scene.name == activeLevel.sceneName).levels;
 					Level level = levels.First(lvl => lvl.id == activeLevel.levelId);
 					string levelPrecode = "";
 
@@ -98,15 +104,18 @@ namespace PM
 
 					if (!string.IsNullOrEmpty(levelPrecode))
 					{
-						tw.WriteLine("					{ \"" + activeLevel.levelId + "\", \"" + levelPrecode.Replace("\n", "\\n") + "\" },");
+						tw.WriteLine("					{ \"" + activeLevel.levelId + "\", \"" + levelPrecode.Replace("\n", "\\n") +
+						             "\" },");
 					}
 				}
+
 				tw.WriteLine("				};\n");
 
 				tw.WriteLine("				foreach (var levelToUpdate in levelsToUpdate)");
 				tw.WriteLine("				{");
 				tw.WriteLine("					var level = levelsInDatabase.FirstOrDefault(x => x.LevelId == levelToUpdate);");
-				tw.WriteLine("					var precode = levelsPrecode.ContainsKey(levelToUpdate) ? levelsPrecode[levelToUpdate] : null;\n");
+				tw.WriteLine(
+					"					var precode = levelsPrecode.ContainsKey(levelToUpdate) ? levelsPrecode[levelToUpdate] : null;\n");
 				tw.WriteLine("					if (level == null)");
 				tw.WriteLine("					{");
 				tw.WriteLine("						dbContext.PlaygroundLevel.Add(new PlaygroundLevel()");
@@ -132,6 +141,7 @@ namespace PM
 				tw.WriteLine("	}");
 				tw.WriteLine("}");
 			}
+
 			Debug.Log("Migration created successfully at " + path);
 		}
 	}

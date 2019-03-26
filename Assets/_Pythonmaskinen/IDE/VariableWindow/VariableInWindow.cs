@@ -38,5 +38,4 @@ public class VariableInWindow : MonoBehaviour
 
 		rect.sizeDelta = sizeDelta;
 	}
-
 }

@@ -67,7 +67,7 @@ namespace PM
 				PMWrapper.StartCompiler();
 			}
 		}
-		
+
 		public void CaseCompleted()
 		{
 			PMWrapper.StopCompiler();

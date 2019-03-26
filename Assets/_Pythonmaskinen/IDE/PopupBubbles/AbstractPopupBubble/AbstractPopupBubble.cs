@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace PM {
-
+namespace PM
+{
 	[RequireComponent(typeof(CanvasGroup)), RequireComponent(typeof(RectTransform)), DisallowMultipleComponent]
-	public abstract class AbstractPopupBubble : MonoBehaviour {
-
+	public abstract class AbstractPopupBubble : MonoBehaviour
+	{
 		public bool isShowing { get; private set; }
 
 		[Header("Object references")]
@@ -16,13 +16,20 @@ namespace PM {
 
 		[Header("Settings")]
 		public float fadeTime = 0.3f;
-		public Vector2 sizeIncrement = new Vector2(10,5);
+
+		public Vector2 sizeIncrement = new Vector2(10, 5);
 		public Vector2 maxSize = new Vector2(900, 825);
 		public float distanceFromTarget = 70;
 
-		[NonSerialized] public CanvasGroup canvasGroup;
-		[NonSerialized] public Canvas canvas;
-		[NonSerialized] protected object target;
+		[NonSerialized]
+		public CanvasGroup canvasGroup;
+
+		[NonSerialized]
+		public Canvas canvas;
+
+		[NonSerialized]
+		protected object target;
+
 		private Coroutine fadeRoutine = null;
 		public bool isFading => fadeRoutine != null;
 
@@ -35,16 +42,19 @@ namespace PM {
 		protected abstract void OnShowMessage();
 		protected abstract void OnHideMessage();
 
-		private void _ShowMessage(object target, bool instant) {
+		private void _ShowMessage(object target, bool instant)
+		{
 			if (isShowing)
 			{
 				HideMessageInstantly();
 			}
 
-			if (instant) {
+			if (instant)
+			{
 				StopFading();
 				canvasGroup.alpha = 1;
-			} else
+			}
+			else
 			{
 				FadeTowards(1, fadeTime);
 			}
@@ -62,35 +72,42 @@ namespace PM {
 			OnShowMessage();
 		}
 
-		public void ShowMessage(RectTransform target, bool instant = false) {
+		public void ShowMessage(RectTransform target, bool instant = false)
+		{
 			FocusOnRectTransform(target);
 			_ShowMessage(target, instant);
 		}
 
-		public void ShowMessage(RectTransform target, Vector2 newPivot, bool instant = false) {
+		public void ShowMessage(RectTransform target, Vector2 newPivot, bool instant = false)
+		{
 			FocusOnRectTransform(target, newPivot);
 			_ShowMessage(target, instant);
 		}
 
-		public void ShowMessage(Selectable target, bool instant = false) {
+		public void ShowMessage(Selectable target, bool instant = false)
+		{
 			FocusOnRectTransform(target.transform as RectTransform);
 			_ShowMessage(target, instant);
 		}
 
-		public void ShowMessage(Selectable target, Vector2 newPivot, bool instant = false) {
+		public void ShowMessage(Selectable target, Vector2 newPivot, bool instant = false)
+		{
 			FocusOnRectTransform(target.transform as RectTransform, newPivot);
 			_ShowMessage(target, instant);
 		}
 
-		public void ShowMessage(Vector2 canvasPosition, bool instant = false) {
+		public void ShowMessage(Vector2 canvasPosition, bool instant = false)
+		{
 			FocusOnCanvasPosition(canvasPosition);
 			_ShowMessage(canvasPosition, instant);
 		}
 
-		public void ShowMessage(Vector3 worldPosition, bool instant = false) {
+		public void ShowMessage(Vector3 worldPosition, bool instant = false)
+		{
 			if (Camera.main == null)
 			{
-				throw new Exception("The game camera must be marked with the \"Main Camera\" tag for world positioned errors to work.\n");
+				throw new Exception(
+					"The game camera must be marked with the \"Main Camera\" tag for world positioned errors to work.\n");
 			}
 
 			// Try to get position from game camera
@@ -110,8 +127,8 @@ namespace PM {
 			_ShowMessage(worldPosition, instant);
 		}
 
-		public void ShowMessage(int codeRow, bool instant = false) {
-			
+		public void ShowMessage(int codeRow, bool instant = false)
+		{
 			RectTransform textfieldRect = UISingleton.instance.textField.theInputField.textComponent.rectTransform;
 
 			var localPos = new Vector2(
@@ -122,11 +139,12 @@ namespace PM {
 
 			Vector2 canvasPos = canvas.transform.InverseTransformPoint(textfieldRect.TransformPoint(localPos));
 
-			FocusOnCanvasPosition (canvasPos, new Vector2 (-3.5f, 1.6f));
+			FocusOnCanvasPosition(canvasPos, new Vector2(-3.5f, 1.6f));
 			_ShowMessage(codeRow, instant);
 		}
 
-		public void HideMessageInstantly() {
+		public void HideMessageInstantly()
+		{
 			StopFading();
 			canvasGroup.alpha = 0;
 			isShowing = false;
@@ -141,7 +159,8 @@ namespace PM {
 			OnHideMessage();
 		}
 
-		public void HideMessage() {
+		public void HideMessage()
+		{
 			if (!isShowing)
 			{
 				return;
@@ -155,12 +174,14 @@ namespace PM {
 			OnHideMessage();
 		}
 
-		private void Awake() {
+		private void Awake()
+		{
 			canvasGroup = GetComponent<CanvasGroup>();
 			canvas = GetComponentInParent<Canvas>();
 		}
 
-		protected virtual void Start() {
+		protected virtual void Start()
+		{
 			if (StartIsEnabledCheck())
 			{
 				_ShowMessage(null, instant: true);
@@ -171,7 +192,8 @@ namespace PM {
 			}
 		}
 
-		private bool StartIsEnabledCheck() {
+		private bool StartIsEnabledCheck()
+		{
 			foreach (Transform t in transform)
 			{
 				if (!t.gameObject.activeSelf)
@@ -182,7 +204,9 @@ namespace PM {
 
 			return canvasGroup.interactable && canvasGroup.blocksRaycasts && Mathf.Approximately(canvasGroup.alpha, 1f);
 		}
-		private bool StartIsDisabledCheck() {
+
+		private bool StartIsDisabledCheck()
+		{
 			foreach (Transform t in transform)
 			{
 				if (t.gameObject.activeSelf)
@@ -191,14 +215,17 @@ namespace PM {
 				}
 			}
 
-			return !canvasGroup.interactable && !canvasGroup.blocksRaycasts && Mathf.Approximately(canvasGroup.alpha, 0f);
+			return !canvasGroup.interactable && !canvasGroup.blocksRaycasts &&
+			       Mathf.Approximately(canvasGroup.alpha, 0f);
 		}
 
-		protected void FocusOnRectTransform(RectTransform target) {
+		protected void FocusOnRectTransform(RectTransform target)
+		{
 			FocusOnCanvasPosition(canvas.transform.InverseTransformPoint(target.position));
 		}
 
-		protected void FocusOnRectTransform(RectTransform target, Vector2 newPivot) {
+		protected void FocusOnRectTransform(RectTransform target, Vector2 newPivot)
+		{
 			Vector2 size = target.rect.size;
 			// Move to center
 			var offset = Vector2.Scale(new Vector2(0.5f - target.pivot.x, 0.5f - target.pivot.y), size);
@@ -208,12 +235,13 @@ namespace PM {
 			FocusOnCanvasPosition(canvas.transform.InverseTransformPoint(target.TransformPoint(offset)));
 		}
 
-		protected void FocusOnCanvasPosition(Vector2 target) {
+		protected void FocusOnCanvasPosition(Vector2 target)
+		{
 			FocusOnCanvasPosition(target, target);
 		}
 
-		protected void FocusOnCanvasPosition(Vector2 target, Vector2 direction) {
-
+		protected void FocusOnCanvasPosition(Vector2 target, Vector2 direction)
+		{
 			// Calculate positions
 			Vector2 squarified = SquareifyVector2(direction);
 			Vector2 pos = target - squarified.normalized * distanceFromTarget;
@@ -237,10 +265,12 @@ namespace PM {
 					Vector3.forward * (Mathf.Atan2(-direction.y, -direction.x) * Mathf.Rad2Deg + 90);*/
 		}
 
-		IEnumerator FadeRoutine(float target, float time) {
+		IEnumerator FadeRoutine(float target, float time)
+		{
 			target = Mathf.Clamp01(target);
 
-			while (!Mathf.Approximately(canvasGroup.alpha, target)) {
+			while (!Mathf.Approximately(canvasGroup.alpha, target))
+			{
 				canvasGroup.alpha = Mathf.MoveTowards(Mathf.Clamp01(canvasGroup.alpha), target, Time.deltaTime / time);
 				// Wait 1 timestep
 				yield return null;
@@ -258,12 +288,14 @@ namespace PM {
 			fadeRoutine = null;
 		}
 
-		public void FadeTowards(float target, float time) {
+		public void FadeTowards(float target, float time)
+		{
 			StopFading();
 			fadeRoutine = StartCoroutine(FadeRoutine(target, time));
 		}
 
-		private void StopFading() {
+		private void StopFading()
+		{
 			if (fadeRoutine != null)
 			{
 				StopCoroutine(fadeRoutine);
@@ -272,7 +304,8 @@ namespace PM {
 			fadeRoutine = null;
 		}
 
-		public static Vector2 SquareifyVector2(Vector2 vec) {
+		public static Vector2 SquareifyVector2(Vector2 vec)
+		{
 			if (vec == Vector2.zero)
 			{
 				return Vector2.right;
@@ -291,30 +324,31 @@ namespace PM {
 			}
 		}
 
-		public void ResizeToFit(ILayoutElement judger, RectTransform resizeThis) {
-
+		public void ResizeToFit(ILayoutElement judger, RectTransform resizeThis)
+		{
 			var judgerRect = (judger as Component).transform as RectTransform;
 
 			// Adjust size to element, through trial and error
-			while (GetPrefferedElementHeight(judger) > judgerRect.rect.height) {
+			while (GetPrefferedElementHeight(judger) > judgerRect.rect.height)
+			{
 				Vector2 size = resizeThis.sizeDelta;
 				resizeThis.sizeDelta = new Vector2(
 					Mathf.Min(size.x + sizeIncrement.x, maxSize.x),
 					Mathf.Min(size.y + sizeIncrement.y, maxSize.y)
 				);
 				// Message too long...
-				if (Mathf.Approximately(resizeThis.sizeDelta.x, maxSize.x) && Mathf.Approximately(resizeThis.sizeDelta.y, maxSize.y))
+				if (Mathf.Approximately(resizeThis.sizeDelta.x, maxSize.x) &&
+				    Mathf.Approximately(resizeThis.sizeDelta.y, maxSize.y))
 				{
 					break;
 				}
 			}
 		}
 
-		private static float GetPrefferedElementHeight(ILayoutElement element) {
+		private static float GetPrefferedElementHeight(ILayoutElement element)
+		{
 			Canvas.ForceUpdateCanvases();
 			return element.preferredHeight;
 		}
-
 	}
-
 }

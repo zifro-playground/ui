@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace PM {
-
+namespace PM
+{
 	[ExecuteInEditMode, RequireComponent(typeof(Camera))]
-	public class MatchViewportToGameRect : MonoBehaviour {
-
+	public class MatchViewportToGameRect : MonoBehaviour
+	{
 		private Camera cam;
 
 		[HideInInspector]
 		public RectTransform theRect;
-		private RectTransform rect {
-			get {
+
+		private RectTransform rect
+		{
+			get
+			{
 				if (theRect == null)
 				{
 #if UNITY_EDITOR
@@ -21,7 +24,8 @@ namespace PM {
 					{
 						theRect = UISingleton.instance.gameCameraRect;
 					}
-					else {
+					else
+					{
 						UISingleton ui = FindObjectOfType<UISingleton>();
 						if (ui)
 						{
@@ -38,12 +42,14 @@ namespace PM {
 
 		public bool isValid => theRect != null;
 
-		private void Awake() {
+		private void Awake()
+		{
 			cam = GetComponent<Camera>();
 		}
 
 #if UNITY_EDITOR
-		private void OnDrawGizmos() {
+		private void OnDrawGizmos()
+		{
 			if (rect == null)
 			{
 				return;
@@ -66,7 +72,9 @@ namespace PM {
 		}
 
 		public bool runInEditor = false;
-		private void LateUpdate() {
+
+		private void LateUpdate()
+		{
 			if (!runInEditor && !Application.isPlaying)
 			{
 				return;
@@ -98,19 +106,19 @@ namespace PM {
 			}
 
 			// Different calculations for different modes
-			if (canvas.renderMode == RenderMode.ScreenSpaceCamera && canvas.worldCamera != null) {
-
+			if (canvas.renderMode == RenderMode.ScreenSpaceCamera && canvas.worldCamera != null)
+			{
 				// Get worldspace corners of recttransform
 				var corners = new Vector3[4];
 				rect.GetWorldCorners(corners);
 
 				// Transform into viewport
 				var newCorners = new Vector3[] {
-				canvas.worldCamera.WorldToViewportPoint(corners[0]),
-				canvas.worldCamera.WorldToViewportPoint(corners[1]),
-				canvas.worldCamera.WorldToViewportPoint(corners[2]),
-				canvas.worldCamera.WorldToViewportPoint(corners[3])
-			};
+					canvas.worldCamera.WorldToViewportPoint(corners[0]),
+					canvas.worldCamera.WorldToViewportPoint(corners[1]),
+					canvas.worldCamera.WorldToViewportPoint(corners[2]),
+					canvas.worldCamera.WorldToViewportPoint(corners[3])
+				};
 
 				// Turn into Rect
 				float xMin = Mathf.Clamp01(newCorners.Min(c => c.x));
@@ -123,7 +131,6 @@ namespace PM {
 				// ...
 				// Profit!
 				cam.rect = viewport;
-
 			} /* else if (canvas.renderMode == RenderMode.ScreenSpaceOverlay) {
 
 			// Get worldspace corners of recttransform
@@ -139,5 +146,4 @@ namespace PM {
 		*/
 		}
 	}
-
 }

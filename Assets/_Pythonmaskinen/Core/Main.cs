@@ -15,6 +15,7 @@ namespace PM
 	public class Main : MonoBehaviour, IPMCompilerStopped, IPMLevelChanged, IPMCaseSwitched
 	{
 		private string loadedScene;
+
 		[FormerlySerializedAs("GameDataFileName")]
 		public string gameDataFileName;
 
@@ -23,6 +24,7 @@ namespace PM
 
 		[FormerlySerializedAs("LevelDefinition")]
 		public Level levelDefinition;
+
 		[FormerlySerializedAs("LevelAnswer")]
 		public LevelAnswer levelAnswer;
 

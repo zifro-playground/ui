@@ -12,6 +12,7 @@ namespace PM
 
 		[FormerlySerializedAs("NumberImage")]
 		public Image numberImage;
+
 		[FormerlySerializedAs("CaseImages")]
 		public Sprite[] caseImages;
 
@@ -32,7 +33,7 @@ namespace PM
 				StopCoroutine(coroutine);
 			}
 
-			if (caseNumber < 0 || caseNumber > Main.instance.caseHandler.numberOfCases-1)
+			if (caseNumber < 0 || caseNumber > Main.instance.caseHandler.numberOfCases - 1)
 			{
 				throw new ArgumentOutOfRangeException();
 			}
@@ -48,6 +49,7 @@ namespace PM
 			{
 				child.gameObject.SetActive(true);
 			}
+
 			yield return new WaitForSeconds(duration);
 
 			HideFlash();

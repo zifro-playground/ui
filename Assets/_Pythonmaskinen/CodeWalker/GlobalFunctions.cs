@@ -174,11 +174,11 @@ namespace PM.GlobalFunctions
 
 			if (v.TryConvert(out bool b))
 			{
-				return b 
+				return b
 					? Processor.Factory.Create("0o1")
 					: Processor.Factory.Create("0o0");
 			}
-			
+
 			PMWrapper.RaiseError($"Kan inte konvertera typen '{v.GetTypeName()}' till octaler!");
 			return Processor.Factory.Null;
 		}

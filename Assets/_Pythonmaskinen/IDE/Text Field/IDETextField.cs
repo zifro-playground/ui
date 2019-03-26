@@ -18,8 +18,10 @@ namespace PM
 		public Text preText;
 		public Text text;
 		public Text visibleText;
+
 		[FormerlySerializedAs("theSpeciallCommands")]
 		public IDESpecialCommands theSpecialCommands;
+
 		public int codeRowsLimit = 32;
 		public bool devBuild = false;
 

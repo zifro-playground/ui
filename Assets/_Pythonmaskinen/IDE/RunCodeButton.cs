@@ -4,16 +4,18 @@ using UnityEngine.UI;
 
 namespace PM
 {
-
-	public class RunCodeButton : MonoBehaviour, IPMCompilerStarted, IPMCompilerUserPaused, IPMCompilerUserUnpaused, IPMCompilerStopped
+	public class RunCodeButton : MonoBehaviour, IPMCompilerStarted, IPMCompilerUserPaused, IPMCompilerUserUnpaused,
+		IPMCompilerStopped
 	{
-
 		[FormerlySerializedAs("PlayImage")]
 		public Sprite playImage;
+
 		[FormerlySerializedAs("PauseImage")]
 		public Sprite pauseImage;
+
 		[FormerlySerializedAs("ResumeImage")]
 		public Sprite resumeImage;
+
 		[FormerlySerializedAs("ThisButton")]
 		public Button thisButton;
 
@@ -63,5 +65,4 @@ namespace PM
 			thisButton.image.sprite = playImage;
 		}
 	}
-
 }

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PM {
-
+namespace PM
+{
 	[DisallowMultipleComponent]
-	public class Hax : MonoBehaviour {
-		
+	public class Hax : MonoBehaviour
+	{
 		void Update()
 		{
 			// Why use parantases when you can use multiple IF statements? B)
@@ -26,7 +26,7 @@ namespace PM {
 				}
 				else if (Input.GetKeyDown(KeyCode.LeftArrow))
 				{
-					if(PMWrapper.currentLevelIndex > 0)
+					if (PMWrapper.currentLevelIndex > 0)
 					{
 						PMWrapper.currentLevelIndex -= 1;
 					}

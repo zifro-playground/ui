@@ -10,6 +10,7 @@ namespace PM
 	{
 		[FormerlySerializedAs("SandboxButton")]
 		public GameObject sandboxButton;
+
 		[FormerlySerializedAs("CaseButtons")]
 		public List<GameObject> caseButtons;
 
@@ -40,7 +41,7 @@ namespace PM
 		public void SetCurrentCaseButtonState(LevelModeButtonState state)
 		{
 			int caseNumber = Main.instance.caseHandler.currentCase;
-			
+
 			if (state == LevelModeButtonState.Default)
 			{
 				caseButtons[caseNumber].GetComponent<LevelModeButton>().SetButtonDefault();

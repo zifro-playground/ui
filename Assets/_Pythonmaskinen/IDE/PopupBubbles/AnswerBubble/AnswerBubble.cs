@@ -10,16 +10,17 @@ namespace PM
 		[Header("Colors")]
 		[Range(0, 255)]
 		public float hidingAlpha = 50;
+
 		[Range(0, 255)]
 		public float showingAlpha = 255;
 
 		[Header("AnswerBubble fields")]
 		public GameObject answerParent;
+
 		public Text answerText;
 		public Image bubbleImage;
 		public Sprite correct;
 		public Sprite wrong;
-
 
 		public void SetAnswerMessage(string answerMessage)
 		{
@@ -44,7 +45,6 @@ namespace PM
 					t.gameObject.SetActive(false);
 				}
 			}
-
 		}
 
 		private void OnShowMessage()

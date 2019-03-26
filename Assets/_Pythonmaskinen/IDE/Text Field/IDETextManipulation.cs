@@ -7,7 +7,13 @@ namespace PM
 {
 	public class IDETextManipulation
 	{
-		public static char MyValidate(char c, int charIndex, bool isPasting, List<IndentLevel> toAddLevels, string currentText, IDETextField theTextField)
+		public static char MyValidate(
+			char c,
+			int charIndex,
+			bool isPasting,
+			List<IndentLevel> toAddLevels,
+			string currentText,
+			IDETextField theTextField)
 		{
 			if (isPasting)
 			{
@@ -26,14 +32,22 @@ namespace PM
 			return c;
 		}
 
-		public static int CountCodeLines(List<string> textLines){
-			int count = 0; 
+		public static int CountCodeLines(List<string> textLines)
+		{
+			int count = 0;
 			var regex = new Regex(@"^#|^\s*$|^\s*#");
-			foreach (string line in textLines){
+			foreach (string line in textLines)
+			{
 				line.Trim();
-				if (regex.Match(line).Success||line=="") { }
-				else { count++; }   
+				if (regex.Match(line).Success || line == "")
+				{
+				}
+				else
+				{
+					count++;
+				}
 			}
+
 			return count;
 		}
 
@@ -78,11 +92,10 @@ namespace PM
 					sizeCounter += 4 - sizeCounter % 4;
 				}
 			}
+
 			return sizeCounter;
 		}
 	}
-
-	
 
 	public sealed class IndentLevel
 	{
@@ -102,5 +115,4 @@ namespace PM
 			return indentLevel + caretPos;
 		}
 	}
-
 }

@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExceptionHandler : MonoBehaviour {
-
+public class ExceptionHandler : MonoBehaviour
+{
 	//public string message;
 
-	public void SendErrorToAnalytics (string errorMessage){
+	public void SendErrorToAnalytics(string errorMessage)
+	{
 		//message = errorMessage;
 		//tracker.TriggerEvent ();
 	}
