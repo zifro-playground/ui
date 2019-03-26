@@ -28,7 +28,11 @@ namespace PM
 
 		public bool isUserPaused { get; private set; }
 
-		public static int CurrentLineNumber;
+		int lastLineNumber;
+
+		public int currentLineNumber => compiledCode?.CurrentSource.IsFromClr == false
+			? (lastLineNumber = compiledCode.CurrentSource.FromRow)
+			: lastLineNumber;
 
 		Action<HelloCompiler.StopStatus> stopCompiler;
 
@@ -52,7 +56,7 @@ namespace PM
 			enabled = true;
 			isUserPaused = false;
 
-			CurrentLineNumber = 0;
+			lastLineNumber = 0;
 
 			theVarWindow.resetList();
 
@@ -102,13 +106,13 @@ namespace PM
 
 			try
 			{
-				IDELineMarker.SetWalkerPosition(CurrentLineNumber);
+				IDELineMarker.SetWalkerPosition(currentLineNumber);
 
 				compiledCode.WalkLine();
 
 				if (!compiledCode.CurrentSource.IsFromClr)
 				{
-					CurrentLineNumber = compiledCode.CurrentSource.FromRow;
+					lastLineNumber = compiledCode.CurrentSource.FromRow;
 				}
 
 				theVarWindow.UpdateList(compiledCode);
@@ -126,8 +130,8 @@ namespace PM
 			{
 				if (!compiledCode.CurrentSource.IsFromClr)
 				{
-					CurrentLineNumber = compiledCode.CurrentSource.FromRow;
-					IDELineMarker.SetWalkerPosition(CurrentLineNumber);
+					lastLineNumber = compiledCode.CurrentSource.FromRow;
+					IDELineMarker.SetWalkerPosition(currentLineNumber);
 				}
 
 				stopCompiler.Invoke(HelloCompiler.StopStatus.RuntimeError);

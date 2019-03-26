@@ -114,7 +114,7 @@ public static class PMWrapper
 		UISingleton.instance.textField.InsertMainCodeAtStart(code);
 	}
 
-	public static int CurrentLineNumber => CodeWalker.CurrentLineNumber;
+	public static int currentLineNumber => UISingleton.instance.walker.currentLineNumber;
 
 	/// <summary>
 	/// Scrolls so that the <paramref name="lineNumber"/> is visible in the IDE.
@@ -423,12 +423,12 @@ public static class PMWrapper
 	}
 
 	/// <summary>
-	/// Stops the compiler and shows a dialog box containing the error message on the current line.
+	/// Stops the compiler and shows a dialog box containing the error message on the current line <see cref="currentLineNumber"/>.
 	/// </summary>
 	/// <exception cref="PMRuntimeException">Is always thrown</exception>
 	public static void RaiseError(string message)
 	{
-		UISingleton.instance.textField.theLineMarker.setErrorMarker(message);
+		UISingleton.instance.textField.theLineMarker.setErrorMarker(currentLineNumber, message);
 	}
 	/// <summary>
 	/// Stops the compiler and shows a dialog box containing the error message on the target <paramref name="newLineNumber"/>.
