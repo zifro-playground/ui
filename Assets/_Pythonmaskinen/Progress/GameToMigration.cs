@@ -22,11 +22,11 @@ namespace PM
 
 		public void CreateMigrationFromJson()
 		{
-			var game = Main.instance.gameDefinition;
+			GameDefinition game = Main.instance.gameDefinition;
 
-			var basePath = BaseOutputPath + "Zifro/App_Code/Persistance/Migrations/GameUpgrades/";
-			var fileName = "TargetVersion_" + Version.PrintWithUnderscore() + ".cs";
-			var path = basePath + fileName;
+			string basePath = BaseOutputPath + "Zifro/App_Code/Persistance/Migrations/GameUpgrades/";
+			string fileName = "TargetVersion_" + Version.PrintWithUnderscore() + ".cs";
+			string path = basePath + fileName;
 
 			if (File.Exists(path))
 				throw new IOException("The file \"" + fileName + "\" already exists at \"" + basePath + "\"");
@@ -63,7 +63,7 @@ namespace PM
 
 				tw.WriteLine("				var levelsToUpdate = new List<string>");
 				tw.WriteLine("				{");
-				foreach (var level in game.activeLevels)
+				foreach (ActiveLevel level in game.activeLevels)
 				{
 					tw.WriteLine("					\"" + level.levelId + "\",");
 				}
@@ -71,11 +71,11 @@ namespace PM
 
 				tw.WriteLine("				var levelsPrecode = new Dictionary<string, string>()");
 				tw.WriteLine("				{");
-				foreach (var activeLevel in game.activeLevels)
+				foreach (ActiveLevel activeLevel in game.activeLevels)
 				{
-					var levels = game.scenes.First(scene => scene.name == activeLevel.sceneName).levels;
-					var level = levels.First(lvl => lvl.id == activeLevel.levelId);
-					var levelPrecode = "";
+					System.Collections.Generic.List<Level> levels = game.scenes.First(scene => scene.name == activeLevel.sceneName).levels;
+					Level level = levels.First(lvl => lvl.id == activeLevel.levelId);
+					string levelPrecode = "";
 
 					if (level.levelSettings != null)
 					{

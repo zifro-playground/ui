@@ -37,7 +37,7 @@ namespace PM {
 			string all = string.Empty;
 
 			for (int i=0; i<lines.Length; i++) {
-				var segments = SplitLineIntoSegments(lines[i]);
+				List<Segment> segments = SplitLineIntoSegments(lines[i]);
 				for (int j = 0; j < segments.Count; j++) {
 					// Find next and prev non-whitespace
 					//int next = -1, prev = -1;

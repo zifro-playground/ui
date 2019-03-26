@@ -59,7 +59,7 @@ namespace PM
 		/// </summary>
 		public static T[] FindInterfaces<T>() where T : class
 		{
-			var list = new List<UnityEngine.Object>(FindObjectsOfType<UnityEngine.Object>()).ConvertAll(o => o as T);
+			List<T> list = new List<UnityEngine.Object>(FindObjectsOfType<UnityEngine.Object>()).ConvertAll(o => o as T);
 			list.RemoveAll(o => o == null);
 			return list.ToArray();
 		}

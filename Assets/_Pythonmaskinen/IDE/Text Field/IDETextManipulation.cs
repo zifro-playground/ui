@@ -38,10 +38,10 @@ namespace PM
 		public static bool validateText(string fullText, int maxLines, int maxPerLine)
 		{
 			List<string> preCodeTextLines = IDEPARSER.parseIntoLines(PMWrapper.preCode);
-			var preCodeLineCount = countCodeLines(preCodeTextLines);
+			int preCodeLineCount = countCodeLines(preCodeTextLines);
 
 			List<string> mainCodeTextLines = IDEPARSER.parseIntoLines(fullText);
-            var mainCodeLineCount = countCodeLines(mainCodeTextLines);
+			int mainCodeLineCount = countCodeLines(mainCodeTextLines);
 
 			Progress.Instance.LevelData[PMWrapper.CurrentLevel.id].CodeLineCount = mainCodeLineCount + preCodeLineCount;
             UISingleton.instance.rowsLimit.UpdateRowsLeft(mainCodeLineCount, maxLines);

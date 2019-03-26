@@ -151,7 +151,7 @@ namespace PM
 
 			// lineIndex of the textfield, either preCodeField or mainCodeField
 			int lineIndex = isPre ? lineNumber : lineNumber - preCodeLines;
-			var gen = isPre ? preText.cachedTextGenerator : theInputField.textComponent.cachedTextGenerator;
+			TextGenerator gen = isPre ? preText.cachedTextGenerator : theInputField.textComponent.cachedTextGenerator;
 
 			if (gen.lineCount == 0)
 			{

@@ -81,7 +81,7 @@ namespace PM
 			bigTaskDescriptionHead.text = header;
 			bigTaskDescriptionBody.text = body;
 
-			var levelData = Progress.Instance.LevelData[PMWrapper.CurrentLevel.id];
+			LevelData levelData = Progress.Instance.LevelData[PMWrapper.CurrentLevel.id];
 
 			if (!levelData.HasShownDescription && !levelData.IsCompleted)
 			{

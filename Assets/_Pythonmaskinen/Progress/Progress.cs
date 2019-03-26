@@ -40,9 +40,9 @@ namespace PM
 
 		public void HandleOkGetResponse(string response)
 		{
-			var gameProgress = JsonConvert.DeserializeObject<GameProgress>(response);
+			GameProgress gameProgress = JsonConvert.DeserializeObject<GameProgress>(response);
 
-			foreach (var levelProgress in gameProgress.levels)
+			foreach (LevelProgress levelProgress in gameProgress.levels)
 			{
 				LevelData[levelProgress.levelId] = new LevelData(levelProgress);
 			}
@@ -59,7 +59,7 @@ namespace PM
 
 		private void AddMissingLevelData()
 		{
-			foreach (var level in Main.instance.gameDefinition.activeLevels)
+			foreach (ActiveLevel level in Main.instance.gameDefinition.activeLevels)
 			{
 				if (!LevelData.ContainsKey(level.levelId))
 					LevelData[level.levelId] = new LevelData(level.levelId);
@@ -70,8 +70,8 @@ namespace PM
 		{
 			SaveAndResetSecondsSpent();
 
-			var userProgress = CollectUserProgress();
-			var jsonData = JsonConvert.SerializeObject(userProgress);
+			LevelProgress userProgress = CollectUserProgress();
+			string jsonData = JsonConvert.SerializeObject(userProgress);
 
 			var request = new Request
 			{
@@ -84,7 +84,7 @@ namespace PM
 
 		private LevelProgress CollectUserProgress()
 		{
-			var levelData = LevelData[PMWrapper.CurrentLevel.id];
+			LevelData levelData = LevelData[PMWrapper.CurrentLevel.id];
 
 			var userProgress = new LevelProgress()
 			{
@@ -100,7 +100,7 @@ namespace PM
 
 		private int SaveAndResetSecondsSpent()
 		{
-			var secondsSpent = (int)secondsSpentOnCurrentLevel;
+			int secondsSpent = (int)secondsSpentOnCurrentLevel;
 			LevelData[PMWrapper.CurrentLevel.id].SecondsSpent = secondsSpent;
 
 			secondsSpentOnCurrentLevel = 0;

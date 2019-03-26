@@ -14,7 +14,7 @@ namespace PM.GlobalFunctions
 
 		public override IScriptType Invoke(params IScriptType[] arguments)
 		{
-			var v = arguments[0];
+			IScriptType v = arguments[0];
 
 			if (v.TryConvert(out string s))
 			{
@@ -34,7 +34,7 @@ namespace PM.GlobalFunctions
 
 		public override IScriptType Invoke(params IScriptType[] arguments)
 		{
-			var v = arguments[0];
+			IScriptType v = arguments[0];
 
 			if (v.TryConvert(out int i))
 			{
@@ -64,7 +64,7 @@ namespace PM.GlobalFunctions
 
 		public override IScriptType Invoke(params IScriptType[] arguments)
 		{
-			var v = arguments[0];
+			IScriptType v = arguments[0];
 
 			if (v.TryConvert(out int i))
 			{
@@ -94,7 +94,7 @@ namespace PM.GlobalFunctions
 
 		public override IScriptType Invoke(params IScriptType[] arguments)
 		{
-			var v = arguments[0];
+			IScriptType v = arguments[0];
 
 			if (v.TryConvert(out int i))
 			{
@@ -127,7 +127,7 @@ namespace PM.GlobalFunctions
 
 		public override IScriptType Invoke(params IScriptType[] arguments)
 		{
-			var v = arguments[0];
+			IScriptType v = arguments[0];
 
 			if (v.TryConvert(out int i))
 			{
@@ -160,7 +160,7 @@ namespace PM.GlobalFunctions
 
 		public override IScriptType Invoke(params IScriptType[] arguments)
 		{
-			var v = arguments[0];
+			IScriptType v = arguments[0];
 
 			if (v.TryConvert(out int i))
 			{

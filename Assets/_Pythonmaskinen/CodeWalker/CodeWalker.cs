@@ -193,12 +193,12 @@ namespace PM
 
 			if (isUserPaused)
 			{
-				foreach (var ev in UISingleton.FindInterfaces<IPMCompilerUserPaused>())
+				foreach (IPMCompilerUserPaused ev in UISingleton.FindInterfaces<IPMCompilerUserPaused>())
 					ev.OnPMCompilerUserPaused();
 			}
 			else
 			{
-				foreach (var ev in UISingleton.FindInterfaces<IPMCompilerUserUnpaused>())
+				foreach (IPMCompilerUserUnpaused ev in UISingleton.FindInterfaces<IPMCompilerUserUnpaused>())
 					ev.OnPMCompilerUserUnpaused();
 			}
 		}

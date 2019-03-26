@@ -28,7 +28,7 @@ namespace PM
 		
 		private IEnumerator SendRequest(Request request)
 		{
-			var url = GetBaseUrl() + request.Endpoint;
+			string url = GetBaseUrl() + request.Endpoint;
 
 			using (var unityWebRequest = new UnityWebRequest(url, request.Method.ToString()))
 			{
@@ -60,7 +60,7 @@ namespace PM
 
 				if (requestQueue.Count > 0)
 				{
-					var nextRequest = requestQueue.Peek();
+					Request nextRequest = requestQueue.Peek();
 					StartCoroutine(SendRequest(nextRequest));
 				}
 			}

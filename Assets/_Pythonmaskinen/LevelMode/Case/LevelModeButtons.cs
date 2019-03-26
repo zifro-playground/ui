@@ -31,7 +31,7 @@ namespace PM
 
 		public void SetCurrentCaseButtonState(LevelModeButtonState state)
 		{
-			var caseNumber = Main.instance.caseHandler.CurrentCase;
+			int caseNumber = Main.instance.caseHandler.CurrentCase;
 			
 			if (state == LevelModeButtonState.Default)
 				CaseButtons[caseNumber].GetComponent<LevelModeButton>().SetButtonDefault();

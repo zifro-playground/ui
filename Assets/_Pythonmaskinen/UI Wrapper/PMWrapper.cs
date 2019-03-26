@@ -148,11 +148,11 @@ public static class PMWrapper
 	public static bool IsCompilerUserPaused => UISingleton.instance.walker.isUserPaused;
 
 	/// <summary>
-	/// Starts the compiler if it's not currently running. Static wrapper for <see cref="HelloCompiler.compileCode"/>
+	/// Starts the compiler if it's not currently running. Static wrapper for <see cref="HelloCompiler.CompileCode"/>
 	/// </summary>
 	public static void StartCompiler()
 	{
-		UISingleton.instance.compiler.compileCode();
+		UISingleton.instance.compiler.CompileCode();
 	}
 
 	/// <summary>
@@ -164,11 +164,11 @@ public static class PMWrapper
 	}
 
 	/// <summary>
-	/// Stops the compiler if it's currently running. Static wrapper for <see cref="HelloCompiler.stopCompiler(HelloCompiler.StopStatus)"/> with the argument <seealso cref="HelloCompiler.StopStatus.CodeForced"/>
+	/// Stops the compiler if it's currently running. Static wrapper for <see cref="HelloCompiler.StopCompiler(HelloCompiler.StopStatus)"/> with the argument <seealso cref="HelloCompiler.StopStatus.CodeForced"/>
 	/// </summary>
 	public static void StopCompiler()
 	{
-		UISingleton.instance.compiler.stopCompiler(HelloCompiler.StopStatus.CodeForced);
+		UISingleton.instance.compiler.StopCompiler(HelloCompiler.StopStatus.CodeForced);
 	}
 
 	/// <summary>
@@ -481,7 +481,7 @@ public static class PMWrapper
 		Debug.LogWarningFormat("RaiseTaskError: {0}", message);
 		UISingleton.instance.taskDescription.ShowTaskError(message);
 		Main.instance.caseHandler.CaseFailed();
-		UISingleton.instance.compiler.stopCompiler(HelloCompiler.StopStatus.TaskError);
+		UISingleton.instance.compiler.StopCompiler(HelloCompiler.StopStatus.TaskError);
 	}
 
 	/// <summary>

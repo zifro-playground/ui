@@ -43,7 +43,7 @@ namespace PM
 
 			for (int i = 0; i < numOfLevels; i++)
 			{
-				var btn = Instantiate(ButtonPrefab);
+				Button btn = Instantiate(ButtonPrefab);
 
 				// TEST
 				btn.image.type = Image.Type.Filled;
@@ -85,10 +85,10 @@ namespace PM
 
 		private void UpdateSingleButton(int levelIndex)
 		{
-			var btn = levels[levelIndex];
+			Button btn = levels[levelIndex];
 
-			var levelId = Main.instance.gameDefinition.activeLevels[levelIndex].levelId;
-			var levelData = Progress.Instance.LevelData[levelId];
+			string levelId = Main.instance.gameDefinition.activeLevels[levelIndex].levelId;
+			LevelData levelData = Progress.Instance.LevelData[levelId];
 
 			if (levelIndex == 0)
 			{
@@ -121,7 +121,7 @@ namespace PM
 		{
 			if (levelIndex == Current) return;
 
-			foreach (var ev in UISingleton.FindInterfaces<IPMUnloadLevel>())
+			foreach (IPMUnloadLevel ev in UISingleton.FindInterfaces<IPMUnloadLevel>())
 				ev.OnPMUnloadLevel();
 
 			Unlocked = Mathf.Max(levelIndex, Unlocked);

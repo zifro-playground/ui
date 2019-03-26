@@ -19,7 +19,7 @@ namespace PM {
 					if (Application.isPlaying)
 						theRect = UISingleton.instance.gameCameraRect;
 					else {
-						var ui = FindObjectOfType<UISingleton>();
+						UISingleton ui = FindObjectOfType<UISingleton>();
 						if (ui) theRect = ui.gameCameraRect;
 					}
 #else

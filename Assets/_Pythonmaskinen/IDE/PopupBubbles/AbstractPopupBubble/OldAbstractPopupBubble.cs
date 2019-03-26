@@ -187,9 +187,9 @@ namespace PM {
 		protected void FocusOnCanvasPosition(Vector2 target, Vector2 direction) {
 
 			// Calculate positions
-			var squarified = SquareifyVector2(direction);
-			var pos = target - squarified.normalized * distanceFromTarget;
-			var parent = (bubbleRect.parent as RectTransform).rect;
+			Vector2 squarified = SquareifyVector2(direction);
+			Vector2 pos = target - squarified.normalized * distanceFromTarget;
+			Rect parent = (bubbleRect.parent as RectTransform).rect;
 
 			// Clamp the target position
 			pos.x = Mathf.Clamp(pos.x, parent.xMin, parent.xMax);

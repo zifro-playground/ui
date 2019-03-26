@@ -45,7 +45,7 @@ namespace PM
 			LevelModeController.Instance.SwitchToCaseMode();
 
 			// Call every implemented event
-			foreach (var ev in UISingleton.FindInterfaces<IPMCaseSwitched>())
+			foreach (IPMCaseSwitched ev in UISingleton.FindInterfaces<IPMCaseSwitched>())
 				ev.OnPMCaseSwitched(CurrentCase);
 		}
 

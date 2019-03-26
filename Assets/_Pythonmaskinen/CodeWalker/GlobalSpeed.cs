@@ -21,7 +21,7 @@ namespace PM {
 
 		// Listener
 		public void valueChanged() {
-			foreach (var ev in UISingleton.FindInterfaces<IPMSpeedChanged>())
+			foreach (IPMSpeedChanged ev in UISingleton.FindInterfaces<IPMSpeedChanged>())
 				ev.OnPMSpeedChanged(currentSpeed);
 		}
 	}

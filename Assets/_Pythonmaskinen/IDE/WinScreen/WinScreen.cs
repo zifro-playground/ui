@@ -32,7 +32,7 @@ namespace PM
 
 			_ShowWinScreen();
 
-			foreach (var ev in UISingleton.FindInterfaces<IPMLevelCompleted>())
+			foreach (IPMLevelCompleted ev in UISingleton.FindInterfaces<IPMLevelCompleted>())
 				ev.OnPMLevelCompleted();
 		}
 

@@ -40,7 +40,7 @@ namespace PM
 
 			Main.instance.SetSettings();
 
-			foreach (var ev in UISingleton.FindInterfaces<IPMSwitchedToSandbox>())
+			foreach (IPMSwitchedToSandbox ev in UISingleton.FindInterfaces<IPMSwitchedToSandbox>())
 				ev.OnPMSwitchedToSandbox();
 		}
 
@@ -71,7 +71,7 @@ namespace PM
 				if (LevelMode == LevelMode.Sandbox && Main.instance.levelDefinition.cases != null && Main.instance.levelDefinition.cases.Count > 0)
 					CorrectProgramPanel.SetActive(true);
 				else if (LevelMode == LevelMode.Case)
-					foreach (var ev in UISingleton.FindInterfaces<IPMTimeToCorrectCase>())
+					foreach (IPMTimeToCorrectCase ev in UISingleton.FindInterfaces<IPMTimeToCorrectCase>())
 						ev.OnPMTimeToCorrectCase();
 				else
 					PMWrapper.SetLevelCompleted();

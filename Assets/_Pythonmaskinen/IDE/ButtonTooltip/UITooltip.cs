@@ -22,7 +22,7 @@ namespace PM {
 
 		private Vector3 targetPos {
 			get {
-				var pos = UISingleton.instance.uiCamera.ScreenToWorldPoint(Input.mousePosition) + transform.TransformVector(offset);
+				Vector3 pos = UISingleton.instance.uiCamera.ScreenToWorldPoint(Input.mousePosition) + transform.TransformVector(offset);
 				pos.z = -50;
 				return pos;
 			}
@@ -95,7 +95,7 @@ namespace PM {
 			// Assuming pivot of parent to be at 0.5
 			// Also assuming pivot of tooltipRect to be (0,0)
 
-			var halfSize = (tooltipRect.parent as RectTransform).sizeDelta * 0.5f;
+			Vector2 halfSize = (tooltipRect.parent as RectTransform).sizeDelta * 0.5f;
 			// Too much to the right
 			if (tooltipRect.anchoredPosition.x + tooltipRect.sizeDelta.x > halfSize.x)
 				tooltipRect.anchoredPosition = new Vector2(halfSize.x - tooltipRect.sizeDelta.x, tooltipRect.anchoredPosition.y);

@@ -1,74 +1,101 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections.Generic;
-using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
+using PM.GlobalFunctions;
+using UnityEngine;
 
 namespace PM
 {
 	public class HelloCompiler : MonoBehaviour
 	{
-		public bool isRunning { get; private set; }
+		public enum StopStatus
+		{
+			/// <summary>
+			///     The compiler was stopped by user via pressing the stop button.
+			/// </summary>
+			UserForced,
 
-		public CodeWalker theCodeWalker;
+			/// <summary>
+			///     The compiler was stopped by code via e.g. PMWrapper.
+			/// </summary>
+			CodeForced,
+
+			/// <summary>
+			///     The compiler finished successfully.
+			/// </summary>
+			Finished,
+
+			/// <summary>
+			///     The compiler had an error during runtime. For example some missing variable or syntax error.
+			/// </summary>
+			RuntimeError,
+
+			/// <summary>
+			///     The compiler was stopped due to task error. For example user submitted wrong answer or uncompleted task.
+			/// </summary>
+			TaskError
+		}
 
 		[NonSerialized]
 		public readonly List<IEmbeddedType> addedFunctions = new List<IEmbeddedType>();
 
 		readonly IReadOnlyCollection<IEmbeddedType> globalFunctions = new IEmbeddedType[] {
-			new GlobalFunctions.AbsoluteValue(),
-			new GlobalFunctions.ConvertToBinary(),
-			new GlobalFunctions.ConvertToHexadecimal(),
-			new GlobalFunctions.LengthOf(),
-			new GlobalFunctions.RoundedValue(),
-			new GlobalFunctions.MinimumValue(),
-			new GlobalFunctions.MaximumValue(),
-			new GlobalFunctions.GetTime(),
+			new AbsoluteValue(),
+			new ConvertToBinary(),
+			new ConvertToHexadecimal(),
+			new LengthOf(),
+			new RoundedValue(),
+			new MinimumValue(),
+			new MaximumValue(),
+			new GetTime()
 		};
+
+		public CodeWalker theCodeWalker;
+		public bool isRunning { get; private set; }
 
 		IEnumerable<IEmbeddedType> allAddedFunctions => globalFunctions.Concat(addedFunctions);
 
-		public void compileCode()
+		public void CompileCode()
 		{
-			if (isRunning) return;
+			if (isRunning)
+			{
+				return;
+			}
 
 			isRunning = true;
 
-			foreach (var ev in UISingleton.FindInterfaces<IPMCompilerStarted>())
+			foreach (IPMCompilerStarted ev in UISingleton.FindInterfaces<IPMCompilerStarted>())
+			{
 				ev.OnPMCompilerStarted();
+			}
 
 			try
 			{
-				IProcessor compiled = theCodeWalker.ActivateWalker(stopCompiler);
+				IProcessor compiled = theCodeWalker.ActivateWalker(StopCompiler);
 				compiled.AddBuiltin(allAddedFunctions.ToArray());
 			}
 			catch (SyntaxException e) when (!e.SourceReference.IsFromClr)
 			{
-				stopCompiler(StopStatus.RuntimeError);
+				StopCompiler(StopStatus.RuntimeError);
 				PMWrapper.RaiseError(e.SourceReference.FromRow, e.Message);
 			}
 			catch (Exception e)
 			{
-				stopCompiler(StopStatus.RuntimeError);
+				StopCompiler(StopStatus.RuntimeError);
 				PMWrapper.RaiseError(e.Message);
 			}
 		}
 
-		public void prettyPrint(string dasMessage)
-		{
-			if (UISingleton.instance.textField.devBuild)
-				print(dasMessage);
-		}
-
 		#region stop methods
-		public void stopCompilerButton()
+
+		public void StopCompilerButton()
 		{
-			stopCompiler(StopStatus.UserForced);
+			StopCompiler(StopStatus.UserForced);
 		}
 
-		public void stopCompiler(StopStatus status = StopStatus.CodeForced)
+		public void StopCompiler(StopStatus status = StopStatus.CodeForced)
 		{
 			isRunning = false;
 
@@ -80,31 +107,7 @@ namespace PM
 				ev.OnPMCompilerStopped(status);
 			}
 		}
+
 		#endregion
-
-		public enum StopStatus
-		{
-			/// <summary>
-			/// The compiler was stopped by user via pressing the stop button.
-			/// </summary>
-			UserForced,
-			/// <summary>
-			/// The compiler was stopped by code via e.g. PMWrapper.
-			/// </summary>
-			CodeForced,
-			/// <summary>
-			/// The compiler finished successfully.
-			/// </summary>
-			Finished,
-			/// <summary>
-			/// The compiler had an error during runtime. For example some missing variable or syntax error.
-			/// </summary>
-			RuntimeError,
-			/// <summary>
-			/// The compiler was stopped due to task error. For example user submitted wrong answer or uncompleted task. 
-			/// </summary>
-			TaskError,
-		}
 	}
-
 }

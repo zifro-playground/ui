@@ -76,7 +76,7 @@ namespace PM {
 			// because setting the clones doesnt update the preferredWidth instantly
 			buttonPrefab.text.text = rawButtonText;
 
-			var clone = Instantiate(buttonPrefab);
+			SmartButton clone = Instantiate(buttonPrefab);
 			clone.transform.SetParent(container, false);
 
 			clone.name = "[" + rawCallbackCode + "]";

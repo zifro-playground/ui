@@ -4260,7 +4260,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1999686938401867617}
-        m_MethodName: stopCompilerButton
+        m_MethodName: StopCompilerButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
