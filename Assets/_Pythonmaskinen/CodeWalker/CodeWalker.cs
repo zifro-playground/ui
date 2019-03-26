@@ -56,7 +56,7 @@ namespace PM
 
 			lastLineNumber = 0;
 
-			theVarWindow.resetList();
+			theVarWindow.ResetList();
 
 			compiledCode = new PyCompiler().Compile(PMWrapper.fullCode);
 

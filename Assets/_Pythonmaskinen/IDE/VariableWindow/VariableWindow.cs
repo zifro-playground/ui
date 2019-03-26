@@ -10,8 +10,7 @@ namespace PM
 {
 	public class VariableWindow : MonoBehaviour, IPMLevelChanged, IPMCompilerStarted
 	{
-		[SerializeField]
-		RectTransform contentRect;
+		public RectTransform contentRect;
 
 		public GameObject theWindow;
 
@@ -47,8 +46,8 @@ namespace PM
 
 				string valueString = variable.ToString();
 				
-				float width = calcVariableWidth(Mathf.Max(variable.Name.Length, valueString.Length));
-				int maxChars = calcNoCharacters(width);
+				float width = CalcVariableWidth(Mathf.Max(variable.Name.Length, valueString.Length));
+				int maxChars = CalcNoCharacters(width);
 				clone.setWidth(width);
 
 				ToStringAndCompressVariable(variable, valueString, maxChars, out valueString, out Color valueColor);
@@ -60,7 +59,7 @@ namespace PM
 			theWindow.SetActive(true);
 		}
 
-		public void resetList()
+		public void ResetList()
 		{
 			foreach (VariableInWindow v in currentVariables)
 			{
@@ -72,26 +71,26 @@ namespace PM
 			theWindow.SetActive(false);
 		}
 
-		private float calcVariableWidth(int maxCharCount)
+		private float CalcVariableWidth(int maxCharCount)
 		{
 			float variableWidth = (maxCharCount + 1) * characterWidth + 2 * paddingWidth;
 
 			return Mathf.Clamp(variableWidth, minVariableWidth, maxVariableWidth);
 		}
 
-		private int calcNoCharacters(float variableWidth)
+		private int CalcNoCharacters(float variableWidth)
 		{
 			return (int)Mathf.Floor((variableWidth - 2 * paddingWidth) / characterWidth) - 1;
 		}
 
 		void IPMLevelChanged.OnPMLevelChanged()
 		{
-			resetList();
+			ResetList();
 		}
 
 		public void OnPMCompilerStarted()
 		{
-			resetList();
+			ResetList();
 		}
 
 		void ToStringAndCompressVariable(IScriptType variable, string s, int maxChars, out string text, out Color color)
@@ -100,18 +99,18 @@ namespace PM
 			{
 			case BooleanBase _:
 				color = boolText;
-				text = compressString(s, maxChars);
+				text = CompressString(s, maxChars);
 				break;
 
 			case IntegerBase _:
 			case DoubleBase _:
 				color = numberText;
-				text = compressString(s, maxChars, isNumberValue: true);
+				text = CompressString(s, maxChars, isNumberValue: true);
 				break;
 
 			case StringBase _:
 				color = stringText;
-				text = compressString(s, maxChars, isStringValue: true);
+				text = CompressString(s, maxChars, isStringValue: true);
 				break;
 
 			case NullBase _:
@@ -121,12 +120,12 @@ namespace PM
 
 			default:
 				color = nullText;
-				text = IDEColorCoding.RunColorCode(compressString(s, maxChars));
+				text = IDEColorCoding.RunColorCode(CompressString(s, maxChars));
 				break;
 			}
 		}
 
-		private static string compressString(string s, int maxChars, bool isNumberValue = false, bool isStringValue = false)
+		private static string CompressString(string s, int maxChars, bool isNumberValue = false, bool isStringValue = false)
 		{
 			if (s.Length <= maxChars)
 			{
