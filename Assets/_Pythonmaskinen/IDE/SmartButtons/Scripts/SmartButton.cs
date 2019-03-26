@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace PM {
-
+namespace PM
+{
 	[RequireComponent(typeof(Button))]
-	public class SmartButton : MonoBehaviour {
-
+	public class SmartButton : MonoBehaviour
+	{
 		public RectTransform rect;
 		public Button button;
 		public Text text;
-
 	}
-
 }

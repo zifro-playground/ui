@@ -1,75 +1,88 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace PM
 {
-    public class TestLevels : MonoBehaviour, IPMLevelCompleted, IPMCompilerStopped
-    {
-        public bool IsTesting;
-        public static TestLevels Instance;
-        private List<TestError> testErrors = new List<TestError>();
+	public class TestLevels : MonoBehaviour, IPMLevelCompleted, IPMCompilerStopped
+	{
+		[FormerlySerializedAs("IsTesting")]
+		public bool isTesting;
 
-        private void Awake()
-        {
-            if (Instance == null)
-                Instance = this;
-        }
+		private readonly List<TestError> testErrors = new List<TestError>();
+		public static TestLevels instance;
 
-        public void OnPMLevelCompleted()
-        {
-            if(IsTesting)
-                TestNextLevel();
-        }
-        
-        public void TestLevel()
-        {
-            if(Main.instance.levelDefinition.levelSettings != null && Main.instance.levelDefinition.levelSettings.exampleSolutionCode != null)
-                PMWrapper.mainCode = Main.instance.levelDefinition.levelSettings.exampleSolutionCode;
-            PMWrapper.speedMultiplier = 1;
-            PMWrapper.RunCode();
-        }
+		private void Awake()
+		{
+			if (instance == null)
+			{
+				instance = this;
+			}
+		}
 
-        public void TestNextLevel()
-        {
-            if (PMWrapper.currentLevelIndex < PMWrapper.numOfLevels - 1)
-            {
-                PMWrapper.currentLevelIndex++;
-                TestLevel();
-            }
-            else
-            {
-                foreach (TestError te in testErrors)
-                {
-                    print("LevelID: " + te.levelId + " ErrorType: " + te.errorType + "\n");
-                }
-                print("Testing completed\n");
-                IsTesting = false;
-            }
-        }
+		public void OnPMLevelCompleted()
+		{
+			if (isTesting)
+			{
+				TestNextLevel();
+			}
+		}
 
-        public void OnPMCompilerStopped(HelloCompiler.StopStatus status)
-        {
-            if(!IsTesting)
-                return; 
-            if (status == HelloCompiler.StopStatus.RuntimeError || status == HelloCompiler.StopStatus.TaskError)
-            {
-                testErrors.Add(new TestError(Main.instance.levelDefinition.id, status.ToString()));
-                TestNextLevel();
-            }
-        }
+		public void TestLevel()
+		{
+			if (Main.instance.levelDefinition.levelSettings != null &&
+			    Main.instance.levelDefinition.levelSettings.exampleSolutionCode != null)
+			{
+				PMWrapper.mainCode = Main.instance.levelDefinition.levelSettings.exampleSolutionCode;
+			}
 
-        private struct TestError
-        {
-            public string errorType;
-            public string levelId;
+			PMWrapper.speedMultiplier = 1;
+			PMWrapper.RunCode();
+		}
 
-            public TestError(string CaseLevelId, string caseErrorType)
-            {
-                levelId = CaseLevelId;
-                errorType = caseErrorType;
-            }
-        }
-    }
+		public void TestNextLevel()
+		{
+			if (PMWrapper.currentLevelIndex < PMWrapper.numOfLevels - 1)
+			{
+				PMWrapper.currentLevelIndex++;
+				TestLevel();
+			}
+			else
+			{
+				foreach (TestError te in testErrors)
+				{
+					print("LevelID: " + te.levelId + " ErrorType: " + te.errorType + "\n");
+				}
+
+				print("Testing completed\n");
+				isTesting = false;
+			}
+		}
+
+		public void OnPMCompilerStopped(HelloCompiler.StopStatus status)
+		{
+			if (!isTesting)
+			{
+				return;
+			}
+
+			if (status == HelloCompiler.StopStatus.RuntimeError || status == HelloCompiler.StopStatus.TaskError)
+			{
+				testErrors.Add(new TestError(Main.instance.levelDefinition.id, status.ToString()));
+				TestNextLevel();
+			}
+		}
+
+		private struct TestError
+		{
+			public readonly string errorType;
+			public readonly string levelId;
+
+			public TestError(string caseLevelId, string caseErrorType)
+			{
+				levelId = caseLevelId;
+				errorType = caseErrorType;
+			}
+		}
+	}
 }
-
-

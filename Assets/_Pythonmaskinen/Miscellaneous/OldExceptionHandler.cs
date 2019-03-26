@@ -5,8 +5,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace PM {
-
+namespace PM
+{
 	/*public class OldExceptionHandler : MonoBehaviour {
 		private void OnEnable() {
 			Application.logMessageReceivedThreaded += Application_logMessageReceivedThreaded;
@@ -83,13 +83,13 @@ namespace PM {
 
 	}*/
 
-	public class PMRuntimeException : Exception {
-		private string _rawMessage;
-		public override string Message { get { return _rawMessage; } }
+	public class PMRuntimeException : Exception
+	{
+		public override string Message { get; }
 
-		public PMRuntimeException(string message) {
-			this._rawMessage = message;
+		public PMRuntimeException(string message)
+		{
+			Message = message;
 		}
 	}
-
 }

@@ -13,9 +13,9 @@ using UnityEngine;
 public static class PMWrapper
 {
 	/// <summary>
-	/// Tells which mode the level is currently running. See <see cref="PM.LevelMode"/> for avaliable modes.
+	/// Tells which mode the level is currently running. See <see cref="LevelMode"/> for avaliable modes.
 	/// </summary>
-	public static LevelMode LevelMode => LevelModeController.Instance.LevelMode;
+	public static LevelMode levelMode => LevelModeController.instance.levelMode;
 
 	/// <summary>
 	/// Value from the speed slider. Ranges from 0 to 1, with a default of 0.5.
@@ -37,7 +37,7 @@ public static class PMWrapper
 		set => UISingleton.instance.walker.sleepTime = value;
 	}
 
-	public static Level CurrentLevel => Main.instance.levelDefinition;
+	public static Level currentLevel => Main.instance.levelDefinition;
 
 	/// <summary>
 	/// The pre code, i.e. the un-changeable code BEFORE the main code.
@@ -53,6 +53,7 @@ public static class PMWrapper
 			UISingleton.instance.textField.ColorCodeDaCode();
 		}
 	}
+
 	/// <summary>
 	/// The main code, i.e. the code the user is able to change.
 	/// Colorcoding is automatically applied if <seealso cref="IDETextField"/> is disabled.
@@ -63,6 +64,7 @@ public static class PMWrapper
 		get => UISingleton.instance.textField.theInputField.text;
 		set => UISingleton.instance.textField.InsertMainCode(value);
 	}
+
 	/// <summary>
 	/// The post code, i.e. the un-changeable code AFTER the main code.
 	/// <para>At the moment post code is not available and will throw an <seealso cref="NotImplementedException"/>.</para>
@@ -76,9 +78,9 @@ public static class PMWrapper
 
 	/// <summary>
 	/// All codes combined, i.e. <see cref="preCode"/> + <see cref="mainCode"/> + <see cref="postCode"/> (with linebreaks inbetween).
-	/// <para>This is the property that <seealso cref="PM.CodeWalker"/> uses when sending the code to compile to the <seealso cref="Compiler.SyntaxCheck"/>.</para>
+	/// <para>This is the property that <seealso cref="CodeWalker"/> uses when sending the code to compile to the <seealso cref="Compiler.SyntaxCheck"/>.</para>
 	/// </summary>
-	public static string fullCode => (preCode.Length > 0 ? preCode + '\n' + mainCode : mainCode);
+	public static string fullCode => preCode.Length > 0 ? preCode + '\n' + mainCode : mainCode;
 
 	/// <summary>
 	/// Replacement for <see cref="IDETextField.amountOfRows"/>. Defines how many lines of code the user is allowed to enter.
@@ -94,7 +96,11 @@ public static class PMWrapper
 			{
 				UISingleton.instance.textField.rowLimit = value;
 			}
-			else throw new ArgumentOutOfRangeException("codeRowsLimit", value, "Zero and negative values are not accepted!");
+			else
+			{
+				throw new ArgumentOutOfRangeException("codeRowsLimit", value,
+					"Zero and negative values are not accepted!");
+			}
 		}
 	}
 
@@ -135,24 +141,24 @@ public static class PMWrapper
 	/// <summary>
 	/// Boolean representing wether cases is currently running or not.
 	/// </summary>
-	public static bool IsCasesRunning => Main.instance.caseHandler.IsCasesRunning;
+	public static bool isCasesRunning => Main.instance.caseHandler.isCasesRunning;
 
 	/// <summary>
 	/// Boolean representing wether the compiler is currently executing or not.
 	/// </summary>
-	public static bool IsCompilerRunning => UISingleton.instance.compiler.isRunning;
+	public static bool isCompilerRunning => UISingleton.instance.compiler.isRunning;
 
 	/// <summary>
 	/// Boolean representing wether the walker is currently paused by the user (via pressing the pause button).
 	/// </summary>
-	public static bool IsCompilerUserPaused => UISingleton.instance.walker.isUserPaused;
+	public static bool isCompilerUserPaused => UISingleton.instance.walker.isUserPaused;
 
 	/// <summary>
-	/// Starts the compiler if it's not currently running. Static wrapper for <see cref="HelloCompiler.compileCode"/>
+	/// Starts the compiler if it's not currently running. Static wrapper for <see cref="HelloCompiler.CompileCode"/>
 	/// </summary>
 	public static void StartCompiler()
 	{
-		UISingleton.instance.compiler.compileCode();
+		UISingleton.instance.compiler.CompileCode();
 	}
 
 	/// <summary>
@@ -160,15 +166,15 @@ public static class PMWrapper
 	/// </summary>
 	public static void RunCode()
 	{
-		LevelModeController.Instance.RunProgram();
+		LevelModeController.instance.RunProgram();
 	}
 
 	/// <summary>
-	/// Stops the compiler if it's currently running. Static wrapper for <see cref="HelloCompiler.stopCompiler(HelloCompiler.StopStatus)"/> with the argument <seealso cref="HelloCompiler.StopStatus.CodeForced"/>
+	/// Stops the compiler if it's currently running. Static wrapper for <see cref="HelloCompiler.StopCompiler(HelloCompiler.StopStatus)"/> with the argument <seealso cref="HelloCompiler.StopStatus.CodeForced"/>
 	/// </summary>
 	public static void StopCompiler()
 	{
-		UISingleton.instance.compiler.stopCompiler(HelloCompiler.StopStatus.CodeForced);
+		UISingleton.instance.compiler.StopCompiler(HelloCompiler.StopStatus.CodeForced);
 	}
 
 	/// <summary>
@@ -285,7 +291,7 @@ public static class PMWrapper
 	/// <summary>
 	/// Set the task description for current level. If passed empty string, both placeholders for task description will be deactivated.
 	/// </summary>
-	public static void SetTaskDescription(string header,string body)
+	public static void SetTaskDescription(string header, string body)
 	{
 		UISingleton.instance.taskDescription.SetTaskDescription(header, body);
 	}
@@ -329,7 +335,7 @@ public static class PMWrapper
 	/// <exception cref="ArgumentOutOfRangeException">Thrown if set to value outside of levels list index range, i.e. thrown if <seealso cref="currentLevelIndex"/>.set &lt; 0 or ≥ <seealso cref="numOfLevels"/></exception>
 	public static int currentLevelIndex
 	{
-		get => UISingleton.instance.levelbar.Current;
+		get => UISingleton.instance.levelbar.current;
 		set
 		{
 			if (value < 0 || value >= numOfLevels)
@@ -347,18 +353,26 @@ public static class PMWrapper
 	/// <exception cref="ArgumentOutOfRangeException">In the case of non-positive values in setting <see cref="numOfLevels"/>.</exception>
 	public static int numOfLevels
 	{
-		get => UISingleton.instance.levelbar.NumberOfLevels;
+		get => UISingleton.instance.levelbar.numberOfLevels;
 		set
 		{
-			if (value > 0) UISingleton.instance.levelbar.RecreateButtons(value, Mathf.Clamp(currentLevelIndex, 0, value - 1), unlockedLevel);
-			else throw new ArgumentOutOfRangeException(nameof(numOfLevels), value, "Zero and negative values are not accepted!");
+			if (value > 0)
+			{
+				UISingleton.instance.levelbar.RecreateButtons(value, Mathf.Clamp(currentLevelIndex, 0, value - 1),
+					unlockedLevel);
+			}
+			else
+			{
+				throw new ArgumentOutOfRangeException(nameof(numOfLevels), value,
+					"Zero and negative values are not accepted!");
+			}
 		}
 	}
 
 	/// <summary>
 	/// Returns true if current level has defined Answer and the user is supposed to answer level.
 	/// </summary>
-	public static bool levelShouldBeAnswered 
+	public static bool levelShouldBeAnswered
 		=> UISingleton.instance.compiler.addedFunctions.OfType<Answer>().Any();
 
 	/// <summary>
@@ -367,18 +381,25 @@ public static class PMWrapper
 	/// <exception cref="ArgumentOutOfRangeException">In the case of invalid values in setting <see cref="unlockedLevel"/></exception>
 	public static int unlockedLevel
 	{
-		get => UISingleton.instance.levelbar.Unlocked;
+		get => UISingleton.instance.levelbar.unlocked;
 		set
 		{
-			if (value >= 0 && value < numOfLevels) UISingleton.instance.levelbar.UpdateButtons(currentLevelIndex, value);
-			else throw new ArgumentOutOfRangeException(nameof(unlockedLevel), value, "Level value is out of range of existing levels.");
+			if (value >= 0 && value < numOfLevels)
+			{
+				UISingleton.instance.levelbar.UpdateButtons(currentLevelIndex, value);
+			}
+			else
+			{
+				throw new ArgumentOutOfRangeException(nameof(unlockedLevel), value,
+					"Level value is out of range of existing levels.");
+			}
 		}
 	}
 
 	/// <summary>
 	/// Returns the index of the current case. Index starts from 0.
 	/// </summary>
-	public static int currentCase => Main.instance.caseHandler.CurrentCase;
+	public static int currentCase => Main.instance.caseHandler.currentCase;
 
 	/// <summary>
 	/// Stops the compiler, shows the "Level complete!" popup, marks the current level as complete and unlocks the next level.
@@ -428,40 +449,45 @@ public static class PMWrapper
 	/// <exception cref="PMRuntimeException">Is always thrown</exception>
 	public static void RaiseError(string message)
 	{
-		UISingleton.instance.textField.theLineMarker.setErrorMarker(currentLineNumber, message);
+		UISingleton.instance.textField.theLineMarker.SetErrorMarker(currentLineNumber, message);
 	}
+
 	/// <summary>
 	/// Stops the compiler and shows a dialog box containing the error message on the target <paramref name="newLineNumber"/>.
 	/// </summary>
 	/// <exception cref="PMRuntimeException">Is always thrown</exception>
 	public static void RaiseError(int newLineNumber, string message)
 	{
-		UISingleton.instance.textField.theLineMarker.setErrorMarker(newLineNumber, message);
+		UISingleton.instance.textField.theLineMarker.SetErrorMarker(newLineNumber, message);
 	}
+
 	/// <summary>
 	/// Stops the compiler and shows a dialog box containing the error message on the target <see cref="UnityEngine.UI.Selectable"/>.
 	/// </summary>
 	/// <exception cref="PMRuntimeException">Is always thrown</exception>
 	public static void RaiseError(UnityEngine.UI.Selectable targetSelectable, string message)
 	{
-		UISingleton.instance.textField.theLineMarker.setErrorMarker(targetSelectable, message);
+		UISingleton.instance.textField.theLineMarker.SetErrorMarker(targetSelectable, message);
 	}
+
 	/// <summary>
 	/// Stops the compiler and shows a dialog box containing the error message on the target <see cref="RectTransform"/>.
 	/// </summary>
 	/// <exception cref="PMRuntimeException">Is always thrown</exception>
 	public static void RaiseError(RectTransform targetRectTransform, string message)
 	{
-		UISingleton.instance.textField.theLineMarker.setErrorMarker(targetRectTransform, message);
+		UISingleton.instance.textField.theLineMarker.SetErrorMarker(targetRectTransform, message);
 	}
+
 	/// <summary>
 	/// Stops the compiler and shows a dialog box containing the error message on the target canvas position.
 	/// </summary>
 	/// <exception cref="PMRuntimeException">Is always thrown</exception>
 	public static void RaiseError(Vector2 targetCanvasPosition, string message)
 	{
-		UISingleton.instance.textField.theLineMarker.setErrorMarker(targetCanvasPosition, message);
+		UISingleton.instance.textField.theLineMarker.SetErrorMarker(targetCanvasPosition, message);
 	}
+
 	/// <summary>
 	/// Stops the compiler and shows a dialog box containing the error message on the target world position.
 	/// <para>NOTE: The game camera must be marked with the "Main Camera" tag for this to work.</para>
@@ -469,9 +495,8 @@ public static class PMWrapper
 	/// <exception cref="PMRuntimeException">Is always thrown</exception>
 	public static void RaiseError(Vector3 targetWorldPosition, string message)
 	{
-		UISingleton.instance.textField.theLineMarker.setErrorMarker(targetWorldPosition, message);
+		UISingleton.instance.textField.theLineMarker.SetErrorMarker(targetWorldPosition, message);
 	}
-
 
 	/// <summary>
 	/// Stops compiler and shows feedback dialog from robot.
@@ -481,7 +506,7 @@ public static class PMWrapper
 		Debug.LogWarningFormat("RaiseTaskError: {0}", message);
 		UISingleton.instance.taskDescription.ShowTaskError(message);
 		Main.instance.caseHandler.CaseFailed();
-		UISingleton.instance.compiler.stopCompiler(HelloCompiler.StopStatus.TaskError);
+		UISingleton.instance.compiler.StopCompiler(HelloCompiler.StopStatus.TaskError);
 	}
 
 	/// <summary>
@@ -491,7 +516,10 @@ public static class PMWrapper
 	public static void DontDestroyIDEOnLoad()
 	{
 		if (UISingleton.instance.ideRoot.parent != null)
+		{
 			UISingleton.instance.ideRoot.parent = null;
+		}
+
 		UnityEngine.Object.DontDestroyOnLoad(UISingleton.instance.ideRoot);
 	}
 
@@ -500,7 +528,9 @@ public static class PMWrapper
 	/// <summary>
 	/// Sets the compiler functions avalible for the user.
 	/// </summary>
-	[Obsolete("New compiler. Use SetCompilerFunctions(List<IEmbeddedValue>) with IClrFunction or IClrYieldingFunction instead.", error: true)]
+	[Obsolete(
+		"New compiler. Use SetCompilerFunctions(List<IEmbeddedValue>) with IClrFunction or IClrYieldingFunction instead.",
+		error: true)]
 	public static void SetCompilerFunctions<T>(List<T> functions)
 	{
 	}
@@ -508,7 +538,9 @@ public static class PMWrapper
 	/// <summary>
 	/// Adds a list of functions to the already existing list of compiler functions.
 	/// </summary>
-	[Obsolete("New compiler. Use AddCompilerFunctions(List<IEmbeddedValue>) with IClrFunction or IClrYieldingFunction instead.", error: true)]
+	[Obsolete(
+		"New compiler. Use AddCompilerFunctions(List<IEmbeddedValue>) with IClrFunction or IClrYieldingFunction instead.",
+		error: true)]
 	public static void AddCompilerFunctions<T>(List<T> functions)
 	{
 	}
@@ -516,7 +548,9 @@ public static class PMWrapper
 	/// <summary>
 	/// Adds all parameters of type <see cref="Compiler.Function"/> to the already existing list of compiler functions.
 	/// </summary>
-	[Obsolete("New compiler. Use AddCompilerFunctions(params IEmbeddedValue[]) with IClrFunction or IClrYieldingFunction instead.", error: true)]
+	[Obsolete(
+		"New compiler. Use AddCompilerFunctions(params IEmbeddedValue[]) with IClrFunction or IClrYieldingFunction instead.",
+		error: true)]
 	public static void AddCompilerFunctions<T>(params T[] functions)
 	{
 	}

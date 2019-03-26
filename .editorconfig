@@ -155,7 +155,100 @@ csharp_prefer_explicit_discard_declaration = true
 csharp_default_private_modifier = implicit
 csharp_default_internal_modifier = explicit
 
-# This config does not touch naming conventions. That is a TODO.
+## --- Naming conventions ---
+
+# Kinds of symbols: namespace,class,struct,interface,enum,property,method,field,event,delegate,parameter,type_parameter,local,local_function
+# Accessability of symbols: public,internal,private,protected,protected_internal,private_protected,local
+# Modifiers of symbols (optional): abstract,async,const,readonly,static
+
+# capitalization styles:
+#  pascal_case = FooBar, Foo_Bar
+#  camel_case = fooBar, foo_Bar
+#  first_word_upper = Foobar, FooBar, Foo_bar
+#  all_upper = FOOBAR, FOO_BAR
+#  all_lower = foobar, foo_bar
+
+# Rule severity: silent | suggestion | warning | error
+
+# Common styles
+dotnet_naming_style.capitalized_style.capitalization = pascal_case
+dotnet_naming_style.camel_style.capitalization = camel_case
+dotnet_naming_style.snake_style.capitalization = all_lower
+dotnet_naming_style.snake_style.word_separator = _
+dotnet_naming_style.upper_style.capitalization = all_upper
+dotnet_naming_style.upper_style.word_separator = _
+
+# Most symbols : capitalize
+dotnet_naming_rule.static_symbols_must_be_capitalized.style = captialized_style
+dotnet_naming_rule.static_symbols_must_be_capitalized.symbols = capitalized_symbols
+dotnet_naming_rule.static_symbols_must_be_capitalized.severity = warning
+
+dotnet_naming_symbols.capitalized_symbols.applicable_kinds = namespace,class,struct,interface,enum,method,event,delegate,type_parameter,local_function
+dotnet_naming_symbols.capitalized_symbols.applicable_accessibilities = *
+
+# Internal property, fields, local variables, parameters : camel case with prefix
+dotnet_naming_symbols.internal_instance_symbols.applicable_kinds = property,field
+dotnet_naming_symbols.internal_instance_symbols.applicable_accessibilities = protected_internal,internal,private_protected
+
+dotnet_naming_style.internal_style.capitalization = camel_case
+dotnet_naming_style.internal_style.required_prefix = _
+
+dotnet_naming_rule.internal_symbols_must_be_camel_with_prefix.style = internal_style
+dotnet_naming_rule.internal_symbols_must_be_camel_with_prefix.symbols = internal_instance_symbols
+dotnet_naming_rule.internal_symbols_must_be_camel_with_prefix.severity = warning
+
+# Constants : UPPER_CASE
+dotnet_naming_symbols.constant_symbols.applicable_kinds = property,field,local
+dotnet_naming_symbols.constant_symbols.applicable_accessibilities = *
+dotnet_naming_symbols.constant_symbols.required_modifiers = const
+
+dotnet_naming_rule.constants_must_be_uppercase.style = upper_style
+dotnet_naming_rule.constants_must_be_uppercase.symbols = constant_symbols
+dotnet_naming_rule.constants_must_be_uppercase.severity = warning
+
+# private/internal/protected static readonly : UPPER_CASE
+dotnet_naming_symbols.static_readonly_symbols.applicable_kinds = property,field
+dotnet_naming_symbols.static_readonly_symbols.applicable_accessibilities = private,protected,protected_internal,private_protected,internal
+dotnet_naming_symbols.static_readonly_symbols.required_modifiers = static,readonly
+
+dotnet_naming_rule.private_static_readonly_must_be_uppercase.style = upper_style
+dotnet_naming_rule.private_static_readonly_must_be_uppercase.symbols = static_readonly_symbols
+dotnet_naming_rule.private_static_readonly_must_be_uppercase.severity = warning
+
+# Property, fields, local variables, parameters : camel case
+dotnet_naming_symbols.instance_symbols.applicable_kinds = property,field,local,parameter
+dotnet_naming_symbols.instance_symbols.applicable_accessibilities = public,private,protected,local
+
+dotnet_naming_rule.instance_symbols_must_be_camel_cased.style = camel_style
+dotnet_naming_rule.instance_symbols_must_be_camel_cased.symbols = instance_symbols
+dotnet_naming_rule.instance_symbols_must_be_camel_cased.severity = warning
+
+# === Wrapper events ===
+
+[**/WrapperEvents.cs]
+
+## --- Naming conventions ---
+
+# "IPM" prefix on PM event interfaces
+dotnet_naming_rule.pm_interfaces_must_start_with_ipm.style = pm_interface_naming_style
+dotnet_naming_rule.pm_interfaces_must_start_with_ipm.symbols = pm_interface_naming_symbols
+dotnet_naming_rule.pm_interfaces_must_start_with_ipm.severity = error
+
+dotnet_naming_style.pm_interface_naming_style.capitalization = pascal_case
+dotnet_naming_style.pm_interface_naming_style.required_prefix = IPM
+
+dotnet_naming_symbols.pm_interface_naming_symbols.applicable_kinds = interface
+dotnet_naming_symbols.pm_interface_naming_symbols.applicable_accessibilities = public,internal
+
+# "OnPM" prefix on PM event methods
+dotnet_naming_rule.pm_event_must_start_with_on.style = pm_event_naming_style
+dotnet_naming_rule.pm_event_must_start_with_on.symbols = pm_event_naming_symbols
+dotnet_naming_rule.pm_event_must_start_with_on.severity = error
+
+dotnet_naming_style.pm_event_naming_style.capitalization = pascal_case
+dotnet_naming_style.pm_event_naming_style.required_prefix = OnPM
+
+dotnet_naming_symbols.pm_event_naming_symbols.applicable_kinds = method
 
 # === Test projects ===
 

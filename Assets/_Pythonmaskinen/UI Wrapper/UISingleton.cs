@@ -9,10 +9,11 @@ namespace PM
 	{
 		public static UISingleton instance;
 
-		public Transform ideRoot { get { return transform.parent; } }
+		public Transform ideRoot => transform.parent;
 
 		[Header("PM")]
 		public HelloCompiler compiler;
+
 		public IDETextField textField;
 		public CodeWalker walker;
 		public GlobalSpeed speed;
@@ -20,6 +21,7 @@ namespace PM
 
 		[Header("UI")]
 		public IDERowsLimit rowsLimit;
+
 		public RectTransform gameCameraRect;
 		public SmartButtonController smartButtons;
 		public WinScreen winScreen;
@@ -32,10 +34,12 @@ namespace PM
 
 		[Header("Bubbles")]
 		public IDEGuideBubble guideBubble;
+
 		public AnswerBubble answerBubble;
 
 		[Header("Misc")]
 		public Camera uiCamera;
+
 		public Camera popupCamera;
 
 		[HideInInspector]
@@ -59,11 +63,10 @@ namespace PM
 		/// </summary>
 		public static T[] FindInterfaces<T>() where T : class
 		{
-			var list = new List<UnityEngine.Object>(FindObjectsOfType<UnityEngine.Object>()).ConvertAll(o => o as T);
+			List<T> list =
+				new List<UnityEngine.Object>(FindObjectsOfType<UnityEngine.Object>()).ConvertAll(o => o as T);
 			list.RemoveAll(o => o == null);
 			return list.ToArray();
 		}
-
 	}
-
 }

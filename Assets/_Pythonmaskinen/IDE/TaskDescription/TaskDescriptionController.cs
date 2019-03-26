@@ -44,8 +44,8 @@ namespace PM
 		public Text negativeText;
 
 		Animator anim;
-		static readonly int Shake = Animator.StringToHash("Shake");
-		static readonly int Jump = Animator.StringToHash("Jump");
+		static readonly int SHAKE = Animator.StringToHash("Shake");
+		static readonly int JUMP = Animator.StringToHash("Jump");
 
 		void Awake()
 		{
@@ -71,9 +71,13 @@ namespace PM
 			smallTaskDescription.SetActive(true);
 			smallTaskDescriptionText.text = header;
 			if (string.IsNullOrEmpty(body))
+			{
 				readMoreButton.SetActive(false);
+			}
 			else
+			{
 				readMoreButton.SetActive(true);
+			}
 		}
 
 		private void SetBigTaskDescription(string header, string body)
@@ -81,12 +85,12 @@ namespace PM
 			bigTaskDescriptionHead.text = header;
 			bigTaskDescriptionBody.text = body;
 
-			var levelData = Progress.Instance.LevelData[PMWrapper.CurrentLevel.id];
+			LevelData levelData = Progress.instance.levelData[PMWrapper.currentLevel.id];
 
-			if (!levelData.HasShownDescription && !levelData.IsCompleted)
+			if (!levelData.hasShownDescription && !levelData.isCompleted)
 			{
 				bigTaskDescription.SetActive(true);
-				levelData.HasShownDescription = true;
+				levelData.hasShownDescription = true;
 			}
 		}
 
@@ -95,7 +99,7 @@ namespace PM
 			negativeParent.SetActive(true);
 			negativeText.text = message;
 
-			anim.SetTrigger(Shake);
+			anim.SetTrigger(SHAKE);
 		}
 
 		public void HideTaskFeedback()
@@ -109,7 +113,7 @@ namespace PM
 			positiveParent.SetActive(true);
 			positiveText.text = message;
 
-			anim.SetTrigger(Jump);
+			anim.SetTrigger(JUMP);
 		}
 
 		public void OnPMLevelChanged()

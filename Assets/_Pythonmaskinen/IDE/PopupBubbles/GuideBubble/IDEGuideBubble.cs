@@ -6,14 +6,12 @@ using PM.Guide;
 
 namespace PM
 {
-
 	public class IDEGuideBubble : AbstractPopupBubble, IPMLevelChanged
 	{
-
 		[Header("GuideBubble fields")]
 		public Text theGuideText;
-		public Text progressText;
 
+		public Text progressText;
 
 		public void SetGuideMessage(string guideMessage, int guideIndex, int guidesCount)
 		{
@@ -25,7 +23,7 @@ namespace PM
 
 		void IPMLevelChanged.OnPMLevelChanged()
 		{
-			HideMessageInstantly ();
+			HideMessageInstantly();
 		}
 
 		protected override void OnShowMessage()
@@ -35,10 +33,14 @@ namespace PM
 		protected override void OnHideMessage()
 		{
 			if (UISingleton.instance.guidePlayer.currentGuide == null)
+			{
 				return;
+			}
 
 			if (UISingleton.instance.guidePlayer.currentGuide.hasNext)
+			{
 				UISingleton.instance.guidePlayer.shouldPlayNext = true;
+			}
 		}
 	}
 }

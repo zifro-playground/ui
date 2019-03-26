@@ -1,22 +1,26 @@
 ﻿using System;
 using UnityEngine;
-
+using UnityEngine.Serialization;
 
 namespace PM
 {
 	public class LevelModeController : MonoBehaviour, IPMCompilerStopped, IPMCaseSwitched, IPMCompilerStarted
 	{
-		public GameObject CorrectProgramPanel;
+		[FormerlySerializedAs("CorrectProgramPanel")]
+		public GameObject correctProgramPanel;
 
 		[HideInInspector]
-		public LevelMode LevelMode;
+		[FormerlySerializedAs("LevelMode")]
+		public LevelMode levelMode;
 
-		public static LevelModeController Instance;
+		public static LevelModeController instance;
 
 		private void Awake()
 		{
-			if (Instance == null)
-				Instance = this;
+			if (instance == null)
+			{
+				instance = this;
+			}
 		}
 
 		public void RunProgram()
@@ -34,32 +38,34 @@ namespace PM
 
 		public void InitSandboxMode()
 		{
-			LevelMode = LevelMode.Sandbox;
-			LevelModeButtons.Instance.SetSandboxButtonState(LevelModeButtonState.Active);
-			LevelModeButtons.Instance.SetCaseButtonsToDefault();
+			levelMode = LevelMode.Sandbox;
+			LevelModeButtons.instance.SetSandboxButtonState(LevelModeButtonState.Active);
+			LevelModeButtons.instance.SetCaseButtonsToDefault();
 
 			Main.instance.SetSettings();
 
-			foreach (var ev in UISingleton.FindInterfaces<IPMSwitchedToSandbox>())
+			foreach (IPMSwitchedToSandbox ev in UISingleton.FindInterfaces<IPMSwitchedToSandbox>())
+			{
 				ev.OnPMSwitchedToSandbox();
+			}
 		}
 
 		public void InitCaseMode()
 		{
-			LevelMode = LevelMode.Case;
-			LevelModeButtons.Instance.SetSandboxButtonToDefault();
+			levelMode = LevelMode.Case;
+			LevelModeButtons.instance.SetSandboxButtonToDefault();
 			Main.instance.caseHandler.SetCurrentCase(0);
 		}
 
 		public void SwitchToCaseMode()
 		{
-			LevelMode = LevelMode.Case;
+			levelMode = LevelMode.Case;
 			Main.instance.SetSettings();
 		}
 
 		public void StartCorrection()
 		{
-			CorrectProgramPanel.SetActive(false);
+			correctProgramPanel.SetActive(false);
 			InitCaseMode();
 			Main.instance.caseHandler.RunCase(0);
 		}
@@ -68,36 +74,49 @@ namespace PM
 		{
 			if (status == HelloCompiler.StopStatus.Finished)
 			{
-				if (LevelMode == LevelMode.Sandbox && Main.instance.levelDefinition.cases != null && Main.instance.levelDefinition.cases.Count > 0)
-					CorrectProgramPanel.SetActive(true);
-				else if (LevelMode == LevelMode.Case)
-					foreach (var ev in UISingleton.FindInterfaces<IPMTimeToCorrectCase>())
+				if (levelMode == LevelMode.Sandbox && Main.instance.levelDefinition.cases != null &&
+				    Main.instance.levelDefinition.cases.Count > 0)
+				{
+					correctProgramPanel.SetActive(true);
+				}
+				else if (levelMode == LevelMode.Case)
+				{
+					foreach (IPMTimeToCorrectCase ev in UISingleton.FindInterfaces<IPMTimeToCorrectCase>())
+					{
 						ev.OnPMTimeToCorrectCase();
+					}
+				}
 				else
+				{
 					PMWrapper.SetLevelCompleted();
+				}
 			}
 
 			if (status == HelloCompiler.StopStatus.RuntimeError)
 			{
-				if (LevelMode == LevelMode.Case)
+				if (levelMode == LevelMode.Case)
+				{
 					Main.instance.caseHandler.CaseFailed();
+				}
 			}
 
 			if (status == HelloCompiler.StopStatus.UserForced)
 			{
-				if (LevelMode == LevelMode.Case)
-					Main.instance.caseHandler.IsCasesRunning = false;
+				if (levelMode == LevelMode.Case)
+				{
+					Main.instance.caseHandler.isCasesRunning = false;
+				}
 			}
 		}
 
 		public void OnPMCaseSwitched(int caseNumber)
 		{
-			CorrectProgramPanel.SetActive(false);
+			correctProgramPanel.SetActive(false);
 		}
 
 		public void OnPMCompilerStarted()
 		{
-			CorrectProgramPanel.SetActive(false);
+			correctProgramPanel.SetActive(false);
 		}
 	}
 

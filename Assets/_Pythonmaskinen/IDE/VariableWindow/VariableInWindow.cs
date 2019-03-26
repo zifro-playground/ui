@@ -15,7 +15,7 @@ public class VariableInWindow : MonoBehaviour
 
 	#endregion
 
-	public void initVariable(string varName, Color nameColor, string value, Color valueColor)
+	public void InitVariable(string varName, Color nameColor, string value, Color valueColor)
 	{
 		nameText.text = varName;
 		nameText.color = nameColor;
@@ -24,12 +24,12 @@ public class VariableInWindow : MonoBehaviour
 		valueText.color = valueColor;
 	}
 
-	public void remove()
+	public void Remove()
 	{
 		Destroy(gameObject);
 	}
 
-	public void setWidth(float width)
+	public void SetWidth(float width)
 	{
 		RectTransform rect = GetComponent<RectTransform>();
 
@@ -38,5 +38,4 @@ public class VariableInWindow : MonoBehaviour
 
 		rect.sizeDelta = sizeDelta;
 	}
-
 }

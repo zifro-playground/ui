@@ -9,34 +9,39 @@ namespace PM
 {
 	public class ApiHandler : MonoBehaviour
 	{
-		public static ApiHandler Instance;
+		public static ApiHandler instance;
 
-		private Queue<Request> requestQueue = new Queue<Request>();
+		private readonly Queue<Request> requestQueue = new Queue<Request>();
 
 		private void Awake()
 		{
-			if (Instance == null)
-				Instance = this;
+			if (instance == null)
+			{
+				instance = this;
+			}
 		}
 
 		public void AddRequestToQueue(Request request)
 		{
 			requestQueue.Enqueue(request);
 			if (requestQueue.Count == 1)
+			{
 				StartCoroutine(SendRequest(request));
+			}
 		}
-		
+
 		private IEnumerator SendRequest(Request request)
 		{
-			var url = GetBaseUrl() + request.Endpoint;
+			string url = GetBaseUrl() + request.endpoint;
 
-			using (var unityWebRequest = new UnityWebRequest(url, request.Method.ToString()))
+			using (var unityWebRequest = new UnityWebRequest(url, request.method.ToString()))
 			{
-				if (request.Method == HttpMethod.POST)
+				if (request.method == HttpMethod.POST)
 				{
-					byte[] rawBody = Encoding.UTF8.GetBytes(request.JsonString);
+					byte[] rawBody = Encoding.UTF8.GetBytes(request.jsonString);
 					unityWebRequest.uploadHandler = new UploadHandlerRaw(rawBody);
 				}
+
 				unityWebRequest.downloadHandler = new DownloadHandlerBuffer();
 				unityWebRequest.SetRequestHeader("Content-Type", "application/json");
 
@@ -46,21 +51,25 @@ namespace PM
 				{
 					Debug.Log(unityWebRequest.error);
 					Debug.Log(unityWebRequest.downloadHandler.text);
-					if (request.ErrorResponsCallback != null)
-						request.ErrorResponsCallback.Invoke(unityWebRequest.downloadHandler.text);
+					if (request.errorResponsCallback != null)
+					{
+						request.errorResponsCallback.Invoke(unityWebRequest.downloadHandler.text);
+					}
 				}
 				else
 				{
 					Debug.Log(unityWebRequest.downloadHandler.text);
-					if (request.OkResponsCallback != null)
-						request.OkResponsCallback.Invoke(unityWebRequest.downloadHandler.text);
+					if (request.okResponsCallback != null)
+					{
+						request.okResponsCallback.Invoke(unityWebRequest.downloadHandler.text);
+					}
 				}
 
 				requestQueue.Dequeue();
 
 				if (requestQueue.Count > 0)
 				{
-					var nextRequest = requestQueue.Peek();
+					Request nextRequest = requestQueue.Peek();
 					StartCoroutine(SendRequest(nextRequest));
 				}
 			}
@@ -81,11 +90,11 @@ namespace PM
 
 	public struct Request
 	{
-		public HttpMethod Method;
-		public string Endpoint;
-		public string JsonString;
-		public Action<string> OkResponsCallback;
-		public Action<string> ErrorResponsCallback;
+		public HttpMethod method;
+		public string endpoint;
+		public string jsonString;
+		public Action<string> okResponsCallback;
+		public Action<string> errorResponsCallback;
 	}
 
 	public enum HttpMethod

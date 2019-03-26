@@ -2,18 +2,20 @@
 using System.Globalization;
 using UnityEngine;
 
-public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched, IPMWrongAnswer, IPMCorrectAnswer, IPMTimeToCorrectCase
+public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched, IPMWrongAnswer, IPMCorrectAnswer,
+	IPMTimeToCorrectCase
 {
 	void Start()
 	{
 		PMWrapper.SetCaseAnswer(1);
 	}
-	
+
 	void Update()
 	{
-		
 		if (Input.GetKeyDown(KeyCode.U))
+		{
 			PMWrapper.RaiseTaskError("Nu glömde du att göra något...");
+		}
 	}
 
 	public void OnPMLevelChanged()

@@ -5,7 +5,6 @@ using Mellis.Core.Interfaces;
 using PM;
 using UnityEngine;
 
-
 public class Answer : ClrYieldingFunction
 {
 	public Answer()

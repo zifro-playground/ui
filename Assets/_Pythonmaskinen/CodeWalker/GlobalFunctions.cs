@@ -14,7 +14,7 @@ namespace PM.GlobalFunctions
 
 		public override IScriptType Invoke(params IScriptType[] arguments)
 		{
-			var v = arguments[0];
+			IScriptType v = arguments[0];
 
 			if (v.TryConvert(out string s))
 			{
@@ -34,7 +34,7 @@ namespace PM.GlobalFunctions
 
 		public override IScriptType Invoke(params IScriptType[] arguments)
 		{
-			var v = arguments[0];
+			IScriptType v = arguments[0];
 
 			if (v.TryConvert(out int i))
 			{
@@ -64,7 +64,7 @@ namespace PM.GlobalFunctions
 
 		public override IScriptType Invoke(params IScriptType[] arguments)
 		{
-			var v = arguments[0];
+			IScriptType v = arguments[0];
 
 			if (v.TryConvert(out int i))
 			{
@@ -94,7 +94,7 @@ namespace PM.GlobalFunctions
 
 		public override IScriptType Invoke(params IScriptType[] arguments)
 		{
-			var v = arguments[0];
+			IScriptType v = arguments[0];
 
 			if (v.TryConvert(out int i))
 			{
@@ -127,7 +127,7 @@ namespace PM.GlobalFunctions
 
 		public override IScriptType Invoke(params IScriptType[] arguments)
 		{
-			var v = arguments[0];
+			IScriptType v = arguments[0];
 
 			if (v.TryConvert(out int i))
 			{
@@ -160,7 +160,7 @@ namespace PM.GlobalFunctions
 
 		public override IScriptType Invoke(params IScriptType[] arguments)
 		{
-			var v = arguments[0];
+			IScriptType v = arguments[0];
 
 			if (v.TryConvert(out int i))
 			{
@@ -174,11 +174,11 @@ namespace PM.GlobalFunctions
 
 			if (v.TryConvert(out bool b))
 			{
-				return b 
+				return b
 					? Processor.Factory.Create("0o1")
 					: Processor.Factory.Create("0o0");
 			}
-			
+
 			PMWrapper.RaiseError($"Kan inte konvertera typen '{v.GetTypeName()}' till octaler!");
 			return Processor.Factory.Null;
 		}
@@ -350,7 +350,7 @@ namespace PM.GlobalFunctions
 
 	public class GetTime : ClrFunction
 	{
-		private static readonly DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+		private static readonly DateTime EPOCH = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
 		public GetTime()
 			: base("time")
@@ -359,7 +359,7 @@ namespace PM.GlobalFunctions
 
 		public override IScriptType Invoke(params IScriptType[] arguments)
 		{
-			return Processor.Factory.Create((int)(DateTime.UtcNow - epoch).TotalSeconds);
+			return Processor.Factory.Create((int)(DateTime.UtcNow - EPOCH).TotalSeconds);
 		}
 	}
 }

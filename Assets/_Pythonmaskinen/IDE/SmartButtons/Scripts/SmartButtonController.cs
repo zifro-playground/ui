@@ -4,12 +4,13 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace PM {
+namespace PM
+{
 	[RequireComponent(typeof(RectTransform))]
-	public class SmartButtonController : MonoBehaviour {
-
+	public class SmartButtonController : MonoBehaviour
+	{
 		public SmartButton buttonPrefab;
-		public RectTransform container { get { return transform as RectTransform; } }
+		public RectTransform container => transform as RectTransform;
 		public Image background;
 		public ScrollRect scrollRect;
 
@@ -18,18 +19,21 @@ namespace PM {
 		public float padding = 10;
 		public float margin = 10;
 
-		private void Awake() {
+		private void Awake()
+		{
 			offset = Vector2.down * margin;
 		}
 
-		private void CompileButtonText(string input, out string rawButtonText, out string rawCallbackCode) {
+		private void CompileButtonText(string input, out string rawButtonText, out string rawCallbackCode)
+		{
 			rawButtonText = rawCallbackCode = null;
 
 			// Seperate string
 			// Man I'm bad at Regex. Looks messy but works /kalle
 			Match match = Regex.Match(input.Trim(), @"^(?:(\w*)\s)?(?:(\w+)(\((.+)?\))?)$");
 
-			if (!match.Success) {
+			if (!match.Success)
+			{
 				rawButtonText = rawCallbackCode = input;
 				return;
 			}
@@ -47,12 +51,19 @@ namespace PM {
 			rawButtonText = "";
 
 			if (type != null)
+			{
 				rawButtonText += "<color=#de5170>" + type + "</color> ";
+			}
+
 			rawButtonText += "<b>" + name + "</b>";
-			if (paranteses) {
+			if (paranteses)
+			{
 				rawButtonText += "(";
 				if (argType != null)
+				{
 					rawButtonText += "<color=#de5170>" + argType + "</color>";
+				}
+
 				rawButtonText += ")";
 			}
 
@@ -61,27 +72,31 @@ namespace PM {
 
 			rawCallbackCode += name;
 			if (paranteses)
+			{
 				rawCallbackCode += "()";
+			}
 		}
 
-		public void AddSmartButton(string textToBeCompiled) {
+		public void AddSmartButton(string textToBeCompiled)
+		{
 			// Using the Rich Text property
-			string rawButtonText, rawCallbackCode;
-			CompileButtonText(textToBeCompiled, out rawButtonText, out rawCallbackCode);
+			CompileButtonText(textToBeCompiled, out string rawButtonText, out string rawCallbackCode);
 			AddSmartButton(rawButtonText, rawCallbackCode);
 		}
 
-		public void AddSmartButton(string rawButtonText, string rawCallbackCode) {
+		public void AddSmartButton(string rawButtonText, string rawCallbackCode)
+		{
 			// Setting the prefabs text
 			// because setting the clones doesnt update the preferredWidth instantly
 			buttonPrefab.text.text = rawButtonText;
 
-			var clone = Instantiate(buttonPrefab);
+			SmartButton clone = Instantiate(buttonPrefab);
 			clone.transform.SetParent(container, false);
 
 			clone.name = "[" + rawCallbackCode + "]";
 
-			clone.button.onClick.AddListener(() => {
+			clone.button.onClick.AddListener(() =>
+			{
 				// All variables used in here will be excluded from the GC
 				// They're kept in memory as long as the callback exists, which is as long as the button exists.
 				PMWrapper.AddCode(rawCallbackCode, true);
@@ -92,8 +107,10 @@ namespace PM {
 
 			// Check if fits
 			if (offset.x + width > container.rect.width)
+			{
 				// Move to next line
 				offset = new Vector2(0, offset.y - height - margin);
+			}
 
 			// min.x = west
 			// min.y = south
@@ -109,17 +126,18 @@ namespace PM {
 			background.enabled = container.sizeDelta.y > background.rectTransform.sizeDelta.y;
 
 			buttons.Add(clone);
-			UISingleton.instance.manusSelectables.Add(new UISingleton.ManusSelectable { selectable = clone.button, names = new List<string> { "sb-" + rawCallbackCode } });
+			UISingleton.instance.manusSelectables.Add(new UISingleton.ManusSelectable
+				{selectable = clone.button, names = new List<string> {"sb-" + rawCallbackCode}});
 		}
 
-		public void ClearSmartButtons() {
-			UISingleton.instance.manusSelectables.RemoveAll(s => s.selectable is Button && buttons.FindIndex(b=>b.button == s.selectable as Button) != -1);
+		public void ClearSmartButtons()
+		{
+			UISingleton.instance.manusSelectables.RemoveAll(s =>
+				s.selectable is Button && buttons.FindIndex(b => b.button == s.selectable as Button) != -1);
 			buttons.ForEach(b => Destroy(b.gameObject));
 			buttons.Clear();
 			scrollRect.verticalNormalizedPosition = 1;
 			offset = Vector2.down * margin;
 		}
-
 	}
-
 }

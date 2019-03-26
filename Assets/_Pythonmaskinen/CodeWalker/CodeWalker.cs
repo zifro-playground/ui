@@ -31,7 +31,7 @@ namespace PM
 		int lastLineNumber;
 
 		public int currentLineNumber => compiledCode?.CurrentSource.IsFromClr == false
-			? (lastLineNumber = compiledCode.CurrentSource.FromRow)
+			? lastLineNumber = compiledCode.CurrentSource.FromRow
 			: lastLineNumber;
 
 		Action<HelloCompiler.StopStatus> stopCompiler;
@@ -56,7 +56,7 @@ namespace PM
 
 			lastLineNumber = 0;
 
-			theVarWindow.resetList();
+			theVarWindow.ResetList();
 
 			compiledCode = new PyCompiler().Compile(PMWrapper.fullCode);
 
@@ -187,19 +187,26 @@ namespace PM
 		// Called by the RunCodeButton script
 		public void SetWalkerUserPaused(bool paused)
 		{
-			if (paused == isUserPaused) return;
+			if (paused == isUserPaused)
+			{
+				return;
+			}
 
 			isUserPaused = paused;
 
 			if (isUserPaused)
 			{
-				foreach (var ev in UISingleton.FindInterfaces<IPMCompilerUserPaused>())
+				foreach (IPMCompilerUserPaused ev in UISingleton.FindInterfaces<IPMCompilerUserPaused>())
+				{
 					ev.OnPMCompilerUserPaused();
+				}
 			}
 			else
 			{
-				foreach (var ev in UISingleton.FindInterfaces<IPMCompilerUserUnpaused>())
+				foreach (IPMCompilerUserUnpaused ev in UISingleton.FindInterfaces<IPMCompilerUserUnpaused>())
+				{
 					ev.OnPMCompilerUserUnpaused();
+				}
 			}
 		}
 

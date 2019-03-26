@@ -7,16 +7,24 @@ namespace PM
 {
 	public class IDETextManipulation
 	{
-		public static char MyValidate(char c, int charIndex, bool isPasting, List<IndentLevel> toAddLevels, string currentText, IDETextField theTextField)
+		public static char MyValidate(
+			char c,
+			int charIndex,
+			bool isPasting,
+			List<IndentLevel> toAddLevels,
+			string currentText,
+			IDETextField theTextField)
 		{
 			if (isPasting)
+			{
 				return c;
+			}
 
 			if (c == '\n')
 			{
 				toAddLevels.Clear();
-				toAddLevels.Add(new IndentLevel(charIndex, IDEPARSER.getIndentLevel(charIndex, currentText)));
-				theTextField.setNewCaretPos(toAddLevels[0].getNewCaretPos());
+				toAddLevels.Add(new IndentLevel(charIndex, IDEParser.GetIndentLevel(charIndex, currentText)));
+				theTextField.SetNewCaretPos(toAddLevels[0].GetNewCaretPos());
 
 				return '\n';
 			}
@@ -24,29 +32,37 @@ namespace PM
 			return c;
 		}
 
-        public static int countCodeLines(List<string> textLines){
-            int count = 0; 
-            var regex = new Regex(@"^#|^\s*$|^\s*#");
-            foreach (string line in textLines){
-                line.Trim();
-                if (regex.Match(line).Success||line=="") { }
-                else { count++; }   
-            }
-            return count;
-        }
-
-		public static bool validateText(string fullText, int maxLines, int maxPerLine)
+		public static int CountCodeLines(List<string> textLines)
 		{
-			List<string> preCodeTextLines = IDEPARSER.parseIntoLines(PMWrapper.preCode);
-			var preCodeLineCount = countCodeLines(preCodeTextLines);
+			int count = 0;
+			var regex = new Regex(@"^#|^\s*$|^\s*#");
+			foreach (string line in textLines)
+			{
+				line.Trim();
+				if (regex.Match(line).Success || line == "")
+				{
+				}
+				else
+				{
+					count++;
+				}
+			}
 
-			List<string> mainCodeTextLines = IDEPARSER.parseIntoLines(fullText);
-            var mainCodeLineCount = countCodeLines(mainCodeTextLines);
+			return count;
+		}
 
-			Progress.Instance.LevelData[PMWrapper.CurrentLevel.id].CodeLineCount = mainCodeLineCount + preCodeLineCount;
-            UISingleton.instance.rowsLimit.UpdateRowsLeft(mainCodeLineCount, maxLines);
+		public static bool ValidateText(string fullText, int maxLines, int maxPerLine)
+		{
+			List<string> preCodeTextLines = IDEParser.ParseIntoLines(PMWrapper.preCode);
+			int preCodeLineCount = CountCodeLines(preCodeTextLines);
 
-            if (mainCodeLineCount > maxLines)
+			List<string> mainCodeTextLines = IDEParser.ParseIntoLines(fullText);
+			int mainCodeLineCount = CountCodeLines(mainCodeTextLines);
+
+			Progress.instance.levelData[PMWrapper.currentLevel.id].codeLineCount = mainCodeLineCount + preCodeLineCount;
+			UISingleton.instance.rowsLimit.UpdateRowsLeft(mainCodeLineCount, maxLines);
+
+			if (mainCodeLineCount > maxLines)
 			{
 				// Too many rows
 				UISingleton.instance.rowsLimit.redness = 1;
@@ -55,28 +71,31 @@ namespace PM
 
 			foreach (string t in mainCodeTextLines)
 			{
-				if (lineSize(t) > maxPerLine)
+				if (LineSize(t) > maxPerLine)
+				{
 					return false;
+				}
 			}
 
 			return true;
 		}
 
-		private static int lineSize(string lineText)
+		private static int LineSize(string lineText)
 		{
 			int sizeCounter = 0;
 
-			for (int c = 0; c < lineText.Length; c++)
+			foreach (char c in lineText)
 			{
 				sizeCounter++;
-				if (lineText[c] == '\t')
-					sizeCounter += 4 - (sizeCounter % 4);
+				if (c == '\t')
+				{
+					sizeCounter += 4 - sizeCounter % 4;
+				}
 			}
+
 			return sizeCounter;
 		}
 	}
-
-	
 
 	public sealed class IndentLevel
 	{
@@ -88,13 +107,12 @@ namespace PM
 		{
 			this.indentLevel = indentLevel;
 			this.caretPos = caretPos + 1;
-			this.indentText = new string('\t', indentLevel);
+			indentText = new string('\t', indentLevel);
 		}
 
-		public int getNewCaretPos()
+		public int GetNewCaretPos()
 		{
 			return indentLevel + caretPos;
 		}
 	}
-
 }
