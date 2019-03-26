@@ -64,9 +64,9 @@ namespace PM {
 
 		#region Parsing
 		private static List<Segment> SplitLineIntoSegments(string line) {
-			List<Segment> segments = new List<Segment>();
+			var segments = new List<Segment>();
 
-			Segment current = new Segment();
+			var current = new Segment();
 
 			for (int i=0; i<line.Length; i++) {
 				char c = line[i];

@@ -29,7 +29,7 @@ namespace PM {
 			topY -= margin;
 			botY += margin;
 
-			Rect current = new Rect(theContent.anchoredPosition, theScrollView.sizeDelta);
+			var current = new Rect(theContent.anchoredPosition, theScrollView.sizeDelta);
 			if (botY > current.yMax) {
 				// Move down to line
 				theContent.anchoredPosition = new Vector2(current.x, Mathf.Max(Mathf.Min(botY - current.height, theContent.sizeDelta.y - current.height), 0));

@@ -49,7 +49,7 @@ namespace PM {
 				return;
 			}
 
-			Vector3[] corners = new Vector3[4];
+			var corners = new Vector3[4];
 			rect.GetWorldCorners(corners);
 
 			Gizmos.color = Color.cyan;
@@ -101,11 +101,11 @@ namespace PM {
 			if (canvas.renderMode == RenderMode.ScreenSpaceCamera && canvas.worldCamera != null) {
 
 				// Get worldspace corners of recttransform
-				Vector3[] corners = new Vector3[4];
+				var corners = new Vector3[4];
 				rect.GetWorldCorners(corners);
 
 				// Transform into viewport
-				Vector3[] newCorners = new Vector3[] {
+				var newCorners = new Vector3[] {
 				canvas.worldCamera.WorldToViewportPoint(corners[0]),
 				canvas.worldCamera.WorldToViewportPoint(corners[1]),
 				canvas.worldCamera.WorldToViewportPoint(corners[2]),
@@ -118,7 +118,7 @@ namespace PM {
 				float yMin = Mathf.Clamp01(newCorners.Min(c => c.y));
 				float yMax = Mathf.Clamp01(newCorners.Max(c => c.y));
 
-				Rect viewport = new Rect(xMin, yMin, xMax - xMin, yMax - yMin);
+				var viewport = new Rect(xMin, yMin, xMax - xMin, yMax - yMin);
 
 				// ...
 				// Profit!

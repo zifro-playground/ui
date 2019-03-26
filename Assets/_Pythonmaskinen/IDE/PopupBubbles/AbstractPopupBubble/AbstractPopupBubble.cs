@@ -95,7 +95,7 @@ namespace PM {
 
 			// Try to get position from game camera
 			Vector2 pos = Camera.main.WorldToViewportPoint(worldPosition);
-			RectTransform canvasRect = canvas.transform as RectTransform;
+			var canvasRect = canvas.transform as RectTransform;
 
 			Rect rect = Camera.main.rect;
 			pos = new Vector2(
@@ -114,7 +114,7 @@ namespace PM {
 			
 			RectTransform textfieldRect = UISingleton.instance.textField.theInputField.textComponent.rectTransform;
 
-			Vector2 localPos = new Vector2(
+			var localPos = new Vector2(
 				textfieldRect.rect.width * (1 - textfieldRect.pivot.x), // To get rightmost pos
 				// codeRow is the compilers code row, which starts counting at 1
 				UISingleton.instance.textField.DetermineYOffset(codeRow - 1) - 5
@@ -201,7 +201,7 @@ namespace PM {
 		protected void FocusOnRectTransform(RectTransform target, Vector2 newPivot) {
 			Vector2 size = target.rect.size;
 			// Move to center
-			Vector2 offset = Vector2.Scale(new Vector2(0.5f - target.pivot.x, 0.5f - target.pivot.y), size);
+			var offset = Vector2.Scale(new Vector2(0.5f - target.pivot.x, 0.5f - target.pivot.y), size);
 			// Move to new pivot
 			offset += Vector2.Scale(new Vector2(newPivot.x - 0.5f, newPivot.y - 0.5f), size);
 
@@ -293,7 +293,7 @@ namespace PM {
 
 		public void ResizeToFit(ILayoutElement judger, RectTransform resizeThis) {
 
-			RectTransform judgerRect = (judger as Component).transform as RectTransform;
+			var judgerRect = (judger as Component).transform as RectTransform;
 
 			// Adjust size to element, through trial and error
 			while (GetPrefferedElementHeight(judger) > judgerRect.rect.height) {

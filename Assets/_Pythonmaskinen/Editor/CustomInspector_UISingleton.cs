@@ -29,11 +29,11 @@ namespace PM {
 				var selProp = manusList.serializedProperty.GetArrayElementAtIndex(index).FindPropertyRelative("selectable");
 				var namesProp = manusList.serializedProperty.GetArrayElementAtIndex(index).FindPropertyRelative("names");
 
-				Rect selRect = new Rect(rect.x, rect.y, rect.width / 2 - 2, EditorGUIUtility.singleLineHeight);
+				var selRect = new Rect(rect.x, rect.y, rect.width / 2 - 2, EditorGUIUtility.singleLineHeight);
 				EditorGUI.PropertyField(selRect, selProp, GUIContent.none);
 
 				for (int i = 0; i < namesProp.arraySize + 1; i++) {
-					Rect nameRect = new Rect(selRect.xMax + 4, rect.y + (EditorGUIUtility.singleLineHeight+2) * i, rect.width/2-2, EditorGUIUtility.singleLineHeight);
+					var nameRect = new Rect(selRect.xMax + 4, rect.y + (EditorGUIUtility.singleLineHeight+2) * i, rect.width/2-2, EditorGUIUtility.singleLineHeight);
 
 					if (namesProp.arraySize > 0) {
 						if (i == namesProp.arraySize - 1)
