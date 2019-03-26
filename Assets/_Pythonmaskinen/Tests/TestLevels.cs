@@ -12,20 +12,27 @@ namespace PM
         private void Awake()
         {
             if (Instance == null)
-                Instance = this;
-        }
+			{
+				Instance = this;
+			}
+		}
 
         public void OnPMLevelCompleted()
         {
             if(IsTesting)
-                TestNextLevel();
-        }
+			{
+				TestNextLevel();
+			}
+		}
         
         public void TestLevel()
         {
             if(Main.instance.levelDefinition.levelSettings != null && Main.instance.levelDefinition.levelSettings.exampleSolutionCode != null)
-                PMWrapper.mainCode = Main.instance.levelDefinition.levelSettings.exampleSolutionCode;
-            PMWrapper.speedMultiplier = 1;
+			{
+				PMWrapper.mainCode = Main.instance.levelDefinition.levelSettings.exampleSolutionCode;
+			}
+
+			PMWrapper.speedMultiplier = 1;
             PMWrapper.RunCode();
         }
 
@@ -50,8 +57,11 @@ namespace PM
         public void OnPMCompilerStopped(HelloCompiler.StopStatus status)
         {
             if(!IsTesting)
-                return; 
-            if (status == HelloCompiler.StopStatus.RuntimeError || status == HelloCompiler.StopStatus.TaskError)
+			{
+				return;
+			}
+
+			if (status == HelloCompiler.StopStatus.RuntimeError || status == HelloCompiler.StopStatus.TaskError)
             {
                 testErrors.Add(new TestError(Main.instance.levelDefinition.id, status.ToString()));
                 TestNextLevel();

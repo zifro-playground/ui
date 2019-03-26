@@ -37,7 +37,9 @@ namespace PM {
 
 					if (namesProp.arraySize > 0) {
 						if (i == namesProp.arraySize - 1)
+						{
 							nameRect.width = nameRect.width * 2 / 3 - 4;
+						}
 						else if (i == namesProp.arraySize) {
 							nameRect.xMin += nameRect.width * 2 / 3;
 							nameRect.y -= EditorGUIUtility.singleLineHeight + 2;

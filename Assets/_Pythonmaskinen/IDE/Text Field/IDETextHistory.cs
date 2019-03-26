@@ -36,7 +36,9 @@ namespace PM {
 
 		public string stepForwardInHistory() {
 			if (history.Count > currentIndex + 1)
+			{
 				return history[++currentIndex];
+			}
 
 			return history[currentIndex];
 		}
@@ -44,7 +46,9 @@ namespace PM {
 
 		private string getLatestHistory() {
 			if (currentIndex == -1)
+			{
 				return "";
+			}
 
 			return history[currentIndex];
 		}

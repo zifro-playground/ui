@@ -113,10 +113,14 @@ namespace PM
 			}
 
 			if (toAddLevels.Count > 0)
+			{
 				addAutoIndent();
+			}
 
 			if (settingNewCaretPos)
+			{
 				settingNewCaretPos = false;
+			}
 
 			theInputField.text = theSpeciallCommands.checkHistoryCommands(theInputField.text);
 		}
@@ -200,7 +204,9 @@ namespace PM
 		private char MyValidate(char c, int charIndex)
 		{
 			if (inserting)
+			{
 				return c;
+			}
 
 			lastCharInsertIndex = charIndex;
 
@@ -211,7 +217,9 @@ namespace PM
 		{
 			if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftCommand) ||
 				Input.GetKey(KeyCode.RightControl) || Input.GetKey(KeyCode.RightCommand)) && Input.GetKey(KeyCode.V))
+			{
 				return true;
+			}
 
 			return false;
 		}
@@ -260,7 +268,9 @@ namespace PM
 		public void setNewCaretPos(int newPos)
 		{
 			if (settingNewCaretPos)
+			{
 				return;
+			}
 
 			//oldCaretPos = newPos;
 			StopCoroutine(setCaretPos(newPos));
@@ -299,11 +309,15 @@ namespace PM
 				string checkText;
 
 				if (start == end)
+				{
 					// No selection
 					checkText = theInputField.text.Insert(start, newText);
+				}
 				else
+				{
 					// Yes selection
 					checkText = theInputField.text.Substring(0, start) + newText + theInputField.text.Substring(end);
+				}
 
 				// Try adding extra newline if it's the end of the line
 				string checkText2 = null;
@@ -328,7 +342,9 @@ namespace PM
 				{
 					checkText2 = null;
 					if (!IDETextManipulation.validateText(checkText, codeRowsLimit, maxChars))
+					{
 						checkText = null;
+					}
 				}
 
 				// One of them succeded
@@ -348,7 +364,9 @@ namespace PM
 			theInputField.text = code;
 			inserting = true;
 			if (!enabled)
+			{
 				ColorCodeDaCode();
+			}
 		}
 
 		public void InsertMainCodeAtStart(string code)
@@ -364,7 +382,9 @@ namespace PM
 		private void webTabSupport()
 		{
 			if (Input.GetKeyDown(KeyCode.Tab))
+			{
 				InsertText("\t");
+			}
 		}
 
 

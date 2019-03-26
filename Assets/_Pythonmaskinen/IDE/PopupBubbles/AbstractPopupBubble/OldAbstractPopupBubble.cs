@@ -37,13 +37,18 @@ namespace PM {
 		protected abstract void OnHideMessage();
 
 		private void _ShowMessage(object target, bool instant) {
-			if (isShowing) HideMessageInstantly();
+			if (isShowing)
+			{
+				HideMessageInstantly();
+			}
 
 			if (instant) {
 				StopFading();
 				canvasGroup.alpha = 1;
 			} else
+			{
 				FadeTowards(1, fadeTime);
+			}
 
 			this.target = target;
 			canvasGroup.interactable = true;
@@ -51,7 +56,9 @@ namespace PM {
 			isShowing = true;
 
 			foreach (Transform t in transform)
+			{
 				t.gameObject.SetActive(true);
+			}
 
 			OnShowMessage();
 		}
@@ -82,7 +89,10 @@ namespace PM {
 		}
 
 		public void ShowMessage(Vector3 worldPosition, bool instant = false) {
-			if (Camera.main == null) throw new System.Exception("The game camera must be marked with the \"Main Camera\" tag for world positioned errors to work.\n");
+			if (Camera.main == null)
+			{
+				throw new System.Exception("The game camera must be marked with the \"Main Camera\" tag for world positioned errors to work.\n");
+			}
 
 			// Try to get position from game camera
 			Vector2 pos = Camera.main.WorldToViewportPoint(worldPosition);
@@ -125,13 +135,18 @@ namespace PM {
 			canvasGroup.blocksRaycasts = false;
 
 			foreach (Transform t in transform)
+			{
 				t.gameObject.SetActive(false);
+			}
 
 			OnHideMessage();
 		}
 
 		public void HideMessage() {
-			if (!isShowing) return;
+			if (!isShowing)
+			{
+				return;
+			}
 
 			FadeTowards(0, fadeTime);
 			isShowing = false;
@@ -148,21 +163,35 @@ namespace PM {
 
 		protected virtual void Start() {
 			if (StartIsEnabledCheck())
+			{
 				_ShowMessage(null, instant: true);
+			}
 			else if (!StartIsDisabledCheck())
+			{
 				HideMessageInstantly();
+			}
 		}
 
 		private bool StartIsEnabledCheck() {
 			foreach (Transform t in transform)
+			{
 				if (!t.gameObject.activeSelf)
+				{
 					return false;
+				}
+			}
+
 			return canvasGroup.interactable && canvasGroup.blocksRaycasts && Mathf.Approximately(canvasGroup.alpha, 1f);
 		}
 		private bool StartIsDisabledCheck() {
 			foreach (Transform t in transform)
+			{
 				if (t.gameObject.activeSelf)
+				{
 					return false;
+				}
+			}
+
 			return !canvasGroup.interactable && !canvasGroup.blocksRaycasts && Mathf.Approximately(canvasGroup.alpha, 0f);
 		}
 
@@ -219,8 +248,12 @@ namespace PM {
 			}
 			
 			if (Mathf.Approximately(target, 0))
+			{
 				foreach (Transform t in transform)
+				{
 					t.gameObject.SetActive(false);
+				}
+			}
 
 			canvasGroup.alpha = target;
 			fadeRoutine = null;
@@ -233,20 +266,30 @@ namespace PM {
 
 		private void StopFading() {
 			if (fadeRoutine != null)
+			{
 				StopCoroutine(fadeRoutine);
+			}
+
 			fadeRoutine = null;
 		}
 
 		public static Vector2 SquareifyVector2(Vector2 vec) {
-			if (vec == Vector2.zero) return Vector2.right;
+			if (vec == Vector2.zero)
+			{
+				return Vector2.right;
+			}
 
 			float absX = Mathf.Abs(vec.x);
 			float absY = Mathf.Abs(vec.y);
 
 			if (absX > absY)
+			{
 				return new Vector2(Mathf.Sign(vec.x), vec.y / absX);
+			}
 			else
+			{
 				return new Vector2(vec.x / absY, Mathf.Sign(vec.y));
+			}
 		}
 
 		public void ResizeToFit(ILayoutElement judger, RectTransform resizeThis) {
@@ -262,7 +305,9 @@ namespace PM {
 				);
 				// Message too long...
 				if (Mathf.Approximately(resizeThis.sizeDelta.x, maxSize.x) && Mathf.Approximately(resizeThis.sizeDelta.y, maxSize.y))
+				{
 					break;
+				}
 			}
 		}
 

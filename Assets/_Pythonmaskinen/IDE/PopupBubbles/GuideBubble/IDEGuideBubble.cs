@@ -35,10 +35,14 @@ namespace PM
 		protected override void OnHideMessage()
 		{
 			if (UISingleton.instance.guidePlayer.currentGuide == null)
+			{
 				return;
+			}
 
 			if (UISingleton.instance.guidePlayer.currentGuide.hasNext)
+			{
 				UISingleton.instance.guidePlayer.shouldPlayNext = true;
+			}
 		}
 	}
 }

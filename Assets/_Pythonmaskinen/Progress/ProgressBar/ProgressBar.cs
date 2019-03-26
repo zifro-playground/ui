@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,8 +38,14 @@ namespace PM
 
 		public void RecreateButtons(int numOfLevels, int current = 0, int unlocked = 0)
 		{
-			UISingleton.instance.manusSelectables.RemoveAll(s => s.selectable is Button && levels.IndexOf(s.selectable as Button) != -1);
-			levels.ForEach(b => { if (b != null) Destroy(b.gameObject); });
+			UISingleton.instance.manusSelectables.RemoveAll(s => s.selectable is Button item && levels.IndexOf(item) != -1);
+			foreach (Button b in levels)
+			{
+				if (b != null)
+				{
+					Destroy(b.gameObject);
+				}
+			}
 			levels.Clear();
 
 			for (int i = 0; i < numOfLevels; i++)
@@ -94,7 +101,9 @@ namespace PM
 			{
 				btn.image.sprite = levelIndex == Current ? LeftCurrent : (levelIndex <= Unlocked || levelData.IsStarted ? LeftUnlocked : LeftLocked);
 				if (NumberOfLevels == 1)
+				{
 					ProgressBarParent.SetActive(false);
+				}
 			}
 			else if (levelIndex < NumberOfLevels - 1)
 			{
@@ -111,18 +120,31 @@ namespace PM
 			if (tooltip)
 			{
 				tooltip.text = "Nivå " + levelIndex;
-				if (levelIndex == Current) tooltip.text = "<color=green><b>" + tooltip.text + "</b></color> <color=grey>(Nuvarande)</color>";
-				if (levelIndex > Unlocked && !levelData.IsStarted) tooltip.text += " <color=grey>(Låst)</color>";
+				if (levelIndex == Current)
+				{
+					tooltip.text = "<color=green><b>" + tooltip.text + "</b></color> <color=grey>(Nuvarande)</color>";
+				}
+
+				if (levelIndex > Unlocked && !levelData.IsStarted)
+				{
+					tooltip.text += " <color=grey>(Låst)</color>";
+				}
+
 				tooltip.ApplyTooltipTextChange();
 			}
 		}
 
 		public void ChangeLevel(int levelIndex)
 		{
-			if (levelIndex == Current) return;
+			if (levelIndex == Current)
+			{
+				return;
+			}
 
 			foreach (IPMUnloadLevel ev in UISingleton.FindInterfaces<IPMUnloadLevel>())
+			{
 				ev.OnPMUnloadLevel();
+			}
 
 			Unlocked = Mathf.Max(levelIndex, Unlocked);
 

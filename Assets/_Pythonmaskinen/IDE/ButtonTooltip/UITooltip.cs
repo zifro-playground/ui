@@ -59,7 +59,11 @@ namespace PM {
 		}
 
 		public virtual void ApplyTooltipTextChange() {
-			if (!initialized) Init();
+			if (!initialized)
+			{
+				Init();
+			}
+
 			if (tooltipText) {
 				tooltipText.text = text;
 
@@ -82,7 +86,9 @@ namespace PM {
 					Mathf.Min(tooltipRect.sizeDelta.y + sizeIncrement.y, parent.sizeDelta.y)
 				);
 				if (Vector2.Distance(tooltipRect.sizeDelta, parent.sizeDelta) <= Vector2.kEpsilon)
+				{
 					break;
+				}
 			}
 
 			tooltipRect.sizeDelta = new Vector2(
@@ -98,16 +104,24 @@ namespace PM {
 			Vector2 halfSize = (tooltipRect.parent as RectTransform).sizeDelta * 0.5f;
 			// Too much to the right
 			if (tooltipRect.anchoredPosition.x + tooltipRect.sizeDelta.x > halfSize.x)
+			{
 				tooltipRect.anchoredPosition = new Vector2(halfSize.x - tooltipRect.sizeDelta.x, tooltipRect.anchoredPosition.y);
+			}
 			// Too much to the left
 			if (tooltipRect.anchoredPosition.x < -halfSize.x)
+			{
 				tooltipRect.anchoredPosition = new Vector2(-halfSize.x, tooltipRect.anchoredPosition.y);
+			}
 			// Too much upwards
 			if (tooltipRect.anchoredPosition.y + tooltipRect.sizeDelta.y > halfSize.y)
+			{
 				tooltipRect.anchoredPosition = new Vector2(tooltipRect.anchoredPosition.x, halfSize.y - tooltipRect.sizeDelta.y);
+			}
 			// Too much downwards
 			if (tooltipRect.anchoredPosition.y < -halfSize.y)
+			{
 				tooltipRect.anchoredPosition = new Vector2(tooltipRect.anchoredPosition.x, -halfSize.y);
+			}
 		}
 
 		private float GetPrefferedTextHeight() {
@@ -117,7 +131,10 @@ namespace PM {
 
 		private void Start() {
 			// Spawn Tooltip
-			if (!initialized) Init();
+			if (!initialized)
+			{
+				Init();
+			}
 		}
 
 		private void FixedUpdate() {
@@ -128,12 +145,20 @@ namespace PM {
 		}
 
 		void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) {
-			if (!initialized) Init();
+			if (!initialized)
+			{
+				Init();
+			}
+
 			StartCoroutine(WaitBeforeAppearing());
 		}
 
 		void IPointerExitHandler.OnPointerExit(PointerEventData eventData) {
-			if (!initialized) Init();
+			if (!initialized)
+			{
+				Init();
+			}
+
 			StopAllCoroutines();
 
 			tooltipGraphics.ForEach(g => g.CrossFadeAlpha(0, fadeDuration, false));
@@ -146,10 +171,14 @@ namespace PM {
 		}
 
 		private void OnDisable() {
-			if (!initialized) Init();
+			if (!initialized)
+			{
+				Init();
+			}
+
 			StopAllCoroutines();
 			
-			tooltipGraphics.ForEach(g => { if (g) g.CrossFadeAlpha(0, fadeDuration, false); });
+			tooltipGraphics.ForEach(g => { if (g) { g.CrossFadeAlpha(0, fadeDuration, false); } });
 		}
 
 		private void OnDestroy() {

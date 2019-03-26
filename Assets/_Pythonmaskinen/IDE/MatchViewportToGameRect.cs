@@ -15,13 +15,20 @@ namespace PM {
 		private RectTransform rect {
 			get {
 				if (theRect == null)
+				{
 #if UNITY_EDITOR
 					if (Application.isPlaying)
+					{
 						theRect = UISingleton.instance.gameCameraRect;
+					}
 					else {
 						UISingleton ui = FindObjectOfType<UISingleton>();
-						if (ui) theRect = ui.gameCameraRect;
+						if (ui)
+						{
+							theRect = ui.gameCameraRect;
+						}
 					}
+				}
 #else
 				theRect = UISingleton.instance.gameCameraRect;
 #endif
@@ -37,7 +44,10 @@ namespace PM {
 
 #if UNITY_EDITOR
 		private void OnDrawGizmos() {
-			if (rect == null) return;
+			if (rect == null)
+			{
+				return;
+			}
 
 			Vector3[] corners = new Vector3[4];
 			rect.GetWorldCorners(corners);
@@ -57,17 +67,35 @@ namespace PM {
 
 		public bool runInEditor = false;
 		private void LateUpdate() {
-			if (!runInEditor && !Application.isPlaying) return;
-			if (cam == null) cam = GetComponent<Camera>();
-			if (cam == null) return;
+			if (!runInEditor && !Application.isPlaying)
+			{
+				return;
+			}
+
+			if (cam == null)
+			{
+				cam = GetComponent<Camera>();
+			}
+
+			if (cam == null)
+			{
+				return;
+			}
 #else
 	private void LateUpdate() {
 #endif
 
 			// Make sure we have all objects
-			if (rect == null) return;
+			if (rect == null)
+			{
+				return;
+			}
+
 			Canvas canvas = rect.GetComponentInParent<Canvas>();
-			if (!canvas) return;
+			if (!canvas)
+			{
+				return;
+			}
 
 			// Different calculations for different modes
 			if (canvas.renderMode == RenderMode.ScreenSpaceCamera && canvas.worldCamera != null) {

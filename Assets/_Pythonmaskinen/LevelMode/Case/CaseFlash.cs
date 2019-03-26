@@ -25,10 +25,14 @@ namespace PM
 		public void ShowNewCaseFlash(int caseNumber, bool startCompilerWhenFinished = false)
 		{
 			if (coroutine != null)
+			{
 				StopCoroutine(coroutine);
+			}
 
 			if (caseNumber < 0 || caseNumber > Main.instance.caseHandler.numberOfCases-1)
+			{
 				throw new ArgumentOutOfRangeException();
+			}
 
 			NumberImage.sprite = CaseImages[caseNumber];
 
@@ -46,7 +50,9 @@ namespace PM
 			HideFlash();
 
 			if (startCompilerWhenFinished)
+			{
 				PMWrapper.StartCompiler();
+			}
 		}
 
 		public void HideFlash()

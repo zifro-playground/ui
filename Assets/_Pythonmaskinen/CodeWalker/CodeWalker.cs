@@ -187,19 +187,26 @@ namespace PM
 		// Called by the RunCodeButton script
 		public void SetWalkerUserPaused(bool paused)
 		{
-			if (paused == isUserPaused) return;
+			if (paused == isUserPaused)
+			{
+				return;
+			}
 
 			isUserPaused = paused;
 
 			if (isUserPaused)
 			{
 				foreach (IPMCompilerUserPaused ev in UISingleton.FindInterfaces<IPMCompilerUserPaused>())
+				{
 					ev.OnPMCompilerUserPaused();
+				}
 			}
 			else
 			{
 				foreach (IPMCompilerUserUnpaused ev in UISingleton.FindInterfaces<IPMCompilerUserUnpaused>())
+				{
 					ev.OnPMCompilerUserUnpaused();
+				}
 			}
 		}
 

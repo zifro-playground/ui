@@ -94,7 +94,10 @@ public static class PMWrapper
 			{
 				UISingleton.instance.textField.rowLimit = value;
 			}
-			else throw new ArgumentOutOfRangeException("codeRowsLimit", value, "Zero and negative values are not accepted!");
+			else
+			{
+				throw new ArgumentOutOfRangeException("codeRowsLimit", value, "Zero and negative values are not accepted!");
+			}
 		}
 	}
 
@@ -350,8 +353,14 @@ public static class PMWrapper
 		get => UISingleton.instance.levelbar.NumberOfLevels;
 		set
 		{
-			if (value > 0) UISingleton.instance.levelbar.RecreateButtons(value, Mathf.Clamp(currentLevelIndex, 0, value - 1), unlockedLevel);
-			else throw new ArgumentOutOfRangeException(nameof(numOfLevels), value, "Zero and negative values are not accepted!");
+			if (value > 0)
+			{
+				UISingleton.instance.levelbar.RecreateButtons(value, Mathf.Clamp(currentLevelIndex, 0, value - 1), unlockedLevel);
+			}
+			else
+			{
+				throw new ArgumentOutOfRangeException(nameof(numOfLevels), value, "Zero and negative values are not accepted!");
+			}
 		}
 	}
 
@@ -370,8 +379,14 @@ public static class PMWrapper
 		get => UISingleton.instance.levelbar.Unlocked;
 		set
 		{
-			if (value >= 0 && value < numOfLevels) UISingleton.instance.levelbar.UpdateButtons(currentLevelIndex, value);
-			else throw new ArgumentOutOfRangeException(nameof(unlockedLevel), value, "Level value is out of range of existing levels.");
+			if (value >= 0 && value < numOfLevels)
+			{
+				UISingleton.instance.levelbar.UpdateButtons(currentLevelIndex, value);
+			}
+			else
+			{
+				throw new ArgumentOutOfRangeException(nameof(unlockedLevel), value, "Level value is out of range of existing levels.");
+			}
 		}
 	}
 
@@ -491,7 +506,10 @@ public static class PMWrapper
 	public static void DontDestroyIDEOnLoad()
 	{
 		if (UISingleton.instance.ideRoot.parent != null)
+		{
 			UISingleton.instance.ideRoot.parent = null;
+		}
+
 		UnityEngine.Object.DontDestroyOnLoad(UISingleton.instance.ideRoot);
 	}
 

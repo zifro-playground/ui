@@ -71,9 +71,13 @@ namespace PM
 			smallTaskDescription.SetActive(true);
 			smallTaskDescriptionText.text = header;
 			if (string.IsNullOrEmpty(body))
+			{
 				readMoreButton.SetActive(false);
+			}
 			else
+			{
 				readMoreButton.SetActive(true);
+			}
 		}
 
 		private void SetBigTaskDescription(string header, string body)

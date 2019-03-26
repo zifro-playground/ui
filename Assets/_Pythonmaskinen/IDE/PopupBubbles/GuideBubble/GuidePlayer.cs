@@ -20,7 +20,10 @@ namespace PM.Guide {
 
 		public void OnPMLevelChanged(){
 			if (currentGuide != null)
+			{
 				currentGuide.currentGuideIndex = 0;
+			}
+
 			shouldPlayNext = true;
 		}
 
@@ -42,7 +45,10 @@ namespace PM.Guide {
 
 		public void resetCurrentGuide(){
 			if (currentGuide != null)
+			{
 				currentGuide.ResetGuide ();
+			}
+
 			shouldPlayNext = true;
 		}
 	}

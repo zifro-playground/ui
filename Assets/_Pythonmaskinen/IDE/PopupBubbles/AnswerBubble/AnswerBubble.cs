@@ -33,12 +33,16 @@ namespace PM
 			if (PMWrapper.levelShouldBeAnswered)
 			{
 				foreach (Transform t in transform)
+				{
 					t.gameObject.SetActive(true);
+				}
 			}
 			else
 			{
 				foreach (Transform t in transform)
+				{
 					t.gameObject.SetActive(false);
+				}
 			}
 
 		}

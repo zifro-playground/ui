@@ -47,12 +47,18 @@ namespace PM {
 			rawButtonText = "";
 
 			if (type != null)
+			{
 				rawButtonText += "<color=#de5170>" + type + "</color> ";
+			}
+
 			rawButtonText += "<b>" + name + "</b>";
 			if (paranteses) {
 				rawButtonText += "(";
 				if (argType != null)
+				{
 					rawButtonText += "<color=#de5170>" + argType + "</color>";
+				}
+
 				rawButtonText += ")";
 			}
 
@@ -61,7 +67,9 @@ namespace PM {
 
 			rawCallbackCode += name;
 			if (paranteses)
+			{
 				rawCallbackCode += "()";
+			}
 		}
 
 		public void AddSmartButton(string textToBeCompiled) {
@@ -92,8 +100,10 @@ namespace PM {
 
 			// Check if fits
 			if (offset.x + width > container.rect.width)
+			{
 				// Move to next line
 				offset = new Vector2(0, offset.y - height - margin);
+			}
 
 			// min.x = west
 			// min.y = south

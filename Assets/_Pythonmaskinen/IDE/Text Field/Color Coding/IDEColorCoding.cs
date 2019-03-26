@@ -53,7 +53,10 @@ namespace PM {
 					//all += segments[j].GetColored(prev != -1 ? (Segment?) segments[prev] : null, next != -1 ? (Segment?) segments[next] : null);
 					all += segments[j].GetColored();
 				}
-				if (i != lines.Length - 1) all += '\n';
+				if (i != lines.Length - 1)
+				{
+					all += '\n';
+				}
 			}
 
 			return all;
@@ -100,12 +103,16 @@ namespace PM {
 					charType = SegmentType.Variable;
 				} else if (char.IsNumber(c) || c == '.') {
 					if (current.type == SegmentType.Number && c == '.' && current.text.Contains('.'))
+					{
 						// Invalid number (multiple decimal points)
 						charType = current.type = SegmentType.Symbol;
+					}
 					else {
 						// Unary operator (/and bitwise complement/ commented out)
 						if (current.text == "-" || current.text == "~")
+						{
 							current.type = SegmentType.Number;
+						}
 
 						charType = SegmentType.Number;
 					}
@@ -131,7 +138,9 @@ namespace PM {
 
 			// Add last one
 			if (current.type != SegmentType.Unknown)
+			{
 				segments.Add(current);
+			}
 
 			return segments;
 		}
@@ -171,16 +180,26 @@ namespace PM {
 		#region Coloring
 		private static string colorKeyWords(string text) {
 			if (keyWords.Contains(text))
+			{
 				return string.Format("<color={0}>{1}</color>", keyWordsColor, text);
+			}
 			//else if (functionNames.Contains(text))
 			//	return string.Format("<color={0}>{1}</color>", functionColor, text);
-			else return text;
+			else
+			{
+				return text;
+			}
 		}
 
 		private static string colorOperator(string text) {
 			if (operators.Contains(text))
+			{
 				return string.Format("<color={0}>{1}</color>", keyWordsColor, text);
-			else return text;
+			}
+			else
+			{
+				return text;
+			}
 		}
 
 		private static string colorComment(string text) {

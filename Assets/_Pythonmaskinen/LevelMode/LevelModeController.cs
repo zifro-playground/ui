@@ -16,7 +16,9 @@ namespace PM
 		private void Awake()
 		{
 			if (Instance == null)
+			{
 				Instance = this;
+			}
 		}
 
 		public void RunProgram()
@@ -41,7 +43,9 @@ namespace PM
 			Main.instance.SetSettings();
 
 			foreach (IPMSwitchedToSandbox ev in UISingleton.FindInterfaces<IPMSwitchedToSandbox>())
+			{
 				ev.OnPMSwitchedToSandbox();
+			}
 		}
 
 		public void InitCaseMode()
@@ -69,24 +73,36 @@ namespace PM
 			if (status == HelloCompiler.StopStatus.Finished)
 			{
 				if (LevelMode == LevelMode.Sandbox && Main.instance.levelDefinition.cases != null && Main.instance.levelDefinition.cases.Count > 0)
+				{
 					CorrectProgramPanel.SetActive(true);
+				}
 				else if (LevelMode == LevelMode.Case)
+				{
 					foreach (IPMTimeToCorrectCase ev in UISingleton.FindInterfaces<IPMTimeToCorrectCase>())
+					{
 						ev.OnPMTimeToCorrectCase();
+					}
+				}
 				else
+				{
 					PMWrapper.SetLevelCompleted();
+				}
 			}
 
 			if (status == HelloCompiler.StopStatus.RuntimeError)
 			{
 				if (LevelMode == LevelMode.Case)
+				{
 					Main.instance.caseHandler.CaseFailed();
+				}
 			}
 
 			if (status == HelloCompiler.StopStatus.UserForced)
 			{
 				if (LevelMode == LevelMode.Case)
+				{
 					Main.instance.caseHandler.IsCasesRunning = false;
+				}
 			}
 		}
 

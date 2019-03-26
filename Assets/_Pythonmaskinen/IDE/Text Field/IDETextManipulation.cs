@@ -10,7 +10,9 @@ namespace PM
 		public static char MyValidate(char c, int charIndex, bool isPasting, List<IndentLevel> toAddLevels, string currentText, IDETextField theTextField)
 		{
 			if (isPasting)
+			{
 				return c;
+			}
 
 			if (c == '\n')
 			{
@@ -56,7 +58,9 @@ namespace PM
 			foreach (string t in mainCodeTextLines)
 			{
 				if (lineSize(t) > maxPerLine)
+				{
 					return false;
+				}
 			}
 
 			return true;
@@ -70,7 +74,9 @@ namespace PM
 			{
 				sizeCounter++;
 				if (lineText[c] == '\t')
+				{
 					sizeCounter += 4 - (sizeCounter % 4);
+				}
 			}
 			return sizeCounter;
 		}

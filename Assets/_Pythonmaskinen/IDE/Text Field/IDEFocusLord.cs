@@ -23,7 +23,9 @@ namespace PM {
 
 		void Update() {
 			if (theInputField.isFocused == false && stealFocus)
+			{
 				focusTheField();
+			}
 
 			if (theInputField.isFocused && stealFocus) {
 				lastMarerIndexStart = theInputField.selectionAnchorPosition;

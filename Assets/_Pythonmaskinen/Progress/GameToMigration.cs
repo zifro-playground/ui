@@ -17,7 +17,9 @@ namespace PM
 		private void Start()
 		{
 			if (Instance == null)
+			{
 				Instance = this;
+			}
 		}
 
 		public void CreateMigrationFromJson()
@@ -29,7 +31,9 @@ namespace PM
 			string path = basePath + fileName;
 
 			if (File.Exists(path))
+			{
 				throw new IOException("The file \"" + fileName + "\" already exists at \"" + basePath + "\"");
+			}
 
 			using (var tw = new StreamWriter(path))
 			{
@@ -85,11 +89,15 @@ namespace PM
 					if (level.cases != null && level.cases.Any() && level.cases.First().caseSettings != null)
 					{
 						if (!string.IsNullOrEmpty(level.cases.First().caseSettings.precode) && level.sandbox == null)
+						{
 							levelPrecode = level.cases.First().caseSettings.precode;
+						}
 					}
 
 					if (!string.IsNullOrEmpty(levelPrecode))
+					{
 						tw.WriteLine("					{ \"" + activeLevel.levelId + "\", \"" + levelPrecode.Replace("\n", "\\n") + "\" },");
+					}
 				}
 				tw.WriteLine("				};\n");
 

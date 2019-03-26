@@ -30,7 +30,9 @@ namespace PM {
 					Mathf.Min(tooltipRect.sizeDelta.y + sizeIncrement.y, parent.sizeDelta.y)
 				);
 				if (Vector2.Distance(tooltipRect.sizeDelta, parent.sizeDelta) <= Vector2.kEpsilon)
+				{
 					break;
+				}
 			}
 
 			tooltipRect.sizeDelta = new Vector2(
@@ -45,7 +47,11 @@ namespace PM {
 		}
 
 		public override void ApplyTooltipTextChange() {
-			if (!initialized) Init();
+			if (!initialized)
+			{
+				Init();
+			}
+
 			tooltipHeader.text = header == null ? "" : header;
 			tooltipText.color = textColor;
 			base.ApplyTooltipTextChange();

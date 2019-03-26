@@ -36,7 +36,9 @@ namespace PM
 
 				CaseFlash.Instance.HideFlash();
 				if (numberOfCases > 1)
+				{
 					CaseFlash.Instance.ShowNewCaseFlash(CurrentCase);
+				}
 			}
 
 			// currentCaseButtonPressed
@@ -46,7 +48,9 @@ namespace PM
 
 			// Call every implemented event
 			foreach (IPMCaseSwitched ev in UISingleton.FindInterfaces<IPMCaseSwitched>())
+			{
 				ev.OnPMCaseSwitched(CurrentCase);
+			}
 		}
 
 		public void RunCase(int caseNumber)
@@ -55,10 +59,13 @@ namespace PM
 
 			CaseFlash.Instance.HideFlash();
 			if (numberOfCases > 1)
+			{
 				CaseFlash.Instance.ShowNewCaseFlash(CurrentCase, true);
+			}
 			else
+			{
 				PMWrapper.StartCompiler();
-
+			}
 		}
 		
 		public void CaseCompleted()
@@ -78,9 +85,13 @@ namespace PM
 		{
 			string positiveMassage;
 			if (numberOfCases == 1)
+			{
 				positiveMassage = "Bra jobbat!";
+			}
 			else
+			{
 				positiveMassage = "Test " + (CurrentCase + 1) + " avklarat!";
+			}
 
 			UISingleton.instance.taskDescription.ShowPositiveMessage(positiveMassage);
 

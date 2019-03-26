@@ -16,14 +16,18 @@ namespace PM
 		private void Awake()
 		{
 			if (Instance == null)
+			{
 				Instance = this;
+			}
 		}
 
 		public void AddRequestToQueue(Request request)
 		{
 			requestQueue.Enqueue(request);
 			if (requestQueue.Count == 1)
+			{
 				StartCoroutine(SendRequest(request));
+			}
 		}
 		
 		private IEnumerator SendRequest(Request request)
@@ -47,13 +51,17 @@ namespace PM
 					Debug.Log(unityWebRequest.error);
 					Debug.Log(unityWebRequest.downloadHandler.text);
 					if (request.ErrorResponsCallback != null)
+					{
 						request.ErrorResponsCallback.Invoke(unityWebRequest.downloadHandler.text);
+					}
 				}
 				else
 				{
 					Debug.Log(unityWebRequest.downloadHandler.text);
 					if (request.OkResponsCallback != null)
+					{
 						request.OkResponsCallback.Invoke(unityWebRequest.downloadHandler.text);
+					}
 				}
 
 				requestQueue.Dequeue();

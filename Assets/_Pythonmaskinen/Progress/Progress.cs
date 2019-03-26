@@ -15,7 +15,9 @@ namespace PM
 		private void Awake()
 		{
 			if (Instance == null)
+			{
 				Instance = this;
+			}
 		}
 
 		void Update()
@@ -23,7 +25,9 @@ namespace PM
 			secondsSpentOnCurrentLevel += Time.deltaTime;
 
 			if (Input.GetKeyDown(KeyCode.Escape) && Screen.fullScreen)
+			{
 				SaveUserLevelProgress();
+			}
 		}
 
 		public void LoadUserGameProgress()
@@ -62,7 +66,9 @@ namespace PM
 			foreach (ActiveLevel level in Main.instance.gameDefinition.activeLevels)
 			{
 				if (!LevelData.ContainsKey(level.levelId))
+				{
 					LevelData[level.levelId] = new LevelData(level.levelId);
+				}
 			}
 		}
 
@@ -116,7 +122,9 @@ namespace PM
 		public void OnPMUnloadLevel()
 		{
 			if (LevelData.ContainsKey(PMWrapper.CurrentLevel.id))
+			{
 				SaveUserLevelProgress();
+			}
 		}
 	}
 }

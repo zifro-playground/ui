@@ -17,18 +17,25 @@ namespace PM.Guide {
 				string target = currentGuide.target;
 
 				if (currentGuide.lineNumber >= 0)
+				{
 					UISingleton.instance.guideBubble.ShowMessage (guides [currentGuideIndex].lineNumber);
+				}
 				else {
 					int index = UISingleton.instance.guidePlayer.guideTargets.FindIndex(s => s.names.Contains(target));
 					if (index < 0)
+					{
 						throw new Exception("No selectable with name \"" + target + "\"!");
+					}
+
 					UISingleton.instance.guideBubble.ShowMessage (UISingleton.instance.guidePlayer.guideTargets[index].guideTargets);
 				}
 
 				UISingleton.instance.guideBubble.SetGuideMessage(guides [currentGuideIndex].message, currentGuideIndex, guides.Count);
 				currentGuideIndex++;
 				if (!hasNext)
+				{
 					hasBeenPlayed = true;
+				}
 			}
 		}
 

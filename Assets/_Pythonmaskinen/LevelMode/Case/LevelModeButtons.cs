@@ -16,15 +16,21 @@ namespace PM
 		private void Awake()
 		{
 			if (Instance == null)
+			{
 				Instance = this;
+			}
 		}
 
 		public void CreateButtons()
 		{
 			if (Main.instance.levelDefinition.sandbox != null)
+			{
 				SandboxButton.SetActive(true);
+			}
 			else
+			{
 				SandboxButton.SetActive(false);
+			}
 
 			SetCaseButtonsToDefault();
 		}
@@ -34,13 +40,21 @@ namespace PM
 			int caseNumber = Main.instance.caseHandler.CurrentCase;
 			
 			if (state == LevelModeButtonState.Default)
+			{
 				CaseButtons[caseNumber].GetComponent<LevelModeButton>().SetButtonDefault();
+			}
 			else if (state == LevelModeButtonState.Active)
+			{
 				CaseButtons[caseNumber].GetComponent<LevelModeButton>().SetButtonActive();
+			}
 			else if (state == LevelModeButtonState.Completed)
+			{
 				CaseButtons[caseNumber].GetComponent<LevelModeButton>().SetButtonCompleted();
+			}
 			else if (state == LevelModeButtonState.Failed)
+			{
 				CaseButtons[caseNumber].GetComponent<LevelModeButton>().SetButtonFailed();
+			}
 		}
 
 		public void SetCaseButtonsToDefault()
@@ -53,7 +67,9 @@ namespace PM
 			else
 			{
 				if (Main.instance.levelDefinition.sandbox == null)
+				{
 					numberOfCases = 1;
+				}
 			}
 
 			for (int i = 0; i < CaseButtons.Count; i++)
@@ -79,13 +95,21 @@ namespace PM
 		public void SetSandboxButtonState(LevelModeButtonState state)
 		{
 			if (state == LevelModeButtonState.Default)
+			{
 				SandboxButton.GetComponent<LevelModeButton>().SetButtonDefault();
+			}
 			else if (state == LevelModeButtonState.Active)
+			{
 				SandboxButton.GetComponent<LevelModeButton>().SetButtonActive();
+			}
 			else if (state == LevelModeButtonState.Completed)
+			{
 				SandboxButton.GetComponent<LevelModeButton>().SetButtonCompleted();
+			}
 			else if (state == LevelModeButtonState.Failed)
+			{
 				SandboxButton.GetComponent<LevelModeButton>().SetButtonFailed();
+			}
 		}
 	}
 

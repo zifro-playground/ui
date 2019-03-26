@@ -34,9 +34,13 @@ namespace PM {
 
 			if (fadeTime > 0) {
 				if (textVisible && alpha < 1)
+				{
 					alpha += Time.deltaTime / fadeTime;
+				}
 				else if (!textVisible && alpha > 0)
+				{
 					alpha -= Time.deltaTime / fadeTime;
+				}
 			}
 
 			tmp.a = alpha;

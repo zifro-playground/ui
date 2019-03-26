@@ -18,7 +18,9 @@ namespace PM {
 		//Saves text and resets timer if there are no history commands going on
 		public string checkHistoryCommands(string currentText) {
 			if (isStepingBackInHistory() || isStepingForwardkInHistory())
+			{
 				return handleHistoryEvent(currentText);
+			}
 
 			theHistory.saveText(currentText);
 			thresholdCounter = 0;
@@ -33,12 +35,16 @@ namespace PM {
 				thresholdCounter += Time.deltaTime;
 
 				if (thresholdCounter < thresholdTime)
+				{
 					return currentText;
+				}
 			}
 			isInHistoryCommand = true;
 
 			if (isStepingBackInHistory())
+			{
 				return theHistory.stepBackInHistory();
+			}
 
 			return theHistory.stepForwardInHistory();
 		}
@@ -104,39 +110,69 @@ namespace PM {
 
 		public static bool AnyKey(params KeyCode[] keys) {
 			for (int i = keys.Length - 1; i >= 0; i--)
+			{
 				if (Input.GetKey(keys[i]))
+				{
 					return true;
+				}
+			}
+
 			return false;
 		}
 		public static bool AnyKeyDown(params KeyCode[] keys) {
 			for (int i = keys.Length - 1; i >= 0; i--)
+			{
 				if (Input.GetKeyDown(keys[i]))
+				{
 					return true;
+				}
+			}
+
 			return false;
 		}
 		public static bool AnyKeyUp(params KeyCode[] keys) {
 			for (int i = keys.Length - 1; i >= 0; i--)
+			{
 				if (Input.GetKeyUp(keys[i]))
+				{
 					return true;
+				}
+			}
+
 			return false;
 		}
 
 		public static bool AllKeys(params KeyCode[] keys) {
 			for (int i = keys.Length - 1; i >= 0; i--)
+			{
 				if (!Input.GetKey(keys[i]))
+				{
 					return false;
+				}
+			}
+
 			return keys.Length > 0;
 		}
 		public static bool AllKeysDown(params KeyCode[] keys) {
 			for (int i = keys.Length - 1; i >= 0; i--)
+			{
 				if (!Input.GetKeyDown(keys[i]))
+				{
 					return false;
+				}
+			}
+
 			return keys.Length > 0;
 		}
 		public static bool AllKeysUp(params KeyCode[] keys) {
 			for (int i = keys.Length - 1; i >= 0; i--)
+			{
 				if (!Input.GetKeyUp(keys[i]))
+				{
 					return false;
+				}
+			}
+
 			return keys.Length > 0;
 		}
 	}

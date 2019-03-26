@@ -49,9 +49,13 @@ namespace PM {
 		
 		private void moveMarker() {
 			if (lineNumber < 0)
+			{
 				theMarkerRect.anchoredPosition = new Vector2(0, -5000);
+			}
 			else //+20 on x to fix offset. Should possibly be changed in UI instead
+			{
 				theMarkerRect.anchoredPosition = new Vector2(20, theTextField.DetermineYOffset(lineNumber));
+			}
 		}
 		
 		#region All setErrorMarkers
@@ -94,7 +98,9 @@ namespace PM {
 
 		public void removeErrorMessage() {
 			if (state != State.Error)
+			{
 				return;
+			}
 
 			SetState(State.Hidden);
 			theErrorBubble.HideMessage();
@@ -102,12 +108,16 @@ namespace PM {
 
 		public void enteredChar() {
 			if (state == State.Error)
+			{
 				removeErrorMessage();
+			}
 		}
 
 		void IPMCompilerStopped.OnPMCompilerStopped(HelloCompiler.StopStatus status) {
 			if (status != HelloCompiler.StopStatus.RuntimeError)
+			{
 				SetState(State.Hidden);
+			}
 		}
 
 		void IPMCompilerStarted.OnPMCompilerStarted() {
@@ -115,7 +125,11 @@ namespace PM {
 		}
 
 		public void SetState(State newState) {
-			if (newState == state) return;
+			if (newState == state)
+			{
+				return;
+			}
+
 			switch (newState) {
 				case State.Error: theImage.color = errorColor; break;
 				case State.Hidden: theImage.color = Color.clear; break;

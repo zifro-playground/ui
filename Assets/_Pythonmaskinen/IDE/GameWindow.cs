@@ -15,7 +15,9 @@ public class GameWindow : MonoBehaviour
 	private void Awake()
 	{
 		if (Instance == null)
+		{
 			Instance = this;
+		}
 	}
 
 	public void SetGameWindowUiTheme(GameWindowUiTheme theme)

@@ -17,14 +17,19 @@ namespace PM {
 					if (PMWrapper.currentLevelIndex < PMWrapper.numOfLevels - 1)
 					{
 						if (PMWrapper.unlockedLevel < PMWrapper.currentLevelIndex + 1)
+						{
 							PMWrapper.unlockedLevel = PMWrapper.currentLevelIndex + 1;
+						}
+
 						PMWrapper.currentLevelIndex += 1;
 					}
 				}
 				else if (Input.GetKeyDown(KeyCode.LeftArrow))
 				{
 					if(PMWrapper.currentLevelIndex > 0)
+					{
 						PMWrapper.currentLevelIndex -= 1;
+					}
 				}
 				else if (Input.GetKeyDown(KeyCode.UpArrow))
 				{
