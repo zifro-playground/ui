@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,9 +20,9 @@ namespace PM {
 		public Vector2 maxSize = new Vector2(900, 825);
 		public float distanceFromTarget = 70;
 
-		[System.NonSerialized] public CanvasGroup canvasGroup;
-		[System.NonSerialized] public Canvas canvas;
-		[System.NonSerialized] protected object target;
+		[NonSerialized] public CanvasGroup canvasGroup;
+		[NonSerialized] public Canvas canvas;
+		[NonSerialized] protected object target;
 		private Coroutine fadeRoutine = null;
 		public bool isFading => fadeRoutine != null;
 
@@ -80,7 +81,7 @@ namespace PM {
 		}
 
 		public void ShowMessage(Vector3 worldPosition, bool instant = false) {
-			if (Camera.main == null) throw new System.Exception("The game camera must be marked with the \"Main Camera\" tag for world positioned errors to work.\n");
+			if (Camera.main == null) throw new Exception("The game camera must be marked with the \"Main Camera\" tag for world positioned errors to work.\n");
 
 			// Try to get position from game camera
 			Vector2 pos = Camera.main.WorldToViewportPoint(worldPosition);

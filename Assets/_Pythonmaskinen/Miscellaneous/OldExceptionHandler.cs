@@ -88,7 +88,7 @@ namespace PM {
 		public override string Message => _rawMessage;
 
 		public PMRuntimeException(string message) {
-			this._rawMessage = message;
+			_rawMessage = message;
 		}
 	}
 

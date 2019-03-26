@@ -380,14 +380,14 @@ namespace PM
 		#region public Get/Setters
 		public void deActivateField()
 		{
-			this.enabled = false;
+			enabled = false;
 			theFocusLord.stealFocus = false;
 			theInputField.interactable = false;
 		}
 
 		public void reActivateField()
 		{
-			this.enabled = true;
+			enabled = true;
 			theFocusLord.stealFocus = true;
 			theInputField.interactable = true;
 		}

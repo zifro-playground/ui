@@ -88,7 +88,7 @@ namespace PM
 		{
 			this.indentLevel = indentLevel;
 			this.caretPos = caretPos + 1;
-			this.indentText = new string('\t', indentLevel);
+			indentText = new string('\t', indentLevel);
 		}
 
 		public int getNewCaretPos()

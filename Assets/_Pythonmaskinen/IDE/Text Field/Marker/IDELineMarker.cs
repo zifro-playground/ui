@@ -42,7 +42,7 @@ namespace PM {
 			this.theTextField = theTextField;
 			this.theFocusLord = theFocusLord;
 			theMarkerRect = transform as RectTransform;
-			this.enabled = false;
+			enabled = false;
 			theImage = GetComponentInChildren<Image>();
 			theErrorBubble.init(this);
 		}
