@@ -121,7 +121,7 @@ namespace PM
 
 			default:
 				color = nullText;
-				text = IDEColorCoding.runColorCode(compressString(s, maxChars));
+				text = IDEColorCoding.RunColorCode(compressString(s, maxChars));
 				break;
 			}
 		}

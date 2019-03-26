@@ -80,7 +80,7 @@ namespace PM
 
 		public void InitTextFields()
 		{
-			preText.text = IDEColorCoding.runColorCode(preCode);
+			preText.text = IDEColorCoding.RunColorCode(preCode);
 
 			float preHeight = CalcAndSetPreCode();
 			inputRect.anchoredPosition = new Vector2(inputRect.anchoredPosition.x, startYPos - preHeight);
@@ -135,7 +135,7 @@ namespace PM
 		/// <summary>Updates main code syntax highlighting and size of rects (for scrolling)</summary>
 		public void ColorCodeDaCode()
 		{
-			visibleText.text = IDEColorCoding.runColorCode(theInputField.text);
+			visibleText.text = IDEColorCoding.RunColorCode(theInputField.text);
 			inputRect.sizeDelta = new Vector2(inputRect.sizeDelta.x, visibleText.preferredHeight + 6);
 			contentContainer.sizeDelta = new Vector2(contentContainer.sizeDelta.x,
 				inputRect.sizeDelta.y - inputRect.anchoredPosition.y);

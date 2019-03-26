@@ -1,18 +1,21 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace PM {
+namespace PM
+{
+	public class IDEColorCoding
+	{
+		private static readonly string[] keyWords = {
+			"in", "while", "for", "if", "else", "True", "False", "not", "def", "and", "or", "return",
+			"as", "assert", "break", "class", "continue", "del", "elif", "except", "exec", "finally", "from", "global",
+			"import", "is",
+			"lambda", "pass", "raise", "try", "with", "yield", "None"
+		};
 
-	public class IDEColorCoding {
+		private static readonly char[] operatorCharacters =
+			{'*', '/', '-', '+', '<', '>', '=', '%', '|', '^', '~', '&'};
 
-		private static string[] keyWords = { "in", "while", "for", "if", "else", "True", "False", "not" , "def", "and", "or", "return",
-			"as", "assert", "break", "class", "continue", "del", "elif", "except", "exec", "finally", "from", "global", "import", "is",
-			"lambda", "pass", "raise", "try", "with", "yield", "None"};
-		private static char[] operatorCharacters = { '*', '/', '-', '+', '<', '>', '=', '%', '\\', '|', '^', '~', '&' };
-		private static string[] operators = {
+		private static readonly string[] operators = {
 			// Math
 			"*", "**", "/", "-", "+", "%",
 			// Bitwise
@@ -25,20 +28,25 @@ namespace PM {
 		};
 
 		private const string keyWordsColor = "#FF3F85";
-		private const string functionColor = "#DDDD11";
-		private const string textHexaColor = "#68CC47";
+
+		//private const string functionColor = "#DDDD11";
+		private const string textHexColor = "#68CC47";
 		private const string commentColor = "#6B9EA5";
 		private const string numberColor = "#FF7C26";
 		private const char commentSign = '#';
-		private const char stringSign = '"';
+		private const char sStringSign = '\'';
+		private const char dStringSign = '"';
 
-		public static string runColorCode(string currentText) {
+		public static string RunColorCode(string currentText)
+		{
 			string[] lines = currentText.Split('\n');
 			string all = string.Empty;
 
-			for (int i=0; i<lines.Length; i++) {
+			for (int i = 0; i < lines.Length; i++)
+			{
 				List<Segment> segments = SplitLineIntoSegments(lines[i]);
-				for (int j = 0; j < segments.Count; j++) {
+				for (int j = 0; j < segments.Count; j++)
+				{
 					// Find next and prev non-whitespace
 					//int next = -1, prev = -1;
 					//for (int k = 0; k < segments.Count; k++) {
@@ -53,6 +61,7 @@ namespace PM {
 					//all += segments[j].GetColored(prev != -1 ? (Segment?) segments[prev] : null, next != -1 ? (Segment?) segments[next] : null);
 					all += segments[j].GetColored();
 				}
+
 				if (i != lines.Length - 1)
 				{
 					all += '\n';
@@ -63,74 +72,118 @@ namespace PM {
 		}
 
 		#region Parsing
-		private static List<Segment> SplitLineIntoSegments(string line) {
+
+		private static List<Segment> SplitLineIntoSegments(string line)
+		{
 			var segments = new List<Segment>();
 
 			var current = new Segment();
 
-			for (int i=0; i<line.Length; i++) {
-				char c = line[i];
-				SegmentType charType = SegmentType.Unknown;
+			foreach (char c in line)
+			{
+				SegmentType charType;
 
 				// The main parsing done here
 
-				if (current.type == SegmentType.Comment) {
+				switch (current.type)
+				{
+				case SegmentType.Comment:
 					// Continue comment
 					charType = SegmentType.Comment;
-				} else if (current.type == SegmentType.String) {
-					if (c == stringSign) {
-						// End of string
-						current.text += c;
-						segments.Add(current);
-						current = new Segment();
-						continue;
-					} else {
-						// Continue string
-						charType = SegmentType.String;
-					}
-				} else if (c == commentSign) {
-					// Start of comment
-					charType = SegmentType.Comment;
-
-				} else if (c == stringSign) {
-					// Start of string
-					charType = SegmentType.String;
-				} else if (char.IsWhiteSpace(c)) {
-					// Just whitespace
-					charType = SegmentType.Whitespace;
-				} else if (char.IsNumber(c) && current.type == SegmentType.Variable) {
-					// Continue variable
-					charType = SegmentType.Variable;
-				} else if (char.IsNumber(c) || c == '.') {
-					if (current.type == SegmentType.Number && c == '.' && current.text.Contains('.'))
+					break;
+				case SegmentType.StringSingleQuote when c == sStringSign:
+					// End of string
+					current.text += c;
+					segments.Add(current);
+					current = new Segment();
+					continue;
+				case SegmentType.StringSingleQuote:
+					// Continue string
+					charType = SegmentType.StringSingleQuote;
+					break;
+				case SegmentType.StringDoubleQuote when c == dStringSign:
+					// End of string
+					current.text += c;
+					segments.Add(current);
+					current = new Segment();
+					continue;
+				case SegmentType.StringDoubleQuote:
+					// Continue string
+					charType = SegmentType.StringDoubleQuote;
+					break;
+				default:
+					switch (c)
 					{
-						// Invalid number (multiple decimal points)
-						charType = current.type = SegmentType.Symbol;
-					}
-					else {
-						// Unary operator (/and bitwise complement/ commented out)
-						if (current.text == "-" || current.text == "~")
+					case commentSign:
+						// Start of comment
+						charType = SegmentType.Comment;
+						break;
+					case sStringSign:
+						// Start of string
+						charType = SegmentType.StringSingleQuote;
+						break;
+					case dStringSign:
+						// Start of string
+						charType = SegmentType.StringDoubleQuote;
+						break;
+					default:
+						if (char.IsWhiteSpace(c))
 						{
-							current.type = SegmentType.Number;
+							// Just whitespace
+							charType = SegmentType.Whitespace;
+						}
+						else if (char.IsNumber(c) && current.type == SegmentType.Variable)
+						{
+							// Continue variable
+							charType = SegmentType.Variable;
+						}
+						else if (char.IsNumber(c) || c == '.')
+						{
+							if (current.type == SegmentType.Number && c == '.' && current.text.Contains('.'))
+							{
+								// Invalid number (multiple decimal points)
+								charType = current.type = SegmentType.Symbol;
+							}
+							else
+							{
+								// Unary operator (/and bitwise complement/ commented out)
+								if (current.text == "-" || current.text == "~")
+								{
+									current.type = SegmentType.Number;
+								}
+
+								charType = SegmentType.Number;
+							}
+						}
+						else if (char.IsLetter(c) || c == '_')
+						{
+							// Variable start (or continue)
+							charType = SegmentType.Variable;
+						}
+						else if (operatorCharacters.Contains(c) && current.type != SegmentType.Symbol)
+						{
+							// Possibly an operator
+							charType = SegmentType.Operator;
+						}
+						else
+						{
+							// Anything else, just mark as symbol
+							charType = SegmentType.Symbol;
 						}
 
-						charType = SegmentType.Number;
+						break;
 					}
-				} else if (char.IsLetter(c) || c == '_') {
-					// Variable start (or continue)
-					charType = SegmentType.Variable;
-				} else if (operatorCharacters.Contains(c) && current.type != SegmentType.Symbol) {
-					// Possibly an operator
-					charType = SegmentType.Operator;
-				} else {
-					// Anything else, just mark as symbol
-					charType = SegmentType.Symbol;
+
+					break;
 				}
 
-				if (charType != current.type && current.type != SegmentType.Unknown) {
+				if (charType != current.type && current.type != SegmentType.Unknown)
+				{
 					segments.Add(current);
-					current = new Segment { type = charType, text = c.ToString() };
-				} else {
+					current = new Segment {type = charType, text = c.ToString()};
+				}
+				else
+				{
 					current.type = charType;
 					current.text += c;
 				}
@@ -145,76 +198,86 @@ namespace PM {
 			return segments;
 		}
 
-		private struct Segment {
+		private struct Segment
+		{
 			public string text;
 			public SegmentType type;
 
-			public int lastNonWhitespace;
-			public int nextNonWhitespace;
-
-			public string GetColored(/*Segment? previousNonWhitespace = null, Segment? nextNonWhitespace = null*/) {
-				switch(type) {
-					case SegmentType.Comment: return colorComment(text);
-					case SegmentType.Number: return colorNumber(text);
-					case SegmentType.String: return colorText(text);
-					case SegmentType.Variable: return colorKeyWords(text);
-					case SegmentType.Operator: return colorOperator(text);
-					default: return text;
+			public string GetColored()
+			{
+				switch (type)
+				{
+				case SegmentType.Comment:
+					return ColorComment(text);
+				case SegmentType.Number:
+					return ColorNumber(text);
+				case SegmentType.StringDoubleQuote:
+				case SegmentType.StringSingleQuote:
+					return ColorText(text);
+				case SegmentType.Variable:
+					return ColorKeyWords(text);
+				case SegmentType.Operator:
+					return ColorOperator(text);
+				default:
+					return text;
 				}
 			}
 		}
-		
-		private enum SegmentType {
+
+		private enum SegmentType
+		{
 			Unknown,
 			Whitespace,
 			Number,
-			String,
+			StringSingleQuote,
+			StringDoubleQuote,
 			Comment,
 			Symbol,
 			Variable,
 			Operator,
 		}
+
 		#endregion
 
-
 		#region Coloring
-		private static string colorKeyWords(string text) {
+
+		private static string ColorKeyWords(string text)
+		{
 			if (keyWords.Contains(text))
 			{
-				return string.Format("<color={0}>{1}</color>", keyWordsColor, text);
+				return $"<color={keyWordsColor}>{text}</color>";
 			}
 			//else if (functionNames.Contains(text))
 			//	return string.Format("<color={0}>{1}</color>", functionColor, text);
-			else
-			{
-				return text;
-			}
+
+			return text;
 		}
 
-		private static string colorOperator(string text) {
+		private static string ColorOperator(string text)
+		{
 			if (operators.Contains(text))
 			{
-				return string.Format("<color={0}>{1}</color>", keyWordsColor, text);
+				return $"<color={keyWordsColor}>{text}</color>";
 			}
-			else
-			{
-				return text;
-			}
+
+			return text;
 		}
 
-		private static string colorComment(string text) {
-			return string.Format("<color={0}>{1}</color>", commentColor, text);
+		private static string ColorComment(string text)
+		{
+			return $"<color={commentColor}>{text}</color>";
 		}
 
-		private static string colorText(string text) {
-			return string.Format("<color={0}>{1}</color>", textHexaColor, text);
+		private static string ColorText(string text)
+		{
+			return $"<color={textHexColor}>{text}</color>";
 		}
 
-		private static string colorNumber(string text) {
-			return string.Format("<color={0}>{1}</color>", numberColor, text);
+		private static string ColorNumber(string text)
+		{
+			return $"<color={numberColor}>{text}</color>";
 		}
+
 		#endregion
-		
 	}
-
 }
