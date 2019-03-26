@@ -95,7 +95,7 @@ namespace PM {
 
 			// Try to get position from game camera
 			Vector2 pos = Camera.main.WorldToViewportPoint(worldPosition);
-			RectTransform canvasRect = (canvas.transform as RectTransform);
+			RectTransform canvasRect = canvas.transform as RectTransform;
 
 			Rect rect = Camera.main.rect;
 			pos = new Vector2(

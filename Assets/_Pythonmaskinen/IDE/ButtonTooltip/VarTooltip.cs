@@ -21,9 +21,9 @@ namespace PM {
 		}
 
 		protected override void ResizeToFit() {
-			var parent = (tooltipRect.parent as RectTransform);
+			var parent = tooltipRect.parent as RectTransform;
 
-			while (GetPrefferedTextHeight() > tooltipText.rectTransform.rect.height) {
+			while (GetPreferredTextHeight() > tooltipText.rectTransform.rect.height) {
 				tooltipRect.sizeDelta += sizeIncrement;
 				tooltipRect.sizeDelta = new Vector2(
 					Mathf.Min(tooltipRect.sizeDelta.x + sizeIncrement.x, parent.sizeDelta.x),

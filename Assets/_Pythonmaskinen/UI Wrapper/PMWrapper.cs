@@ -78,7 +78,7 @@ public static class PMWrapper
 	/// All codes combined, i.e. <see cref="preCode"/> + <see cref="mainCode"/> + <see cref="postCode"/> (with linebreaks inbetween).
 	/// <para>This is the property that <seealso cref="PM.CodeWalker"/> uses when sending the code to compile to the <seealso cref="Compiler.SyntaxCheck"/>.</para>
 	/// </summary>
-	public static string fullCode => (preCode.Length > 0 ? preCode + '\n' + mainCode : mainCode);
+	public static string fullCode => preCode.Length > 0 ? preCode + '\n' + mainCode : mainCode;
 
 	/// <summary>
 	/// Replacement for <see cref="IDETextField.amountOfRows"/>. Defines how many lines of code the user is allowed to enter.

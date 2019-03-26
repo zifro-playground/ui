@@ -99,7 +99,7 @@ namespace PM
 
 			if (levelIndex == 0)
 			{
-				btn.image.sprite = levelIndex == Current ? LeftCurrent : (levelIndex <= Unlocked || levelData.IsStarted ? LeftUnlocked : LeftLocked);
+				btn.image.sprite = levelIndex == Current ? LeftCurrent : levelIndex <= Unlocked || levelData.IsStarted ? LeftUnlocked : LeftLocked;
 				if (NumberOfLevels == 1)
 				{
 					ProgressBarParent.SetActive(false);
@@ -107,11 +107,11 @@ namespace PM
 			}
 			else if (levelIndex < NumberOfLevels - 1)
 			{
-				btn.image.sprite = levelIndex == Current ? MidCurrent : (levelIndex <= Unlocked || levelData.IsStarted ? MidUnlocked : MidLocked);
+				btn.image.sprite = levelIndex == Current ? MidCurrent : levelIndex <= Unlocked || levelData.IsStarted ? MidUnlocked : MidLocked;
 			}
 			else
 			{
-				btn.image.sprite = levelIndex == Current ? RightCurrent : (levelIndex <= Unlocked || levelData.IsStarted ? RightUnlocked : RightLocked);
+				btn.image.sprite = levelIndex == Current ? RightCurrent : levelIndex <= Unlocked || levelData.IsStarted ? RightUnlocked : RightLocked;
 			}
 
 			btn.interactable = (levelIndex <= Unlocked || levelData.IsStarted) && levelIndex != Current;

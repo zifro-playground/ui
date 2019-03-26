@@ -75,7 +75,7 @@ namespace PM
 				sizeCounter++;
 				if (lineText[c] == '\t')
 				{
-					sizeCounter += 4 - (sizeCounter % 4);
+					sizeCounter += 4 - sizeCounter % 4;
 				}
 			}
 			return sizeCounter;

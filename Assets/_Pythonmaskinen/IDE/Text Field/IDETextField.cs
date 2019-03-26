@@ -171,12 +171,12 @@ namespace PM
 			// +1.4 is just a small offset to make it look better
 			if (isPre)
 			{
-				topY = (topY / preText.pixelsPerUnit + preText.rectTransform.anchoredPosition.y) + 1.4f;
+				topY = topY / preText.pixelsPerUnit + preText.rectTransform.anchoredPosition.y + 1.4f;
 				lineHeight = gen.lines[0].height / theInputField.textComponent.pixelsPerUnit;
 			}
 			else
 			{
-				topY = (topY / theInputField.textComponent.pixelsPerUnit + theInputField.textComponent.rectTransform.anchoredPosition.y) + 1.4f;
+				topY = topY / theInputField.textComponent.pixelsPerUnit + theInputField.textComponent.rectTransform.anchoredPosition.y + 1.4f;
 				lineHeight = gen.lines[0].height * 1.5f / theInputField.textComponent.pixelsPerUnit;
 			}
 

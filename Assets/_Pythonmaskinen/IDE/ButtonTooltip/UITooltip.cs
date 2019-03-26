@@ -77,7 +77,7 @@ namespace PM {
 		}
 
 		protected virtual void ResizeToFit() {
-			var parent = (tooltipRect.parent as RectTransform);
+			var parent = tooltipRect.parent as RectTransform;
 
 			while (GetPrefferedTextHeight() > tooltipText.rectTransform.rect.height) {
 				tooltipRect.sizeDelta += sizeIncrement;

@@ -31,7 +31,7 @@ namespace PM
 		int lastLineNumber;
 
 		public int currentLineNumber => compiledCode?.CurrentSource.IsFromClr == false
-			? (lastLineNumber = compiledCode.CurrentSource.FromRow)
+			? lastLineNumber = compiledCode.CurrentSource.FromRow
 			: lastLineNumber;
 
 		Action<HelloCompiler.StopStatus> stopCompiler;
