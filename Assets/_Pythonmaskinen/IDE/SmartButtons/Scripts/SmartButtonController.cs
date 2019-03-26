@@ -74,8 +74,7 @@ namespace PM {
 
 		public void AddSmartButton(string textToBeCompiled) {
 			// Using the Rich Text property
-			string rawButtonText, rawCallbackCode;
-			CompileButtonText(textToBeCompiled, out rawButtonText, out rawCallbackCode);
+			CompileButtonText(textToBeCompiled, out string rawButtonText, out string rawCallbackCode);
 			AddSmartButton(rawButtonText, rawCallbackCode);
 		}
 

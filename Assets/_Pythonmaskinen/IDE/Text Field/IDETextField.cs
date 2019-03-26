@@ -142,8 +142,7 @@ namespace PM
 
 		public float DetermineYOffset(int lineNumber)
 		{
-			float topY, lineHeight;
-			DetermineYOffset(lineNumber, out topY, out lineHeight);
+			DetermineYOffset(lineNumber, out float topY, out float lineHeight);
 			return topY;
 		}
 

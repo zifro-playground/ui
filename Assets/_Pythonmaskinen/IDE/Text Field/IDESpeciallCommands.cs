@@ -70,7 +70,7 @@ namespace PM {
 		private bool IsSteppingForwardInHistory() {
 			return 
 				AnyKey(KeyCode.LeftCommand, KeyCode.RightCommand, KeyCode.LeftControl, KeyCode.RightControl)
-				&& (Input.GetKey(KeyCode.Y) || AnyKey(KeyCode.LeftShift, KeyCode.RightShift) && Input.GetKey(KeyCode.Z));
+				&& (Input.GetKey(KeyCode.Y) || (AnyKey(KeyCode.LeftShift, KeyCode.RightShift) && Input.GetKey(KeyCode.Z)));
 
 			
 		}
