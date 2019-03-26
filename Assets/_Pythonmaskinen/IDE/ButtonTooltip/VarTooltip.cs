@@ -41,7 +41,7 @@ namespace PM {
 			);
 		}
 
-		private float GetPrefferedTextHeight() {
+		private float GetPreferredTextHeight() {
 			Canvas.ForceUpdateCanvases();
 			return tooltipText.preferredHeight;
 		}
@@ -52,7 +52,7 @@ namespace PM {
 				Init();
 			}
 
-			tooltipHeader.text = header == null ? "" : header;
+			tooltipHeader.text = header ?? "";
 			tooltipText.color = textColor;
 			base.ApplyTooltipTextChange();
 		}
