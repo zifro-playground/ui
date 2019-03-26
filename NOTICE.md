@@ -13,7 +13,7 @@ Below follow licenses from included libraries
 <https://github.com/antlr/antlr4>
 
 ```
-[The "BSD 3-clause license"]
+[The 3-Clause BSD License]
 Copyright (c) 2012-2017 The ANTLR Project. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -46,6 +46,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 <https://git.io/codepointat>
 
 ```
+[The MIT License]
 Copyright Mathias Bynens <https://mathiasbynens.be/>
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -73,6 +74,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 <https://git.io/vDW1m>
 
 ```
+[The MIT License]
 Copyright Mathias Bynens <https://mathiasbynens.be/>
 
 Permission is hereby granted, free of charge, to any person obtaining
