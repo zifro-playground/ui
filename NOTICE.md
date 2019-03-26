@@ -43,7 +43,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ## ES6 `String.prototype.codePointAt` polyfill
 
-<https://git.io/codepointat>
+<https://mths.be/codepointat>
 
 ```
 [The MIT License]
@@ -71,7 +71,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## ES6 `String.fromCodePoint` polyfill
 
-<https://git.io/vDW1m>
+<https://mths.be/fromcodepoint>
 
 ```
 [The MIT License]
