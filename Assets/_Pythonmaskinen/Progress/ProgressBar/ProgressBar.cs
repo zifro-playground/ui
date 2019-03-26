@@ -25,7 +25,7 @@ namespace PM
 		public Sprite RightUnlocked;
 		public Sprite RightLocked;
 
-		public int NumberOfLevels { get { return levels.Count; } }
+		public int NumberOfLevels => levels.Count;
 		public int Current { get; private set; }
 		public int Unlocked { get; private set; }
 		private List<Button> levels = new List<Button>();

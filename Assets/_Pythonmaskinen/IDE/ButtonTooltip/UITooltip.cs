@@ -9,7 +9,7 @@ using UnityEngine.UI;
 namespace PM {
 	public class UITooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
 		
-		public virtual Vector2 offset { get { return new Vector2(10, 10); } }
+		public virtual Vector2 offset => new Vector2(10, 10);
 		protected readonly static Vector2 sizeIncrement = new Vector2(20,5);
 
 		public string text = "Tooltip";
@@ -28,7 +28,7 @@ namespace PM {
 			}
 		}
 
-		public virtual GameObject prefab { get { return UISingleton.instance.uiTooltipPrefab; } }
+		public virtual GameObject prefab => UISingleton.instance.uiTooltipPrefab;
 
 #if UNITY_EDITOR
 		private void OnDrawGizmosSelected() {

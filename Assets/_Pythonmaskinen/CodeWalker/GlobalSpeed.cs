@@ -9,8 +9,8 @@ namespace PM {
 
 		public Slider speedSlider;
 		public float currentSpeed {
-			get { return speedSlider.value; }
-			set { speedSlider.value = Mathf.Clamp01(value); }
+			get => speedSlider.value;
+			set => speedSlider.value = Mathf.Clamp01(value);
 		}
 
 		// Use this for initialization

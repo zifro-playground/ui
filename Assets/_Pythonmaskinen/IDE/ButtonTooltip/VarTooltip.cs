@@ -8,8 +8,8 @@ using UnityEngine.UI;
 namespace PM {
 	public class VarTooltip : UITooltip {
 
-		public override GameObject prefab { get { return UISingleton.instance.varTooltipPrefab; } }
-		public override Vector2 offset { get { return new Vector2(10, tooltipRect ? -tooltipRect.sizeDelta.y - 20 : -20); } }
+		public override GameObject prefab => UISingleton.instance.varTooltipPrefab;
+		public override Vector2 offset => new Vector2(10, tooltipRect ? -tooltipRect.sizeDelta.y - 20 : -20);
 
 		protected Text tooltipHeader;
 		public string header;

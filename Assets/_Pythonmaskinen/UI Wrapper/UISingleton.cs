@@ -9,7 +9,7 @@ namespace PM
 	{
 		public static UISingleton instance;
 
-		public Transform ideRoot { get { return transform.parent; } }
+		public Transform ideRoot => transform.parent;
 
 		[Header("PM")]
 		public HelloCompiler compiler;

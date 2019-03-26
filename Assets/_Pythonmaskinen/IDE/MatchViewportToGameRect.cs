@@ -29,7 +29,7 @@ namespace PM {
 			}
 		}
 
-		public bool isValid { get { return theRect != null; } }
+		public bool isValid => theRect != null;
 
 		private void Awake() {
 			cam = GetComponent<Camera>();

@@ -37,7 +37,7 @@ namespace PM
 
 		public int rowLimit
 		{
-			get { return codeRowsLimit; }
+			get => codeRowsLimit;
 			set
 			{
 				codeRowsLimit = value;

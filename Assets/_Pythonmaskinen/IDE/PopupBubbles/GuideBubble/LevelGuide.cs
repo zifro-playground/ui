@@ -6,8 +6,8 @@ namespace PM.Guide {
 	public class LevelGuide {
 		
 		public List<Guide> guides = new List<Guide>();
-		private Guide currentGuide { get { return guides [currentGuideIndex]; } }
-		public bool hasNext { get { return currentGuideIndex < guides.Count; } }
+		private Guide currentGuide => guides [currentGuideIndex];
+		public bool hasNext => currentGuideIndex < guides.Count;
 		public bool hasBeenPlayed = false;
 
 		public int currentGuideIndex = 0;

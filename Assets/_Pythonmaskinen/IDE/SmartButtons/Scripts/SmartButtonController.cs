@@ -9,7 +9,7 @@ namespace PM {
 	public class SmartButtonController : MonoBehaviour {
 
 		public SmartButton buttonPrefab;
-		public RectTransform container { get { return transform as RectTransform; } }
+		public RectTransform container => transform as RectTransform;
 		public Image background;
 		public ScrollRect scrollRect;
 

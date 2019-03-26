@@ -25,13 +25,13 @@ namespace PM {
 		[System.NonSerialized] public Canvas canvas;
 		[System.NonSerialized] protected object target;
 		private Coroutine fadeRoutine = null;
-		public bool isFading { get { return fadeRoutine != null; } }
+		public bool isFading => fadeRoutine != null;
 
-		public int? targetRow { get { return target as int?; } }
-		public Vector2? targetCanvasPos { get { return target as Vector2?; } }
-		public Vector3? targetWorldPos { get { return target as Vector3?; } }
-		public Selectable targetSelectable { get { return target as Selectable; } }
-		public RectTransform targetRectTransform { get { return target as RectTransform; } }
+		public int? targetRow => target as int?;
+		public Vector2? targetCanvasPos => target as Vector2?;
+		public Vector3? targetWorldPos => target as Vector3?;
+		public Selectable targetSelectable => target as Selectable;
+		public RectTransform targetRectTransform => target as RectTransform;
 
 		protected abstract void OnShowMessage();
 		protected abstract void OnHideMessage();
