@@ -18,7 +18,7 @@ namespace PM
 			{
 				toAddLevels.Clear();
 				toAddLevels.Add(new IndentLevel(charIndex, IDEPARSER.getIndentLevel(charIndex, currentText)));
-				theTextField.setNewCaretPos(toAddLevels[0].getNewCaretPos());
+				theTextField.SetNewCaretPos(toAddLevels[0].GetNewCaretPos());
 
 				return '\n';
 			}
@@ -26,29 +26,29 @@ namespace PM
 			return c;
 		}
 
-        public static int countCodeLines(List<string> textLines){
-            int count = 0; 
-            var regex = new Regex(@"^#|^\s*$|^\s*#");
-            foreach (string line in textLines){
-                line.Trim();
-                if (regex.Match(line).Success||line=="") { }
-                else { count++; }   
-            }
-            return count;
-        }
+		public static int CountCodeLines(List<string> textLines){
+			int count = 0; 
+			var regex = new Regex(@"^#|^\s*$|^\s*#");
+			foreach (string line in textLines){
+				line.Trim();
+				if (regex.Match(line).Success||line=="") { }
+				else { count++; }   
+			}
+			return count;
+		}
 
-		public static bool validateText(string fullText, int maxLines, int maxPerLine)
+		public static bool ValidateText(string fullText, int maxLines, int maxPerLine)
 		{
 			List<string> preCodeTextLines = IDEPARSER.parseIntoLines(PMWrapper.preCode);
-			int preCodeLineCount = countCodeLines(preCodeTextLines);
+			int preCodeLineCount = CountCodeLines(preCodeTextLines);
 
 			List<string> mainCodeTextLines = IDEPARSER.parseIntoLines(fullText);
-			int mainCodeLineCount = countCodeLines(mainCodeTextLines);
+			int mainCodeLineCount = CountCodeLines(mainCodeTextLines);
 
-			Progress.Instance.LevelData[PMWrapper.CurrentLevel.id].CodeLineCount = mainCodeLineCount + preCodeLineCount;
-            UISingleton.instance.rowsLimit.UpdateRowsLeft(mainCodeLineCount, maxLines);
+			Progress.Instance.LevelData[PMWrapper.currentLevel.id].CodeLineCount = mainCodeLineCount + preCodeLineCount;
+			UISingleton.instance.rowsLimit.UpdateRowsLeft(mainCodeLineCount, maxLines);
 
-            if (mainCodeLineCount > maxLines)
+			if (mainCodeLineCount > maxLines)
 			{
 				// Too many rows
 				UISingleton.instance.rowsLimit.redness = 1;
@@ -57,7 +57,7 @@ namespace PM
 
 			foreach (string t in mainCodeTextLines)
 			{
-				if (lineSize(t) > maxPerLine)
+				if (LineSize(t) > maxPerLine)
 				{
 					return false;
 				}
@@ -66,14 +66,14 @@ namespace PM
 			return true;
 		}
 
-		private static int lineSize(string lineText)
+		private static int LineSize(string lineText)
 		{
 			int sizeCounter = 0;
 
-			for (int c = 0; c < lineText.Length; c++)
+			foreach (char c in lineText)
 			{
 				sizeCounter++;
-				if (lineText[c] == '\t')
+				if (c == '\t')
 				{
 					sizeCounter += 4 - sizeCounter % 4;
 				}
@@ -97,7 +97,7 @@ namespace PM
 			indentText = new string('\t', indentLevel);
 		}
 
-		public int getNewCaretPos()
+		public int GetNewCaretPos()
 		{
 			return indentLevel + caretPos;
 		}

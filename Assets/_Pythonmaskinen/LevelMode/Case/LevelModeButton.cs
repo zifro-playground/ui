@@ -36,7 +36,7 @@ public class LevelModeButton : MonoBehaviour
 
 	public void SwitchToCase(int caseNumber)
 	{
-		if (PMWrapper.IsCompilerRunning || PMWrapper.IsCompilerUserPaused || PMWrapper.IsCasesRunning)
+		if (PMWrapper.isCompilerRunning || PMWrapper.isCompilerUserPaused || PMWrapper.isCasesRunning)
 		{
 			return;
 		}
@@ -48,7 +48,7 @@ public class LevelModeButton : MonoBehaviour
 
 	public void SwitchToSandbox()
 	{
-		if (PMWrapper.IsCompilerRunning || PMWrapper.IsCompilerUserPaused || PMWrapper.IsCasesRunning)
+		if (PMWrapper.isCompilerRunning || PMWrapper.isCompilerUserPaused || PMWrapper.isCasesRunning)
 		{
 			return;
 		}

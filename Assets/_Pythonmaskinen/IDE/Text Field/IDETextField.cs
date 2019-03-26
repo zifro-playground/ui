@@ -15,7 +15,7 @@ namespace PM
 		public IDELineMarker theLineMarker;
 		public IDEScrollLord theScrollLord;
 		public Text preText;
-        public Text text;
+		public Text text;
 		public Text visibleText;
 		public IDESpeciallCommands theSpeciallCommands;
 		public int codeRowsLimit = 32;
@@ -41,7 +41,7 @@ namespace PM
 			set
 			{
 				codeRowsLimit = value;
-				IDETextManipulation.validateText(theInputField.text, codeRowsLimit, maxChars);
+				IDETextManipulation.ValidateText(theInputField.text, codeRowsLimit, maxChars);
 			}
 		}
 
@@ -49,9 +49,9 @@ namespace PM
 
 		void Start()
 		{
-            text.horizontalOverflow = HorizontalWrapMode.Overflow;
+			text.horizontalOverflow = HorizontalWrapMode.Overflow;
 
-			theLineMarker.initLineMarker(this, theFocusLord);
+			theLineMarker.InitLineMarker(this, theFocusLord);
 
 			inputRect = theInputField.GetComponent<RectTransform>();
 
@@ -59,7 +59,7 @@ namespace PM
 			InitTextFields();
 
 			theInputField.onValidateInput += delegate (string input, int charIndex, char addedChar) { return MyValidate(addedChar, charIndex); };
-			theInputField.onValueChanged.AddListener(_ => doValidateInput());
+			theInputField.onValueChanged.AddListener(_ => DoValidateInput());
 
 			theFocusLord.initReferences(theInputField, this);
 
@@ -82,7 +82,7 @@ namespace PM
 		void Update()
 		{
 #if UNITY_WEBGL
-			webTabSupport();
+			WebTabSupport();
 #elif UNITY_EDITOR
 			if (devBuild)
 				webTabSupport();
@@ -114,7 +114,7 @@ namespace PM
 
 			if (toAddLevels.Count > 0)
 			{
-				addAutoIndent();
+				AddAutoIndent();
 			}
 
 			if (settingNewCaretPos)
@@ -122,7 +122,7 @@ namespace PM
 				settingNewCaretPos = false;
 			}
 
-			theInputField.text = theSpeciallCommands.checkHistoryCommands(theInputField.text);
+			theInputField.text = theSpeciallCommands.CheckHistoryCommands(theInputField.text);
 		}
 
 		/// <summary>Updates main code syntax highlighting and size of rects (for scrolling)</summary>
@@ -210,10 +210,10 @@ namespace PM
 
 			lastCharInsertIndex = charIndex;
 
-			return IDETextManipulation.MyValidate(c, charIndex, isPasting(), toAddLevels, theInputField.text, this);
+			return IDETextManipulation.MyValidate(c, charIndex, IsPasting(), toAddLevels, theInputField.text, this);
 		}
 
-		private bool isPasting()
+		private bool IsPasting()
 		{
 			if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftCommand) ||
 				Input.GetKey(KeyCode.RightControl) || Input.GetKey(KeyCode.RightCommand)) && Input.GetKey(KeyCode.V))
@@ -224,7 +224,7 @@ namespace PM
 			return false;
 		}
 
-		private void addAutoIndent()
+		private void AddAutoIndent()
 		{
 			string startString = theInputField.text;
 			foreach (IndentLevel l in toAddLevels)
@@ -232,7 +232,7 @@ namespace PM
 				startString = startString.Insert(l.caretPos, l.indentText);
 			}
 
-			if (IDETextManipulation.validateText(startString, codeRowsLimit, maxChars))
+			if (IDETextManipulation.ValidateText(startString, codeRowsLimit, maxChars))
 			{
 				inserting = true;
 				theInputField.text = startString;
@@ -244,9 +244,9 @@ namespace PM
 		//Cheks if the current input will fit into the speciefied borders!
 		//Restricted by amount of rows in Y
 		//and by maxChars in X
-		private void doValidateInput()
+		private void DoValidateInput()
 		{
-			if (IDETextManipulation.validateText(theInputField.text, codeRowsLimit, maxChars))
+			if (IDETextManipulation.ValidateText(theInputField.text, codeRowsLimit, maxChars))
 			{
 				lastText = theInputField.text;
 				ColorCodeDaCode();
@@ -258,14 +258,14 @@ namespace PM
 				theInputField.caretPosition = lastCharInsertIndex;
 			}
 
-			Progress.Instance.LevelData[PMWrapper.CurrentLevel.id].MainCode = PMWrapper.mainCode;
+			Progress.Instance.LevelData[PMWrapper.currentLevel.id].MainCode = PMWrapper.mainCode;
 			FocusCursor();
-			theLineMarker.removeErrorMessage();
+			theLineMarker.RemoveErrorMessage();
 		}
 		#endregion
 
 		#region caret & scroll position
-		public void setNewCaretPos(int newPos)
+		public void SetNewCaretPos(int newPos)
 		{
 			if (settingNewCaretPos)
 			{
@@ -273,12 +273,12 @@ namespace PM
 			}
 
 			//oldCaretPos = newPos;
-			StopCoroutine(setCaretPos(newPos));
-			StartCoroutine(setCaretPos(newPos));
+			StopCoroutine(SetCaretPos(newPos));
+			StartCoroutine(SetCaretPos(newPos));
 			settingNewCaretPos = true;
 		}
 
-		private IEnumerator setCaretPos(int newPos)
+		private IEnumerator SetCaretPos(int newPos)
 		{
 			Color preColor = theInputField.caretColor;
 			theInputField.caretColor = Vector4.zero;
@@ -338,10 +338,10 @@ namespace PM
 				}
 
 				// Check if it fits
-				if (checkText2 == null || !IDETextManipulation.validateText(checkText2, codeRowsLimit, maxChars))
+				if (checkText2 == null || !IDETextManipulation.ValidateText(checkText2, codeRowsLimit, maxChars))
 				{
 					checkText2 = null;
-					if (!IDETextManipulation.validateText(checkText, codeRowsLimit, maxChars))
+					if (!IDETextManipulation.ValidateText(checkText, codeRowsLimit, maxChars))
 					{
 						checkText = null;
 					}
@@ -352,7 +352,7 @@ namespace PM
 				{
 					inserting = true;
 
-					setNewCaretPos(start + newText.Length);
+					SetNewCaretPos(start + newText.Length);
 					theInputField.text = checkText2 ?? checkText;
 				}
 
@@ -371,15 +371,15 @@ namespace PM
 
 		public void InsertMainCodeAtStart(string code)
 		{
-			if (!Progress.Instance.LevelData[PMWrapper.CurrentLevel.id].IsStarted)
+			if (!Progress.Instance.LevelData[PMWrapper.currentLevel.id].IsStarted)
 			{
 				theInputField.text = code;
 				inserting = true;
-				Progress.Instance.LevelData[PMWrapper.CurrentLevel.id].MainCode = PMWrapper.mainCode;
+				Progress.Instance.LevelData[PMWrapper.currentLevel.id].MainCode = PMWrapper.mainCode;
 			}
 		}
 
-		private void webTabSupport()
+		private void WebTabSupport()
 		{
 			if (Input.GetKeyDown(KeyCode.Tab))
 			{
@@ -388,24 +388,24 @@ namespace PM
 		}
 
 
-		public void clearText()
+		public void ClearText()
 		{
 			inserting = true;
 			theInputField.text = "";
 			toAddLevels.Clear();
-			setCaretPos(0);
+			SetCaretPos(0);
 		}
 		#endregion
 
 		#region public Get/Setters
-		public void deActivateField()
+		public void DeactivateField()
 		{
 			enabled = false;
 			theFocusLord.stealFocus = false;
 			theInputField.interactable = false;
 		}
 
-		public void reActivateField()
+		public void ReactivateField()
 		{
 			enabled = true;
 			theFocusLord.stealFocus = true;
@@ -415,12 +415,12 @@ namespace PM
 
 		void IPMCompilerStarted.OnPMCompilerStarted()
 		{
-			deActivateField();
+			DeactivateField();
 		}
 
 		void IPMCompilerStopped.OnPMCompilerStopped(HelloCompiler.StopStatus status)
 		{
-			reActivateField();
+			ReactivateField();
 		}
 	}
 

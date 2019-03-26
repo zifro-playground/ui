@@ -48,7 +48,7 @@ namespace PM {
 		}
 
 		public void selectEndOfLine(int lineNumber) {
-			theTextField.setNewCaretPos(IDEPARSER.calcSelectedLineLastIndex(lineNumber, theInputField.text));
+			theTextField.SetNewCaretPos(IDEPARSER.calcSelectedLineLastIndex(lineNumber, theInputField.text));
 		}
 		#endregion
 

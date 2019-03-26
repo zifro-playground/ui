@@ -13,9 +13,9 @@ using UnityEngine;
 public static class PMWrapper
 {
 	/// <summary>
-	/// Tells which mode the level is currently running. See <see cref="PM.LevelMode"/> for avaliable modes.
+	/// Tells which mode the level is currently running. See <see cref="LevelMode"/> for avaliable modes.
 	/// </summary>
-	public static LevelMode LevelMode => LevelModeController.Instance.LevelMode;
+	public static LevelMode levelMode => LevelModeController.Instance.LevelMode;
 
 	/// <summary>
 	/// Value from the speed slider. Ranges from 0 to 1, with a default of 0.5.
@@ -37,7 +37,7 @@ public static class PMWrapper
 		set => UISingleton.instance.walker.sleepTime = value;
 	}
 
-	public static Level CurrentLevel => Main.instance.levelDefinition;
+	public static Level currentLevel => Main.instance.levelDefinition;
 
 	/// <summary>
 	/// The pre code, i.e. the un-changeable code BEFORE the main code.
@@ -76,7 +76,7 @@ public static class PMWrapper
 
 	/// <summary>
 	/// All codes combined, i.e. <see cref="preCode"/> + <see cref="mainCode"/> + <see cref="postCode"/> (with linebreaks inbetween).
-	/// <para>This is the property that <seealso cref="PM.CodeWalker"/> uses when sending the code to compile to the <seealso cref="Compiler.SyntaxCheck"/>.</para>
+	/// <para>This is the property that <seealso cref="CodeWalker"/> uses when sending the code to compile to the <seealso cref="Compiler.SyntaxCheck"/>.</para>
 	/// </summary>
 	public static string fullCode => preCode.Length > 0 ? preCode + '\n' + mainCode : mainCode;
 
@@ -138,17 +138,17 @@ public static class PMWrapper
 	/// <summary>
 	/// Boolean representing wether cases is currently running or not.
 	/// </summary>
-	public static bool IsCasesRunning => Main.instance.caseHandler.IsCasesRunning;
+	public static bool isCasesRunning => Main.instance.caseHandler.IsCasesRunning;
 
 	/// <summary>
 	/// Boolean representing wether the compiler is currently executing or not.
 	/// </summary>
-	public static bool IsCompilerRunning => UISingleton.instance.compiler.isRunning;
+	public static bool isCompilerRunning => UISingleton.instance.compiler.isRunning;
 
 	/// <summary>
 	/// Boolean representing wether the walker is currently paused by the user (via pressing the pause button).
 	/// </summary>
-	public static bool IsCompilerUserPaused => UISingleton.instance.walker.isUserPaused;
+	public static bool isCompilerUserPaused => UISingleton.instance.walker.isUserPaused;
 
 	/// <summary>
 	/// Starts the compiler if it's not currently running. Static wrapper for <see cref="HelloCompiler.CompileCode"/>
@@ -332,7 +332,7 @@ public static class PMWrapper
 	/// <exception cref="ArgumentOutOfRangeException">Thrown if set to value outside of levels list index range, i.e. thrown if <seealso cref="currentLevelIndex"/>.set &lt; 0 or ≥ <seealso cref="numOfLevels"/></exception>
 	public static int currentLevelIndex
 	{
-		get => UISingleton.instance.levelbar.Current;
+		get => UISingleton.instance.levelbar.current;
 		set
 		{
 			if (value < 0 || value >= numOfLevels)
@@ -350,7 +350,7 @@ public static class PMWrapper
 	/// <exception cref="ArgumentOutOfRangeException">In the case of non-positive values in setting <see cref="numOfLevels"/>.</exception>
 	public static int numOfLevels
 	{
-		get => UISingleton.instance.levelbar.NumberOfLevels;
+		get => UISingleton.instance.levelbar.numberOfLevels;
 		set
 		{
 			if (value > 0)
@@ -376,7 +376,7 @@ public static class PMWrapper
 	/// <exception cref="ArgumentOutOfRangeException">In the case of invalid values in setting <see cref="unlockedLevel"/></exception>
 	public static int unlockedLevel
 	{
-		get => UISingleton.instance.levelbar.Unlocked;
+		get => UISingleton.instance.levelbar.unlocked;
 		set
 		{
 			if (value >= 0 && value < numOfLevels)
@@ -443,7 +443,7 @@ public static class PMWrapper
 	/// <exception cref="PMRuntimeException">Is always thrown</exception>
 	public static void RaiseError(string message)
 	{
-		UISingleton.instance.textField.theLineMarker.setErrorMarker(currentLineNumber, message);
+		UISingleton.instance.textField.theLineMarker.SetErrorMarker(currentLineNumber, message);
 	}
 	/// <summary>
 	/// Stops the compiler and shows a dialog box containing the error message on the target <paramref name="newLineNumber"/>.
@@ -451,7 +451,7 @@ public static class PMWrapper
 	/// <exception cref="PMRuntimeException">Is always thrown</exception>
 	public static void RaiseError(int newLineNumber, string message)
 	{
-		UISingleton.instance.textField.theLineMarker.setErrorMarker(newLineNumber, message);
+		UISingleton.instance.textField.theLineMarker.SetErrorMarker(newLineNumber, message);
 	}
 	/// <summary>
 	/// Stops the compiler and shows a dialog box containing the error message on the target <see cref="UnityEngine.UI.Selectable"/>.
@@ -459,7 +459,7 @@ public static class PMWrapper
 	/// <exception cref="PMRuntimeException">Is always thrown</exception>
 	public static void RaiseError(UnityEngine.UI.Selectable targetSelectable, string message)
 	{
-		UISingleton.instance.textField.theLineMarker.setErrorMarker(targetSelectable, message);
+		UISingleton.instance.textField.theLineMarker.SetErrorMarker(targetSelectable, message);
 	}
 	/// <summary>
 	/// Stops the compiler and shows a dialog box containing the error message on the target <see cref="RectTransform"/>.
@@ -467,7 +467,7 @@ public static class PMWrapper
 	/// <exception cref="PMRuntimeException">Is always thrown</exception>
 	public static void RaiseError(RectTransform targetRectTransform, string message)
 	{
-		UISingleton.instance.textField.theLineMarker.setErrorMarker(targetRectTransform, message);
+		UISingleton.instance.textField.theLineMarker.SetErrorMarker(targetRectTransform, message);
 	}
 	/// <summary>
 	/// Stops the compiler and shows a dialog box containing the error message on the target canvas position.
@@ -475,7 +475,7 @@ public static class PMWrapper
 	/// <exception cref="PMRuntimeException">Is always thrown</exception>
 	public static void RaiseError(Vector2 targetCanvasPosition, string message)
 	{
-		UISingleton.instance.textField.theLineMarker.setErrorMarker(targetCanvasPosition, message);
+		UISingleton.instance.textField.theLineMarker.SetErrorMarker(targetCanvasPosition, message);
 	}
 	/// <summary>
 	/// Stops the compiler and shows a dialog box containing the error message on the target world position.
@@ -484,7 +484,7 @@ public static class PMWrapper
 	/// <exception cref="PMRuntimeException">Is always thrown</exception>
 	public static void RaiseError(Vector3 targetWorldPosition, string message)
 	{
-		UISingleton.instance.textField.theLineMarker.setErrorMarker(targetWorldPosition, message);
+		UISingleton.instance.textField.theLineMarker.SetErrorMarker(targetWorldPosition, message);
 	}
 
 

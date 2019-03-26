@@ -31,7 +31,7 @@ namespace PM {
 
 		protected override void OnHideMessage() {
 			theMarker.SetState(IDELineMarker.State.Hidden);
-			UISingleton.instance.textField.theLineMarker.removeErrorMessage();
+			UISingleton.instance.textField.theLineMarker.RemoveErrorMessage();
 		}
 	}
 

@@ -9,17 +9,17 @@ namespace PM {
 
 	public class IDESpeciallCommands : MonoBehaviour {
 
-		private IDETextHistory theHistory = new IDETextHistory ();
+		private readonly IDETextHistory theHistory = new IDETextHistory ();
 		private bool isInHistoryCommand = false;
 
 		private float thresholdCounter = 0;
 		private float thresholdTime = 0.4f;
 
 		//Saves text and resets timer if there are no history commands going on
-		public string checkHistoryCommands(string currentText) {
-			if (isStepingBackInHistory() || isStepingForwardkInHistory())
+		public string CheckHistoryCommands(string currentText) {
+			if (IsSteppingBackInHistory() || IsSteppingForwardInHistory())
 			{
-				return handleHistoryEvent(currentText);
+				return HandleHistoryEvent(currentText);
 			}
 
 			theHistory.saveText(currentText);
@@ -30,7 +30,7 @@ namespace PM {
 
 
 		//If the thresholdtime is not fulfilled we return currenttext
-		private string handleHistoryEvent(string currentText) {
+		private string HandleHistoryEvent(string currentText) {
 			if (isInHistoryCommand) {
 				thresholdCounter += Time.deltaTime;
 
@@ -41,7 +41,7 @@ namespace PM {
 			}
 			isInHistoryCommand = true;
 
-			if (isStepingBackInHistory())
+			if (IsSteppingBackInHistory())
 			{
 				return theHistory.stepBackInHistory();
 			}
@@ -51,23 +51,23 @@ namespace PM {
 
 
 		#region Speciall Commands Check
-		public bool speciallCommandIsRunning() {
-			return isPasting() || isStepingBackInHistory() || isStepingForwardkInHistory();
+		public bool SpecialCommandIsRunning() {
+			return IsPasting() || IsSteppingBackInHistory() || IsSteppingForwardInHistory();
 		}
 
 		// CTRL + V
-		private bool isPasting() {
+		private bool IsPasting() {
 			return AnyKey(KeyCode.LeftCommand, KeyCode.RightCommand, KeyCode.LeftControl, KeyCode.RightControl) && Input.GetKey(KeyCode.V);
 		}
 
 		// CTRL + Z
-		private bool isStepingBackInHistory() {
+		private bool IsSteppingBackInHistory() {
 			return AnyKey(KeyCode.LeftCommand, KeyCode.RightCommand, KeyCode.LeftControl, KeyCode.RightControl) && Input.GetKey(KeyCode.Z);
 		}
 
 		// CTRL + Y
 		// or CTRL + SHIFT + Z
-		private bool isStepingForwardkInHistory() {
+		private bool IsSteppingForwardInHistory() {
 			return 
 				AnyKey(KeyCode.LeftCommand, KeyCode.RightCommand, KeyCode.LeftControl, KeyCode.RightControl)
 				&& (Input.GetKey(KeyCode.Y) || AnyKey(KeyCode.LeftShift, KeyCode.RightShift) && Input.GetKey(KeyCode.Z));
@@ -76,18 +76,18 @@ namespace PM {
 		}
 		#endregion
 
-		public static readonly ReadOnlyCollection<KeyCode> keyboardKeys = new ReadOnlyCollection<KeyCode>(
+		public static readonly IReadOnlyCollection<KeyCode> keyboardKeys = 
 			Enum.GetValues(typeof(KeyCode))
 			.Cast<KeyCode>()
 			.Where(k => !k.ToString().StartsWith("Mouse") && !k.ToString().StartsWith("Joystick"))
-			.ToList()
-		);
-		public static readonly ReadOnlyCollection<KeyCode> mouseKeys = new ReadOnlyCollection<KeyCode>(
+			.ToArray();
+
+		public static readonly IReadOnlyCollection<KeyCode> mouseKeys = 
 			Enum.GetValues(typeof(KeyCode))
 			.Cast<KeyCode>()
 			.Where(k => k.ToString().StartsWith("Mouse"))
-			.ToList()
-		);
+			.ToArray();
+
 		public static bool AnyKeyboardKey() {
 			return AnyKey(keyboardKeys.ToArray());
 		}

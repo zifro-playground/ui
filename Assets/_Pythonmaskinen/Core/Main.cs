@@ -169,11 +169,11 @@ namespace PM
 			SetSceneSettings();
 			SetLevelSettings();
 
-			if (PMWrapper.LevelMode == LevelMode.Sandbox)
+			if (PMWrapper.levelMode == LevelMode.Sandbox)
 			{
 				SetSandboxSettings();
 			}
-			else if (PMWrapper.LevelMode == LevelMode.Case)
+			else if (PMWrapper.levelMode == LevelMode.Case)
 			{
 				SetCaseSettings();
 			}
@@ -345,9 +345,9 @@ namespace PM
 
 		private void LoadMainCode()
 		{
-			if (Progress.Instance.LevelData[PMWrapper.CurrentLevel.id].IsStarted)
+			if (Progress.Instance.LevelData[PMWrapper.currentLevel.id].IsStarted)
 			{
-				PMWrapper.mainCode = Progress.Instance.LevelData[PMWrapper.CurrentLevel.id].MainCode;
+				PMWrapper.mainCode = Progress.Instance.LevelData[PMWrapper.currentLevel.id].MainCode;
 			}
 			else
 			{
@@ -360,7 +360,7 @@ namespace PM
 					PMWrapper.mainCode = string.Empty;
 				}
 
-				Progress.Instance.LevelData[PMWrapper.CurrentLevel.id].IsStarted = true;
+				Progress.Instance.LevelData[PMWrapper.currentLevel.id].IsStarted = true;
 			}
 		}
 

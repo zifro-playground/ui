@@ -16,9 +16,9 @@ namespace PM
 
 		public void OnRunCodeButtownClick()
 		{
-			if (PMWrapper.IsCompilerRunning)
+			if (PMWrapper.isCompilerRunning)
 			{
-				UISingleton.instance.walker.SetWalkerUserPaused(!PMWrapper.IsCompilerUserPaused);
+				UISingleton.instance.walker.SetWalkerUserPaused(!PMWrapper.isCompilerUserPaused);
 			}
 			else
 			{

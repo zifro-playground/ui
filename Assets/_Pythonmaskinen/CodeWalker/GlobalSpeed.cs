@@ -15,12 +15,12 @@ namespace PM {
 
 		// Use this for initialization
 		void Start() {
-			speedSlider.onValueChanged.AddListener(delegate { valueChanged(); });
-			valueChanged();
+			speedSlider.onValueChanged.AddListener(delegate { ValueChanged(); });
+			ValueChanged();
 		}
 
 		// Listener
-		public void valueChanged() {
+		public void ValueChanged() {
 			foreach (IPMSpeedChanged ev in UISingleton.FindInterfaces<IPMSpeedChanged>())
 			{
 				ev.OnPMSpeedChanged(currentSpeed);

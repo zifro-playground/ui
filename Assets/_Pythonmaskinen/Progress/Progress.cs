@@ -90,7 +90,7 @@ namespace PM
 
 		private LevelProgress CollectUserProgress()
 		{
-			LevelData levelData = LevelData[PMWrapper.CurrentLevel.id];
+			LevelData levelData = LevelData[PMWrapper.currentLevel.id];
 
 			var userProgress = new LevelProgress()
 			{
@@ -107,7 +107,7 @@ namespace PM
 		private int SaveAndResetSecondsSpent()
 		{
 			int secondsSpent = (int)secondsSpentOnCurrentLevel;
-			LevelData[PMWrapper.CurrentLevel.id].SecondsSpent = secondsSpent;
+			LevelData[PMWrapper.currentLevel.id].SecondsSpent = secondsSpent;
 
 			secondsSpentOnCurrentLevel = 0;
 
@@ -116,12 +116,12 @@ namespace PM
 
 		public void OnPMLevelCompleted()
 		{
-			LevelData[PMWrapper.CurrentLevel.id].IsCompleted = true;
+			LevelData[PMWrapper.currentLevel.id].IsCompleted = true;
 			SaveUserLevelProgress();
 		}
 		public void OnPMUnloadLevel()
 		{
-			if (LevelData.ContainsKey(PMWrapper.CurrentLevel.id))
+			if (LevelData.ContainsKey(PMWrapper.currentLevel.id))
 			{
 				SaveUserLevelProgress();
 			}
