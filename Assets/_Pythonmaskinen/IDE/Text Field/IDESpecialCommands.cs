@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace PM {
 
-	public class IDESpeciallCommands : MonoBehaviour {
+	public class IDESpecialCommands : MonoBehaviour {
 
 		private readonly IDETextHistory theHistory = new IDETextHistory ();
 		private bool isInHistoryCommand = false;
