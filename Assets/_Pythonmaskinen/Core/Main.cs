@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using PM.Guide;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 namespace PM
 {
@@ -14,16 +15,21 @@ namespace PM
 	public class Main : MonoBehaviour, IPMCompilerStopped, IPMLevelChanged, IPMCaseSwitched
 	{
 		private string loadedScene;
-		public string GameDataFileName;
+		[FormerlySerializedAs("GameDataFileName")]
+		public string gameDataFileName;
 
-		public GameDefinition GameDefinition;
+		[FormerlySerializedAs("GameDefinition")]
+		public GameDefinition gameDefinition;
 
-		public Level LevelDefinition;
-		public LevelAnswer LevelAnswer;
+		[FormerlySerializedAs("LevelDefinition")]
+		public Level levelDefinition;
+		[FormerlySerializedAs("LevelAnswer")]
+		public LevelAnswer levelAnswer;
 
-		public CaseHandler CaseHandler;
+		[FormerlySerializedAs("CaseHandler")]
+		public CaseHandler caseHandler;
 
-		public static Main Instance;
+		public static Main instance;
 
 		private SceneSettings currentSceneSettings;
 		private LevelSettings currentLevelSettings;
@@ -31,9 +37,9 @@ namespace PM
 		// Everything should be placed in Awake() but there are some things that needs to be set in Awake() in some other script before the things currently in Start() is called
 		private void Awake()
 		{
-			if (Instance == null)
+			if (instance == null)
 			{
-				Instance = this;
+				instance = this;
 			}
 		}
 
@@ -41,18 +47,18 @@ namespace PM
 		{
 			LoadingScreen.Instance.Show();
 
-			GameDefinition = ParseJson();
+			gameDefinition = ParseJson();
 
 			Progress.Instance.LoadUserGameProgress();
 		}
 
 		private GameDefinition ParseJson()
 		{
-			TextAsset jsonAsset = Resources.Load<TextAsset>(GameDataFileName);
+			TextAsset jsonAsset = Resources.Load<TextAsset>(gameDataFileName);
 
 			if (jsonAsset == null)
 			{
-				throw new Exception("Could not find the file \"" + GameDataFileName +
+				throw new Exception("Could not find the file \"" + gameDataFileName +
 				                    "\" that should contain game data in json format.");
 			}
 
@@ -66,7 +72,7 @@ namespace PM
 		public void StartGame()
 		{
 			// Will create level navigation buttons
-			PMWrapper.numOfLevels = GameDefinition.activeLevels.Count;
+			PMWrapper.numOfLevels = gameDefinition.activeLevels.Count;
 
 			StartLevel(0);
 
@@ -75,10 +81,10 @@ namespace PM
 
 		public void StartLevel(int levelIndex)
 		{
-			string sceneName = GameDefinition.activeLevels[levelIndex].sceneName;
+			string sceneName = gameDefinition.activeLevels[levelIndex].sceneName;
 			LoadScene(sceneName);
 
-			string levelId = GameDefinition.activeLevels[levelIndex].levelId;
+			string levelId = gameDefinition.activeLevels[levelIndex].levelId;
 			LoadLevel(levelId);
 
 			foreach (IPMLevelChanged ev in UISingleton.FindInterfaces<IPMLevelChanged>())
@@ -91,7 +97,7 @@ namespace PM
 		{
 			if (sceneName != loadedScene)
 			{
-				var scenes = GameDefinition.scenes.Where(x => x.name == sceneName).ToList();
+				var scenes = gameDefinition.scenes.Where(x => x.name == sceneName).ToList();
 
 				if (scenes.Count > 1)
 				{
@@ -125,7 +131,7 @@ namespace PM
 
 		private void LoadLevel(string levelId)
 		{
-			var levels = GameDefinition.scenes.First(x => x.name == loadedScene).levels.Where(x => x.id == levelId)
+			var levels = gameDefinition.scenes.First(x => x.name == loadedScene).levels.Where(x => x.id == levelId)
 				.ToList();
 
 			if (levels.Count > 1)
@@ -138,16 +144,16 @@ namespace PM
 				throw new Exception("There is no level with id " + levelId);
 			}
 
-			LevelDefinition = levels.First();
+			levelDefinition = levels.First();
 
-			currentLevelSettings = LevelDefinition.levelSettings;
+			currentLevelSettings = levelDefinition.levelSettings;
 
 			LevelModeButtons.Instance.CreateButtons();
 
-			BuildGuides(LevelDefinition.guideBubbles);
-			BuildCases(LevelDefinition.cases);
+			BuildGuides(levelDefinition.guideBubbles);
+			BuildCases(levelDefinition.cases);
 
-			if (LevelDefinition.sandbox != null)
+			if (levelDefinition.sandbox != null)
 			{
 				LevelModeController.Instance.InitSandboxMode();
 			}
@@ -243,16 +249,16 @@ namespace PM
 
 		private void SetCaseSettings()
 		{
-			if (LevelDefinition.cases != null && LevelDefinition.cases.Any())
+			if (levelDefinition.cases != null && levelDefinition.cases.Any())
 			{
-				CaseSettings caseSettings = LevelDefinition.cases[PMWrapper.currentCase].caseSettings;
+				CaseSettings caseSettings = levelDefinition.cases[PMWrapper.currentCase].caseSettings;
 
 				if (caseSettings == null)
 				{
 					return;
 				}
 
-				if (!String.IsNullOrEmpty(caseSettings.precode))
+				if (!string.IsNullOrEmpty(caseSettings.precode))
 				{
 					PMWrapper.preCode = caseSettings.precode;
 				}
@@ -266,16 +272,16 @@ namespace PM
 
 		private void SetSandboxSettings()
 		{
-			if (LevelDefinition.sandbox != null)
+			if (levelDefinition.sandbox != null)
 			{
-				SandboxSettings sandboxSettings = LevelDefinition.sandbox.sandboxSettings;
+				SandboxSettings sandboxSettings = levelDefinition.sandbox.sandboxSettings;
 
 				if (sandboxSettings == null)
 				{
 					return;
 				}
 
-				if (!String.IsNullOrEmpty(sandboxSettings.precode))
+				if (!string.IsNullOrEmpty(sandboxSettings.precode))
 				{
 					PMWrapper.preCode = sandboxSettings.precode;
 				}
@@ -296,7 +302,7 @@ namespace PM
 				{
 					if (guideBubble.target == null || string.IsNullOrEmpty(guideBubble.text))
 					{
-						throw new Exception("A guide bubble for level with index " + PMWrapper.CurrentLevelIndex +
+						throw new Exception("A guide bubble for level with index " + PMWrapper.currentLevelIndex +
 						                    " is missing target or text");
 					}
 
@@ -326,13 +332,13 @@ namespace PM
 		{
 			if (cases != null && cases.Any())
 			{
-				CaseHandler = new CaseHandler(cases.Count);
+				caseHandler = new CaseHandler(cases.Count);
 			}
 			else
 			{
-				if (LevelDefinition.sandbox == null)
+				if (levelDefinition.sandbox == null)
 				{
-					CaseHandler = new CaseHandler(1);
+					caseHandler = new CaseHandler(1);
 				}
 			}
 		}
@@ -345,7 +351,7 @@ namespace PM
 			}
 			else
 			{
-				if (currentLevelSettings != null && currentLevelSettings.startCode != null)
+				if (currentLevelSettings?.startCode != null)
 				{
 					PMWrapper.AddCodeAtStart(currentLevelSettings.startCode);
 				}
@@ -382,14 +388,15 @@ namespace PM
 
 		public void OnPMCompilerStopped(HelloCompiler.StopStatus status)
 		{
-			if (LevelAnswer != null)
+			if (levelAnswer != null)
 			{
-				LevelAnswer.compilerHasBeenStopped = true;
+				levelAnswer.compilerHasBeenStopped = true;
 			}
 
 			if (status == HelloCompiler.StopStatus.Finished)
 			{
-				if (PMWrapper.levelShouldBeAnswered && UISingleton.instance.taskDescription.isActiveAndEnabled)
+				if (PMWrapper.levelShouldBeAnswered &&
+				    UISingleton.instance.taskDescription.isActiveAndEnabled)
 				{
 					PMWrapper.RaiseTaskError("Fick inget svar");
 				}

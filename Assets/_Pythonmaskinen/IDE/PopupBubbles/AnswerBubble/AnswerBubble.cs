@@ -58,7 +58,7 @@ namespace PM
 		}
 
 		// All methods below might be abstract methods later
-		public void ShowMessage(int lineNumber)
+		public void ShowMessage()
 		{
 			answerText.enabled = true;
 

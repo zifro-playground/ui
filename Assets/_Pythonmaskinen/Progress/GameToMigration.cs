@@ -22,7 +22,7 @@ namespace PM
 
 		public void CreateMigrationFromJson()
 		{
-			var game = Main.Instance.GameDefinition;
+			var game = Main.instance.gameDefinition;
 
 			var basePath = BaseOutputPath + "Zifro/App_Code/Persistance/Migrations/GameUpgrades/";
 			var fileName = "TargetVersion_" + Version.PrintWithUnderscore() + ".cs";
@@ -140,12 +140,12 @@ namespace PM
 
 		public string PrintWithDots()
 		{
-			return String.Format("{0}.{1}.{2}", Major, Minor, Build);
+			return string.Format("{0}.{1}.{2}", Major, Minor, Build);
 		}
 
 		public string PrintWithUnderscore()
 		{
-			return String.Format("{0}_{1}_{2}", Major, Minor, Build);
+			return string.Format("{0}_{1}_{2}", Major, Minor, Build);
 		}
 	}
 }

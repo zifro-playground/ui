@@ -6,17 +6,15 @@ using PM;
 using UnityEngine;
 
 
-public class Answer : ClrFunction
+public class Answer : ClrYieldingFunction
 {
 	public Answer()
 		: base("svara")
 	{
 	}
 
-	public override IScriptType Invoke(params IScriptType[] arguments)
+	public override void InvokeEnter(params IScriptType[] arguments)
 	{
-		Main.Instance.LevelAnswer.CheckAnswer(arguments);
-
-		return Processor.Factory.Null;
+		Main.instance.levelAnswer.CheckAnswer(arguments);
 	}
 }

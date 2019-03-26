@@ -21,7 +21,7 @@ namespace PM
 
 		public void RunProgram()
 		{
-			if (Main.Instance.LevelDefinition.sandbox != null)
+			if (Main.instance.levelDefinition.sandbox != null)
 			{
 				InitSandboxMode();
 				PMWrapper.StartCompiler();
@@ -38,7 +38,7 @@ namespace PM
 			LevelModeButtons.Instance.SetSandboxButtonState(LevelModeButtonState.Active);
 			LevelModeButtons.Instance.SetCaseButtonsToDefault();
 
-			Main.Instance.SetSettings();
+			Main.instance.SetSettings();
 
 			foreach (var ev in UISingleton.FindInterfaces<IPMSwitchedToSandbox>())
 				ev.OnPMSwitchedToSandbox();
@@ -48,27 +48,27 @@ namespace PM
 		{
 			LevelMode = LevelMode.Case;
 			LevelModeButtons.Instance.SetSandboxButtonToDefault();
-			Main.Instance.CaseHandler.SetCurrentCase(0);
+			Main.instance.caseHandler.SetCurrentCase(0);
 		}
 
 		public void SwitchToCaseMode()
 		{
 			LevelMode = LevelMode.Case;
-			Main.Instance.SetSettings();
+			Main.instance.SetSettings();
 		}
 
 		public void StartCorrection()
 		{
 			CorrectProgramPanel.SetActive(false);
 			InitCaseMode();
-			Main.Instance.CaseHandler.RunCase(0);
+			Main.instance.caseHandler.RunCase(0);
 		}
 
 		public void OnPMCompilerStopped(HelloCompiler.StopStatus status)
 		{
 			if (status == HelloCompiler.StopStatus.Finished)
 			{
-				if (LevelMode == LevelMode.Sandbox && Main.Instance.LevelDefinition.cases != null && Main.Instance.LevelDefinition.cases.Count > 0)
+				if (LevelMode == LevelMode.Sandbox && Main.instance.levelDefinition.cases != null && Main.instance.levelDefinition.cases.Count > 0)
 					CorrectProgramPanel.SetActive(true);
 				else if (LevelMode == LevelMode.Case)
 					foreach (var ev in UISingleton.FindInterfaces<IPMTimeToCorrectCase>())
@@ -80,13 +80,13 @@ namespace PM
 			if (status == HelloCompiler.StopStatus.RuntimeError)
 			{
 				if (LevelMode == LevelMode.Case)
-					Main.Instance.CaseHandler.CaseFailed();
+					Main.instance.caseHandler.CaseFailed();
 			}
 
 			if (status == HelloCompiler.StopStatus.UserForced)
 			{
 				if (LevelMode == LevelMode.Case)
-					Main.Instance.CaseHandler.IsCasesRunning = false;
+					Main.instance.caseHandler.IsCasesRunning = false;
 			}
 		}
 

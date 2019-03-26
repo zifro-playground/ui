@@ -65,7 +65,7 @@ namespace PM
 		{
 			PMWrapper.StopCompiler();
 
-			Main.Instance.StartCoroutine(ShowFeedbackAndRunNextCase());
+			Main.instance.StartCoroutine(ShowFeedbackAndRunNextCase());
 		}
 
 		public void CaseFailed()
@@ -76,13 +76,13 @@ namespace PM
 
 		private IEnumerator ShowFeedbackAndRunNextCase()
 		{
-            string positiveMassage;
-            if (numberOfCases == 1)
-                positiveMassage = "Bra jobbat!";
-            else
-                positiveMassage = "Test " + (CurrentCase + 1) + " avklarat!";
+			string positiveMassage;
+			if (numberOfCases == 1)
+				positiveMassage = "Bra jobbat!";
+			else
+				positiveMassage = "Test " + (CurrentCase + 1) + " avklarat!";
 
-            UISingleton.instance.taskDescription.ShowPositiveMessage(positiveMassage);
+			UISingleton.instance.taskDescription.ShowPositiveMessage(positiveMassage);
 
 			yield return new WaitForSeconds(3 * (1 - PMWrapper.speedMultiplier));
 

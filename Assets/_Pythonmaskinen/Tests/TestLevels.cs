@@ -23,17 +23,17 @@ namespace PM
         
         public void TestLevel()
         {
-            if(Main.Instance.LevelDefinition.levelSettings != null && Main.Instance.LevelDefinition.levelSettings.exampleSolutionCode != null)
-                PMWrapper.mainCode = Main.Instance.LevelDefinition.levelSettings.exampleSolutionCode;
+            if(Main.instance.levelDefinition.levelSettings != null && Main.instance.levelDefinition.levelSettings.exampleSolutionCode != null)
+                PMWrapper.mainCode = Main.instance.levelDefinition.levelSettings.exampleSolutionCode;
             PMWrapper.speedMultiplier = 1;
             PMWrapper.RunCode();
         }
 
         public void TestNextLevel()
         {
-            if (PMWrapper.CurrentLevelIndex < PMWrapper.numOfLevels - 1)
+            if (PMWrapper.currentLevelIndex < PMWrapper.numOfLevels - 1)
             {
-                PMWrapper.CurrentLevelIndex++;
+                PMWrapper.currentLevelIndex++;
                 TestLevel();
             }
             else
@@ -53,7 +53,7 @@ namespace PM
                 return; 
             if (status == HelloCompiler.StopStatus.RuntimeError || status == HelloCompiler.StopStatus.TaskError)
             {
-                testErrors.Add(new TestError(Main.Instance.LevelDefinition.id, status.ToString()));
+                testErrors.Add(new TestError(Main.instance.levelDefinition.id, status.ToString()));
                 TestNextLevel();
             }
         }

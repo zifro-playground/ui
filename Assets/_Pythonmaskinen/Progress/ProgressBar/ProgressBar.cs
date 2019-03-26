@@ -87,7 +87,7 @@ namespace PM
 		{
 			var btn = levels[levelIndex];
 
-			var levelId = Main.Instance.GameDefinition.activeLevels[levelIndex].levelId;
+			var levelId = Main.instance.gameDefinition.activeLevels[levelIndex].levelId;
 			var levelData = Progress.Instance.LevelData[levelId];
 
 			if (levelIndex == 0)
@@ -129,7 +129,7 @@ namespace PM
 			// Update which one is current one
 			UpdateButtons(levelIndex, Unlocked);
 
-			Main.Instance.StartLevel(levelIndex);
+			Main.instance.StartLevel(levelIndex);
 		}
 
 	}

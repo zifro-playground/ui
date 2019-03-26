@@ -31,7 +31,7 @@ namespace PM
 			var request = new Request
 			{
 				Method = HttpMethod.GET,
-				Endpoint = "/levels/load?gameId=" + Main.Instance.GameDefinition.gameId,
+				Endpoint = "/levels/load?gameId=" + Main.instance.gameDefinition.gameId,
 				OkResponsCallback = HandleOkGetResponse,
 				ErrorResponsCallback = HandleErrorGetResponse
 			};
@@ -48,18 +48,18 @@ namespace PM
 			}
 
 			AddMissingLevelData();
-			Main.Instance.StartGame();
+			Main.instance.StartGame();
 		}
 
 		public void HandleErrorGetResponse(string response)
 		{
 			AddMissingLevelData();
-			Main.Instance.StartGame();
+			Main.instance.StartGame();
 		}
 
 		private void AddMissingLevelData()
 		{
-			foreach (var level in Main.Instance.GameDefinition.activeLevels)
+			foreach (var level in Main.instance.gameDefinition.activeLevels)
 			{
 				if (!LevelData.ContainsKey(level.levelId))
 					LevelData[level.levelId] = new LevelData(level.levelId);

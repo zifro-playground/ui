@@ -1,43 +1,63 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace PM
 {
 	public class TaskDescriptionController : MonoBehaviour, IPMLevelChanged, IPMCompilerStarted
 	{
-		public Animator IconAnimator;
+		[FormerlySerializedAs("IconAnimator")]
+		public Animator iconAnimator;
 
 		[Header("Big task description")]
-		public GameObject BigTaskDescription;
-		public Text BigTaskDescriptionHead;
-		public Text BigTaskDescriptionBody;
+		[FormerlySerializedAs("BigTaskDescription")]
+		public GameObject bigTaskDescription;
+
+		[FormerlySerializedAs("BigTaskDescriptionHead")]
+		public Text bigTaskDescriptionHead;
+
+		[FormerlySerializedAs("BigTaskDescriptionBody")]
+		public Text bigTaskDescriptionBody;
 
 		[Header("Small task description")]
-		public GameObject SmallTaskDescription;
-		public GameObject ReadMoreButton;
-		public Text SmallTaskDescriptionText;
+		[FormerlySerializedAs("SmallTaskDescription")]
+		public GameObject smallTaskDescription;
 
-		[Header("Positive Feedback")]
-		public GameObject PositiveParent;
-		public Text PositiveText;
+		[FormerlySerializedAs("ReadMoreButton")]
+		public GameObject readMoreButton;
 
-		[Header("Positive Feedback")]
-		public GameObject NegativeParent;
-		public Text NegativeText;
+		[FormerlySerializedAs("SmallTaskDescriptionText")]
+		public Text smallTaskDescriptionText;
 
-		private Animator anim;
+		[Header("[+] Positive Feedback")]
+		[FormerlySerializedAs("PositiveParent")]
+		public GameObject positiveParent;
 
-		private void Awake()
+		[FormerlySerializedAs("PositiveText")]
+		public Text positiveText;
+
+		[Header("[-] Negative Feedback")]
+		[FormerlySerializedAs("NegativeParent")]
+		public GameObject negativeParent;
+
+		[FormerlySerializedAs("NegativeText")]
+		public Text negativeText;
+
+		Animator anim;
+		static readonly int Shake = Animator.StringToHash("Shake");
+		static readonly int Jump = Animator.StringToHash("Jump");
+
+		void Awake()
 		{
-			anim = IconAnimator;
+			anim = iconAnimator;
 		}
 
-		public void SetTaskDescription (string header, string body)
+		public void SetTaskDescription(string header, string body)
 		{
-			BigTaskDescription.SetActive (false);
+			bigTaskDescription.SetActive(false);
 			if (header.Length < 1)
 			{
-				SmallTaskDescription.SetActive (false);
+				smallTaskDescription.SetActive(false);
 			}
 			else
 			{
@@ -48,54 +68,55 @@ namespace PM
 
 		private void SetSmallTaskDescription(string header, string body)
 		{
-			SmallTaskDescription.SetActive(true);
-			SmallTaskDescriptionText.text = header;
+			smallTaskDescription.SetActive(true);
+			smallTaskDescriptionText.text = header;
 			if (string.IsNullOrEmpty(body))
-				ReadMoreButton.SetActive(false);
+				readMoreButton.SetActive(false);
 			else
-				ReadMoreButton.SetActive(true);
+				readMoreButton.SetActive(true);
 		}
 
 		private void SetBigTaskDescription(string header, string body)
 		{
-			BigTaskDescriptionHead.text = header;
-			BigTaskDescriptionBody.text = body;
+			bigTaskDescriptionHead.text = header;
+			bigTaskDescriptionBody.text = body;
 
 			var levelData = Progress.Instance.LevelData[PMWrapper.CurrentLevel.id];
+
 			if (!levelData.HasShownDescription && !levelData.IsCompleted)
 			{
-				BigTaskDescription.SetActive(true);
+				bigTaskDescription.SetActive(true);
 				levelData.HasShownDescription = true;
 			}
 		}
 
 		public void ShowTaskError(string message)
 		{
-			NegativeParent.SetActive(true);
-			NegativeText.text = message;
+			negativeParent.SetActive(true);
+			negativeText.text = message;
 
-			anim.SetTrigger("Shake");
+			anim.SetTrigger(Shake);
 		}
 
 		public void HideTaskFeedback()
 		{
-			NegativeParent.SetActive(false);
-			PositiveParent.SetActive(false);
-
+			negativeParent.SetActive(false);
+			positiveParent.SetActive(false);
 		}
 
 		public void ShowPositiveMessage(string message)
 		{
-			PositiveParent.SetActive(true);
-			PositiveText.text = message;
+			positiveParent.SetActive(true);
+			positiveText.text = message;
 
-			anim.SetTrigger("Jump");
+			anim.SetTrigger(Jump);
 		}
 
 		public void OnPMLevelChanged()
 		{
 			HideTaskFeedback();
 		}
+
 		public void OnPMCompilerStarted()
 		{
 			HideTaskFeedback();

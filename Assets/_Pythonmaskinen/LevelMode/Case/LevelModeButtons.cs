@@ -21,7 +21,7 @@ namespace PM
 
 		public void CreateButtons()
 		{
-			if (Main.Instance.LevelDefinition.sandbox != null)
+			if (Main.instance.levelDefinition.sandbox != null)
 				SandboxButton.SetActive(true);
 			else
 				SandboxButton.SetActive(false);
@@ -31,7 +31,7 @@ namespace PM
 
 		public void SetCurrentCaseButtonState(LevelModeButtonState state)
 		{
-			var caseNumber = Main.Instance.CaseHandler.CurrentCase;
+			var caseNumber = Main.instance.caseHandler.CurrentCase;
 			
 			if (state == LevelModeButtonState.Default)
 				CaseButtons[caseNumber].GetComponent<LevelModeButton>().SetButtonDefault();
@@ -46,13 +46,13 @@ namespace PM
 		public void SetCaseButtonsToDefault()
 		{
 			int numberOfCases = 0;
-			if (Main.Instance.LevelDefinition.cases != null && Main.Instance.LevelDefinition.cases.Any())
+			if (Main.instance.levelDefinition.cases != null && Main.instance.levelDefinition.cases.Any())
 			{
-				numberOfCases = Main.Instance.LevelDefinition.cases.Count;
+				numberOfCases = Main.instance.levelDefinition.cases.Count;
 			}
 			else
 			{
-				if (Main.Instance.LevelDefinition.sandbox == null)
+				if (Main.instance.levelDefinition.sandbox == null)
 					numberOfCases = 1;
 			}
 

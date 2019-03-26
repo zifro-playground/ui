@@ -27,7 +27,7 @@ namespace PM
 			if (coroutine != null)
 				StopCoroutine(coroutine);
 
-			if (caseNumber < 0 || caseNumber > Main.Instance.CaseHandler.numberOfCases-1)
+			if (caseNumber < 0 || caseNumber > Main.instance.caseHandler.numberOfCases-1)
 				throw new ArgumentOutOfRangeException();
 
 			NumberImage.sprite = CaseImages[caseNumber];
