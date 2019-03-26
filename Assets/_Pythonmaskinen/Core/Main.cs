@@ -45,11 +45,11 @@ namespace PM
 
 		private void Start()
 		{
-			LoadingScreen.Instance.Show();
+			LoadingScreen.instance.Show();
 
 			gameDefinition = ParseJson();
 
-			Progress.Instance.LoadUserGameProgress();
+			Progress.instance.LoadUserGameProgress();
 		}
 
 		private GameDefinition ParseJson()
@@ -76,7 +76,7 @@ namespace PM
 
 			StartLevel(0);
 
-			LoadingScreen.Instance.Hide();
+			LoadingScreen.instance.Hide();
 		}
 
 		public void StartLevel(int levelIndex)
@@ -148,18 +148,18 @@ namespace PM
 
 			currentLevelSettings = levelDefinition.levelSettings;
 
-			LevelModeButtons.Instance.CreateButtons();
+			LevelModeButtons.instance.CreateButtons();
 
 			BuildGuides(levelDefinition.guideBubbles);
 			BuildCases(levelDefinition.cases);
 
 			if (levelDefinition.sandbox != null)
 			{
-				LevelModeController.Instance.InitSandboxMode();
+				LevelModeController.instance.InitSandboxMode();
 			}
 			else
 			{
-				LevelModeController.Instance.InitCaseMode();
+				LevelModeController.instance.InitCaseMode();
 			}
 		}
 
@@ -197,11 +197,11 @@ namespace PM
 
 			if (currentSceneSettings.gameWindowUiLightTheme)
 			{
-				GameWindow.Instance.SetGameWindowUiTheme(GameWindowUiTheme.light);
+				GameWindow.instance.SetGameWindowUiTheme(GameWindowUITheme.light);
 			}
 			else
 			{
-				GameWindow.Instance.SetGameWindowUiTheme(GameWindowUiTheme.dark);
+				GameWindow.instance.SetGameWindowUiTheme(GameWindowUITheme.dark);
 			}
 
 			if (currentSceneSettings.availableFunctions != null)
@@ -345,9 +345,9 @@ namespace PM
 
 		private void LoadMainCode()
 		{
-			if (Progress.Instance.LevelData[PMWrapper.currentLevel.id].IsStarted)
+			if (Progress.instance.levelData[PMWrapper.currentLevel.id].isStarted)
 			{
-				PMWrapper.mainCode = Progress.Instance.LevelData[PMWrapper.currentLevel.id].MainCode;
+				PMWrapper.mainCode = Progress.instance.levelData[PMWrapper.currentLevel.id].mainCode;
 			}
 			else
 			{
@@ -360,7 +360,7 @@ namespace PM
 					PMWrapper.mainCode = string.Empty;
 				}
 
-				Progress.Instance.LevelData[PMWrapper.currentLevel.id].IsStarted = true;
+				Progress.instance.levelData[PMWrapper.currentLevel.id].isStarted = true;
 			}
 		}
 

@@ -43,12 +43,8 @@ namespace PM.Guide {
 			}
 		}
 
-		public void resetCurrentGuide(){
-			if (currentGuide != null)
-			{
-				currentGuide.ResetGuide ();
-			}
-
+		public void ResetCurrentGuide(){
+			currentGuide?.ResetGuide ();
 			shouldPlayNext = true;
 		}
 	}

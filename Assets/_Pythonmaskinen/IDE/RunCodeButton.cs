@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace PM
@@ -7,14 +8,18 @@ namespace PM
 	public class RunCodeButton : MonoBehaviour, IPMCompilerStarted, IPMCompilerUserPaused, IPMCompilerUserUnpaused, IPMCompilerStopped
 	{
 
-		public Sprite PlayImage;
-		public Sprite PauseImage;
-		public Sprite ResumeImage;
-		public Button ThisButton;
+		[FormerlySerializedAs("PlayImage")]
+		public Sprite playImage;
+		[FormerlySerializedAs("PauseImage")]
+		public Sprite pauseImage;
+		[FormerlySerializedAs("ResumeImage")]
+		public Sprite resumeImage;
+		[FormerlySerializedAs("ThisButton")]
+		public Button thisButton;
 
 		// UITooltip Tooltip;
 
-		public void OnRunCodeButtownClick()
+		public void OnRunCodeButtonClick()
 		{
 			if (PMWrapper.isCompilerRunning)
 			{
@@ -31,7 +36,7 @@ namespace PM
 			//Tooltip.text = "Pausa koden!";
 			//Tooltip.ApplyTooltipTextChange();
 
-			ThisButton.image.sprite = PauseImage;
+			thisButton.image.sprite = pauseImage;
 		}
 
 		void IPMCompilerUserUnpaused.OnPMCompilerUserUnpaused()
@@ -39,7 +44,7 @@ namespace PM
 			//Tooltip.text = "Pausa koden!";
 			//Tooltip.ApplyTooltipTextChange();
 
-			ThisButton.image.sprite = PauseImage;
+			thisButton.image.sprite = pauseImage;
 		}
 
 		void IPMCompilerUserPaused.OnPMCompilerUserPaused()
@@ -47,7 +52,7 @@ namespace PM
 			//Tooltip.text = "Kör koden!";
 			//Tooltip.ApplyTooltipTextChange();
 
-			ThisButton.image.sprite = ResumeImage;
+			thisButton.image.sprite = resumeImage;
 		}
 
 		void IPMCompilerStopped.OnPMCompilerStopped(HelloCompiler.StopStatus status)
@@ -55,7 +60,7 @@ namespace PM
 			//Tooltip.text = "Kör koden!";
 			//Tooltip.ApplyTooltipTextChange();
 
-			ThisButton.image.sprite = PlayImage;
+			thisButton.image.sprite = playImage;
 		}
 	}
 

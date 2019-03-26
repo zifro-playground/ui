@@ -109,12 +109,12 @@ namespace PM
 			Button btn = levels[levelIndex];
 
 			string levelId = Main.instance.gameDefinition.activeLevels[levelIndex].levelId;
-			LevelData levelData = Progress.Instance.LevelData[levelId];
+			LevelData levelData = Progress.instance.levelData[levelId];
 
 			if (levelIndex == 0)
 			{
 				btn.image.sprite = levelIndex == current ? leftCurrent :
-					levelIndex <= unlocked || levelData.IsStarted ? leftUnlocked : leftLocked;
+					levelIndex <= unlocked || levelData.isStarted ? leftUnlocked : leftLocked;
 				if (numberOfLevels == 1)
 				{
 					progressBarParent.SetActive(false);
@@ -123,15 +123,15 @@ namespace PM
 			else if (levelIndex < numberOfLevels - 1)
 			{
 				btn.image.sprite = levelIndex == current ? midCurrent :
-					levelIndex <= unlocked || levelData.IsStarted ? midUnlocked : midLocked;
+					levelIndex <= unlocked || levelData.isStarted ? midUnlocked : midLocked;
 			}
 			else
 			{
 				btn.image.sprite = levelIndex == current ? rightCurrent :
-					levelIndex <= unlocked || levelData.IsStarted ? rightUnlocked : rightLocked;
+					levelIndex <= unlocked || levelData.isStarted ? rightUnlocked : rightLocked;
 			}
 
-			btn.interactable = (levelIndex <= unlocked || levelData.IsStarted) && levelIndex != current;
+			btn.interactable = (levelIndex <= unlocked || levelData.isStarted) && levelIndex != current;
 
 			UITooltip tooltip = btn.GetComponent<UITooltip>();
 			if (tooltip)
@@ -142,7 +142,7 @@ namespace PM
 					tooltip.text = "<color=green><b>" + tooltip.text + "</b></color> <color=grey>(Nuvarande)</color>";
 				}
 
-				if (levelIndex > unlocked && !levelData.IsStarted)
+				if (levelIndex > unlocked && !levelData.isStarted)
 				{
 					tooltip.text += " <color=grey>(Låst)</color>";
 				}

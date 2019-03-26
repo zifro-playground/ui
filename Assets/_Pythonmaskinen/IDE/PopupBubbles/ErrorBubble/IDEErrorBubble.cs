@@ -13,8 +13,8 @@ namespace PM {
 		
 		private IDELineMarker theMarker;
 
-		public void init(IDELineMarker theMarker) {
-			this.theMarker = theMarker;
+		public void Init(IDELineMarker marker) {
+			theMarker = marker;
 		}
 
 		public void SetErrorMessage(string errorMessage) {

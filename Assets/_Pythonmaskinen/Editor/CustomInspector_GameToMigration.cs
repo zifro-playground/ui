@@ -16,7 +16,7 @@ namespace PM
 				if (GUILayout.Button("Create migration from json"))
                 {
                     Debug.Log("Creating migration for game with id " + Main.instance.gameDefinition.gameId + "...\n");
-                    GameToMigration.Instance.CreateMigrationFromJson();
+                    GameToMigration.instance.CreateMigrationFromJson();
                 }
             }
             else

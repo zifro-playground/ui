@@ -15,7 +15,7 @@ public static class PMWrapper
 	/// <summary>
 	/// Tells which mode the level is currently running. See <see cref="LevelMode"/> for avaliable modes.
 	/// </summary>
-	public static LevelMode levelMode => LevelModeController.Instance.LevelMode;
+	public static LevelMode levelMode => LevelModeController.instance.levelMode;
 
 	/// <summary>
 	/// Value from the speed slider. Ranges from 0 to 1, with a default of 0.5.
@@ -138,7 +138,7 @@ public static class PMWrapper
 	/// <summary>
 	/// Boolean representing wether cases is currently running or not.
 	/// </summary>
-	public static bool isCasesRunning => Main.instance.caseHandler.IsCasesRunning;
+	public static bool isCasesRunning => Main.instance.caseHandler.isCasesRunning;
 
 	/// <summary>
 	/// Boolean representing wether the compiler is currently executing or not.
@@ -163,7 +163,7 @@ public static class PMWrapper
 	/// </summary>
 	public static void RunCode()
 	{
-		LevelModeController.Instance.RunProgram();
+		LevelModeController.instance.RunProgram();
 	}
 
 	/// <summary>
@@ -393,7 +393,7 @@ public static class PMWrapper
 	/// <summary>
 	/// Returns the index of the current case. Index starts from 0.
 	/// </summary>
-	public static int currentCase => Main.instance.caseHandler.CurrentCase;
+	public static int currentCase => Main.instance.caseHandler.currentCase;
 
 	/// <summary>
 	/// Stops the compiler, shows the "Level complete!" popup, marks the current level as complete and unlocks the next level.

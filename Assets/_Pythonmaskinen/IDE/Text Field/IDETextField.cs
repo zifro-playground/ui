@@ -32,7 +32,7 @@ namespace PM
 		[NonSerialized]
 		public RectTransform inputRect;
 
-		const int maxChars = 100;
+		const int MAX_CHARS = 100;
 
 		private string lastText = "";
 		private float startYPos;
@@ -45,7 +45,7 @@ namespace PM
 			set
 			{
 				codeRowsLimit = value;
-				IDETextManipulation.ValidateText(theInputField.text, codeRowsLimit, maxChars);
+				IDETextManipulation.ValidateText(theInputField.text, codeRowsLimit, MAX_CHARS);
 			}
 		}
 
@@ -68,7 +68,7 @@ namespace PM
 			};
 			theInputField.onValueChanged.AddListener(_ => DoValidateInput());
 
-			theFocusLord.initReferences(theInputField, this);
+			theFocusLord.InitReferences(theInputField, this);
 
 			// poor mans reActivate
 			theFocusLord.stealFocus = true;
@@ -144,7 +144,7 @@ namespace PM
 		public void MoveLineMarker()
 		{
 			int preRows = (string.IsNullOrEmpty(preCode) ? 0 : preCode.Split('\n').Length) + 1;
-			int selected = preRows + IDEPARSER.calcCurrentSelectedLine(theInputField.caretPosition, theInputField.text);
+			int selected = preRows + IDEParser.CalcCurrentSelectedLine(theInputField.caretPosition, theInputField.text);
 			IDELineMarker.SetIDEPosition(selected);
 		}
 
@@ -241,7 +241,7 @@ namespace PM
 				startString = startString.Insert(l.caretPos, l.indentText);
 			}
 
-			if (IDETextManipulation.ValidateText(startString, codeRowsLimit, maxChars))
+			if (IDETextManipulation.ValidateText(startString, codeRowsLimit, MAX_CHARS))
 			{
 				inserting = true;
 				theInputField.text = startString;
@@ -255,7 +255,7 @@ namespace PM
 		//and by maxChars in X
 		private void DoValidateInput()
 		{
-			if (IDETextManipulation.ValidateText(theInputField.text, codeRowsLimit, maxChars))
+			if (IDETextManipulation.ValidateText(theInputField.text, codeRowsLimit, MAX_CHARS))
 			{
 				lastText = theInputField.text;
 				ColorCodeDaCode();
@@ -267,7 +267,7 @@ namespace PM
 				theInputField.caretPosition = lastCharInsertIndex;
 			}
 
-			Progress.Instance.LevelData[PMWrapper.currentLevel.id].MainCode = PMWrapper.mainCode;
+			Progress.instance.levelData[PMWrapper.currentLevel.id].mainCode = PMWrapper.mainCode;
 			FocusCursor();
 			theLineMarker.RemoveErrorMessage();
 		}
@@ -303,7 +303,7 @@ namespace PM
 			Canvas.ForceUpdateCanvases();
 			int preCodeLines = preCode.Length == 0 ? 0 : preCode.Split('\n').Length;
 			theScrollLord.FocusOnLineNumber(
-				IDEPARSER.calcCurrentSelectedLine(theInputField.selectionAnchorPosition, theInputField.text) +
+				IDEParser.CalcCurrentSelectedLine(theInputField.selectionAnchorPosition, theInputField.text) +
 				preCodeLines);
 			MoveLineMarker();
 		}
@@ -338,7 +338,7 @@ namespace PM
 				string after = checkText.Substring(start + newText.Length);
 				if (smartButtony && (after.Length == 0 || after[0] == '\n'))
 				{
-					int indent = IDEPARSER.getIndentLevel(start, checkText);
+					int indent = IDEParser.GetIndentLevel(start, checkText);
 
 					// Add newline directly
 					if (start > 0 && checkText[start - 1] == ':')
@@ -352,10 +352,10 @@ namespace PM
 				}
 
 				// Check if it fits
-				if (checkText2 == null || !IDETextManipulation.ValidateText(checkText2, codeRowsLimit, maxChars))
+				if (checkText2 == null || !IDETextManipulation.ValidateText(checkText2, codeRowsLimit, MAX_CHARS))
 				{
 					checkText2 = null;
-					if (!IDETextManipulation.ValidateText(checkText, codeRowsLimit, maxChars))
+					if (!IDETextManipulation.ValidateText(checkText, codeRowsLimit, MAX_CHARS))
 					{
 						checkText = null;
 					}
@@ -384,11 +384,11 @@ namespace PM
 
 		public void InsertMainCodeAtStart(string code)
 		{
-			if (!Progress.Instance.LevelData[PMWrapper.currentLevel.id].IsStarted)
+			if (!Progress.instance.levelData[PMWrapper.currentLevel.id].isStarted)
 			{
 				theInputField.text = code;
 				inserting = true;
-				Progress.Instance.LevelData[PMWrapper.currentLevel.id].MainCode = PMWrapper.mainCode;
+				Progress.instance.levelData[PMWrapper.currentLevel.id].mainCode = PMWrapper.mainCode;
 			}
 		}
 

@@ -6,7 +6,7 @@ public class ExceptionHandler : MonoBehaviour {
 
 	//public string message;
 
-	public void sendErrorToAnalytics (string errorMessage){
+	public void SendErrorToAnalytics (string errorMessage){
 		//message = errorMessage;
 		//tracker.TriggerEvent ();
 	}

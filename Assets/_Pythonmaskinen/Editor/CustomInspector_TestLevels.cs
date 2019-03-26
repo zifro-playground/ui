@@ -13,9 +13,9 @@ namespace PM
             {
                 if (GUILayout.Button("Test Levels"))
                 {
-                    TestLevels.Instance.IsTesting = true;
+                    TestLevels.instance.isTesting = true;
                     Debug.Log("Testing Levels\n");
-                    TestLevels.Instance.TestLevel();
+                    TestLevels.instance.TestLevel();
                 }
             }
             else

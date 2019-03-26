@@ -7,11 +7,11 @@ namespace PM
 {
 	public class CaseHandler
 	{
-		public bool IsCasesRunning;
+		public bool isCasesRunning;
 		public int numberOfCases = 1;
 
-		public bool AllCasesCompleted;
-		public int CurrentCase = 0;
+		public bool allCasesCompleted;
+		public int currentCase = 0;
 
 		public CaseHandler(int numOfCases)
 		{
@@ -21,46 +21,46 @@ namespace PM
 		// Is called OnLevelChanged and OnRunButtonClicked
 		public void ResetHandlerAndButtons()
 		{
-			LevelModeButtons.Instance.SetCaseButtonsToDefault();
+			LevelModeButtons.instance.SetCaseButtonsToDefault();
 			SetCurrentCase(0);
 		}
 
 		public void SetCurrentCase(int caseNumber)
 		{
-			if (caseNumber != CurrentCase)
+			if (caseNumber != currentCase)
 			{
 				// currentCaseButtonUnpressed
-				LevelModeButtons.Instance.SetCaseButtonsToDefault();
+				LevelModeButtons.instance.SetCaseButtonsToDefault();
 
-				CurrentCase = Mathf.Clamp(caseNumber, 0, numberOfCases);
+				currentCase = Mathf.Clamp(caseNumber, 0, numberOfCases);
 
-				CaseFlash.Instance.HideFlash();
+				CaseFlash.instance.HideFlash();
 				if (numberOfCases > 1)
 				{
-					CaseFlash.Instance.ShowNewCaseFlash(CurrentCase);
+					CaseFlash.instance.ShowNewCaseFlash(currentCase);
 				}
 			}
 
 			// currentCaseButtonPressed
-			LevelModeButtons.Instance.SetCurrentCaseButtonState(LevelModeButtonState.Active);
+			LevelModeButtons.instance.SetCurrentCaseButtonState(LevelModeButtonState.Active);
 
-			LevelModeController.Instance.SwitchToCaseMode();
+			LevelModeController.instance.SwitchToCaseMode();
 
 			// Call every implemented event
 			foreach (IPMCaseSwitched ev in UISingleton.FindInterfaces<IPMCaseSwitched>())
 			{
-				ev.OnPMCaseSwitched(CurrentCase);
+				ev.OnPMCaseSwitched(currentCase);
 			}
 		}
 
 		public void RunCase(int caseNumber)
 		{
-			IsCasesRunning = true;
+			isCasesRunning = true;
 
-			CaseFlash.Instance.HideFlash();
+			CaseFlash.instance.HideFlash();
 			if (numberOfCases > 1)
 			{
-				CaseFlash.Instance.ShowNewCaseFlash(CurrentCase, true);
+				CaseFlash.instance.ShowNewCaseFlash(currentCase, true);
 			}
 			else
 			{
@@ -77,8 +77,8 @@ namespace PM
 
 		public void CaseFailed()
 		{
-			IsCasesRunning = false;
-			LevelModeButtons.Instance.SetCurrentCaseButtonState(LevelModeButtonState.Failed);
+			isCasesRunning = false;
+			LevelModeButtons.instance.SetCurrentCaseButtonState(LevelModeButtonState.Failed);
 		}
 
 		private IEnumerator ShowFeedbackAndRunNextCase()
@@ -90,7 +90,7 @@ namespace PM
 			}
 			else
 			{
-				positiveMassage = "Test " + (CurrentCase + 1) + " avklarat!";
+				positiveMassage = "Test " + (currentCase + 1) + " avklarat!";
 			}
 
 			UISingleton.instance.taskDescription.ShowPositiveMessage(positiveMassage);
@@ -99,20 +99,20 @@ namespace PM
 
 			UISingleton.instance.answerBubble.HideMessage();
 			UISingleton.instance.taskDescription.HideTaskFeedback();
-			LevelModeButtons.Instance.SetCurrentCaseButtonState(LevelModeButtonState.Completed);
+			LevelModeButtons.instance.SetCurrentCaseButtonState(LevelModeButtonState.Completed);
 
-			CurrentCase++;
+			currentCase++;
 
-			if (CurrentCase >= numberOfCases)
+			if (currentCase >= numberOfCases)
 			{
-				IsCasesRunning = false;
-				AllCasesCompleted = true;
+				isCasesRunning = false;
+				allCasesCompleted = true;
 				PMWrapper.SetLevelCompleted();
 				yield break;
 			}
 
-			SetCurrentCase(CurrentCase);
-			RunCase(CurrentCase);
+			SetCurrentCase(currentCase);
+			RunCase(currentCase);
 		}
 	}
 }

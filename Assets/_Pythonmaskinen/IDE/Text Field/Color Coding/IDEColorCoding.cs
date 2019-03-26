@@ -5,37 +5,37 @@ namespace PM
 {
 	public class IDEColorCoding
 	{
-		private static readonly string[] keyWords = {
+		private static readonly string[] KEYWORDS = {
 			"in", "while", "for", "if", "else", "True", "False", "not", "def", "and", "or", "return",
 			"as", "assert", "break", "class", "continue", "del", "elif", "except", "exec", "finally", "from", "global",
 			"import", "is",
 			"lambda", "pass", "raise", "try", "with", "yield", "None"
 		};
 
-		private static readonly char[] operatorCharacters =
+		private static readonly char[] OPERATOR_CHARACTERS =
 			{'*', '/', '-', '+', '<', '>', '=', '%', '|', '^', '~', '&'};
 
-		private static readonly string[] operators = {
+		private static readonly string[] OPERATORS = {
 			// Math
 			"*", "**", "/", "-", "+", "%",
 			// Bitwise
 			"<<", ">>", "&", "|", "~", "^",
-			// Comparission 
+			// Comparision 
 			"<", "<=", ">", ">=", "==",
-			// Asignments
+			// Assignment
 			"=", "+=", "-=", "*=", "%=", "/=", "**=",
 			"<<=", ">>=", "&=", "|=", "^=",
 		};
 
-		private const string keyWordsColor = "#FF3F85";
+		private const string KEY_WORDS_COLOR = "#FF3F85";
 
 		//private const string functionColor = "#DDDD11";
-		private const string textHexColor = "#68CC47";
-		private const string commentColor = "#6B9EA5";
-		private const string numberColor = "#FF7C26";
-		private const char commentSign = '#';
-		private const char sStringSign = '\'';
-		private const char dStringSign = '"';
+		private const string TEXT_HEX_COLOR = "#68CC47";
+		private const string COMMENT_COLOR = "#6B9EA5";
+		private const string NUMBER_COLOR = "#FF7C26";
+		private const char COMMENT_SIGN = '#';
+		private const char S_STRING_SIGN = '\'';
+		private const char D_STRING_SIGN = '"';
 
 		public static string RunColorCode(string currentText)
 		{
@@ -91,7 +91,7 @@ namespace PM
 					// Continue comment
 					charType = SegmentType.Comment;
 					break;
-				case SegmentType.StringSingleQuote when c == sStringSign:
+				case SegmentType.StringSingleQuote when c == S_STRING_SIGN:
 					// End of string
 					current.text += c;
 					segments.Add(current);
@@ -101,7 +101,7 @@ namespace PM
 					// Continue string
 					charType = SegmentType.StringSingleQuote;
 					break;
-				case SegmentType.StringDoubleQuote when c == dStringSign:
+				case SegmentType.StringDoubleQuote when c == D_STRING_SIGN:
 					// End of string
 					current.text += c;
 					segments.Add(current);
@@ -114,15 +114,15 @@ namespace PM
 				default:
 					switch (c)
 					{
-					case commentSign:
+					case COMMENT_SIGN:
 						// Start of comment
 						charType = SegmentType.Comment;
 						break;
-					case sStringSign:
+					case S_STRING_SIGN:
 						// Start of string
 						charType = SegmentType.StringSingleQuote;
 						break;
-					case dStringSign:
+					case D_STRING_SIGN:
 						// Start of string
 						charType = SegmentType.StringDoubleQuote;
 						break;
@@ -160,7 +160,7 @@ namespace PM
 							// Variable start (or continue)
 							charType = SegmentType.Variable;
 						}
-						else if (operatorCharacters.Contains(c) && current.type != SegmentType.Symbol)
+						else if (OPERATOR_CHARACTERS.Contains(c) && current.type != SegmentType.Symbol)
 						{
 							// Possibly an operator
 							charType = SegmentType.Operator;
@@ -243,9 +243,9 @@ namespace PM
 
 		private static string ColorKeyWords(string text)
 		{
-			if (keyWords.Contains(text))
+			if (KEYWORDS.Contains(text))
 			{
-				return $"<color={keyWordsColor}>{text}</color>";
+				return $"<color={KEY_WORDS_COLOR}>{text}</color>";
 			}
 			//else if (functionNames.Contains(text))
 			//	return string.Format("<color={0}>{1}</color>", functionColor, text);
@@ -255,9 +255,9 @@ namespace PM
 
 		private static string ColorOperator(string text)
 		{
-			if (operators.Contains(text))
+			if (OPERATORS.Contains(text))
 			{
-				return $"<color={keyWordsColor}>{text}</color>";
+				return $"<color={KEY_WORDS_COLOR}>{text}</color>";
 			}
 
 			return text;
@@ -265,17 +265,17 @@ namespace PM
 
 		private static string ColorComment(string text)
 		{
-			return $"<color={commentColor}>{text}</color>";
+			return $"<color={COMMENT_COLOR}>{text}</color>";
 		}
 
 		private static string ColorText(string text)
 		{
-			return $"<color={textHexColor}>{text}</color>";
+			return $"<color={TEXT_HEX_COLOR}>{text}</color>";
 		}
 
 		private static string ColorNumber(string text)
 		{
-			return $"<color={numberColor}>{text}</color>";
+			return $"<color={NUMBER_COLOR}>{text}</color>";
 		}
 
 		#endregion

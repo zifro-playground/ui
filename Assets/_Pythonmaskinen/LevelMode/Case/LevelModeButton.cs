@@ -2,36 +2,45 @@
 using System.Collections.Generic;
 using PM;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class LevelModeButton : MonoBehaviour
 {
 	[Header("Button states")]
-	public Sprite Default;
-	public Sprite Active;
-	public Sprite Completed;
-	public Sprite Failed;
+	[FormerlySerializedAs("Default")]
+	public Sprite fallback;
 
-	public Image Image;
+	[FormerlySerializedAs("Active")]
+	public Sprite active;
+
+	[FormerlySerializedAs("Completed")]
+	public Sprite completed;
+
+	[FormerlySerializedAs("Failed")]
+	public Sprite failed;
+
+	[FormerlySerializedAs("Image")]
+	public Image image;
 
 	public void SetButtonDefault()
 	{
-		Image.sprite = Default;
+		image.sprite = fallback;
 	}
 
 	public void SetButtonActive()
 	{
-		Image.sprite = Active;
+		image.sprite = active;
 	}
 
 	public void SetButtonCompleted()
 	{
-		Image.sprite = Completed;
+		image.sprite = completed;
 	}
 
 	public void SetButtonFailed()
 	{
-		Image.sprite = Failed;
+		image.sprite = failed;
 	}
 
 	public void SwitchToCase(int caseNumber)
@@ -41,7 +50,7 @@ public class LevelModeButton : MonoBehaviour
 			return;
 		}
 
-		LevelModeButtons.Instance.SetSandboxButtonToDefault();
+		LevelModeButtons.instance.SetSandboxButtonToDefault();
 		SetButtonActive();
 		PMWrapper.SwitchCase(caseNumber);
 	}
@@ -53,7 +62,7 @@ public class LevelModeButton : MonoBehaviour
 			return;
 		}
 
-		LevelModeController.Instance.InitSandboxMode();
+		LevelModeController.instance.InitSandboxMode();
 		SetButtonActive();
 	}
 }

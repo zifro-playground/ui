@@ -35,7 +35,7 @@ namespace PM
 		{
 			foreach (VariableInWindow v in currentVariables)
 			{
-				v.remove();
+				v.Remove();
 			}
 
 			currentVariables.Clear();
@@ -48,10 +48,10 @@ namespace PM
 				
 				float width = CalcVariableWidth(Mathf.Max(variable.Name.Length, valueString.Length));
 				int maxChars = CalcNoCharacters(width);
-				clone.setWidth(width);
+				clone.SetWidth(width);
 
 				ToStringAndCompressVariable(variable, valueString, maxChars, out valueString, out Color valueColor);
-				clone.initVariable(variable.Name, nameTextColor, valueString, valueColor);
+				clone.InitVariable(variable.Name, nameTextColor, valueString, valueColor);
 
 				currentVariables.Add(clone);
 			}
@@ -63,7 +63,7 @@ namespace PM
 		{
 			foreach (VariableInWindow v in currentVariables)
 			{
-				v.remove();
+				v.Remove();
 			}
 
 			currentVariables.Clear();

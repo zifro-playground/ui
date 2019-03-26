@@ -13,7 +13,7 @@ namespace PM {
 		private bool isInHistoryCommand = false;
 
 		private float thresholdCounter = 0;
-		const float thresholdTime = 0.4f;
+		const float THRESHOLD_TIME = 0.4f;
 
 		//Saves text and resets timer if there are no history commands going on
 		public string CheckHistoryCommands(string currentText) {
@@ -22,7 +22,7 @@ namespace PM {
 				return HandleHistoryEvent(currentText);
 			}
 
-			theHistory.saveText(currentText);
+			theHistory.SaveText(currentText);
 			thresholdCounter = 0;
 			isInHistoryCommand = false;
 			return currentText;
@@ -34,7 +34,7 @@ namespace PM {
 			if (isInHistoryCommand) {
 				thresholdCounter += Time.deltaTime;
 
-				if (thresholdCounter < thresholdTime)
+				if (thresholdCounter < THRESHOLD_TIME)
 				{
 					return currentText;
 				}
@@ -43,10 +43,10 @@ namespace PM {
 
 			if (IsSteppingBackInHistory())
 			{
-				return theHistory.stepBackInHistory();
+				return theHistory.StepBackInHistory();
 			}
 
-			return theHistory.stepForwardInHistory();
+			return theHistory.StepForwardInHistory();
 		}
 
 

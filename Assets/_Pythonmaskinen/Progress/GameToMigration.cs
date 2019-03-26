@@ -2,23 +2,25 @@
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace PM
 {
 	public class GameToMigration : MonoBehaviour
 	{
-		[SerializeField]
-		public Version Version;
+		[FormerlySerializedAs("Version")]
+		public Version version;
 
-		public string BaseOutputPath;
+		[FormerlySerializedAs("BaseOutputPath")]
+		public string baseOutputPath;
 
-		public static GameToMigration Instance;
+		public static GameToMigration instance;
 
 		private void Start()
 		{
-			if (Instance == null)
+			if (instance == null)
 			{
-				Instance = this;
+				instance = this;
 			}
 		}
 
@@ -26,8 +28,8 @@ namespace PM
 		{
 			GameDefinition game = Main.instance.gameDefinition;
 
-			string basePath = BaseOutputPath + "Zifro/App_Code/Persistance/Migrations/GameUpgrades/";
-			string fileName = "TargetVersion_" + Version.PrintWithUnderscore() + ".cs";
+			string basePath = baseOutputPath + "Zifro/App_Code/Persistance/Migrations/GameUpgrades/";
+			string fileName = "TargetVersion_" + version.PrintWithUnderscore() + ".cs";
 			string path = basePath + fileName;
 
 			if (File.Exists(path))
@@ -45,9 +47,9 @@ namespace PM
 				tw.WriteLine("using Umbraco.Core.Persistence.SqlSyntax;");
 				tw.WriteLine("using Zifro.Code;\n");
 
-				tw.WriteLine("namespace Zifro.Persistance.Migrations.GameUpgrades.TargetVersion_" + Version.PrintWithUnderscore());
+				tw.WriteLine("namespace Zifro.Persistance.Migrations.GameUpgrades.TargetVersion_" + version.PrintWithUnderscore());
 				tw.WriteLine("{");
-				tw.WriteLine("	[Migration(\"" + Version.PrintWithDots() + "\", 1, Constants.Application.GameMigrationName)]");
+				tw.WriteLine("	[Migration(\"" + version.PrintWithDots() + "\", 1, Constants.Application.GameMigrationName)]");
 				tw.WriteLine("	public class UpdatePlaygroundGameData : MigrationBase");
 				tw.WriteLine("	{");
 				tw.WriteLine("		public UpdatePlaygroundGameData(ISqlSyntaxProvider sqlSyntax, ILogger logger)");
@@ -137,23 +139,23 @@ namespace PM
 	[Serializable]
 	public struct Version
 	{
-		public int Major, Minor, Build;
+		public int major, minor, build;
 
 		public Version(int major, int minor, int build)
 		{
-			Major = major;
-			Minor = minor;
-			Build = build;
+			this.major = major;
+			this.minor = minor;
+			this.build = build;
 		}
 
 		public string PrintWithDots()
 		{
-			return string.Format("{0}.{1}.{2}", Major, Minor, Build);
+			return $"{major}.{minor}.{build}";
 		}
 
 		public string PrintWithUnderscore()
 		{
-			return string.Format("{0}_{1}_{2}", Major, Minor, Build);
+			return $"{major}_{minor}_{build}";
 		}
 	}
 }

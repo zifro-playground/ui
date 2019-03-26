@@ -12,43 +12,43 @@ namespace PM {
 
 		public bool stealFocus = true;
 		private Color startSelectionColor;
-		private int lastMarerIndexStart;
-		private int lastMarerIndexEnd;
+		private int lastMarkerIndexStart;
+		private int lastMarkerIndexEnd;
 
-		public void initReferences(InputField theInputField, IDETextField theTextField) {
-			this.theInputField = theInputField;
-			this.theTextField = theTextField;
-			startSelectionColor = theInputField.selectionColor;
+		public void InitReferences(InputField inputField, IDETextField textField) {
+			theInputField = inputField;
+			theTextField = textField;
+			startSelectionColor = inputField.selectionColor;
 		}
 
 		void Update() {
 			if (theInputField.isFocused == false && stealFocus)
 			{
-				focusTheField();
+				FocusTheField();
 			}
 
 			if (theInputField.isFocused && stealFocus) {
-				lastMarerIndexStart = theInputField.selectionAnchorPosition;
-				lastMarerIndexEnd = theInputField.selectionFocusPosition;
+				lastMarkerIndexStart = theInputField.selectionAnchorPosition;
+				lastMarkerIndexEnd = theInputField.selectionFocusPosition;
 			}
 		}
 
 		#region Force select 
-		private void focusTheField() {
+		private void FocusTheField() {
 			theInputField.selectionColor = new Color(0, 0, 0, 0);
 			theInputField.ActivateInputField();
-			StartCoroutine(forceMoveMarker());
+			StartCoroutine(ForceMoveMarker());
 		}
 
-		IEnumerator forceMoveMarker() {
+		IEnumerator ForceMoveMarker() {
 			yield return new WaitForEndOfFrame();
-			theInputField.selectionAnchorPosition = lastMarerIndexStart;
-			theInputField.selectionFocusPosition = lastMarerIndexEnd;
+			theInputField.selectionAnchorPosition = lastMarkerIndexStart;
+			theInputField.selectionFocusPosition = lastMarkerIndexEnd;
 			theInputField.selectionColor = startSelectionColor;
 		}
 
-		public void selectEndOfLine(int lineNumber) {
-			theTextField.SetNewCaretPos(IDEPARSER.calcSelectedLineLastIndex(lineNumber, theInputField.text));
+		public void SelectEndOfLine(int lineNumber) {
+			theTextField.SetNewCaretPos(IDEParser.CalcSelectedLineLastIndex(lineNumber, theInputField.text));
 		}
 		#endregion
 

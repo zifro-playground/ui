@@ -24,10 +24,10 @@ namespace PM {
 			var parent = tooltipRect.parent as RectTransform;
 
 			while (GetPreferredTextHeight() > tooltipText.rectTransform.rect.height) {
-				tooltipRect.sizeDelta += sizeIncrement;
+				tooltipRect.sizeDelta += SIZE_INCREMENT;
 				tooltipRect.sizeDelta = new Vector2(
-					Mathf.Min(tooltipRect.sizeDelta.x + sizeIncrement.x, parent.sizeDelta.x),
-					Mathf.Min(tooltipRect.sizeDelta.y + sizeIncrement.y, parent.sizeDelta.y)
+					Mathf.Min(tooltipRect.sizeDelta.x + SIZE_INCREMENT.x, parent.sizeDelta.x),
+					Mathf.Min(tooltipRect.sizeDelta.y + SIZE_INCREMENT.y, parent.sizeDelta.y)
 				);
 				if (Vector2.Distance(tooltipRect.sizeDelta, parent.sizeDelta) <= Vector2.kEpsilon)
 				{

@@ -1,39 +1,44 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class GameWindow : MonoBehaviour
 {
-	public Image VariableWindowBackground;
-	public Image UserIcon;
+	[FormerlySerializedAs("VariableWindowBackground")]
+	public Image variableWindowBackground;
 
-	public GameWindowUiTheme GameWindowUiTheme;
+	[FormerlySerializedAs("UserIcon")]
+	public Image userIcon;
 
-	public static GameWindow Instance;
+	[FormerlySerializedAs("GameWindowUiTheme")]
+	public GameWindowUITheme gameWindowUITheme;
+
+	public static GameWindow instance;
 
 	private void Awake()
 	{
-		if (Instance == null)
+		if (instance == null)
 		{
-			Instance = this;
+			instance = this;
 		}
 	}
 
-	public void SetGameWindowUiTheme(GameWindowUiTheme theme)
+	public void SetGameWindowUiTheme(GameWindowUITheme theme)
 	{
-		if (theme == GameWindowUiTheme.light)
+		if (theme == GameWindowUITheme.light)
 		{
 			// TODO Set light
 		}
-		else if (theme == GameWindowUiTheme.dark)
+		else if (theme == GameWindowUITheme.dark)
 		{
 			// TODO Set dark
 		}
 	}
 }
 
-public enum GameWindowUiTheme
+public enum GameWindowUITheme
 {
 	dark,
 	light

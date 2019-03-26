@@ -350,7 +350,7 @@ namespace PM.GlobalFunctions
 
 	public class GetTime : ClrFunction
 	{
-		private static readonly DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+		private static readonly DateTime EPOCH = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
 		public GetTime()
 			: base("time")
@@ -359,7 +359,7 @@ namespace PM.GlobalFunctions
 
 		public override IScriptType Invoke(params IScriptType[] arguments)
 		{
-			return Processor.Factory.Create((int)(DateTime.UtcNow - epoch).TotalSeconds);
+			return Processor.Factory.Create((int)(DateTime.UtcNow - EPOCH).TotalSeconds);
 		}
 	}
 }

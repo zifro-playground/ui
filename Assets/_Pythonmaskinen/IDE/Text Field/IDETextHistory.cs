@@ -6,12 +6,12 @@ namespace PM {
 
 	public class IDETextHistory {
 
-		private List<string> history = new List<string>();
+		private readonly List<string> history = new List<string>();
 		private int currentIndex = -1;
 
 		//Runs every Update, but only saves if something has changed
-		public void saveText(string currentText) {
-			if (currentText != getLatestHistory()) {
+		public void SaveText(string currentText) {
+			if (currentText != GetLatestHistory()) {
 				//If something has changed it cheks if it is currently at the end of the history
 				//If this is not the case we rewrite history and forgets the old history
 				if (history.Count > currentIndex) {
@@ -25,7 +25,7 @@ namespace PM {
 			}
 		}
 
-		public string stepBackInHistory() {
+		public string StepBackInHistory() {
 			if (currentIndex <= 0) {
 				currentIndex = -1;
 				return "";
@@ -34,7 +34,7 @@ namespace PM {
 			return history[--currentIndex];
 		}
 
-		public string stepForwardInHistory() {
+		public string StepForwardInHistory() {
 			if (history.Count > currentIndex + 1)
 			{
 				return history[++currentIndex];
@@ -44,7 +44,7 @@ namespace PM {
 		}
 
 
-		private string getLatestHistory() {
+		private string GetLatestHistory() {
 			if (currentIndex == -1)
 			{
 				return "";

@@ -17,7 +17,7 @@ namespace PM
 			if (c == '\n')
 			{
 				toAddLevels.Clear();
-				toAddLevels.Add(new IndentLevel(charIndex, IDEPARSER.getIndentLevel(charIndex, currentText)));
+				toAddLevels.Add(new IndentLevel(charIndex, IDEParser.GetIndentLevel(charIndex, currentText)));
 				theTextField.SetNewCaretPos(toAddLevels[0].GetNewCaretPos());
 
 				return '\n';
@@ -39,13 +39,13 @@ namespace PM
 
 		public static bool ValidateText(string fullText, int maxLines, int maxPerLine)
 		{
-			List<string> preCodeTextLines = IDEPARSER.parseIntoLines(PMWrapper.preCode);
+			List<string> preCodeTextLines = IDEParser.ParseIntoLines(PMWrapper.preCode);
 			int preCodeLineCount = CountCodeLines(preCodeTextLines);
 
-			List<string> mainCodeTextLines = IDEPARSER.parseIntoLines(fullText);
+			List<string> mainCodeTextLines = IDEParser.ParseIntoLines(fullText);
 			int mainCodeLineCount = CountCodeLines(mainCodeTextLines);
 
-			Progress.Instance.LevelData[PMWrapper.currentLevel.id].CodeLineCount = mainCodeLineCount + preCodeLineCount;
+			Progress.instance.levelData[PMWrapper.currentLevel.id].codeLineCount = mainCodeLineCount + preCodeLineCount;
 			UISingleton.instance.rowsLimit.UpdateRowsLeft(mainCodeLineCount, maxLines);
 
 			if (mainCodeLineCount > maxLines)

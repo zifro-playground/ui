@@ -16,9 +16,9 @@ namespace PM {
 
 		private Image theImage;
 		//private static readonly Color functionColor = new Color(0, 1, 1, 0.3f);
-		private static readonly Color walkerColor =  new Color(0.2470588f, 0.7215686f, 0.6117647f, 0.4f);
-		private static readonly Color errorColor = new Color(1, 0, 0, 0.3f);
-		private static readonly Color ideColor = new Color(1, 1, 1, 0.1f);
+		private static readonly Color WALKER_COLOR =  new Color(0.2470588f, 0.7215686f, 0.6117647f, 0.4f);
+		private static readonly Color ERROR_COLOR = new Color(1, 0, 0, 0.3f);
+		private static readonly Color IDE_COLOR = new Color(1, 1, 1, 0.1f);
 
 		public static IDELineMarker instance { get; private set; }
 
@@ -43,7 +43,7 @@ namespace PM {
 			theMarkerRect = transform as RectTransform;
 			enabled = false;
 			theImage = GetComponentInChildren<Image>();
-			theErrorBubble.init(this);
+			theErrorBubble.Init(this);
 		}
 		
 		private void MoveMarker() {
@@ -59,7 +59,7 @@ namespace PM {
 		
 		#region All setErrorMarkers
 		private void _setErrorMarker(string message) {
-			theFocusLord.selectEndOfLine(lineNumber + 1);
+			theFocusLord.SelectEndOfLine(lineNumber + 1);
 			MoveMarker();
 			SetState(State.Error);
 
@@ -130,10 +130,10 @@ namespace PM {
 			}
 
 			switch (newState) {
-				case State.Error: theImage.color = errorColor; break;
+				case State.Error: theImage.color = ERROR_COLOR; break;
 				case State.Hidden: theImage.color = Color.clear; break;
-				case State.Walker: theImage.color = walkerColor; break;
-				case State.IDE: theImage.color = ideColor; break;
+				case State.Walker: theImage.color = WALKER_COLOR; break;
+				case State.IDE: theImage.color = IDE_COLOR; break;
 			}
 			theImage.enabled = newState != State.Hidden;
 			state = newState;

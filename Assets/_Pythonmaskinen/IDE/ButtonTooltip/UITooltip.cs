@@ -10,7 +10,7 @@ namespace PM {
 	public class UITooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
 		
 		public virtual Vector2 offset => new Vector2(10, 10);
-		protected readonly static Vector2 sizeIncrement = new Vector2(20,5);
+		protected static readonly Vector2 SIZE_INCREMENT = new Vector2(20,5);
 
 		public string text = "Tooltip";
 		public float fadeInAfter = 0.5f;
@@ -80,10 +80,10 @@ namespace PM {
 			var parent = tooltipRect.parent as RectTransform;
 
 			while (GetPrefferedTextHeight() > tooltipText.rectTransform.rect.height) {
-				tooltipRect.sizeDelta += sizeIncrement;
+				tooltipRect.sizeDelta += SIZE_INCREMENT;
 				tooltipRect.sizeDelta = new Vector2(
-					Mathf.Min(tooltipRect.sizeDelta.x + sizeIncrement.x, parent.sizeDelta.x),
-					Mathf.Min(tooltipRect.sizeDelta.y + sizeIncrement.y, parent.sizeDelta.y)
+					Mathf.Min(tooltipRect.sizeDelta.x + SIZE_INCREMENT.x, parent.sizeDelta.x),
+					Mathf.Min(tooltipRect.sizeDelta.y + SIZE_INCREMENT.y, parent.sizeDelta.y)
 				);
 				if (Vector2.Distance(tooltipRect.sizeDelta, parent.sizeDelta) <= Vector2.kEpsilon)
 				{

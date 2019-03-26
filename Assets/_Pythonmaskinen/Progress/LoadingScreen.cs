@@ -1,28 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class LoadingScreen : MonoBehaviour
 {
-    public GameObject Screen;
+	[FormerlySerializedAs("Screen")]
+	public GameObject screen;
 
-    public static LoadingScreen Instance;
+	public static LoadingScreen instance;
 
-    private void Awake()
-    {
-        if (Instance == null)
+	private void Awake()
+	{
+		if (instance == null)
 		{
-			Instance = this;
+			instance = this;
 		}
 	}
 
-    public void Show()
-    {
-        Screen.SetActive(true);
-    }
+	public void Show()
+	{
+		screen.SetActive(true);
+	}
 
-    public void Hide()
-    {
-        Screen.SetActive(false);
-    }
+	public void Hide()
+	{
+		screen.SetActive(false);
+	}
 }

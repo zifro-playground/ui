@@ -1,25 +1,28 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace PM
 {
 	public class CaseFlash : MonoBehaviour
 	{
-		[HideInInspector]
-		public static CaseFlash Instance;
+		public static CaseFlash instance;
 
-		public Image NumberImage;
-		public Sprite[] CaseImages;
+		[FormerlySerializedAs("NumberImage")]
+		public Image numberImage;
+		[FormerlySerializedAs("CaseImages")]
+		public Sprite[] caseImages;
 
-		public float Duration;
+		[FormerlySerializedAs("Duration")]
+		public float duration;
 
 		private Coroutine coroutine;
 
 		private void Awake()
 		{
-			Instance = this;
+			instance = this;
 		}
 
 		public void ShowNewCaseFlash(int caseNumber, bool startCompilerWhenFinished = false)
@@ -34,7 +37,7 @@ namespace PM
 				throw new ArgumentOutOfRangeException();
 			}
 
-			NumberImage.sprite = CaseImages[caseNumber];
+			numberImage.sprite = caseImages[caseNumber];
 
 			coroutine = StartCoroutine(ShowFlash(startCompilerWhenFinished));
 		}
@@ -45,7 +48,7 @@ namespace PM
 			{
 				child.gameObject.SetActive(true);
 			}
-			yield return new WaitForSeconds(Duration);
+			yield return new WaitForSeconds(duration);
 
 			HideFlash();
 

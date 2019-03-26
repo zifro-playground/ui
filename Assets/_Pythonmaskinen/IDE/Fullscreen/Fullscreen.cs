@@ -11,7 +11,7 @@ namespace PM
 		public void OnPointerDown(PointerEventData eventData)
 		{
 			Screen.fullScreen = !Screen.fullScreen;
-			Progress.Instance.SaveUserLevelProgress();
+			Progress.instance.SaveUserLevelProgress();
 		}
 	}
 }
