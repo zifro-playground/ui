@@ -13,7 +13,7 @@ namespace PM {
 		private bool isInHistoryCommand = false;
 
 		private float thresholdCounter = 0;
-		private float thresholdTime = 0.4f;
+		const float thresholdTime = 0.4f;
 
 		//Saves text and resets timer if there are no history commands going on
 		public string CheckHistoryCommands(string currentText) {

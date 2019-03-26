@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Text;
+using UnityEngine.Serialization;
 
 namespace PM
 {
@@ -17,18 +18,21 @@ namespace PM
 		public Text preText;
 		public Text text;
 		public Text visibleText;
-		public IDESpeciallCommands theSpeciallCommands;
+		[FormerlySerializedAs("theSpeciallCommands")]
+		public IDESpecialCommands theSpecialCommands;
 		public int codeRowsLimit = 32;
 		public bool devBuild = false;
 
 		[NonSerialized]
 		public string preCode = string.Empty;
+
 		[NonSerialized]
 		public string postCode = string.Empty;
 
 		[NonSerialized]
 		public RectTransform inputRect;
-		private int maxChars = 100;
+
+		const int maxChars = 100;
 
 		private string lastText = "";
 		private float startYPos;
@@ -58,7 +62,10 @@ namespace PM
 			startYPos = inputRect.anchoredPosition.y;
 			InitTextFields();
 
-			theInputField.onValidateInput += delegate (string input, int charIndex, char addedChar) { return MyValidate(addedChar, charIndex); };
+			theInputField.onValidateInput += delegate(string input, int charIndex, char addedChar)
+			{
+				return MyValidate(addedChar, charIndex);
+			};
 			theInputField.onValueChanged.AddListener(_ => DoValidateInput());
 
 			theFocusLord.initReferences(theInputField, this);
@@ -89,16 +96,16 @@ namespace PM
 #endif
 
 			if (Input.inputString.Length > 0
-			|| IDESpeciallCommands.AnyKey(
-				KeyCode.UpArrow,
-				KeyCode.DownArrow,
-				KeyCode.LeftArrow,
-				KeyCode.RightArrow,
-				KeyCode.PageDown,
-				KeyCode.PageUp,
-				KeyCode.Home,
-				KeyCode.End
-			))
+			    || IDESpecialCommands.AnyKey(
+				    KeyCode.UpArrow,
+				    KeyCode.DownArrow,
+				    KeyCode.LeftArrow,
+				    KeyCode.RightArrow,
+				    KeyCode.PageDown,
+				    KeyCode.PageUp,
+				    KeyCode.Home,
+				    KeyCode.End
+			    ))
 			{
 				FocusCursor();
 			}
@@ -122,7 +129,7 @@ namespace PM
 				settingNewCaretPos = false;
 			}
 
-			theInputField.text = theSpeciallCommands.CheckHistoryCommands(theInputField.text);
+			theInputField.text = theSpecialCommands.CheckHistoryCommands(theInputField.text);
 		}
 
 		/// <summary>Updates main code syntax highlighting and size of rects (for scrolling)</summary>
@@ -130,7 +137,8 @@ namespace PM
 		{
 			visibleText.text = IDEColorCoding.runColorCode(theInputField.text);
 			inputRect.sizeDelta = new Vector2(inputRect.sizeDelta.x, visibleText.preferredHeight + 6);
-			contentContainer.sizeDelta = new Vector2(contentContainer.sizeDelta.x, inputRect.sizeDelta.y - inputRect.anchoredPosition.y);
+			contentContainer.sizeDelta = new Vector2(contentContainer.sizeDelta.x,
+				inputRect.sizeDelta.y - inputRect.anchoredPosition.y);
 		}
 
 		public void MoveLineMarker()
@@ -175,10 +183,10 @@ namespace PM
 			}
 			else
 			{
-				topY = topY / theInputField.textComponent.pixelsPerUnit + theInputField.textComponent.rectTransform.anchoredPosition.y + 1.4f;
+				topY = topY / theInputField.textComponent.pixelsPerUnit +
+				       theInputField.textComponent.rectTransform.anchoredPosition.y + 1.4f;
 				lineHeight = gen.lines[0].height * 1.5f / theInputField.textComponent.pixelsPerUnit;
 			}
-
 		}
 
 		/// <summary>If has precode, returns the height of the precode text component, else return 0.</summary>
@@ -199,7 +207,9 @@ namespace PM
 		}
 
 		#region Text Input Manipulation
+
 		private int lastCharInsertIndex = 0;
+
 		private char MyValidate(char c, int charIndex)
 		{
 			if (inserting)
@@ -215,7 +225,7 @@ namespace PM
 		private bool IsPasting()
 		{
 			if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftCommand) ||
-				Input.GetKey(KeyCode.RightControl) || Input.GetKey(KeyCode.RightCommand)) && Input.GetKey(KeyCode.V))
+			     Input.GetKey(KeyCode.RightControl) || Input.GetKey(KeyCode.RightCommand)) && Input.GetKey(KeyCode.V))
 			{
 				return true;
 			}
@@ -261,9 +271,11 @@ namespace PM
 			FocusCursor();
 			theLineMarker.RemoveErrorMessage();
 		}
+
 		#endregion
 
 		#region caret & scroll position
+
 		public void SetNewCaretPos(int newPos)
 		{
 			if (settingNewCaretPos)
@@ -290,9 +302,12 @@ namespace PM
 		{
 			Canvas.ForceUpdateCanvases();
 			int preCodeLines = preCode.Length == 0 ? 0 : preCode.Split('\n').Length;
-			theScrollLord.FocusOnLineNumber(IDEPARSER.calcCurrentSelectedLine(theInputField.selectionAnchorPosition, theInputField.text) + preCodeLines);
+			theScrollLord.FocusOnLineNumber(
+				IDEPARSER.calcCurrentSelectedLine(theInputField.selectionAnchorPosition, theInputField.text) +
+				preCodeLines);
 			MoveLineMarker();
 		}
+
 		#endregion
 
 		#region insert extraText
@@ -354,7 +369,6 @@ namespace PM
 					SetNewCaretPos(start + newText.Length);
 					theInputField.text = checkText2 ?? checkText;
 				}
-
 			}
 		}
 
@@ -386,7 +400,6 @@ namespace PM
 			}
 		}
 
-
 		public void ClearText()
 		{
 			inserting = true;
@@ -394,9 +407,11 @@ namespace PM
 			toAddLevels.Clear();
 			SetCaretPos(0);
 		}
+
 		#endregion
 
 		#region public Get/Setters
+
 		public void DeactivateField()
 		{
 			enabled = false;
@@ -410,6 +425,7 @@ namespace PM
 			theFocusLord.stealFocus = true;
 			theInputField.interactable = true;
 		}
+
 		#endregion
 
 		void IPMCompilerStarted.OnPMCompilerStarted()
@@ -422,5 +438,4 @@ namespace PM
 			ReactivateField();
 		}
 	}
-
 }

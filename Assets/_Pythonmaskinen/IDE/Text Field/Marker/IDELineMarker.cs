@@ -11,7 +11,6 @@ namespace PM {
 		private IDETextField theTextField;
 
 		public static int lineNumber { get; private set; }
-		private static float currentMakerPos;
 
 		public State state { get; private set; }
 

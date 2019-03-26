@@ -84,11 +84,10 @@ namespace PM {
 	}*/
 
 	public class PMRuntimeException : Exception {
-		private string _rawMessage;
-		public override string Message => _rawMessage;
+		public override string Message { get; }
 
 		public PMRuntimeException(string message) {
-			_rawMessage = message;
+			Message = message;
 		}
 	}
 
