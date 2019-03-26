@@ -3,10 +3,10 @@
     "com.unity.ads": "2.0.8",
     "com.unity.analytics": "3.2.2",
     "com.unity.collab-proxy": "1.2.15",
-    "com.unity.package-manager-ui": "2.0.3",
+    "com.unity.package-manager-ui": "2.0.7",
     "com.unity.purchasing": "2.0.3",
     "com.unity.textmeshpro": "1.3.0",
-    "se.zifro.mellis": "https://github.com/zardan/compiler.git#(m0.1.7.1-p0.4.1.0)",
+    "se.zifro.mellis": "https://github.com/zardan/compiler.git#m0.1.7.3",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
     "com.unity.modules.assetbundle": "1.0.0",
@@ -40,8 +40,8 @@
   },
   "lock": {
     "se.zifro.mellis": {
-      "hash": "71b8ffa319f5f7f099a36eee9f7a6273d29ec2db",
-      "revision": "(m0.1.7.1-p0.4.1.0)"
+      "hash": "88a00cf67d1df5eea6b8c19bda08582497b70cdc",
+      "revision": "m0.1.7.3"
     }
   }
 }
