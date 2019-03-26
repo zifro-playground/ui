@@ -395,7 +395,8 @@ namespace PM
 
 			if (status == HelloCompiler.StopStatus.Finished)
 			{
-				if (PMWrapper.levelShouldBeAnswered && UISingleton.instance.taskDescription.isActiveAndEnabled)
+				if (PMWrapper.levelShouldBeAnswered &&
+				    UISingleton.instance.taskDescription.isActiveAndEnabled)
 				{
 					PMWrapper.RaiseTaskError("Fick inget svar");
 				}

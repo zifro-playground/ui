@@ -22,6 +22,7 @@ namespace PM
 
 			if (compilerHasBeenStopped)
 			{
+				Debug.LogError("Compiler stopped prematurely.");
 				AbortCase();
 				yield break;
 			}
@@ -61,6 +62,7 @@ namespace PM
 
 		public LevelAnswer(params T[] expectedInputs)
 		{
+			Debug.LogFormat("Expecting answers: {0}", string.Join(", ", expectedInputs));
 			this.expectedInputs = expectedInputs;
 		}
 
