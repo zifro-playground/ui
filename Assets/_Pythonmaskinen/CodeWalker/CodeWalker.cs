@@ -50,8 +50,6 @@ namespace PM
 		/// </summary>
 		public IProcessor ActivateWalker(Action<HelloCompiler.StopStatus> stopCompilerMeth)
 		{
-			compiledCode = new PyCompiler().Compile(PMWrapper.fullCode);
-
 			stopCompiler = stopCompilerMeth;
 			enabled = true;
 			isUserPaused = false;
@@ -59,6 +57,8 @@ namespace PM
 			lastLineNumber = 0;
 
 			theVarWindow.resetList();
+
+			compiledCode = new PyCompiler().Compile(PMWrapper.fullCode);
 
 			return compiledCode;
 		}

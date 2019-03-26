@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
 
 namespace PM
@@ -43,10 +44,15 @@ namespace PM
 				IProcessor compiled = theCodeWalker.ActivateWalker(stopCompiler);
 				compiled.AddBuiltin(allAddedFunctions.ToArray());
 			}
-			catch
+			catch (SyntaxException e) when (!e.SourceReference.IsFromClr)
 			{
 				stopCompiler(StopStatus.RuntimeError);
-				throw;
+				PMWrapper.RaiseError(e.SourceReference.FromRow, e.Message);
+			}
+			catch (Exception e)
+			{
+				stopCompiler(StopStatus.RuntimeError);
+				PMWrapper.RaiseError(e.Message);
 			}
 		}
 
