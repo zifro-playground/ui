@@ -15,8 +15,8 @@ public class Answer : ClrFunction
 
 	public override IScriptType Invoke(params IScriptType[] arguments)
 	{
-		Main.Instance.LevelAnswer.CheckAnswer(arguments);
+		Main.instance.levelAnswer.CheckAnswer(arguments);
 
-		return Processor.Factory.Null;
+		return null;
 	}
 }

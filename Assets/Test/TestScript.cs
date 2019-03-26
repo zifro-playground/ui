@@ -28,11 +28,13 @@ public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched, IPMWr
 
 	public void OnPMWrongAnswer(string answer)
 	{
+		print($"OnPMWrongAnswer: {answer}");
 		PMWrapper.RaiseTaskError("\"" + answer + "\" är inte rätt svar");
 	}
 
 	public void OnPMCorrectAnswer(string answer)
 	{
+		print($"OnPMCorrectAnswer: {answer}");
 		PMWrapper.SetCaseCompleted();
 	}
 

@@ -11,11 +11,11 @@ namespace PM
             DrawDefaultInspector();
             if (EditorApplication.isPlaying)
             {
-	            EditorGUILayout.HelpBox("\nCurrent running game has ID " + Main.Instance.GameDefinition.gameId + ". Make sure that is the correct game.", MessageType.Info, true);
+	            EditorGUILayout.HelpBox("\nCurrent running game has ID " + Main.instance.gameDefinition.gameId + ". Make sure that is the correct game.", MessageType.Info, true);
 
 				if (GUILayout.Button("Create migration from json"))
                 {
-                    Debug.Log("Creating migration for game with id " + Main.Instance.GameDefinition.gameId + "...\n");
+                    Debug.Log("Creating migration for game with id " + Main.instance.gameDefinition.gameId + "...\n");
                     GameToMigration.Instance.CreateMigrationFromJson();
                 }
             }

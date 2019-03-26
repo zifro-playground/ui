@@ -26,9 +26,9 @@ namespace PM
 			PMWrapper.StopCompiler();
 
 			// If theres more levels && next level is locked
-			if (PMWrapper.CurrentLevelIndex < PMWrapper.numOfLevels - 1 && PMWrapper.CurrentLevelIndex == PMWrapper.unlockedLevel)
+			if (PMWrapper.currentLevelIndex < PMWrapper.numOfLevels - 1 && PMWrapper.currentLevelIndex == PMWrapper.unlockedLevel)
 				// Unlock next level
-				UISingleton.instance.levelbar.UpdateButtons(PMWrapper.CurrentLevelIndex, PMWrapper.CurrentLevelIndex + 1);
+				UISingleton.instance.levelbar.UpdateButtons(PMWrapper.currentLevelIndex, PMWrapper.currentLevelIndex + 1);
 
 			_ShowWinScreen();
 
@@ -46,7 +46,7 @@ namespace PM
 		public void ContinueToNextLevel()
 		{
 			_HideWinScrren();
-			PMWrapper.CurrentLevelIndex += 1;
+			PMWrapper.currentLevelIndex += 1;
 		}
 
 		private void _HideWinScrren()
@@ -64,7 +64,7 @@ namespace PM
 				child.gameObject.SetActive(true);
 			}
 
-			if (PMWrapper.CurrentLevelIndex < PMWrapper.numOfLevels - 1)
+			if (PMWrapper.currentLevelIndex < PMWrapper.numOfLevels - 1)
 			{
 				ContinueButton.gameObject.SetActive(true);
 				GameFinishedText.gameObject.SetActive(false);

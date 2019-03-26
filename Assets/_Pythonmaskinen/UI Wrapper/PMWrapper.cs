@@ -37,7 +37,7 @@ public static class PMWrapper
 		set => UISingleton.instance.walker.sleepTime = value;
 	}
 
-	public static Level CurrentLevel => Main.Instance.LevelDefinition;
+	public static Level CurrentLevel => Main.instance.levelDefinition;
 
 	/// <summary>
 	/// The pre code, i.e. the un-changeable code BEFORE the main code.
@@ -135,7 +135,7 @@ public static class PMWrapper
 	/// <summary>
 	/// Boolean representing wether cases is currently running or not.
 	/// </summary>
-	public static bool IsCasesRunning => Main.Instance.CaseHandler.IsCasesRunning;
+	public static bool IsCasesRunning => Main.instance.caseHandler.IsCasesRunning;
 
 	/// <summary>
 	/// Boolean representing wether the compiler is currently executing or not.
@@ -275,12 +275,11 @@ public static class PMWrapper
 	}
 
 	/// <summary>
-	/// Adds smart buttons with names taken from registered functions via <see cref="SetCompilerFunctions(Compiler.Function[])"/> or <see cref="AddCompilerFunctions(Compiler.Function[])"/>
+	/// Sets smart buttons with names taken from registered functions via <see cref="SetCompilerFunctions(IEmbeddedType[])"/> or <see cref="AddCompilerFunctions(IEmbeddedType[])"/>
 	/// </summary>
 	public static void AutoSetSmartButtons()
 	{
-		// TODO
-		//SetSmartButtons(UISingleton.instance.compiler.addedFunctions.ConvertAll(f => f.name + "()").ToArray());
+		SetSmartButtons(UISingleton.instance.compiler.addedFunctions.ConvertAll(f => f.FunctionName + "()"));
 	}
 
 	/// <summary>
@@ -294,41 +293,51 @@ public static class PMWrapper
 	/// <summary>
 	/// Set the correct answeres for the current case.
 	/// </summary>
-	public static void SetCaseAnswer(params int[] answer)
+	public static void SetCaseAnswer<T>(params T[] answer)
 	{
-		Main.Instance.LevelAnswer = new LevelAnswer(answer);
+		Main.instance.levelAnswer = new LevelAnswer<T>(answer);
 	}
 
 	/// <summary>
 	/// Set the correct answeres for the current case.
 	/// </summary>
-	public static void SetCaseAnswer(params string[] answer)
+	public static void SetCaseAnswer(params int[] intAnswers)
 	{
-		Main.Instance.LevelAnswer = new LevelAnswer(answer);
+		Main.instance.levelAnswer = new LevelAnswer<int>(intAnswers);
 	}
 
 	/// <summary>
 	/// Set the correct answeres for the current case.
 	/// </summary>
-	public static void SetCaseAnswer(params bool[] answer)
+	public static void SetCaseAnswer(params string[] stringAnswers)
 	{
-		Main.Instance.LevelAnswer = new LevelAnswer(answer);
+		Main.instance.levelAnswer = new LevelAnswer<string>(stringAnswers);
+	}
+
+	/// <summary>
+	/// Set the correct answeres for the current case.
+	/// </summary>
+	public static void SetCaseAnswer(params bool[] boolAnswers)
+	{
+		Main.instance.levelAnswer = new LevelAnswer<bool>(boolAnswers);
 	}
 
 	/// <summary>
 	/// Represents the current level. Setting this value will automatically setoff <see cref="IPMLevelChanged.OnPMLevelChanged(int)"/>
 	/// <para>If set to a value higher than highest unlocked level then <seealso cref="unlockedLevel"/> will also be set to the same value.</para>
 	/// </summary>
-	/// <exception cref="ArgumentOutOfRangeException">Thrown if set to value outside of levels list index range, i.e. thrown if <seealso cref="CurrentLevelIndex"/>.set &lt; 0 or ≥ <seealso cref="numOfLevels"/></exception>
-	public static int CurrentLevelIndex
+	/// <exception cref="ArgumentOutOfRangeException">Thrown if set to value outside of levels list index range, i.e. thrown if <seealso cref="currentLevelIndex"/>.set &lt; 0 or ≥ <seealso cref="numOfLevels"/></exception>
+	public static int currentLevelIndex
 	{
 		get => UISingleton.instance.levelbar.Current;
 		set
 		{
 			if (value < 0 || value >= numOfLevels)
-				throw new ArgumentOutOfRangeException("currentLevel", value, "Level index out of range!");
-			else
-				UISingleton.instance.levelbar.ChangeLevel(value);
+			{
+				throw new ArgumentOutOfRangeException(nameof(currentLevelIndex), value, "Level index out of range!");
+			}
+
+			UISingleton.instance.levelbar.ChangeLevel(value);
 		}
 	}
 
@@ -341,15 +350,16 @@ public static class PMWrapper
 		get => UISingleton.instance.levelbar.NumberOfLevels;
 		set
 		{
-			if (value > 0) UISingleton.instance.levelbar.RecreateButtons(value, Mathf.Clamp(CurrentLevelIndex, 0, value - 1), unlockedLevel);
-			else throw new ArgumentOutOfRangeException("numOfLevels", value, "Zero and negative values are not accepted!");
+			if (value > 0) UISingleton.instance.levelbar.RecreateButtons(value, Mathf.Clamp(currentLevelIndex, 0, value - 1), unlockedLevel);
+			else throw new ArgumentOutOfRangeException(nameof(numOfLevels), value, "Zero and negative values are not accepted!");
 		}
 	}
 
 	/// <summary>
 	/// Returns true if current level has defined Answer and the user is supposed to answer level.
 	/// </summary>
-	public static bool levelShouldBeAnswered => false;
+	public static bool levelShouldBeAnswered 
+		=> UISingleton.instance.compiler.addedFunctions.OfType<Answer>().Any();
 
 	/// <summary>
 	/// The highest level that's unlocked. Value of 0 means only first level is unlocked. Value of (<seealso cref="numOfLevels"/> - 1) means last level is unlocked, i.e. all levels.
@@ -360,15 +370,15 @@ public static class PMWrapper
 		get => UISingleton.instance.levelbar.Unlocked;
 		set
 		{
-			if (value >= 0 && value < numOfLevels) UISingleton.instance.levelbar.UpdateButtons(CurrentLevelIndex, value);
-			else throw new ArgumentOutOfRangeException("unlockedLevel", value, "Level value is out of range of existing levels.");
+			if (value >= 0 && value < numOfLevels) UISingleton.instance.levelbar.UpdateButtons(currentLevelIndex, value);
+			else throw new ArgumentOutOfRangeException(nameof(unlockedLevel), value, "Level value is out of range of existing levels.");
 		}
 	}
 
 	/// <summary>
 	/// Returns the index of the current case. Index starts from 0.
 	/// </summary>
-	public static int currentCase => Main.Instance.CaseHandler.CurrentCase;
+	public static int currentCase => Main.instance.caseHandler.CurrentCase;
 
 	/// <summary>
 	/// Stops the compiler, shows the "Level complete!" popup, marks the current level as complete and unlocks the next level.
@@ -383,16 +393,16 @@ public static class PMWrapper
 	/// </summary>
 	public static void SetCaseCompleted()
 	{
-		Main.Instance.CaseHandler.CaseCompleted();
+		Main.instance.caseHandler.CaseCompleted();
 	}
 
 	/// <summary>
-	/// Switches to choosen case.
+	/// Switches to chosen case.
 	/// </summary>
 	/// <param name="caseNumber">The case number to switch to.</param> 
 	public static void SwitchCase(int caseNumber)
 	{
-		Main.Instance.CaseHandler.SetCurrentCase(caseNumber);
+		Main.instance.caseHandler.SetCurrentCase(caseNumber);
 	}
 
 	/// <summary>
@@ -401,7 +411,7 @@ public static class PMWrapper
 	/// <param name="ignoreUnlocked">If true, it will jump to the absolute last level. If false, it will jump to the last unlocked level.</param>
 	public static void JumpToLastLevel(bool ignoreUnlocked = false)
 	{
-		CurrentLevelIndex = ignoreUnlocked ? numOfLevels - 1 : unlockedLevel;
+		currentLevelIndex = ignoreUnlocked ? numOfLevels - 1 : unlockedLevel;
 	}
 
 	/// <summary>
@@ -409,7 +419,7 @@ public static class PMWrapper
 	/// </summary>
 	public static void JumpToFirstLevel()
 	{
-		CurrentLevelIndex = 0;
+		currentLevelIndex = 0;
 	}
 
 	/// <summary>
@@ -468,8 +478,9 @@ public static class PMWrapper
 	/// </summary>
 	public static void RaiseTaskError(string message)
 	{
+		Debug.LogWarningFormat("RaiseTaskError: {0}", message);
 		UISingleton.instance.taskDescription.ShowTaskError(message);
-		Main.Instance.CaseHandler.CaseFailed();
+		Main.instance.caseHandler.CaseFailed();
 		UISingleton.instance.compiler.stopCompiler(HelloCompiler.StopStatus.TaskError);
 	}
 
@@ -492,8 +503,6 @@ public static class PMWrapper
 	[Obsolete("New compiler. Use SetCompilerFunctions(List<IEmbeddedValue>) with IClrFunction or IClrYieldingFunction instead.", error: true)]
 	public static void SetCompilerFunctions<T>(List<T> functions)
 	{
-		//SetSmartButtons(functions.Select(function => function.buttonText).ToList());
-		//UISingleton.instance.compiler.addedFunctions = functions;
 	}
 
 	/// <summary>
@@ -502,8 +511,6 @@ public static class PMWrapper
 	[Obsolete("New compiler. Use AddCompilerFunctions(List<IEmbeddedValue>) with IClrFunction or IClrYieldingFunction instead.", error: true)]
 	public static void AddCompilerFunctions<T>(List<T> functions)
 	{
-		//AddSmartButtons(functions.Select(function => function.buttonText).ToList());
-		//UISingleton.instance.compiler.addedFunctions.AddRange(functions);
 	}
 
 	/// <summary>
@@ -512,8 +519,6 @@ public static class PMWrapper
 	[Obsolete("New compiler. Use AddCompilerFunctions(params IEmbeddedValue[]) with IClrFunction or IClrYieldingFunction instead.", error: true)]
 	public static void AddCompilerFunctions<T>(params T[] functions)
 	{
-		//AddSmartButtons(functions.Select(function => function.buttonText).ToList());
-		//UISingleton.instance.compiler.addedFunctions.AddRange(functions);
 	}
 
 	#endregion
