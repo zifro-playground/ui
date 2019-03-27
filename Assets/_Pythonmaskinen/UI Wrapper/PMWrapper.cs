@@ -13,7 +13,7 @@ using UnityEngine;
 public static class PMWrapper
 {
 	/// <summary>
-	/// Tells which mode the level is currently running. See <see cref="LevelMode"/> for avaliable modes.
+	/// Tells which mode the level is currently running. See <see cref="PM.LevelMode"/> for available modes.
 	/// </summary>
 	public static LevelMode levelMode => LevelModeController.instance.levelMode;
 
@@ -56,7 +56,7 @@ public static class PMWrapper
 
 	/// <summary>
 	/// The main code, i.e. the code the user is able to change.
-	/// Colorcoding is automatically applied if <seealso cref="IDETextField"/> is disabled.
+	/// Color coding is automatically applied if <seealso cref="IDETextField"/> is disabled.
 	/// <para>Changing this value while the user is coding may lead to unexpected glitches. Be careful!</para>
 	/// </summary>
 	public static string mainCode
@@ -525,11 +525,36 @@ public static class PMWrapper
 
 	#region OBSOLETE
 
+#pragma warning disable IDE1006 // Naming Styles
+	// ReSharper disable UnusedMember.Global
+
+	/// <inheritdoc cref="levelMode"/>
+	[Obsolete("Renamed due to code style. Use PMWrapper.levelMode instead.")]
+	public static LevelMode LevelMode => levelMode;
+
+	/// <inheritdoc cref="currentLevel"/>
+	[Obsolete("Renamed due to code style. Use PMWrapper.currentLevel instead.")]
+	public static Level CurrentLevel => currentLevel;
+
+	/// <inheritdoc cref="isCasesRunning"/>
+	[Obsolete("Renamed due to code style. Use PMWrapper.isCasesRunning instead.")]
+	public static bool IsCasesRunning => isCasesRunning;
+
+	/// <inheritdoc cref="isCompilerRunning"/>
+	[Obsolete("Renamed due to code style. Use PMWrapper.isCompilerRunning instead.")]
+	public static bool IsCompilerRunning => isCompilerRunning;
+
+	/// <inheritdoc cref="isCompilerUserPaused"/>
+	[Obsolete("Renamed due to code style. Use PMWrapper.isCompilerUserPaused instead.")]
+	public static bool IsCompilerUserPaused => isCompilerUserPaused;
+
 	/// <summary>
-	/// Sets the compiler functions avalible for the user.
+	/// Sets the compiler functions available for the user.
 	/// </summary>
 	[Obsolete(
-		"New compiler. Use SetCompilerFunctions(List<IEmbeddedValue>) with IClrFunction or IClrYieldingFunction instead.",
+		"New compiler. Use SetCompilerFunctions(List<IEmbeddedValue>) with " +
+		nameof(IClrFunction) + " or " +
+		nameof(IClrYieldingFunction) + " instead.",
 		error: true)]
 	public static void SetCompilerFunctions<T>(List<T> functions)
 	{
@@ -539,7 +564,9 @@ public static class PMWrapper
 	/// Adds a list of functions to the already existing list of compiler functions.
 	/// </summary>
 	[Obsolete(
-		"New compiler. Use AddCompilerFunctions(List<IEmbeddedValue>) with IClrFunction or IClrYieldingFunction instead.",
+		"New compiler. Use AddCompilerFunctions(List<IEmbeddedValue>) with " +
+		nameof(IClrFunction) + " or " +
+		nameof(IClrYieldingFunction) + " instead.",
 		error: true)]
 	public static void AddCompilerFunctions<T>(List<T> functions)
 	{
@@ -549,11 +576,16 @@ public static class PMWrapper
 	/// Adds all parameters of type <see cref="Compiler.Function"/> to the already existing list of compiler functions.
 	/// </summary>
 	[Obsolete(
-		"New compiler. Use AddCompilerFunctions(params IEmbeddedValue[]) with IClrFunction or IClrYieldingFunction instead.",
+		"New compiler. Use AddCompilerFunctions(params IEmbeddedValue[]) with " +
+		nameof(IClrFunction) + " or " +
+		nameof(IClrYieldingFunction) + " instead.",
 		error: true)]
 	public static void AddCompilerFunctions<T>(params T[] functions)
 	{
 	}
+
+	// ReSharper restore UnusedMember.Global
+#pragma warning restore IDE1006 // Naming Styles
 
 	#endregion
 }
