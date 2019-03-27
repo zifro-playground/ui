@@ -12,8 +12,6 @@ namespace PM
 		public Transform ideRoot => transform.parent;
 
 		[Header("PM")]
-		public HelloCompiler compiler;
-
 		public IDETextField textField;
 		public CodeWalker walker;
 		public GlobalSpeed speed;

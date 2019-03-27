@@ -133,9 +133,9 @@ namespace PM
 			}
 		}
 
-		void IPMCompilerStopped.OnPMCompilerStopped(HelloCompiler.StopStatus status)
+		void IPMCompilerStopped.OnPMCompilerStopped(StopStatus status)
 		{
-			if (status != HelloCompiler.StopStatus.RuntimeError)
+			if (status != StopStatus.RuntimeError)
 			{
 				SetState(State.Hidden);
 			}

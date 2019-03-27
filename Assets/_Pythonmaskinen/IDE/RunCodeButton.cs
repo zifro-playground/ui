@@ -57,7 +57,7 @@ namespace PM
 			thisButton.image.sprite = resumeImage;
 		}
 
-		void IPMCompilerStopped.OnPMCompilerStopped(HelloCompiler.StopStatus status)
+		void IPMCompilerStopped.OnPMCompilerStopped(StopStatus status)
 		{
 			//Tooltip.text = "Kör koden!";
 			//Tooltip.ApplyTooltipTextChange();

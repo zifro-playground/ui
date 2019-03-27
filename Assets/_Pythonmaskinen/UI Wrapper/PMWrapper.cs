@@ -146,7 +146,7 @@ public static class PMWrapper
 	/// <summary>
 	/// Boolean representing wether the compiler is currently executing or not.
 	/// </summary>
-	public static bool isCompilerRunning => UISingleton.instance.compiler.isRunning;
+	public static bool isCompilerRunning => UISingleton.instance.walker.isWalkerRunning;
 
 	/// <summary>
 	/// Boolean representing wether the walker is currently paused by the user (via pressing the pause button).
@@ -158,7 +158,7 @@ public static class PMWrapper
 	/// </summary>
 	public static void StartCompiler()
 	{
-		UISingleton.instance.compiler.CompileCode();
+		UISingleton.instance.walker.CompileFullCode();
 	}
 
 	/// <summary>
@@ -170,11 +170,11 @@ public static class PMWrapper
 	}
 
 	/// <summary>
-	/// Stops the compiler if it's currently running. Static wrapper for <see cref="HelloCompiler.StopCompiler(HelloCompiler.StopStatus)"/> with the argument <seealso cref="HelloCompiler.StopStatus.CodeForced"/>
+	/// Stops the compiler if it's currently running. Static wrapper for <see cref="HelloCompiler.StopCompiler(StopStatus)"/> with the argument <seealso cref="StopStatus.CodeForced"/>
 	/// </summary>
 	public static void StopCompiler()
 	{
-		UISingleton.instance.compiler.StopCompiler(HelloCompiler.StopStatus.CodeForced);
+		UISingleton.instance.walker.StopCompiler(StopStatus.CodeForced);
 	}
 
 	/// <summary>
@@ -183,8 +183,8 @@ public static class PMWrapper
 	public static void SetCompilerFunctions(List<IEmbeddedType> functions)
 	{
 		SetSmartButtons(functions.Select(function => function.FunctionName + "()").ToList());
-		UISingleton.instance.compiler.addedFunctions.Clear();
-		UISingleton.instance.compiler.addedFunctions.AddRange(functions);
+		UISingleton.instance.walker.addedFunctions.Clear();
+		UISingleton.instance.walker.addedFunctions.AddRange(functions);
 	}
 
 	/// <summary>
@@ -193,8 +193,8 @@ public static class PMWrapper
 	public static void SetCompilerFunctions(params IEmbeddedType[] functions)
 	{
 		SetSmartButtons(functions.Select(function => function.FunctionName + "()").ToList());
-		UISingleton.instance.compiler.addedFunctions.Clear();
-		UISingleton.instance.compiler.addedFunctions.AddRange(functions);
+		UISingleton.instance.walker.addedFunctions.Clear();
+		UISingleton.instance.walker.addedFunctions.AddRange(functions);
 	}
 
 	/// <summary>
@@ -203,7 +203,7 @@ public static class PMWrapper
 	public static void AddCompilerFunctions(List<IEmbeddedType> functions)
 	{
 		AddSmartButtons(functions.Select(function => function.FunctionName + "()").ToList());
-		UISingleton.instance.compiler.addedFunctions.AddRange(functions);
+		UISingleton.instance.walker.addedFunctions.AddRange(functions);
 	}
 
 	/// <summary>
@@ -212,7 +212,7 @@ public static class PMWrapper
 	public static void AddCompilerFunctions(params IEmbeddedType[] functions)
 	{
 		AddSmartButtons(functions.Select(function => function.FunctionName + "()").ToList());
-		UISingleton.instance.compiler.addedFunctions.AddRange(functions);
+		UISingleton.instance.walker.addedFunctions.AddRange(functions);
 	}
 
 	/// <summary>
@@ -222,7 +222,7 @@ public static class PMWrapper
 	/// </summary>
 	public static void UnpauseWalker()
 	{
-		UISingleton.instance.walker.ResumeWalker();
+		UISingleton.instance.walker.ResolveYield();
 	}
 
 	/// <summary>
@@ -232,7 +232,7 @@ public static class PMWrapper
 	/// </summary>
 	public static void UnpauseWalker(IScriptType returnValue)
 	{
-		UISingleton.instance.walker.ResumeWalker(returnValue);
+		UISingleton.instance.walker.ResolveYield(returnValue);
 	}
 
 	/// <summary>
@@ -274,9 +274,9 @@ public static class PMWrapper
 	/// </summary>
 	public static void AddSmartButtons(List<string> buttonTexts)
 	{
-		for (int i = 0; i < buttonTexts.Count; i++)
+		foreach (string str in buttonTexts)
 		{
-			UISingleton.instance.smartButtons.AddSmartButton(buttonTexts[i], buttonTexts[i]);
+			UISingleton.instance.smartButtons.AddSmartButton(str, str);
 		}
 	}
 
@@ -285,7 +285,7 @@ public static class PMWrapper
 	/// </summary>
 	public static void AutoSetSmartButtons()
 	{
-		SetSmartButtons(UISingleton.instance.compiler.addedFunctions.ConvertAll(f => f.FunctionName + "()"));
+		SetSmartButtons(UISingleton.instance.walker.addedFunctions.ConvertAll(f => f.FunctionName + "()"));
 	}
 
 	/// <summary>
@@ -373,7 +373,7 @@ public static class PMWrapper
 	/// Returns true if current level has defined Answer and the user is supposed to answer level.
 	/// </summary>
 	public static bool levelShouldBeAnswered
-		=> UISingleton.instance.compiler.addedFunctions.OfType<Answer>().Any();
+		=> UISingleton.instance.walker.addedFunctions.OfType<Answer>().Any();
 
 	/// <summary>
 	/// The highest level that's unlocked. Value of 0 means only first level is unlocked. Value of (<seealso cref="numOfLevels"/> - 1) means last level is unlocked, i.e. all levels.
@@ -506,7 +506,7 @@ public static class PMWrapper
 		Debug.LogWarningFormat("RaiseTaskError: {0}", message);
 		UISingleton.instance.taskDescription.ShowTaskError(message);
 		Main.instance.caseHandler.CaseFailed();
-		UISingleton.instance.compiler.StopCompiler(HelloCompiler.StopStatus.TaskError);
+		UISingleton.instance.walker.StopCompiler(StopStatus.TaskError);
 	}
 
 	/// <summary>

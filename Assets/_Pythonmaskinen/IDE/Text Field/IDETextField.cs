@@ -435,7 +435,7 @@ namespace PM
 			DeactivateField();
 		}
 
-		void IPMCompilerStopped.OnPMCompilerStopped(HelloCompiler.StopStatus status)
+		void IPMCompilerStopped.OnPMCompilerStopped(StopStatus status)
 		{
 			ReactivateField();
 		}

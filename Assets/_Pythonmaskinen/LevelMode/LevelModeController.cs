@@ -70,9 +70,9 @@ namespace PM
 			Main.instance.caseHandler.RunCase(0);
 		}
 
-		public void OnPMCompilerStopped(HelloCompiler.StopStatus status)
+		public void OnPMCompilerStopped(StopStatus status)
 		{
-			if (status == HelloCompiler.StopStatus.Finished)
+			if (status == StopStatus.Finished)
 			{
 				if (levelMode == LevelMode.Sandbox && Main.instance.levelDefinition.cases != null &&
 				    Main.instance.levelDefinition.cases.Count > 0)
@@ -92,7 +92,7 @@ namespace PM
 				}
 			}
 
-			if (status == HelloCompiler.StopStatus.RuntimeError)
+			if (status == StopStatus.RuntimeError)
 			{
 				if (levelMode == LevelMode.Case)
 				{
@@ -100,7 +100,7 @@ namespace PM
 				}
 			}
 
-			if (status == HelloCompiler.StopStatus.UserForced)
+			if (status == StopStatus.UserForced)
 			{
 				if (levelMode == LevelMode.Case)
 				{
