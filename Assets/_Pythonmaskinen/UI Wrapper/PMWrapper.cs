@@ -218,7 +218,7 @@ public static class PMWrapper
 	/// <summary>
 	/// Used to resolve a yielded function <see cref="IClrYieldingFunction"/>
 	/// and uses the compilers NULL representation <see cref="IScriptTypeFactory.Null"/> as return value.
-	/// <para>Replacement for <seealso cref="PMWrapper.UnpauseWalker()"/></para>
+	/// <para>Replacement for <seealso cref="UnpauseWalker"/></para>
 	/// </summary>
 	public static void ResolveYield()
 	{
@@ -228,11 +228,55 @@ public static class PMWrapper
 	/// <summary>
 	/// Used to resolve a yielded function <see cref="IClrYieldingFunction"/>
 	/// and uses parameter <paramref name="returnValue"/> as return value.
-	/// <para>Replacement for <seealso cref="PMWrapper.UnpauseWalker(IScriptType)"/></para>
+	/// <para>Replacement for <seealso cref="UnpauseWalker"/></para>
 	/// </summary>
 	public static void ResolveYield(IScriptType returnValue)
 	{
 		UISingleton.instance.walker.ResolveYield(returnValue);
+	}
+
+	/// <summary>
+	/// Used to resolve a yielded function <see cref="IClrYieldingFunction"/>
+	/// and uses the current <seealso cref="IScriptTypeFactory"/> to create
+	/// a return value of type <see cref="bool"/>.
+	/// <para>Replacement for <seealso cref="UnpauseWalker"/></para>
+	/// </summary>
+	public static void ResolveYield(bool returnBool)
+	{
+		UISingleton.instance.walker.ResolveYield(returnBool);
+	}
+
+	/// <summary>
+	/// Used to resolve a yielded function <see cref="IClrYieldingFunction"/>
+	/// and uses the current <seealso cref="IScriptTypeFactory"/> to create
+	/// a return value of type <see cref="int"/>.
+	/// <para>Replacement for <seealso cref="UnpauseWalker"/></para>
+	/// </summary>
+	public static void ResolveYield(int returnInt)
+	{
+		UISingleton.instance.walker.ResolveYield(returnInt);
+	}
+
+	/// <summary>
+	/// Used to resolve a yielded function <see cref="IClrYieldingFunction"/>
+	/// and uses the current <seealso cref="IScriptTypeFactory"/> to create
+	/// a return value of type <see cref="double"/>.
+	/// <para>Replacement for <seealso cref="UnpauseWalker"/></para>
+	/// </summary>
+	public static void ResolveYield(double returnDouble)
+	{
+		UISingleton.instance.walker.ResolveYield(returnDouble);
+	}
+
+	/// <summary>
+	/// Used to resolve a yielded function <see cref="IClrYieldingFunction"/>
+	/// and uses the current <seealso cref="IScriptTypeFactory"/> to create
+	/// a return value of type <see cref="string"/>.
+	/// <para>Replacement for <seealso cref="UnpauseWalker"/></para>
+	/// </summary>
+	public static void ResolveYield(string returnString)
+	{
+		UISingleton.instance.walker.ResolveYield(returnString);
 	}
 
 	/// <summary>

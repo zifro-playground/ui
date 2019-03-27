@@ -12,6 +12,19 @@ namespace PM
 {
 	public class CodeWalker : MonoBehaviour
 	{
+		static readonly IReadOnlyCollection<IEmbeddedType> BUILTIN_FUNCTIONS = new IClrFunction[] {
+			new AbsoluteValue(),
+			new ConvertToBinary(),
+			new ConvertToHexadecimal(),
+			new LengthOf(),
+			new RoundedValue(),
+			new MinimumValue(),
+			new MaximumValue(),
+			new GetTime()
+		};
+
+		public readonly List<IEmbeddedType> addedFunctions = new List<IEmbeddedType>();
+
 		[Header("Settings")]
 		[Range(0, 1)]
 		public float hideLineWhenTimeLeftFactor = 0.1f;
@@ -22,6 +35,8 @@ namespace PM
 
 		IProcessor compiledCode;
 		int lastLineNumber;
+
+		IScriptTypeFactory scriptTypeFactoryImplementation;
 		float sleepTimeLeft;
 
 		public int currentLineNumber => compiledCode?.CurrentSource.IsFromClr == false
@@ -31,21 +46,10 @@ namespace PM
 		public bool isWalkerRunning => compiledCode != null &&
 		                               compiledCode.State != ProcessState.Ended &&
 		                               compiledCode.State != ProcessState.Error;
+
 		public bool isUserPaused { get; private set; }
+
 		public bool isYielded => compiledCode?.State == ProcessState.Yielded;
-
-		public readonly List<IEmbeddedType> addedFunctions = new List<IEmbeddedType>();
-
-		static readonly IReadOnlyCollection<IEmbeddedType> BUILTIN_FUNCTIONS = new IClrFunction[]{
-			new AbsoluteValue(),
-			new ConvertToBinary(),
-			new ConvertToHexadecimal(),
-			new LengthOf(),
-			new RoundedValue(),
-			new MinimumValue(),
-			new MaximumValue(),
-			new GetTime()
-		};
 
 		static IProcessor CreateProcessor()
 		{
@@ -81,17 +85,6 @@ namespace PM
 				StopCompiler(StopStatus.RuntimeError);
 				PMWrapper.RaiseError(e.Message);
 			}
-		}
-
-		public void ResolveYield(IScriptType returnValue = null)
-		{
-			if (!isWalkerRunning)
-			{
-				return;
-			}
-
-			compiledCode.ResolveYield(returnValue);
-			sleepTimeLeft = 0;
 		}
 
 		// Called by the RunCodeButton script
@@ -145,9 +138,52 @@ namespace PM
 			}
 		}
 
+		public void ResolveYield(IScriptType returnValue = null)
+		{
+			if (!isWalkerRunning)
+			{
+				return;
+			}
+
+			compiledCode?.ResolveYield(returnValue);
+			sleepTimeLeft = 0;
+		}
+
+		public void ResolveYield(bool returnBool)
+		{
+			if (compiledCode != null)
+			{
+				ResolveYield(compiledCode.Factory.Create(returnBool));
+			}
+		}
+
+		public void ResolveYield(int returnInt)
+		{
+			if (compiledCode != null)
+			{
+				ResolveYield(compiledCode.Factory.Create(returnInt));
+			}
+		}
+
+		public void ResolveYield(string returnString)
+		{
+			if (compiledCode != null)
+			{
+				ResolveYield(compiledCode.Factory.Create(returnString));
+			}
+		}
+
+		public void ResolveYield(double returnDouble)
+		{
+			if (compiledCode != null)
+			{
+				ResolveYield(compiledCode.Factory.Create(returnDouble));
+			}
+		}
+
 		void Update()
 		{
-			if (compiledCode.State == ProcessState.Yielded)
+			if (compiledCode?.State == ProcessState.Yielded)
 			{
 				return;
 			}
