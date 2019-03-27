@@ -388,14 +388,14 @@ namespace PM
 			return functions;
 		}
 
-		public void OnPMCompilerStopped(HelloCompiler.StopStatus status)
+		public void OnPMCompilerStopped(StopStatus status)
 		{
 			if (levelAnswer != null)
 			{
 				levelAnswer.compilerHasBeenStopped = true;
 			}
 
-			if (status == HelloCompiler.StopStatus.Finished)
+			if (status == StopStatus.Finished)
 			{
 				if (PMWrapper.levelShouldBeAnswered &&
 				    UISingleton.instance.taskDescription.isActiveAndEnabled)

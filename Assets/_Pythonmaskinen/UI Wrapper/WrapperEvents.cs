@@ -10,7 +10,7 @@ using PM;
 /// </summary>
 public interface IPMCompilerStopped
 {
-	void OnPMCompilerStopped(HelloCompiler.StopStatus status);
+	void OnPMCompilerStopped(StopStatus status);
 }
 
 /// <summary>

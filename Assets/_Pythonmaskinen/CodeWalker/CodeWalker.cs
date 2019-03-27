@@ -1,200 +1,104 @@
-using UnityEngine;
 using System;
-using JetBrains.Annotations;
+using System.Collections.Generic;
+using System.Linq;
 using Mellis.Core.Entities;
 using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3;
+using PM.GlobalFunctions;
+using UnityEngine;
 
 namespace PM
 {
-	public class CodeWalker : MonoBehaviour, IPMSpeedChanged
+	public class CodeWalker : MonoBehaviour
 	{
-		#region time based variables
+		static readonly IReadOnlyCollection<IEmbeddedType> BUILTIN_FUNCTIONS = new IClrFunction[] {
+			new AbsoluteValue(),
+			new ConvertToBinary(),
+			new ConvertToHexadecimal(),
+			new LengthOf(),
+			new RoundedValue(),
+			new MinimumValue(),
+			new MaximumValue(),
+			new GetTime()
+		};
+
+		public readonly List<IEmbeddedType> addedFunctions = new List<IEmbeddedType>();
+
+		[Header("Settings")]
+		[Range(0, 1)]
+		public float hideLineWhenTimeLeftFactor = 0.1f;
 
 		public float sleepTime = 3f;
 
-		[Range(0, 1)]
-		public float sleepHideLineAfterMultiplier = 0.9f;
+		public VariableWindow theVarWindow;
 
-		float sleepTimeLeft;
-		float speedFactor = 1;
-
-		#endregion
-
-		public bool walkerRunning => compiledCode != null &&
-		                             compiledCode.State != ProcessState.Ended &&
-		                             compiledCode.State != ProcessState.Error;
-
-		public bool isUserPaused { get; private set; }
-
+		IProcessor compiledCode;
 		int lastLineNumber;
+
+		IScriptTypeFactory scriptTypeFactoryImplementation;
+		float sleepTimeLeft;
 
 		public int currentLineNumber => compiledCode?.CurrentSource.IsFromClr == false
 			? lastLineNumber = compiledCode.CurrentSource.FromRow
 			: lastLineNumber;
 
-		Action<HelloCompiler.StopStatus> stopCompiler;
+		public bool isWalkerRunning => compiledCode != null &&
+		                               compiledCode.State != ProcessState.Ended &&
+		                               compiledCode.State != ProcessState.Error;
 
-		IProcessor compiledCode;
+		public bool isUserPaused { get; private set; }
 
-		public VariableWindow theVarWindow;
+		public bool isYielded => compiledCode?.State == ProcessState.Yielded;
 
-		//This Script needs to be added to an object in the scene
-		//To start the compiler simply call "ActivateWalker" Method
-
-		#region init
-
-		/// <summary>
-		/// Activates the walker by telling the compiler to compile code and links necessary methods.
-		/// </summary>
-		public IProcessor ActivateWalker(Action<HelloCompiler.StopStatus> stopCompilerMeth)
+		static IProcessor CreateProcessor()
 		{
-			stopCompiler = stopCompilerMeth;
+			return new PyCompiler().Compile(PMWrapper.fullCode);
+		}
+
+		public void CompileFullCode()
+		{
 			enabled = true;
-			isUserPaused = false;
 
 			lastLineNumber = 0;
 
 			theVarWindow.ResetList();
 
-			compiledCode = new PyCompiler().Compile(PMWrapper.fullCode);
-
-			return compiledCode;
-		}
-
-		#endregion
-
-		#region CodeWalker
-
-		// Update method runs every frame, and check if it is time to parse a line.
-		// if so is the case, then we call "Runtime.CodeWalker.parseLine()" while we handle any thrown runtime exceptions that the codeWalker finds.
-
-		private void Update()
-		{
-			if (isUserPaused)
+			foreach (IPMCompilerStarted ev in UISingleton.FindInterfaces<IPMCompilerStarted>())
 			{
-				return;
-			}
-
-			if (compiledCode.State == ProcessState.Yielded)
-			{
-				return;
-			}
-
-			if (sleepTimeLeft > 0)
-			{
-				float before = sleepTimeLeft;
-				float firstInterval = sleepTime * (1 - sleepHideLineAfterMultiplier);
-
-				sleepTimeLeft -= Time.deltaTime;
-
-				if (before > firstInterval && sleepTimeLeft <= firstInterval)
-				{
-					IDELineMarker.instance.SetState(IDELineMarker.State.Hidden);
-				}
-
-				return;
-			}
-
-			if (!walkerRunning)
-			{
-				enabled = false;
-				stopCompiler.Invoke(HelloCompiler.StopStatus.Finished);
-				return;
+				ev.OnPMCompilerStarted();
 			}
 
 			try
 			{
-				IDELineMarker.SetWalkerPosition(currentLineNumber);
-
-				compiledCode.WalkLine();
-
-				if (!compiledCode.CurrentSource.IsFromClr)
-				{
-					lastLineNumber = compiledCode.CurrentSource.FromRow;
-				}
-
-				theVarWindow.UpdateList(compiledCode);
-
-				if (compiledCode.State == ProcessState.Yielded)
-				{
-					sleepTimeLeft = sleepTime * (1 - sleepHideLineAfterMultiplier);
-				}
-				else
-				{
-					sleepTimeLeft = Mathf.Clamp(sleepTime * (1 - PMWrapper.speedMultiplier), 0.01f, 1000);
-				}
+				compiledCode = CreateProcessor();
+				compiledCode.AddBuiltin(BUILTIN_FUNCTIONS.ToArray());
+				compiledCode.AddBuiltin(addedFunctions.ToArray());
+			}
+			catch (SyntaxException e) when (!e.SourceReference.IsFromClr)
+			{
+				StopCompiler(StopStatus.RuntimeError);
+				PMWrapper.RaiseError(e.SourceReference.FromRow, e.Message);
 			}
 			catch (Exception e)
 			{
-				if (!compiledCode.CurrentSource.IsFromClr)
-				{
-					lastLineNumber = compiledCode.CurrentSource.FromRow;
-					IDELineMarker.SetWalkerPosition(currentLineNumber);
-				}
-
-				stopCompiler.Invoke(HelloCompiler.StopStatus.RuntimeError);
+				StopCompiler(StopStatus.RuntimeError);
 				PMWrapper.RaiseError(e.Message);
-				throw;
 			}
-		}
-
-		#endregion
-
-		#region Compiler Methodes
-
-		// TODO: Setup input link submitter
-		//public static void LinkInputSubmitter(Action<string, Scope> submitInput, Scope currentScope)
-		//{
-		//	SubmitInput = submitInput;
-		//	CurrentScope = currentScope;
-		//}
-
-		#endregion
-
-		#region Public Methods
-
-		public void ResumeWalker()
-		{
-			if (!walkerRunning)
-			{
-				return;
-			}
-
-			compiledCode.ResolveYield();
-			sleepTimeLeft = 0;
-		}
-
-		public void ResumeWalker(IScriptType returnValue)
-		{
-			if (!walkerRunning)
-			{
-				return;
-			}
-
-			compiledCode.ResolveYield(returnValue);
-			sleepTimeLeft = 0;
-		}
-
-		public void StopWalker()
-		{
-			SetWalkerUserPaused(false);
-			compiledCode = null;
-			enabled = false;
 		}
 
 		// Called by the RunCodeButton script
 		public void SetWalkerUserPaused(bool paused)
 		{
-			if (paused == isUserPaused)
+			if (!isWalkerRunning)
 			{
 				return;
 			}
 
+			enabled = !paused;
 			isUserPaused = paused;
 
-			if (isUserPaused)
+			if (paused)
 			{
 				foreach (IPMCompilerUserPaused ev in UISingleton.FindInterfaces<IPMCompilerUserPaused>())
 				{
@@ -210,11 +114,140 @@ namespace PM
 			}
 		}
 
-		public void OnPMSpeedChanged(float speed)
+		public void EvaluateEnabled()
 		{
-			speedFactor = 1 - speed;
+			enabled = isWalkerRunning && !isUserPaused;
 		}
 
-		#endregion
+		// UnityEvent button
+		public void StopCompilerButton()
+		{
+			StopCompiler(StopStatus.UserForced);
+		}
+
+		public void StopCompiler(StopStatus status = StopStatus.CodeForced)
+		{
+			SetWalkerUserPaused(false);
+			compiledCode = null;
+			EvaluateEnabled();
+
+			// Call stop events
+			foreach (IPMCompilerStopped ev in UISingleton.FindInterfaces<IPMCompilerStopped>())
+			{
+				ev.OnPMCompilerStopped(status);
+			}
+		}
+
+		public void ResolveYield(IScriptType returnValue = null)
+		{
+			if (!isWalkerRunning)
+			{
+				return;
+			}
+
+			compiledCode?.ResolveYield(returnValue);
+			sleepTimeLeft = 0;
+		}
+
+		public void ResolveYield(bool returnBool)
+		{
+			if (compiledCode != null)
+			{
+				ResolveYield(compiledCode.Factory.Create(returnBool));
+			}
+		}
+
+		public void ResolveYield(int returnInt)
+		{
+			if (compiledCode != null)
+			{
+				ResolveYield(compiledCode.Factory.Create(returnInt));
+			}
+		}
+
+		public void ResolveYield(string returnString)
+		{
+			if (compiledCode != null)
+			{
+				ResolveYield(compiledCode.Factory.Create(returnString));
+			}
+		}
+
+		public void ResolveYield(double returnDouble)
+		{
+			if (compiledCode != null)
+			{
+				ResolveYield(compiledCode.Factory.Create(returnDouble));
+			}
+		}
+
+		void Update()
+		{
+			if (compiledCode?.State == ProcessState.Yielded)
+			{
+				return;
+			}
+
+			if (sleepTimeLeft > 0)
+			{
+				float before = sleepTimeLeft;
+				float firstInterval = sleepTime * hideLineWhenTimeLeftFactor;
+
+				sleepTimeLeft -= Time.deltaTime;
+
+				if (before > firstInterval && sleepTimeLeft <= firstInterval)
+				{
+					IDELineMarker.instance.SetState(IDELineMarker.State.Hidden, sleepTime * hideLineWhenTimeLeftFactor);
+				}
+
+				return;
+			}
+
+			if (!isWalkerRunning)
+			{
+				StopCompiler(StopStatus.Finished);
+				return;
+			}
+
+			WalkLine();
+		}
+
+		void WalkLine()
+		{
+			try
+			{
+				IDELineMarker.SetWalkerPosition(currentLineNumber);
+
+				compiledCode.WalkLine();
+
+				if (!compiledCode.CurrentSource.IsFromClr)
+				{
+					lastLineNumber = compiledCode.CurrentSource.FromRow;
+				}
+
+				theVarWindow.UpdateList(compiledCode);
+
+				if (compiledCode.State == ProcessState.Yielded)
+				{
+					sleepTimeLeft = sleepTime * hideLineWhenTimeLeftFactor;
+				}
+				else
+				{
+					sleepTimeLeft = Mathf.Clamp(sleepTime * (1 - PMWrapper.speedMultiplier), 0.01f, 1000);
+				}
+			}
+			catch (Exception e)
+			{
+				if (!compiledCode.CurrentSource.IsFromClr)
+				{
+					lastLineNumber = compiledCode.CurrentSource.FromRow;
+					IDELineMarker.SetWalkerPosition(currentLineNumber);
+				}
+
+				StopCompiler(StopStatus.RuntimeError);
+				PMWrapper.RaiseError(e.Message);
+				throw;
+			}
+		}
 	}
 }

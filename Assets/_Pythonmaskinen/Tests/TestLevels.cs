@@ -59,14 +59,14 @@ namespace PM
 			}
 		}
 
-		public void OnPMCompilerStopped(HelloCompiler.StopStatus status)
+		public void OnPMCompilerStopped(StopStatus status)
 		{
 			if (!isTesting)
 			{
 				return;
 			}
 
-			if (status == HelloCompiler.StopStatus.RuntimeError || status == HelloCompiler.StopStatus.TaskError)
+			if (status == StopStatus.RuntimeError || status == StopStatus.TaskError)
 			{
 				testErrors.Add(new TestError(Main.instance.levelDefinition.id, status.ToString()));
 				TestNextLevel();

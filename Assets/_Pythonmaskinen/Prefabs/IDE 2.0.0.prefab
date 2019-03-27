@@ -151,10 +151,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 428362dc39095694690638a3c502242f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ContinueButton: {fileID: 2004021177308703123}
-  CloseButton: {fileID: 1999804455330109345}
-  LevelFinishedText: {fileID: 2000008162581824887}
-  GameFinishedText: {fileID: 1999904396077449195}
+  continueButton: {fileID: 2004021177308703123}
+  closeButton: {fileID: 1999804455330109345}
+  levelFinishedText: {fileID: 2000008162581824887}
+  gameFinishedText: {fileID: 1999904396077449195}
 --- !u!1 &1896166280505925907
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,7 +331,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1822030126471635413}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999994
+  m_Size: 0.99999964
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1818,8 +1818,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2003996472166678237}
   m_HandleRect: {fileID: 1821918490404163293}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.99999994
+  m_Value: 1
+  m_Size: 0.4827584
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1933,7 +1933,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0.00015258789}
+  m_AnchoredPosition: {x: 0.000030517578, y: -0.000030517578}
   m_SizeDelta: {x: -9.999908, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1896432302460470067
@@ -1998,9 +1998,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cf901ed1946fce4581254e96a0d2f6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VariableWindowBackground: {fileID: 2000104890689651839}
-  UserIcon: {fileID: 2000116709024050789}
-  GameWindowUiTheme: 0
+  variableWindowBackground: {fileID: 2000104890689651839}
+  userIcon: {fileID: 2000116709024050789}
+  gameWindowUITheme: 0
 --- !u!1 &1896441881537526583
 GameObject:
   m_ObjectHideFlags: 0
@@ -2492,11 +2492,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0163ac9b26011e2438db16701c86eb87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Default: {fileID: 21300000, guid: 548e7a8abd85e4c46ae8298f7fe1b265, type: 3}
-  Active: {fileID: 21300000, guid: aa57a91cba6eea14ea652a8a2e7b73e6, type: 3}
-  Completed: {fileID: 21300000, guid: 02a4abd7fb64bc64398c7ce5d8a3ce20, type: 3}
-  Failed: {fileID: 21300000, guid: e294417e4775f5945b45700c32bcc51e, type: 3}
-  Image: {fileID: 2004061160415683355}
+  fallback: {fileID: 21300000, guid: 548e7a8abd85e4c46ae8298f7fe1b265, type: 3}
+  active: {fileID: 21300000, guid: aa57a91cba6eea14ea652a8a2e7b73e6, type: 3}
+  completed: {fileID: 21300000, guid: 02a4abd7fb64bc64398c7ce5d8a3ce20, type: 3}
+  failed: {fileID: 21300000, guid: e294417e4775f5945b45700c32bcc51e, type: 3}
+  image: {fileID: 2004061160415683355}
 --- !u!1 &1896469537835954921
 GameObject:
   m_ObjectHideFlags: 0
@@ -2625,13 +2625,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99494fd028e764143832db606f1b60ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NumberImage: {fileID: 2000274577450263105}
-  CaseImages:
+  numberImage: {fileID: 2000274577450263105}
+  caseImages:
   - {fileID: 21300000, guid: bd8bbbc25e239604ebfde516dfd1f047, type: 3}
   - {fileID: 21300000, guid: 45b4ad6214f02664b94502069dfaa9ba, type: 3}
   - {fileID: 21300000, guid: 6502311a8388a7443a27c30d7e1777fc, type: 3}
   - {fileID: 21300000, guid: 55b414867f37ce943ac420171ffb91fa, type: 3}
-  Duration: 1
+  duration: 1
 --- !u!1 &1896488731045679295
 GameObject:
   m_ObjectHideFlags: 0
@@ -3382,7 +3382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f93d6d72c066b14da96002612092680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsTesting: 0
+  isTesting: 0
 --- !u!1 &1896541907192630593
 GameObject:
   m_ObjectHideFlags: 0
@@ -4259,7 +4259,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1999686938401867617}
+      - m_Target: {fileID: 1999631441100658659}
         m_MethodName: StopCompilerButton
         m_Mode: 1
         m_Arguments:
@@ -4638,18 +4638,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd6e2133e0d27db49a012aa9b9b55f6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ProgressBarParent: {fileID: 1896658404927482007}
-  ButtonPrefab: {fileID: 114512546272174750, guid: abd475b39f1e0014dbf0da3bc3e517ea,
+  progressBarParent: {fileID: 1896658404927482007}
+  buttonPrefab: {fileID: 114512546272174750, guid: abd475b39f1e0014dbf0da3bc3e517ea,
     type: 3}
-  LeftCurrent: {fileID: 21300000, guid: 64c66df18d9aa49e2808c9a01d9a62e6, type: 3}
-  LeftUnlocked: {fileID: 21300000, guid: d8ec38880a5ec4576b76459f16c8309a, type: 3}
-  LeftLocked: {fileID: 21300000, guid: 53ef38fed3be847439c433cf38ec7b1b, type: 3}
-  MidCurrent: {fileID: 21300000, guid: 5541cc6b3e3d745138ff5c64d826fa07, type: 3}
-  MidUnlocked: {fileID: 21300000, guid: 85abd9c9e74c04c039048ccc3af189ad, type: 3}
-  MidLocked: {fileID: 21300000, guid: 7b8b0fa9191be456e862dfd3bea2ed0f, type: 3}
-  RightCurrent: {fileID: 21300000, guid: b87beb38ab6e24531aed93f78c278043, type: 3}
-  RightUnlocked: {fileID: 21300000, guid: 59a31cec5f3464c3f89fda31beb4dfa5, type: 3}
-  RightLocked: {fileID: 21300000, guid: 71a5c222acccf4a6f998071ef9a98bb2, type: 3}
+  leftCurrent: {fileID: 21300000, guid: 64c66df18d9aa49e2808c9a01d9a62e6, type: 3}
+  leftUnlocked: {fileID: 21300000, guid: d8ec38880a5ec4576b76459f16c8309a, type: 3}
+  leftLocked: {fileID: 21300000, guid: 53ef38fed3be847439c433cf38ec7b1b, type: 3}
+  midCurrent: {fileID: 21300000, guid: 5541cc6b3e3d745138ff5c64d826fa07, type: 3}
+  midUnlocked: {fileID: 21300000, guid: 85abd9c9e74c04c039048ccc3af189ad, type: 3}
+  midLocked: {fileID: 21300000, guid: 7b8b0fa9191be456e862dfd3bea2ed0f, type: 3}
+  rightCurrent: {fileID: 21300000, guid: b87beb38ab6e24531aed93f78c278043, type: 3}
+  rightUnlocked: {fileID: 21300000, guid: 59a31cec5f3464c3f89fda31beb4dfa5, type: 3}
+  rightLocked: {fileID: 21300000, guid: 71a5c222acccf4a6f998071ef9a98bb2, type: 3}
 --- !u!114 &2000119304189346807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4821,6 +4821,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   theErrorBubble: {fileID: 1999889091725276383}
+  theImage: {fileID: 2000281805248853283}
+  fadeTimeOnCompilerStopped: 0.4
 --- !u!1 &1896676461267829169
 GameObject:
   m_ObjectHideFlags: 0
@@ -4947,17 +4949,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa7cca886518244b97c56f6f381c9ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IconAnimator: {fileID: 1947138360399501133}
-  BigTaskDescription: {fileID: 1896959433817109651}
-  BigTaskDescriptionHead: {fileID: 2000053616080936487}
-  BigTaskDescriptionBody: {fileID: 2000201971966981743}
-  SmallTaskDescription: {fileID: 1896552836868074981}
-  ReadMoreButton: {fileID: 1896706474733688771}
-  SmallTaskDescriptionText: {fileID: 1999632979712565123}
-  PositiveParent: {fileID: 1897016127745861105}
-  PositiveText: {fileID: 2000055821245954813}
-  NegativeParent: {fileID: 1896717919582565159}
-  NegativeText: {fileID: 1999899949350396673}
+  iconAnimator: {fileID: 1947138360399501133}
+  bigTaskDescription: {fileID: 1896959433817109651}
+  bigTaskDescriptionHead: {fileID: 2000053616080936487}
+  bigTaskDescriptionBody: {fileID: 2000201971966981743}
+  smallTaskDescription: {fileID: 1896552836868074981}
+  readMoreButton: {fileID: 1896706474733688771}
+  smallTaskDescriptionText: {fileID: 1999632979712565123}
+  positiveParent: {fileID: 1897016127745861105}
+  positiveText: {fileID: 2000055821245954813}
+  negativeParent: {fileID: 1896717919582565159}
+  negativeText: {fileID: 1999899949350396673}
 --- !u!1 &1896686619989985679
 GameObject:
   m_ObjectHideFlags: 0
@@ -5479,7 +5481,7 @@ MonoBehaviour:
   preText: {fileID: 1999920304930726477}
   text: {fileID: 1999787027368486793}
   visibleText: {fileID: 1999789217847439453}
-  theSpeciallCommands: {fileID: 2000266552648383765}
+  theSpecialCommands: {fileID: 2000266552648383765}
   codeRowsLimit: 32
   devBuild: 1
 --- !u!114 &2000046245582067491
@@ -6380,7 +6382,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d72373257deb7824e92a1d092a7a2d40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  compiler: {fileID: 1999686938401867617}
   textField: {fileID: 1999626943458716469}
   walker: {fileID: 1999631441100658659}
   speed: {fileID: 2000089206154078095}
@@ -6571,11 +6572,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0163ac9b26011e2438db16701c86eb87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Default: {fileID: 21300000, guid: 42469e3e49d7c254f838727988952453, type: 3}
-  Active: {fileID: 21300000, guid: d6ccf08bdb53cc448a780e3dc4ae9ea3, type: 3}
-  Completed: {fileID: 21300000, guid: 02a4abd7fb64bc64398c7ce5d8a3ce20, type: 3}
-  Failed: {fileID: 21300000, guid: e294417e4775f5945b45700c32bcc51e, type: 3}
-  Image: {fileID: 1999931345966493809}
+  fallback: {fileID: 21300000, guid: 42469e3e49d7c254f838727988952453, type: 3}
+  active: {fileID: 21300000, guid: d6ccf08bdb53cc448a780e3dc4ae9ea3, type: 3}
+  completed: {fileID: 21300000, guid: 02a4abd7fb64bc64398c7ce5d8a3ce20, type: 3}
+  failed: {fileID: 21300000, guid: e294417e4775f5945b45700c32bcc51e, type: 3}
+  image: {fileID: 1999931345966493809}
 --- !u!1 &1896826070909985229
 GameObject:
   m_ObjectHideFlags: 0
@@ -6717,11 +6718,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0163ac9b26011e2438db16701c86eb87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Default: {fileID: 21300000, guid: dc3e1ed6708a304409ff625b5eb3435c, type: 3}
-  Active: {fileID: 21300000, guid: dc3e1ed6708a304409ff625b5eb3435c, type: 3}
-  Completed: {fileID: 21300000, guid: dc3e1ed6708a304409ff625b5eb3435c, type: 3}
-  Failed: {fileID: 21300000, guid: dc3e1ed6708a304409ff625b5eb3435c, type: 3}
-  Image: {fileID: 1999760149624994481}
+  fallback: {fileID: 21300000, guid: dc3e1ed6708a304409ff625b5eb3435c, type: 3}
+  active: {fileID: 21300000, guid: dc3e1ed6708a304409ff625b5eb3435c, type: 3}
+  completed: {fileID: 21300000, guid: dc3e1ed6708a304409ff625b5eb3435c, type: 3}
+  failed: {fileID: 21300000, guid: dc3e1ed6708a304409ff625b5eb3435c, type: 3}
+  image: {fileID: 1999760149624994481}
 --- !u!1 &1896838035555357911
 GameObject:
   m_ObjectHideFlags: 0
@@ -7566,7 +7567,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -5, y: 0.000091552734}
+  m_AnchoredPosition: {x: -5, y: -0.00012207031}
   m_SizeDelta: {x: -30, y: 75}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2004078401995666691
@@ -8105,11 +8106,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0163ac9b26011e2438db16701c86eb87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Default: {fileID: 21300000, guid: a465eaa9a1fbdef4e867fe12527c1fee, type: 3}
-  Active: {fileID: 21300000, guid: ebebc3a531757de4d906e856c6871593, type: 3}
-  Completed: {fileID: 21300000, guid: 02a4abd7fb64bc64398c7ce5d8a3ce20, type: 3}
-  Failed: {fileID: 21300000, guid: e294417e4775f5945b45700c32bcc51e, type: 3}
-  Image: {fileID: 1999787220117586635}
+  fallback: {fileID: 21300000, guid: a465eaa9a1fbdef4e867fe12527c1fee, type: 3}
+  active: {fileID: 21300000, guid: ebebc3a531757de4d906e856c6871593, type: 3}
+  completed: {fileID: 21300000, guid: 02a4abd7fb64bc64398c7ce5d8a3ce20, type: 3}
+  failed: {fileID: 21300000, guid: e294417e4775f5945b45700c32bcc51e, type: 3}
+  image: {fileID: 1999787220117586635}
 --- !u!1 &1896959433817109651
 GameObject:
   m_ObjectHideFlags: 0
@@ -8342,11 +8343,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a4deebb1b5a05f499e304d6f2911652, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Version:
-    Major: 1
-    Minor: 0
-    Build: 1
-  BaseOutputPath: C:/Users/Tifos/Documents/GitHub/
+  version:
+    major: 0
+    minor: 0
+    build: 0
+  baseOutputPath: C:/Users/Tifos/Documents/GitHub/
 --- !u!1 &1896979431124968617
 GameObject:
   m_ObjectHideFlags: 0
@@ -9409,10 +9410,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e52620ec065172428099dd3bdcfcc65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayImage: {fileID: 21300000, guid: 0ea6c79819b6d410b8faf32c1f82f4af, type: 3}
-  PauseImage: {fileID: 21300000, guid: ec4cadacb814a421c9033d9c06ae0e5e, type: 3}
-  ResumeImage: {fileID: 21300000, guid: 0ea6c79819b6d410b8faf32c1f82f4af, type: 3}
-  ThisButton: {fileID: 2000085229895782233}
+  playImage: {fileID: 21300000, guid: 0ea6c79819b6d410b8faf32c1f82f4af, type: 3}
+  pauseImage: {fileID: 21300000, guid: ec4cadacb814a421c9033d9c06ae0e5e, type: 3}
+  resumeImage: {fileID: 21300000, guid: 0ea6c79819b6d410b8faf32c1f82f4af, type: 3}
+  thisButton: {fileID: 2000085229895782233}
 --- !u!1 &1897063259522818367
 GameObject:
   m_ObjectHideFlags: 0
@@ -10090,7 +10091,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19d8ac3249675d542af951115e1534f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameDataFileName: game
+  gameDataFileName: game
 --- !u!1 &1897138737693992323
 GameObject:
   m_ObjectHideFlags: 0
@@ -10487,8 +10488,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20713417f177d0543b58276ca567176e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SandboxButton: {fileID: 1896826070909985229}
-  CaseButtons:
+  sandboxButton: {fileID: 1896826070909985229}
+  caseButtons:
   - {fileID: 1896821182026367031}
   - {fileID: 1896464644696810355}
   - {fileID: 1897206020644960269}
@@ -10505,8 +10506,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c209c85365195854083a57085a6c116c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CorrectProgramPanel: {fileID: 1897258037381286385}
-  LevelMode: 0
+  correctProgramPanel: {fileID: 1897258037381286385}
+  levelMode: 0
 --- !u!1 &1897179567565621073
 GameObject:
   m_ObjectHideFlags: 0
@@ -10740,7 +10741,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1893519872561790241}
-  - component: {fileID: 1999686938401867617}
   - component: {fileID: 1999631441100658659}
   - component: {fileID: 2000089206154078095}
   m_Layer: 0
@@ -10764,19 +10764,6 @@ Transform:
   m_Father: {fileID: 1898665947361662287}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1999686938401867617
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1897186223704264703}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fcb0e074cbb9fe4bbc116b6d0b5f45b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  theCodeWalker: {fileID: 1999631441100658659}
 --- !u!114 &1999631441100658659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10789,8 +10776,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faa565d87fa5b8641845027ba550daee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hideLineWhenTimeLeftFactor: 0.3
   sleepTime: 3
-  sleepHideLineAfterMultiplier: 0.95
   theVarWindow: {fileID: 1999657381788137037}
 --- !u!114 &2000089206154078095
 MonoBehaviour:
@@ -11025,11 +11012,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0163ac9b26011e2438db16701c86eb87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Default: {fileID: 21300000, guid: ad02611b02920a94998d07faa26b4eb3, type: 3}
-  Active: {fileID: 21300000, guid: a0656343597b90e4c86bceca61c86dbf, type: 3}
-  Completed: {fileID: 21300000, guid: 02a4abd7fb64bc64398c7ce5d8a3ce20, type: 3}
-  Failed: {fileID: 21300000, guid: e294417e4775f5945b45700c32bcc51e, type: 3}
-  Image: {fileID: 2004099477726462099}
+  fallback: {fileID: 21300000, guid: ad02611b02920a94998d07faa26b4eb3, type: 3}
+  active: {fileID: 21300000, guid: a0656343597b90e4c86bceca61c86dbf, type: 3}
+  completed: {fileID: 21300000, guid: 02a4abd7fb64bc64398c7ce5d8a3ce20, type: 3}
+  failed: {fileID: 21300000, guid: e294417e4775f5945b45700c32bcc51e, type: 3}
+  image: {fileID: 2004099477726462099}
 --- !u!1 &1897208261321138155
 GameObject:
   m_ObjectHideFlags: 0
@@ -11224,8 +11211,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2000283133945252915}
   m_HandleRect: {fileID: 1822645811198341291}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 0.99999994
+  m_Value: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11856,7 +11843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474d49d057e08f0449243812be147816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Screen: {fileID: 5249689464704732893}
+  screen: {fileID: 5249689464704732893}
 --- !u!1 &5249689464704732893
 GameObject:
   m_ObjectHideFlags: 0

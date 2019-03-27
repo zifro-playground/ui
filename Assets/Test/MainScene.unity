@@ -596,17 +596,17 @@ PrefabInstance:
     - target: {fileID: 1821934903765462877, guid: dd1ddbea37647834f960f478e030e3b0,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000015258789
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1822670360151837143, guid: dd1ddbea37647834f960f478e030e3b0,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.000030517578
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1822670360151837143, guid: dd1ddbea37647834f960f478e030e3b0,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000045776367
+      value: -0.000015258789
       objectReference: {fileID: 0}
     - target: {fileID: 1822723712563802349, guid: dd1ddbea37647834f960f478e030e3b0,
         type: 3}
@@ -673,6 +673,11 @@ PrefabInstance:
       propertyPath: m_Size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2000306023432378799, guid: dd1ddbea37647834f960f478e030e3b0,
+        type: 3}
+      propertyPath: m_Value
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1822030126471635413, guid: dd1ddbea37647834f960f478e030e3b0,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -717,6 +722,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1999876892539110081, guid: dd1ddbea37647834f960f478e030e3b0,
+        type: 3}
+      propertyPath: m_Value
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2000278769404438533, guid: dd1ddbea37647834f960f478e030e3b0,
         type: 3}
@@ -803,7 +813,8 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1999686938401867617, guid: dd1ddbea37647834f960f478e030e3b0, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: dd1ddbea37647834f960f478e030e3b0, type: 3}
 --- !u!224 &2036461385 stripped
 RectTransform:
