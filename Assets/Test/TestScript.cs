@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Globalization;
+using PM;
 using UnityEngine;
 
 public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched, IPMWrongAnswer, IPMCorrectAnswer,
 	IPMTimeToCorrectCase
 {
+	static TestScript()
+	{
+		Main.RegisterFunction(new CustomFunction());
+	}
+
 	void Start()
 	{
 		PMWrapper.SetCaseAnswer(1);
