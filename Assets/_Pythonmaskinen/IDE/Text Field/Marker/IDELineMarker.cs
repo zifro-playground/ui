@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace PM
@@ -10,11 +11,13 @@ namespace PM
 		private IDEFocusLord theFocusLord;
 		private IDETextField theTextField;
 
+		public Image theImage;
+		public float fadeTimeOnCompilerStopped = 0.4f;
+
 		public static int lineNumber { get; private set; }
 
 		public State state { get; private set; }
 
-		private Image theImage;
 
 		//private static readonly Color functionColor = new Color(0, 1, 1, 0.3f);
 		private static readonly Color WALKER_COLOR = new Color(0.2470588f, 0.7215686f, 0.6117647f, 0.4f);
@@ -38,15 +41,14 @@ namespace PM
 			instance.SetState(State.IDE);
 		}
 
-		public void InitLineMarker(IDETextField theTextField, IDEFocusLord theFocusLord)
+		public void InitLineMarker(IDETextField textField, IDEFocusLord focusLord)
 		{
 			instance = this;
 
-			this.theTextField = theTextField;
-			this.theFocusLord = theFocusLord;
+			theTextField = textField;
+			theFocusLord = focusLord;
 			theMarkerRect = transform as RectTransform;
 			enabled = false;
-			theImage = GetComponentInChildren<Image>();
 			theErrorBubble.Init(this);
 		}
 
@@ -137,7 +139,7 @@ namespace PM
 		{
 			if (status != StopStatus.RuntimeError)
 			{
-				SetState(State.Hidden);
+				SetState(State.Hidden, fadeTimeOnCompilerStopped);
 			}
 		}
 
@@ -146,31 +148,60 @@ namespace PM
 			SetState(State.Hidden);
 		}
 
-		public void SetState(State newState)
+		public void SetState(State newState, float fadeTime = -1)
 		{
 			if (newState == state)
 			{
 				return;
 			}
 
+			Color targetColor = theImage.color;
 			switch (newState)
 			{
 			case State.Error:
-				theImage.color = ERROR_COLOR;
+				targetColor = ERROR_COLOR;
 				break;
 			case State.Hidden:
-				theImage.color = Color.clear;
+				targetColor.a = 0;
 				break;
 			case State.Walker:
-				theImage.color = WALKER_COLOR;
+				targetColor = WALKER_COLOR;
 				break;
 			case State.IDE:
-				theImage.color = IDE_COLOR;
+				targetColor = IDE_COLOR;
 				break;
 			}
 
-			theImage.enabled = newState != State.Hidden;
+			StopAllCoroutines();
+			if (fadeTime > 0)
+			{
+				theImage.enabled = true;
+				StartCoroutine(SetStateFadeCoroutine(theImage.color, targetColor, fadeTime));
+			}
+			else
+			{
+				theImage.canvasRenderer.SetAlpha(1);
+				theImage.enabled = newState != State.Hidden;
+				theImage.color = targetColor;
+			}
+
 			state = newState;
+		}
+
+		IEnumerator SetStateFadeCoroutine(Color startColor, Color targetColor, float time)
+		{
+			float timeMultiplier = 1 / time;
+
+			while (time > 0)
+			{
+				yield return null;
+
+				time -= Time.deltaTime;
+				theImage.color = Color.Lerp(targetColor, startColor, time * timeMultiplier);
+			}
+
+			theImage.color = targetColor;
+			theImage.enabled = false;
 		}
 
 		public enum State

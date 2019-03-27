@@ -191,13 +191,13 @@ namespace PM
 			if (sleepTimeLeft > 0)
 			{
 				float before = sleepTimeLeft;
-				float firstInterval = sleepTime * (1 - hideLineWhenTimeLeftFactor);
+				float firstInterval = sleepTime * hideLineWhenTimeLeftFactor;
 
 				sleepTimeLeft -= Time.deltaTime;
 
 				if (before > firstInterval && sleepTimeLeft <= firstInterval)
 				{
-					IDELineMarker.instance.SetState(IDELineMarker.State.Hidden);
+					IDELineMarker.instance.SetState(IDELineMarker.State.Hidden, sleepTime * hideLineWhenTimeLeftFactor);
 				}
 
 				return;
@@ -229,7 +229,7 @@ namespace PM
 
 				if (compiledCode.State == ProcessState.Yielded)
 				{
-					sleepTimeLeft = sleepTime * (1 - hideLineWhenTimeLeftFactor);
+					sleepTimeLeft = sleepTime * hideLineWhenTimeLeftFactor;
 				}
 				else
 				{
