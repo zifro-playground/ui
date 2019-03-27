@@ -35,8 +35,7 @@ namespace PM
 
 		IProcessor compiledCode;
 		int lastLineNumber;
-
-		IScriptTypeFactory scriptTypeFactoryImplementation;
+		readonly IScriptTypeFactory scriptTypeFactoryImplementation;
 		float sleepTimeLeft;
 
 		public int currentLineNumber => compiledCode?.CurrentSource.IsFromClr == false

@@ -36,6 +36,14 @@ namespace PM
 		private SceneSettings currentSceneSettings;
 		private LevelSettings currentLevelSettings;
 
+		static readonly Dictionary<string, IEmbeddedType> REGISTERED_NAMED_FUNCTIONS =
+			new Dictionary<string, IEmbeddedType>();
+
+		static Main()
+		{
+			RegisterFunction(new Answer());
+		}
+
 		// Everything should be placed in Awake() but there are some things that needs to be set in Awake() in some other script before the things currently in Start() is called
 		private void Awake()
 		{
@@ -366,22 +374,25 @@ namespace PM
 			}
 		}
 
-		private static List<IEmbeddedType> CreateFunctionsFromStrings(IEnumerable<string> functionNames)
+		public static void RegisterFunction(IEmbeddedType function)
 		{
-			var functions = new List<IEmbeddedType>();
+			REGISTERED_NAMED_FUNCTIONS[function.GetType().Name] = function;
+			//REGISTERED_NAMED_FUNCTIONS[function.FunctionName] = function;
+		}
 
-			// Use reflection to get an instance of compiler function class from string
+		private static List<IEmbeddedType> CreateFunctionsFromStrings(ICollection<string> functionNames)
+		{
+			var functions = new List<IEmbeddedType>(functionNames.Count);
+
 			foreach (string functionName in functionNames)
 			{
-				var type = Type.GetType(functionName);
-
-				if (type == null)
+				if (!REGISTERED_NAMED_FUNCTIONS.TryGetValue(functionName, out IEmbeddedType function))
 				{
-					throw new Exception("Error when trying to read available functions. Function name: \"" +
-					                    functionName + "\" could not be found.");
+					throw new Exception(
+						$"Unable to find function: \"{functionName}\". " +
+						$"Perhaps you forgot to register it via {nameof(Main)}.{nameof(RegisterFunction)}()?");
 				}
 
-				var function = (IEmbeddedType)Activator.CreateInstance(type);
 				functions.Add(function);
 			}
 
