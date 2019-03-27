@@ -218,9 +218,9 @@ public static class PMWrapper
 	/// <summary>
 	/// Used to resolve a yielded function <see cref="IClrYieldingFunction"/>
 	/// and uses the compilers NULL representation <see cref="IScriptTypeFactory.Null"/> as return value.
-	/// <para>Replacement for <seealso cref="CodeWalker.unPauseWalker"/></para>
+	/// <para>Replacement for <seealso cref="PMWrapper.UnpauseWalker()"/></para>
 	/// </summary>
-	public static void UnpauseWalker()
+	public static void ResolveYield()
 	{
 		UISingleton.instance.walker.ResolveYield();
 	}
@@ -228,9 +228,9 @@ public static class PMWrapper
 	/// <summary>
 	/// Used to resolve a yielded function <see cref="IClrYieldingFunction"/>
 	/// and uses parameter <paramref name="returnValue"/> as return value.
-	/// <para>Replacement for <seealso cref="CodeWalker.unPauseWalker"/></para>
+	/// <para>Replacement for <seealso cref="PMWrapper.UnpauseWalker(IScriptType)"/></para>
 	/// </summary>
-	public static void UnpauseWalker(IScriptType returnValue)
+	public static void ResolveYield(IScriptType returnValue)
 	{
 		UISingleton.instance.walker.ResolveYield(returnValue);
 	}
@@ -527,6 +527,16 @@ public static class PMWrapper
 
 #pragma warning disable IDE1006 // Naming Styles
 	// ReSharper disable UnusedMember.Global
+	// ReSharper disable IdentifierTypo
+
+	/// <summary>
+	/// Unpauses the walker from a pausing function.
+	/// </summary>
+	[Obsolete("Renamed to match new terminology in the code base. Use PMWrapper.ResolveYield() instead.")]
+	public static void UnpauseWalker()
+	{
+		ResolveYield();
+	}
 
 	/// <inheritdoc cref="levelMode"/>
 	[Obsolete("Renamed due to code style. Use PMWrapper.levelMode instead.")]
@@ -584,6 +594,7 @@ public static class PMWrapper
 	{
 	}
 
+	// ReSharper restore IdentifierTypo
 	// ReSharper restore UnusedMember.Global
 #pragma warning restore IDE1006 // Naming Styles
 
