@@ -1,0 +1,282 @@
+﻿{
+	"$id": "C:\Users\Tifos\Documents\GitHub\ui\Assets\_Pythonmaskinen\Miscellaneous\game-definition-schema.json",
+	"type": "object",
+	"definitions": {
+		"smallSettings": {
+			"type": "object",
+			"properties": {
+				"precode": {
+					"type": "string",
+					"title": "Precode",
+					"default": "",
+					"examples": [
+						"x = 0\ny = 1"
+					]
+				},
+				"walkerStepTime": {
+					"type": "number",
+					"title": "Walker Step Time",
+					"default": 0,
+					"examples": [
+						1
+					]
+				}
+			}
+		}
+	},
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"properties": {
+		"activeLevels": {
+			"$id": "/properties/activeLevels",
+			"type": "array",
+			"items": {
+				"$id": "/properties/activeLevels/items",
+				"type": "object",
+				"properties": {
+					"sceneName": {
+						"$id": "/properties/activeLevels/items/properties/sceneName",
+						"type": "string",
+						"title": "Scene Name",
+						"default": "",
+						"examples": [
+							"Scene1"
+						]
+					},
+					"levelId": {
+						"$id": "/properties/activeLevels/items/properties/levelId",
+						"type": "string",
+						"title": "Level Id",
+						"default": "",
+						"examples": [
+							"abc123"
+						]
+					}
+				}
+			}
+		},
+		"scenes": {
+			"$id": "/properties/scenes",
+			"type": "array",
+			"items": {
+				"$id": "/properties/scenes/items",
+				"type": "object",
+				"properties": {
+					"name": {
+						"$id": "/properties/scenes/items/properties/name",
+						"type": "string",
+						"title": "Name",
+						"default": "",
+						"examples": [
+							"Scene1"
+						]
+					},
+					"sceneSettings": {
+						"$id": "/properties/scenes/items/properties/sceneSettings",
+						"type": "object",
+						"properties": {
+							"walkerStepTime": {
+								"$id": "/properties/scenes/items/properties/sceneSettings/properties/walkerStepTime",
+								"type": "integer",
+								"title": "Walker Step Time",
+								"default": 0,
+								"examples": [
+									3
+								]
+							},
+							"gameWindowUiLightTheme": {
+								"$id": "/properties/scenes/items/properties/sceneSettings/properties/gameWindowUiLightTheme",
+								"type": "boolean",
+								"title": "Game Window Ui Light Theme",
+								"default": false,
+								"examples": [
+									false
+								]
+							},
+							"availableFunctions": {
+								"$id": "/properties/scenes/items/properties/sceneSettings/properties/availableFunctions",
+								"type": "array",
+								"items": {
+									"$id": "/properties/scenes/items/properties/sceneSettings/properties/availableFunctions/items",
+									"type": "string",
+									"title": "Custom Functions",
+									"default": "",
+									"examples": [
+										"CustomFunction"
+									]
+								}
+							}
+						}
+					},
+					"levels": {
+						"$id": "/properties/scenes/items/properties/levels",
+						"type": "array",
+						"items": {
+							"$id": "/properties/scenes/items/properties/levels/items",
+							"type": "object",
+							"properties": {
+								"id": {
+									"$id": "/properties/scenes/items/properties/levels/items/properties/id",
+									"type": "string",
+									"title": "Id",
+									"default": "",
+									"examples": [
+										"abc123"
+									]
+								},
+								"guideBubbles": {
+									"$id": "/properties/scenes/items/properties/levels/items/properties/guideBubbles",
+									"type": "array",
+									"items": {
+										"$id": "/properties/scenes/items/properties/levels/items/properties/guideBubbles/items",
+										"type": "object",
+										"properties": {
+											"target": {
+												"$id": "/properties/scenes/items/properties/levels/items/properties/guideBubbles/items/properties/target",
+												"type": "string",
+												"title": "Target",
+												"default": "",
+												"examples": [
+													"1",
+													"play"
+												]
+											},
+											"text": {
+												"$id": "/properties/scenes/items/properties/levels/items/properties/guideBubbles/items/properties/text",
+												"type": "string",
+												"title": "Text",
+												"default": "",
+												"examples": [
+													"Hej! Detta är en guidebubblan med lite <i>italic</i> och <b>bold</b> i sig."
+												]
+											}
+										}
+									}
+								},
+								"levelSettings": {
+									"$id": "/properties/scenes/items/properties/levels/items/properties/levelSettings",
+									"type": "object",
+									"properties": {
+										"precode": {
+											"$id": "/properties/scenes/items/properties/levels/items/properties/levelSettings/properties/precode",
+											"type": "string",
+											"title": "The Precode Schema ",
+											"default": "",
+											"examples": [
+												"x = 0\ny = 1"
+											]
+										},
+										"startCode": {
+											"$id": "/properties/scenes/items/properties/levels/items/properties/levelSettings/properties/startCode",
+											"type": "string",
+											"title": "The Startcode Schema ",
+											"default": "",
+											"examples": [
+												"z = x + y\nsvara(z)"
+											]
+										},
+										"rowLimit": {
+											"$id": "/properties/scenes/items/properties/levels/items/properties/levelSettings/properties/rowLimit",
+											"type": "integer",
+											"title": "The Rowlimit Schema ",
+											"default": 0,
+											"examples": [
+												10
+											]
+										},
+										"taskDescription": {
+											"$id": "/properties/scenes/items/properties/levels/items/properties/levelSettings/properties/taskDescription",
+											"type": "object",
+											"properties": {
+												"header": {
+													"$id": "/properties/scenes/items/properties/levels/items/properties/levelSettings/properties/taskDescription/properties/header",
+													"type": "string",
+													"title": "The Header Schema ",
+													"default": "",
+													"examples": [
+														"Din uppgift är att svara 1. Gör du inte det kommer du att får fel och det är ju inte rätt."
+													]
+												},
+												"body": {
+													"$id": "/properties/scenes/items/properties/levels/items/properties/levelSettings/properties/taskDescription/properties/body",
+													"type": "string",
+													"title": "The Body Schema ",
+													"default": "",
+													"examples": [
+														"* Gör detta vilket leder till punkt 2\n* Här ska du göra något annat\n* Använd det du lärt dig i det tidigare punkterna till att göra detta...\n* sammanställ och ge svar"
+													]
+												}
+											}
+										},
+										"availableFunctions": {
+											"$id": "/properties/scenes/items/properties/levels/items/properties/levelSettings/properties/availableFunctions",
+											"type": "array",
+											"items": {
+												"$id": "/properties/scenes/items/properties/levels/items/properties/levelSettings/properties/availableFunctions/items",
+												"type": "string",
+												"title": "The 0th Schema ",
+												"default": "",
+												"examples": [
+													"Answer"
+												]
+											}
+										}
+									}
+								},
+								"levelDefinition": {
+									"$id": "/properties/scenes/items/properties/levels/items/properties/levelDefinition",
+									"type": "object",
+									"properties": {
+										"correctAnswer": {
+											"$id": "/properties/scenes/items/properties/levels/items/properties/levelDefinition/properties/correctAnswer",
+											"type": "string",
+											"title": "The Correctanswer Schema ",
+											"default": "",
+											"examples": [
+												"hejsan"
+											]
+										}
+									}
+								},
+								"sandbox": {
+									"$id": "/properties/scenes/items/properties/levels/items/properties/sandbox",
+									"type": "object",
+									"properties": {
+										"$ref": "#/definitions/smallSettings"
+									}
+								},
+								"cases": {
+									"$id": "/properties/scenes/items/properties/levels/items/properties/cases",
+									"type": "array",
+									"items": {
+										"$id": "/properties/scenes/items/properties/levels/items/properties/cases/items",
+										"type": "object",
+										"properties": {
+											"caseSettings": {
+												"$ref": "#/definitions/smallSettings"
+											},
+											"caseDefinition": {
+												"$id": "/properties/scenes/items/properties/levels/items/properties/cases/items/properties/caseDefinition",
+												"type": "object",
+												"properties": {
+													"correctAnswer": {
+														"$id": "/properties/scenes/items/properties/levels/items/properties/cases/items/properties/caseDefinition/properties/correctAnswer",
+														"type": "string",
+														"title": "Correct Answer",
+														"default": "",
+														"examples": [
+															"rätt svar"
+														]
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
