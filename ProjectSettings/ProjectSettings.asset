@@ -597,10 +597,10 @@ PlayerSettings:
   facebookXfbml: 0
   facebookFrictionlessRequests: 1
   apiCompatibilityLevel: 6
-  cloudProjectId: 536f18f7-45d0-4144-8826-cc4b743a4889
+  cloudProjectId: 57f4ace9-093b-45b4-b0e4-4f5c443308b1
   framebufferDepthMemorylessMode: 0
-  projectName: TestPM
-  organizationId: jontebackis4
+  projectName: Playground UI
+  organizationId: zifro_se
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
