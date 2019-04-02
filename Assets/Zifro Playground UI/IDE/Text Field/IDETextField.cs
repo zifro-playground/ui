@@ -94,7 +94,7 @@ namespace PM
 			WebTabSupport();
 #elif UNITY_EDITOR
 			if (devBuild)
-				webTabSupport();
+				WebTabSupport();
 #endif
 
 			if (Input.inputString.Length > 0
