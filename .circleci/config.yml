@@ -6,7 +6,8 @@ orbs:
 workflows:
     "Hello Workflow":
         jobs:
-          - hello/hello-build:
-              filters:
-                branches:
-                  ignore: /.*/
+          - hello/hello-build
+          # - hello/hello-build:
+          #     filters:
+          #       branches:
+          #         ignore: /.*/
