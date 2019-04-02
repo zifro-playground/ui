@@ -1,0 +1,12 @@
+
+# Default to line-feed line endings
+* text eol=lf
+
+# Binaries
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.dll binary
+*.ttf binary
