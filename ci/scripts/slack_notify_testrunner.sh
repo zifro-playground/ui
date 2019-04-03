@@ -129,6 +129,8 @@ then
         echo "Instead looking at range '$commitRange'"
         echo
     fi
+else
+    echo 'Add $CIRCLE_API_KEY env var with personal CircleCI token for comparing commits since last build'
 fi
 
 author=""
