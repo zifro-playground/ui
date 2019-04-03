@@ -44,7 +44,7 @@ For further detailed slack messages the script uses CircleCI's API.
 Create a personal API token at:  
 <https://circleci.com/account/api>
 
-Paste the key into `CIRCLE_API_TOKEN` in the [env settings on CircleCI](https://circleci.com/gh/zardan/ui/edit#env-vars).
+Paste the key into `CIRCLE_API_KEY` in the [env settings on CircleCI](https://circleci.com/gh/zardan/ui/edit#env-vars).
 
 # Summary: All env vars
 
@@ -54,4 +54,4 @@ Key                         | Description
 --------------------------- | -----------
 `UNITY_LICENSE_CONTENT_B64` | Unity_lic.ulf in base 64 format
 `SLACK_WEBHOOK`             | Slack webhook url, for use in Slack integration
-`CIRCLE_API_TOKEN`          | CircleCI personal API token, for use in Slack integration
+`CIRCLE_API_KEY`          | CircleCI personal API token, for use in Slack integration
