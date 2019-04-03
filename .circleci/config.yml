@@ -25,11 +25,18 @@ jobs:
       
       - run:
           name: Test Unity project
-          command: unity_test.sh ~/repo ~/tests/test_results.xml
+          command: unity_test.sh ~/repo ~/tests/nunit/test_results.xml
+
+      - run:
+          name: Convert NUnit to JUnit xml
+          when: always
+          command: |
+            mkdir -p ~/tests/junit
+            pwsh /usr/local/bin/nunit2junit.ps1 ~/tests/nunit/test_results.xml ~/tests/junit/test_results.xml
 
       - store_test_results:
-          name: store test results -> ~/tests
-          path: ~/tests
+          name: store test results -> ~/tests/junit
+          path: ~/tests/junit
           
       - run:
           command: |
