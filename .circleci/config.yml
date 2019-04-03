@@ -3,11 +3,57 @@ version: 2.1
 orbs:
     hello: circleci/hello-build@0.0.7 # uses the circleci/buildpack-deps Docker image
 
+jobs:
+  build-test:
+    working_directory: ~/repo
+
+    docker:
+      - image: applejag/ui-testrunner
+        
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            # SSH key to for UPM to access private repos
+            - "68:91:51:8b:69:ba:53:6f:53:4a:1b:79:b5:59:9f:6a"
+
+      # Checkout repo -> ~/repo
+      - checkout
+
+      - run:
+          name: Setup Unity license
+          command: unity_login.sh
+      
+      - run:
+          name: Test Unity project
+          command: unity_test.sh ~/repo ~/tests/test_results.xml
+
+      - store_test_results:
+          name: store test results -> ~/tests
+          path: ~/tests
+          
+      - run:
+          command: |
+            echo 'export BUILD_STATUS="fail"' >> $BASH_ENV
+          name: Setting Failure Condition
+          when: on_fail
+      - run:
+          command: |
+            echo 'export BUILD_STATUS="success"' >> $BASH_ENV
+          name: Setting Success Condition
+          when: on_success
+          
+      - run:
+          name: Send Slack notification
+          when: always
+          command: slack_notify_testrunner.sh
+
 workflows:
-    "Hello Workflow":
-        jobs:
-          - hello/hello-build
-          # - hello/hello-build:
-          #     filters:
-          #       branches:
-          #         ignore: /.*/
+  version: 2.1
+
+  work-build-test:
+    jobs:
+      - build-test:
+          filters:
+            branches:
+              only:
+                - /feature.*/
