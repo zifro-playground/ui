@@ -192,6 +192,7 @@ data=" {
         \"text\": \"$text\\n$errorsField\",
         \"mrkdwn_in\": [\"fields\", \"text\"], 
         \"color\": \"$color\",
+        \"thumb_url\": \"https://img.icons8.com/ultraviolet/100/000000/playground.png\",
         \"fields\": [
             {
                 \"title\": \"Test results: $testPercent %\",
