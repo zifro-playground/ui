@@ -31,14 +31,16 @@ Write-Output "Using Unity license $UnityLicenseULF"
 Write-Output "Using Docker image $DockerImage"
 Write-Output ""
 
-$UnityLicenseContent = Get-Content -Path $UnityLicenseULF
+$UnityLicenseContent = Get-Content -Path $UnityLicenseULF -Raw
+$UnityLicenseBytes = [System.Text.Encoding]::Unicode.GetBytes($UnityLicenseContent)
+$UnityLicenseB64 = [Convert]::ToBase64String($UnityLicenseBytes)
 
 $UnityID = Get-Credential -Message "Enter UnityID login"
 
 docker run -it --rm `
     -e "UNITY_USERNAME=$($UnityID.UserName)" `
     -e "UNITY_PASSWORD=$($UnityID.GetNetworkCredential().Password)" `
-    -e "UNITY_LICENSE_CONTENT=$UnityLicenseContent" `
+    -e "UNITY_LICENSE_CONTENT_B64=$UnityLicenseB64" `
     -e "TEST_PLATFORM=linux" `
     -e "WORKDIR=/root/project" `
     -v "$(Get-Location):/root/project"`

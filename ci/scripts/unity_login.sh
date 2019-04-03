@@ -22,9 +22,9 @@ fi
 
 # ${UNITY_EXECUTABLE:-xvfb-run -as '-screen 0 640x480x24' /opt/Unity/Editor/Unity} \
 #     -batchmode \
-#     -manualLicenseFile /root/.local/share/unity3d/Unity/Unity_lic.ulf \
-#     -logFile \
 #     -username "$UNITY_USERNAME" \
-#     -password "$UNITY_PASSWORD" 
+#     -password "$UNITY_PASSWORD" \
+#     -quit \
+#     -logfile
 
 exit

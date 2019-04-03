@@ -8,7 +8,7 @@ set -o pipefail
 PROJECT=${1?Project path}
 TEST_RESULTS=${2:-$PROJECT/test-results.xml}
 
-echo ">>>>>> Commence testing"
+echo ">>>>>> Executing Unity"
 echo
 
 ${UNITY_EXECUTABLE:-xvfb-run -as '-screen 0 640x480x24' /opt/Unity/Editor/Unity} \
@@ -17,13 +17,12 @@ ${UNITY_EXECUTABLE:-xvfb-run -as '-screen 0 640x480x24' /opt/Unity/Editor/Unity}
     -editorTestsResultFile $TEST_RESULTS \
     -batchmode \
     -buildTarget Linux \
-    -quit \
     -logfile
 
 UNITY_EXIT_CODE=$?
 
 echo
-echo "<<<<<< Testing complete"
+echo "<<<<<< Unity execution complete"
 echo
 
 if [ $UNITY_EXIT_CODE -eq 0 ]; then
