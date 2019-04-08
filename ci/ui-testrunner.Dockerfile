@@ -6,7 +6,8 @@ RUN apt-get update \
     && apt-get install -y \
         git \
         curl \
-        apt-transport-https
+        apt-transport-https \
+        xmlstarlet
 
 # Install powershell
 RUN wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb \
