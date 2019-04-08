@@ -23,12 +23,6 @@ public class NewTestScript
 		yield return null;
 	}
 
-	[Test]
-	public void NewTestScriptSimpleFails()
-	{
-		Assert.Fail("Scheduled to fail!");
-	}
-
 	[TestCase("foo")]
 	[TestCase("bar")]
 	[TestCase("")]
