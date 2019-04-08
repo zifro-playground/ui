@@ -32,10 +32,10 @@ namespace PM
 							theRect = ui.gameCameraRect;
 						}
 					}
-				}
 #else
-				theRect = UISingleton.instance.gameCameraRect;
+					theRect = UISingleton.instance.gameCameraRect;
 #endif
+				}
 				return theRect;
 			}
 		}
@@ -80,12 +80,12 @@ namespace PM
 				return;
 			}
 
-			if (cam == null)
+			if (!cam)
 			{
 				cam = GetComponent<Camera>();
 			}
 
-			if (cam == null)
+			if (!cam)
 			{
 				return;
 			}
@@ -94,7 +94,7 @@ namespace PM
 #endif
 
 			// Make sure we have all objects
-			if (rect == null)
+			if (!rect)
 			{
 				return;
 			}
