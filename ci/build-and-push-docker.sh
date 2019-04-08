@@ -4,7 +4,7 @@
 set -o nounset
 set -o errexit
 
-ACCOUNT=${1:-"applejag"}
+ACCOUNT=${1:-"zifrose"}
 
 echo ">>> Building $ACCOUNT/ui-upm docker image"
 docker build . -t $ACCOUNT/ui-upm -f ui-upm.Dockerfile

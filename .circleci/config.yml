@@ -8,7 +8,7 @@ jobs:
     working_directory: ~/repo
 
     docker:
-      - image: applejag/ui-testrunner
+      - image: zifrose/ui-testrunner
         
     steps:
       - add_ssh_keys:
