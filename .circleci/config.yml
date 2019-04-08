@@ -24,6 +24,10 @@ jobs:
           command: unity_login.sh
       
       - run:
+          name: Update UPM dependencies & compile scripts
+          command: unity_update_deps.sh ~/repo
+
+      - run:
           name: Test Unity project
           command: unity_test.sh ~/repo ~/tests/nunit/
 
@@ -37,13 +41,11 @@ jobs:
           path: ~/tests/junit
           
       - run:
-          command: |
-            echo 'export BUILD_STATUS="fail"' >> $BASH_ENV
+          command: echo 'export BUILD_STATUS="fail"' >> $BASH_ENV
           name: Setting Failure Condition
           when: on_fail
       - run:
-          command: |
-            echo 'export BUILD_STATUS="success"' >> $BASH_ENV
+          command: echo 'export BUILD_STATUS="success"' >> $BASH_ENV
           name: Setting Success Condition
           when: on_success
           

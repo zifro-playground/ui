@@ -7,7 +7,8 @@ RUN apt-get update \
         git \
         curl \
         apt-transport-https \
-        xmlstarlet
+        xmlstarlet \
+        jq
 
 # Install powershell
 RUN wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb \
@@ -22,3 +23,4 @@ COPY scripts/slack_notify_testrunner.sh /usr/local/bin/slack_notify_testrunner.s
 ADD https://raw.githubusercontent.com/nunit/nunit-transforms/master/nunit3-junit/nunit3-junit.xslt /usr/local/lib/nunit3-junit.xslt
 COPY scripts/nunit2junit.ps1 /usr/local/bin/nunit2junit.ps1
 COPY scripts/nunit2junit.sh /usr/local/bin/nunit2junit.sh
+COPY scripts/unity_update_deps.sh /usr/local/bin/unity_update_deps.sh
