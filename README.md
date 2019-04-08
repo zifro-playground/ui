@@ -14,18 +14,18 @@ Add the following inside the `dependencies` object in your `Packages/manifest.js
 
 ```js
 {
-    "dependencies": {
+  "dependencies": {
 
 // HTTPS variant
-        "se.zifro.mellis": "https://github.com/zardan/compiler.git#upm",
-        "se.zifro.ui": "https://github.com/zardan/ui.git#upm",
-        
-// SSH variant
-        "se.zifro.mellis": "ssh://git@github.com/zardan/compiler.git#upm",
-        "se.zifro.ui": "ssh://git@github.com/zardan/ui.git#upm",
+    "se.zifro.mellis": "https://github.com/zardan/compiler.git#upm",
+    "se.zifro.ui": "https://github.com/zardan/ui.git#upm",
 
-        /* ... rest of Unity packages ... */
-    }
+// SSH variant
+    "se.zifro.mellis": "ssh://git@github.com/zardan/compiler.git#upm",
+    "se.zifro.ui": "ssh://git@github.com/zardan/ui.git#upm",
+
+    /* ... rest of Unity packages ... */
+  }
 }
 ```
 
