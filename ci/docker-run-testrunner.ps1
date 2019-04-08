@@ -45,7 +45,7 @@ docker run -it --rm `
     -e "WORKDIR=/root/project" `
     -v "$(Get-Location):/root/project"`
     $DockerImage `
-    "/bin/bash"
+    '/bin/bash'
 
 # To generate the .alf file run this:
 #
