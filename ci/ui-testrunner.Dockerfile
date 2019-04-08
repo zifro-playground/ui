@@ -20,3 +20,4 @@ COPY scripts/unity_test.sh /usr/local/bin/unity_test.sh
 COPY scripts/slack_notify_testrunner.sh /usr/local/bin/slack_notify_testrunner.sh
 ADD https://raw.githubusercontent.com/nunit/nunit-transforms/master/nunit3-junit/nunit3-junit.xslt /usr/local/lib/nunit3-junit.xslt
 COPY scripts/nunit2junit.ps1 /usr/local/bin/nunit2junit.ps1
+COPY scripts/nunit2junit.sh /usr/local/bin/nunit2junit.sh
