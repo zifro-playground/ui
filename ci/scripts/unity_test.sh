@@ -19,12 +19,12 @@ errors=""
 function escapeJson {
     : ${1?}
     local val=${1//\\/\\\\} # \ 
-    val=${val//\//\\\/} # / 
+    # val=${val//\//\\\/} # / 
     # val=${val//\'/\\\'} # ' (not strictly needed ?)
     val=${val//\"/\\\"} # " 
     val=${val//	/\\t} # \t (tab)
     # val=${val//^M/\\\r} # \r (carriage return)
-    val="$(echo "$val" | tr -d '\r')"
+    val="$(echo "$val" | tr -d '\r')" # \r (carrige return)
     val=${val//
 /\\\n} # \n (newline)
     val=${val//^L/\\\f} # \f (form feed)
