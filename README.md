@@ -12,13 +12,21 @@ Minimal Unity version: `2018.3.10f1` or `2019.1.0b9`
 
 Add the following inside the `dependencies` object in your `Packages/manifest.json`:
 
-```json
+```js
+{
+    "dependencies": {
+
 // HTTPS variant
-    "se.zifro.mellis": "https://github.com/zardan/compiler.git#upm",
-    "se.zifro.ui": "https://github.com/zardan/ui.git#upm",
+        "se.zifro.mellis": "https://github.com/zardan/compiler.git#upm",
+        "se.zifro.ui": "https://github.com/zardan/ui.git#upm",
+        
 // SSH variant
-    "se.zifro.mellis": "ssh://git@github.com/zardan/compiler.git#upm",
-    "se.zifro.ui": "ssh://git@github.com/zardan/ui.git#upm",
+        "se.zifro.mellis": "ssh://git@github.com/zardan/compiler.git#upm",
+        "se.zifro.ui": "ssh://git@github.com/zardan/ui.git#upm",
+
+        /* ... rest of Unity packages ... */
+    }
+}
 ```
 
 You'll probably be using the SSH variant for easier CI/CD integration.
