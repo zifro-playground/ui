@@ -1,5 +1,5 @@
 {
-    "name": "ZifroPlayground.UI.Tests",
+    "name": "ZifroPlayground.UI.Tests.EditMode",
     "references": [
         "ZifroPlayground.UI"
     ],
