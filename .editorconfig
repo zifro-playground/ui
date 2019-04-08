@@ -17,6 +17,10 @@ indent_size = 4
 indent_style = space
 indent_size = 2
 
+# === Bash script files ===
+[*.sh]
+end_of_line = lf
+
 # === C# files ===
 [*.cs]
 
