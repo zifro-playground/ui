@@ -103,7 +103,7 @@ jobs:
 
       - run:
           name: Deploy to UPM branch
-          command: deploy_upm.sh ~/repo
+          command: deploy_upm.sh ~/repo ~/upm
 
       - run:
           name: Setting Failure Condition
