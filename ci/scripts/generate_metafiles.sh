@@ -70,8 +70,7 @@ PluginImporter:
   assetBundleVariant: 
 "
             ;;
-        ".xml") # XML
-        ".json") # JSON
+        ".xml"|".json") # XML & JSON
             echo "
 TextScriptImporter:
   externalObjects: {}
@@ -92,6 +91,7 @@ MonoImporter:
   assetBundleName: 
   assetBundleVariant:             
 "
+            ;;
         ".asmdef") # Assembly definitions
             echo "
 AssemblyDefinitionImporter:
@@ -126,7 +126,7 @@ DefaultImporter:
 # is folder empty. orphaned .meta files does not count
 function isfolderempty {
     : ${1?Folder path required.}
-    if [ -z "$(find $1 -not -name '*.meta' -and -type f)" ]
+    if [ -z "$(find "$1" -not -name '*.meta' -and -type f)" ]
     then
         return 0 # true, found none
     else
@@ -166,7 +166,7 @@ function findorphanfiles {
 
 # .meta files without a file or empty folder
 function findorphanmeta {
-    find ${1-.} -name '*.meta' -and -type f |
+    find "${1-.}" -name '*.meta' -and -type f |
     while read path
     do
         local other="${path/%.meta}"
@@ -174,7 +174,7 @@ function findorphanmeta {
         # is empty folder?
         if [ -d "$other" ]
         then
-            if isfolderempty $other
+            if isfolderempty "$other"
             then
                 echo $path
             fi
@@ -222,7 +222,7 @@ function removeorphans {
         rm "$path"
         ((COUNTER++))
         echo "Removed orphaned \".meta\" file: $path"
-    done < <(findorphanmeta ${1-.})
+    done < <(findorphanmeta "${1-.}")
     echo "<<< Removed $COUNTER orphaned meta files."
 }
 
@@ -231,5 +231,5 @@ function removeorphans {
 : ${1?Folder to generate metafiles in required.}
 
 echo ">>> Generate .meta files"
-generatemeta $1
-removeorphans $1
+generatemeta "$1"
+removeorphans "$1"
