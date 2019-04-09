@@ -77,7 +77,7 @@ namespace PM
 
 		private string GetBaseUrl()
 		{
-#if UNITY_WEBGL
+#if UNITY_WEBGL && !UNITY_EDITOR
 			var uri = new Uri(Application.absoluteURL);
 			string baseUrl = uri.Scheme + "://" + uri.Authority;
 #else
