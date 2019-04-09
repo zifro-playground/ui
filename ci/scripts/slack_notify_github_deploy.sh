@@ -15,35 +15,6 @@ if [ -z "$SLACK_WEBHOOK" ]; then
     exit 1
 fi
 
-function getAuthorFields {
-    if [[ "${GITHUB_USER_ID:-}" ]]
-    then
-        echo "Looking up commit author $GITHUB_USER_ID on github..."
-
-        curlResult="$(curl -s https://api.github.com/users/$GITHUB_USER_ID \
-        | grep "\"avatar_url\":")"
-        curlRegex='avatar_url.*"(.+)"'
-
-        if [[ $curlResult =~ $curlRegex ]] && [[ "${BASH_REMATCH[1]:-}" ]]
-        then
-            authorIcon=${BASH_REMATCH[1]}
-            echo "Found author profile picture: $authorIcon"
-
-            echo "
-            \"author_name\": \"deployed by $GITHUB_USER_ID\",
-            \"author_icon\": \"$authorIcon\",
-            \"author_link\": \"https://github.com/$GITHUB_USER_ID\",
-            "
-        else
-            echo "No profile picture found."
-            echo "
-            \"author_name\": \"deployed by $GITHUB_USER_ID\",
-            \"author_link\": \"https://github.com/$GITHUB_USER_ID\",
-            "
-        fi
-    fi
-}
-
 author=""
 text="*Project: \`$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME\` Branch: \`$CIRCLE_BRANCH\`*"
 fields=""
@@ -61,7 +32,6 @@ then
         echo "Got successful deployment"
         color="#1CBF43" # green
         visitJobActionStyle="primary" # green
-        author="$(getAuthorFields)"
         title=":tada: DEPLOYED TO GITHUB"
         fallback="Deployed to GitHub successfully, new tag: $DEPLOY_TAG_COMBINED"
         actions=",
@@ -82,6 +52,34 @@ then
                 \"value\": \"\`\`\`$DEPLOY_TAG_PLAYGROUND_UI\`\`\`\\n$uiTagText\",
                 \"short\": true
             }"
+
+        if [[ "${GITHUB_USER_ID:-}" ]]
+        then
+            echo "Looking up commit author $GITHUB_USER_ID on github..."
+
+            curlResult="$(curl -s https://api.github.com/users/$GITHUB_USER_ID \
+            | grep "\"avatar_url\":")"
+            curlRegex='avatar_url.*"(.+)"'
+
+            if [[ $curlResult =~ $curlRegex ]] && [[ "${BASH_REMATCH[1]:-}" ]]
+            then
+                authorIcon=${BASH_REMATCH[1]}
+                echo "Found author profile picture: $authorIcon"
+
+                author="
+                \"author_name\": \"deployed by $GITHUB_USER_ID\",
+                \"author_icon\": \"$authorIcon\",
+                \"author_link\": \"https://github.com/$GITHUB_USER_ID\",
+                "
+            else
+                echo "No profile picture found."
+                autor="
+                \"author_name\": \"deployed by $GITHUB_USER_ID\",
+                \"author_link\": \"https://github.com/$GITHUB_USER_ID\",
+                "
+            fi
+        fi
+
     else
         # Nothing to deploy
         echo "Nothing to deploy 'eh?"
