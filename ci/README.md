@@ -1,4 +1,28 @@
 
+# Generate GPG key
+
+```sh
+$ gpg --full-generate-key
+# follow generate instructions, but no passphrase
+# use following settings:
+#   kind: (1) RSA and RSA (default)
+#   keysize: 4096
+#   expiration: /up to you, ex: 1y/
+#   real name: /your full name, first+last name/
+#   email: /your github.com email/
+#   comment: /your first pet/
+
+$ gpg --list-keys --keyid-format LONG
+# to find the key id, as referred to as $KEY_ID in below two commands
+# paste $KEY_ID into GITHUB_GPG_ID env var in circleci
+
+$ gpg --armor --export $KEY_ID | clip
+# paste gpg key at https://github.com/settings/keys
+
+$ gpg --armor --export-secret-keys $KEY_ID | base64 | clip
+# paste into GITHUB_GPG_SEC_B64 env var in circleci
+```
+
 # Generate SSH key
 
 The SSH key is required for Unity Package Manager to pull the private dependencies.
@@ -52,6 +76,11 @@ List of all environment variables, to check if one is missing in CircleCI
 
 Key                         | Description
 --------------------------- | -----------
+`GITHUB_GPG_ID`             | ID of GPG key.
+`GITHUB_GPG_SEC_B64`        | GPG private key, base64 encoded.
+`GITHUB_USER_EMAIL`         | Deployment github account email, same as used in GPG and SSH key.
+`GITHUB_USER_NAME`          | Deployment github account display name (not username).
+`GITHUB_USER_ID`            | Deployment github account username (same as <https://github.com/your_user_id>)
 `UNITY_LICENSE_CONTENT_B64` | Unity_lic.ulf in base 64 format
 `SLACK_WEBHOOK`             | Slack webhook url, for use in Slack integration
-`CIRCLE_API_KEY`          | CircleCI personal API token, for use in Slack integration
+`CIRCLE_API_KEY`            | CircleCI personal API token, for use in Slack integration
