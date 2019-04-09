@@ -11,6 +11,7 @@ RUN mkdir -p ~/.ssh \
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
         git=1:2.7.4* \
+        ssh=1:7.2p2* \
         jq=1.5+dfsg* \
     # Cleanup
     && apt-get clean \

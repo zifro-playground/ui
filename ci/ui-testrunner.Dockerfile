@@ -11,6 +11,7 @@ RUN mkdir -p ~/.ssh \
 RUN apt-get update \
     && apt-get install --no-install-recommends -y \
         git=1:2.7.4* \
+        ssh=1:7.2p2* \
         curl=7.47.0* \
         apt-transport-https=1.2.31 \
         xmlstarlet=1.6.1* \
