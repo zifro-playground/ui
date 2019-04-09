@@ -77,12 +77,11 @@ namespace PM
 
 		private string GetBaseUrl()
 		{
-			string baseUrl;
-#if UNITY_EDITOR
-			baseUrl = "http://localhost:51419";
-#elif UNITY_WEBGL
+#if UNITY_WEBGL
 			var uri = new Uri(Application.absoluteURL);
-			baseUrl = uri.Scheme + "://" + uri.Authority;
+			string baseUrl = uri.Scheme + "://" + uri.Authority;
+#else
+			string baseUrl = "http://localhost:51419";
 #endif
 			return baseUrl + "/umbraco/api";
 		}
