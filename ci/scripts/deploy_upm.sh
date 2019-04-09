@@ -6,7 +6,7 @@ set -o errexit
 set -o pipefail
 
 repo=${1?Local repo folder required.}
-deploy=${1?Local deployment folder required.}
+deploy=${2?Local deployment folder required.}
 : ${PLAYGROUND_UI_VERSION?}
 : ${CIRCLE_REPOSITORY_URL?}
 : ${CIRCLE_BUILD_URL?}
@@ -16,11 +16,14 @@ deploy=${1?Local deployment folder required.}
 
 # Reading most recent commit
 cd $repo
+echo "Fetching latest commit message from '$repo'"
 latestCommit="$(git --no-pager log --pretty='%h %B' -n 1)"
+echo
 
 # Commit
-cd $deploy
 echo ">>> Committing changes"
+cd $deploy
+echo "Working in '$deploy'"
 
 if [ -n "$(git config --get commit.gpgSign)" ]
 then
