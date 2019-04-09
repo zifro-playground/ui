@@ -14,6 +14,7 @@ RUN apt-get update && \
         ssh=1:7.2p2* \
         curl=7.47.0* \
         jq=1.5+dfsg* \
+        ca-certificates=20170717~16.04.2 \
     # Cleanup
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*

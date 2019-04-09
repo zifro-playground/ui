@@ -84,7 +84,7 @@ jobs:
             : ${GITHUB_PUBLISH_BRANCH:=upm}
             : ${CIRCLE_REPOSITORY_URL?}
 
-            git clone $CIRCLE_REPOSITORY_URL --single-branch --branch $GITHUB_PUBLISH_BRANCH --depth 1 ~/upm
+            git clone $CIRCLE_REPOSITORY_URL --single-branch --branch $GITHUB_PUBLISH_BRANCH ~/upm
             code=$?
             ls ~/upm
             exit $code
