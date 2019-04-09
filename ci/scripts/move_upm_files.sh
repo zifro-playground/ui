@@ -9,7 +9,7 @@ PROJECT=${1?Project (input) folder required.}
 upm=${2?UPM (output) folder required.}
 
 # Remove old files in upm/se.zifro.ui
-echo ">>> Remove old files"
+echo ">>> Remove old files in"
 rm -rfv $upm/se.zifro.ui/*
 echo
 

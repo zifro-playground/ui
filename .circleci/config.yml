@@ -84,7 +84,10 @@ jobs:
             : ${GITHUB_PUBLISH_BRANCH:=upm}
             : ${CIRCLE_REPOSITORY_URL?}
 
-            git clone $CIRCLE_REPOSITORY_URL --single-branch --branch $GITHUB_PUBLISH_BRANCH ~/upm
+            git clone $CIRCLE_REPOSITORY_URL --single-branch --branch $GITHUB_PUBLISH_BRANCH --depth 1 ~/upm
+            code=$?
+            ls ~/upm
+            exit $code
 
       - run:
           name: Prepare files for deployment
