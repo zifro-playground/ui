@@ -80,6 +80,26 @@ jobs:
           command: get_ui_version.sh ~/repo
 
       - run:
+          name: Checkout deployment branch (→ ~/upm)
+          command: |
+            : ${GITHUB_PUBLISH_BRANCH:=upm}
+            : ${CIRCLE_REPOSITORY_URL?}
+
+            git clone $CIRCLE_REPOSITORY_URL --single-branch --branch $GITHUB_PUBLISH_BRANCH ~/upm
+
+      - run:
+          name: Prepare files for deployment
+          command: |
+            : ${PLAYGROUND_UI_VERSION?}
+
+            echo ">>> Update version package.json to '$PLAYGROUND_UI_VERSION'"
+            echo "$(jq ".version=\"$PLAYGROUND_UI_VERSION\"" ~/upm/package.json)" > ~/upm/package.json
+            echo
+
+            move_upm_files.sh ~/repo ~/upm
+            generate_metafiles.sh ~/upm
+
+      - run:
           name: Deploy to UPM branch
           command: deploy_upm.sh ~/repo
 
