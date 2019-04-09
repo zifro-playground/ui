@@ -3,7 +3,6 @@ version: 2.1
 preset-fitler1: &WORKFLOW_BUILD_TEST_FILTER
   only:
     - /feature.*/
-    - develop
     
 preset-fitler2: &WORKFLOW_BUILD_TEST_DEPLOY_FILTER
   only:
