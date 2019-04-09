@@ -29,8 +29,8 @@ $ gpg --armor --export-secret-keys $KEY_ID | base64 | clip
 The SSH key is required for Unity Package Manager to pull the private dependencies.
 See [README.md on upm branch](https://github.com/zardan/ui/blob/upm/README.md) for more details.
 
- 1. Go to <https://circleci.com/gh/zardan/ui/edit#checkout> and add a user key from an account that also can connect to the other repos from link above.
- 2. Add this step to the config.yml:
+1. Go to <https://circleci.com/gh/zardan/ui/edit#checkout> and add a user key from an account that also can connect to the other repos from link above.
+2. Add this step to the config.yml:
 
 ```yml
 steps:
