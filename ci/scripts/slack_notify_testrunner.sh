@@ -120,7 +120,7 @@ then
         echo "No previous build. Assuming new branch..."
         baseBranch=$(git show-branch -a \
         | grep '\*' \
-        | grep -v `git rev-parse --abbrev-ref HEAD` \
+        | grep -v $(git rev-parse --abbrev-ref HEAD) \
         | head -n1 \
         | sed 's/.*\[\(.*\)\].*/\1/' \
         | sed 's/[\^~].*//')
@@ -130,7 +130,7 @@ then
         echo
     fi
 else
-    echo 'Add $CIRCLE_API_KEY env var with personal CircleCI token for comparing commits since last build'
+    echo "Add \$CIRCLE_API_KEY env var with personal CircleCI token for comparing commits since last build"
 fi
 
 author=""

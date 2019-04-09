@@ -35,7 +35,7 @@ if [ -n "${LOCAL:-}" ]; then
     mkdir -p ~/.ssh
 
     # Add ssh key
-    eval `ssh-agent` # create the process
+    eval $(ssh-agent) # create the process
     GITHUB_SSH_SEC=$(base64 -di - <<< "${GITHUB_SSH_SEC_B64?}")
     echo "${GITHUB_SSH_SEC?}" > ~/.ssh/id_rsa
     chmod 600 ~/.ssh/id_rsa

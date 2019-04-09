@@ -9,12 +9,15 @@ RUN mkdir -p ~/.ssh \
 
 # Install utils
 RUN apt-get update \
-    && apt-get install -y \
-        git \
-        curl \
-        apt-transport-https \
-        xmlstarlet \
-        jq
+    && apt-get install --no-install-recommends -y \
+        git=1:2.7.4* \
+        curl=7.47.0* \
+        apt-transport-https=1.2.31 \
+        xmlstarlet=1.6.1* \
+        jq=1.5+dfsg* \
+    # Cleanup
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
         
 # Install powershell
 # /Requires apt-transport-https/
@@ -22,7 +25,11 @@ RUN wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsof
     && dpkg -i packages-microsoft-prod.deb \
     && rm packages-microsoft-prod.deb \
     && apt-get update \
-    && apt-get install -y powershell
+    && apt-get install --no-install-recommends -y \
+        powershell=6.2.0* \
+    # Cleanup
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY scripts/unity_login.sh /usr/local/bin/unity_login.sh
 COPY scripts/unity_test.sh /usr/local/bin/unity_test.sh

@@ -76,17 +76,17 @@ do
     regexTestsInconc='inconclusive="([0-9]+)"'
     regexTestsSkippe='skipped="([0-9]+)"'
 
-    results="$(cat $test_results_file | grep "<test-run")"
+    results="$(grep "<test-run" "$test_results_file")"
 
     old_passed=$((passed))
-    [[ $results =~ $regexTestsPassed ]] && [[ "${BASH_REMATCH[1]}" ]] && ((passed+=${BASH_REMATCH[1]}))
+    [[ $results =~ $regexTestsPassed ]] && [[ "${BASH_REMATCH[1]}" ]] && ((passed+=BASH_REMATCH[1]))
     echo "Passed: $passed (+$((passed-old_passed)))"
     old_failed=$((failed))
-    [[ $results =~ $regexTestsInconc ]] && [[ "${BASH_REMATCH[1]}" ]] && ((failed+=${BASH_REMATCH[1]}))
-    [[ $results =~ $regexTestsFailed ]] && [[ "${BASH_REMATCH[1]}" ]] && ((failed+=${BASH_REMATCH[1]}))
+    [[ $results =~ $regexTestsInconc ]] && [[ "${BASH_REMATCH[1]}" ]] && ((failed+=BASH_REMATCH[1]))
+    [[ $results =~ $regexTestsFailed ]] && [[ "${BASH_REMATCH[1]}" ]] && ((failed+=BASH_REMATCH[1]))
     echo "Failed: $failed (+$((failed-old_failed)))"
     old_skipped=$((skipped))
-    [[ $results =~ $regexTestsSkippe ]] && [[ "${BASH_REMATCH[1]}" ]] && ((skipped+=${BASH_REMATCH[1]}))
+    [[ $results =~ $regexTestsSkippe ]] && [[ "${BASH_REMATCH[1]}" ]] && ((skipped+=BASH_REMATCH[1]))
     echo "Skipped: $skipped (+$((skipped-old_skipped)))"
     echo
 
@@ -119,10 +119,10 @@ echo "Found errors:"
 echo -e "$errors"
 echo
 
-echo "export TEST_PASSED=$(($passed))" >> $BASH_ENV
-echo "export TEST_FAILED=$(($failed))" >> $BASH_ENV
-echo "export TEST_SKIPPED=$(($skipped))" >> $BASH_ENV
-echo "export TEST_TOTAL=$(($total))" >> $BASH_ENV
+echo "export TEST_PASSED=\$(($passed))" >> $BASH_ENV
+echo "export TEST_FAILED=\$(($failed))" >> $BASH_ENV
+echo "export TEST_SKIPPED=\$(($skipped))" >> $BASH_ENV
+echo "export TEST_TOTAL=\$(($total))" >> $BASH_ENV
 echo -e "read -rd '' TEST_ERRORS <<'ERROR_STRINGS'\n$errors\nERROR_STRINGS\n" >> $BASH_ENV
 echo "export TEST_ERRORS" >> $BASH_ENV
 

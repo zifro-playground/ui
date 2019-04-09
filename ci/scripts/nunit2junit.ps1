@@ -44,5 +44,5 @@ Process {
     $xslt = New-Object System.Xml.Xsl.XslCompiledTransform;
     $xslt.Load($transformer);
     $xslt.Transform($inputXml, $outputXml);
-    Write-Host "Output: $outputXml using $transformer"
+    Write-Output "Output: $outputXml using $transformer"
 }

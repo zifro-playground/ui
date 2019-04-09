@@ -9,9 +9,12 @@ RUN mkdir -p ~/.ssh \
 
 # Install utils
 RUN apt-get update && \
-    apt-get install -y \
-        git \
-        jq
+    apt-get install --no-install-recommends -y \
+        git=1:2.7.4* \
+        jq=1.5+dfsg* \
+    # Cleanup
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY scripts/git_login.sh /usr/local/bin/git_login.sh
 COPY scripts/generate_metafiles.sh /usr/local/bin/generate_metafiles.sh
