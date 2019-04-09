@@ -8,7 +8,7 @@ root = true
 # EditorGuidelines https://github.com/pharring/EditorGuidelines
 guidelines = 80
 
-indent_style = tab
+indent_style = space
 indent_size = 4
 
 # === YML config files ===
@@ -17,10 +17,18 @@ indent_size = 4
 indent_style = space
 indent_size = 2
 
+# === Bash script files ===
+[*.sh]
+
+end_of_line = lf
+
 # === C# files ===
 [*.cs]
 
 guidelines = 80, 120, 121
+
+indent_style = tab
+indent_size = 4
 
 # options_name = false|true : none|silent|suggestion|warning|error
 

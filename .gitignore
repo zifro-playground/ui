@@ -1,3 +1,7 @@
+# In case of someone adding to repo
+*.ulf
+*.alf
+
 # Unity generated
 /[Ll]ibrary/
 /[Ll]ogs/
