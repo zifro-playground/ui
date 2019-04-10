@@ -74,7 +74,6 @@ then
     color="#1CBF43" # green
     title=":tada: TESTING COMPLETED SUCCESSFULLY"
     fallback="Build completed successfully ($CIRCLE_JOB#$CIRCLE_BUILD_NUM)"
-    testResults="Passed: $TEST_PASSED :heavy_check_mark:, Failed: $TEST_FAILED, Skipped: $TEST_SKIPPED"
     visitJobActionStyle="primary"
 else
     echo "Build failed, adjusing message accordingly"
@@ -82,7 +81,6 @@ else
     color="#ed5c5c" # red
     title=":no_entry_sign: TESTING FAILED"
     fallback="Build failed ($CIRCLE_JOB#$CIRCLE_BUILD_NUM)"
-    testResults="Passed: $TEST_PASSED, Failed: $TEST_FAILED :exclamation:, Skipped: $TEST_SKIPPED"
     visitJobActionStyle="danger"
 
     if [ "$TEST_FAILED" -gt 0 ] && [ "$TEST_ERRORS" ]
@@ -90,6 +88,22 @@ else
         errorsField="*Errors:*\\n\\n$(escapeJson "$TEST_ERRORS")"
     fi
 fi
+if [[ "$TEST_FAILED" == "0" ]]; then
+    testFailed="Failed: $TEST_FAILED"
+else
+    testFailed="Failed: $TEST_FAILED :exclamation:"
+fi
+if [[ "$TEST_SKIPPED" == "0" ]]; then
+    testSkipped="Skipped: $TEST_SKIPPED"
+else
+    testSkipped="Skipped: $TEST_SKIPPED :exclamation:"
+fi
+if [[ "$TEST_FAILED" == "0" ]] && [[ "$TEST_SKIPPED" == "0" ]]; then
+    testPassed="Passed: $TEST_PASSED :heavy_check_mark:"
+else
+    testPassed="Passed: $TEST_PASSED"
+fi
+testResults="$testPassed\\n$testFailed\\n$testSkipped"
 echo
 
 : ${errorsField:=}
