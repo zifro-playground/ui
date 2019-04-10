@@ -10,7 +10,8 @@ preset-fitler2: &WORKFLOW_BUILD_TEST_DEPLOY_FILTER
     - master
 
 jobs:
-  build-test:
+  # Job named 'build' is used on API triggered builds
+  build:
     working_directory: ~/repo
 
     docker:
@@ -146,21 +147,21 @@ workflows:
 
   work-build-test:
     jobs:
-      - build-test:
+      - build:
           filters:
             branches:
               <<: *WORKFLOW_BUILD_TEST_FILTER
 
   work-build-test-deploy:
     jobs:
-      - build-test:
+      - build:
           filters:
             branches:
               <<: *WORKFLOW_BUILD_TEST_DEPLOY_FILTER
 
       - deploy-github:
           requires:
-            - build-test
+            - build
             
           filters:
             branches:
