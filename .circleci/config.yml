@@ -1,0 +1,168 @@
+version: 2.1
+
+preset-fitler1: &WORKFLOW_BUILD_TEST_FILTER
+  only:
+    - /feature.*/
+    
+preset-fitler2: &WORKFLOW_BUILD_TEST_DEPLOY_FILTER
+  only:
+    - develop
+    - master
+
+jobs:
+  # Job named 'build' is used on API triggered builds
+  build:
+    working_directory: ~/repo
+
+    docker:
+      - image: zifrose/ui-testrunner
+        
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            # SSH user key to github.com for UPM to access private repos
+            - "68:91:51:8b:69:ba:53:6f:53:4a:1b:79:b5:59:9f:6a"
+
+      # Checkout repo -> ~/repo
+      - checkout
+
+      - run:
+          name: Setup Unity license
+          command: unity_login.sh
+      
+      - run:
+          name: Update UPM dependencies & compile scripts
+          command: unity_update_deps.sh ~/repo
+          
+      - run:
+          name: Obtaining Playground UI & Mellis version
+          command: |
+            # Get versions
+            PLAYGROUND_UI_VERSION="$(get_ui_version.sh ~/repo)"
+            echo ">>> Using Playground UI v$PLAYGROUND_UI_VERSION"
+
+            MELLIS_VERSION="$(get_dll_version.sh ~/repo/Library/PackageCache/se.zifro.mellis*/Plugins/se.zifro.mellis/Mellis.dll)"
+            MELLIS_PYTHON3_VERSION="$(get_dll_version.sh ~/repo/Library/PackageCache/se.zifro.mellis*/Plugins/se.zifro.mellis.python3/Mellis.Lang.Python3.dll)"
+            echo ">>> Using Mellis v$MELLIS_VERSION, and Python3 module v$MELLIS_PYTHON3_VERSION"
+
+            # Save to environment
+            echo "PLAYGROUND_UI_VERSION='$PLAYGROUND_UI_VERSION'" >> $BASH_ENV
+            echo "MELLIS_VERSION='$MELLIS_VERSION'" >> $BASH_ENV
+            echo "MELLIS_PYTHON3_VERSION='$MELLIS_PYTHON3_VERSION'" >> $BASH_ENV
+
+      - run:
+          name: Test Unity project
+          command: unity_test.sh ~/repo ~/tests/nunit/
+
+      - run:
+          name: Convert NUnit to JUnit xml
+          when: always
+          command: nunit2junit.sh ~/tests/nunit/ ~/tests/junit/
+
+      - store_test_results:
+          name: store test results -> ~/tests/junit
+          path: ~/tests/junit
+          
+      - run:
+          command: echo 'export BUILD_STATUS="fail"' >> $BASH_ENV
+          name: Setting Failure Condition
+          when: on_fail
+      - run:
+          command: echo 'export BUILD_STATUS="success"' >> $BASH_ENV
+          name: Setting Success Condition
+          when: on_success
+          
+      - run:
+          name: Send Slack notification
+          when: always
+          command: slack_notify_testrunner.sh
+
+  deploy-github:
+    working_directory: ~/repo
+
+    docker:
+      - image: zifrose/ui-upm
+
+    steps:
+      # Checkout repo -> ~/repo
+      - checkout
+
+      - run:
+          name: Add GPG login to git
+          command: git_login.sh
+
+      - run:
+          name: Checkout deployment branch (→ ~/upm)
+          command: |
+            : ${GITHUB_PUBLISH_BRANCH:=upm}
+            : ${CIRCLE_REPOSITORY_URL?}
+
+            git clone $CIRCLE_REPOSITORY_URL --single-branch --branch $GITHUB_PUBLISH_BRANCH ~/upm
+            code=$?
+            ls ~/upm
+            exit $code
+            
+      - run:
+          name: Obtaining Playground UI version
+          command: |
+            # Get versions
+            PLAYGROUND_UI_VERSION="$(get_ui_version.sh ~/repo)"
+            echo ">>> Using Playground UI v$PLAYGROUND_UI_VERSION"
+
+            # Save to environment
+            echo "PLAYGROUND_UI_VERSION='$PLAYGROUND_UI_VERSION'" >> $BASH_ENV
+
+      - run:
+          name: Prepare files for deployment
+          command: |
+            : ${PLAYGROUND_UI_VERSION?}
+
+            echo ">>> Update version package.json to '$PLAYGROUND_UI_VERSION'"
+            echo "$(jq ".version=\"$PLAYGROUND_UI_VERSION\"" ~/upm/package.json)" > ~/upm/package.json
+            echo
+
+            move_upm_files.sh ~/repo ~/upm
+            generate_metafiles.sh ~/upm
+
+      - run:
+          name: Deploy to UPM branch
+          command: deploy_upm.sh ~/repo ~/upm
+
+      - run:
+          name: Setting Failure Condition
+          command: echo 'export BUILD_STATUS="fail"' >> $BASH_ENV
+          when: on_fail
+      - run:
+          name: Setting Success Condition
+          command: echo 'export BUILD_STATUS="success"' >> $BASH_ENV
+          when: on_success
+          
+      - run:
+          name: Send Slack notification
+          when: always
+          command: slack_notify_github_deploy.sh
+
+workflows:
+  version: 2.1
+
+  work-build-test:
+    jobs:
+      - build:
+          filters:
+            branches:
+              <<: *WORKFLOW_BUILD_TEST_FILTER
+
+  work-build-test-deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              <<: *WORKFLOW_BUILD_TEST_DEPLOY_FILTER
+
+      - deploy-github:
+          requires:
+            - build
+            
+          filters:
+            branches:
+              <<: *WORKFLOW_BUILD_TEST_DEPLOY_FILTER
