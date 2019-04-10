@@ -1,6 +1,10 @@
 #!/bin/bash
 
 : ${SLACK_WEBHOOK?}
+: ${SLACK_FOOTER:=}
+: ${SLACK_AUTHOR_NAME:=}
+: ${SLACK_AUTHOR_ICON:=}
+: ${SLACK_AUTHOR_LINK:=}
 
 : ${TEST_PASSED:=0}
 : ${TEST_FAILED:=0}
@@ -138,7 +142,15 @@ else
 fi
 
 author=""
-if [[ "${CIRCLE_USERNAME:-}" ]]
+if [[ "$SLACK_AUTHOR_NAME" ]]
+then
+    echo "Got custom author from environment variable: '$SLACK_AUTHOR_NAME'"
+    author="
+        \"author_name\": \"$SLACK_AUTHOR_NAME\",
+        \"author_icon\": \"$SLACK_AUTHOR_ICON\",
+        \"author_link\": \"$SLACK_AUTHOR_LINK\",
+    "
+elif [[ "${CIRCLE_USERNAME:-}" ]]
 then
     echo "Looking up commit author $CIRCLE_USERNAME on github..."
 
@@ -221,7 +233,15 @@ fi
 
 text="*Project: \`$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME\` Branch: \`$CIRCLE_BRANCH\`*\\n$text"
 
-footer="$(git diff --shortstat $commitRange)"
+if [[ "$SLACK_FOOTER" ]]
+then
+    echo "Got custom footer from environment variable: '$SLACK_FOOTER'"
+    footer="$SLACK_FOOTER"
+else
+    footer="$(git diff --shortstat $commitRange)"
+    echo "Using git diff as footer: '$footer'"
+fi
+
 testPercent=$((100*TEST_PASSED/TEST_TOTAL))
 data=" {
 \"attachments\": [

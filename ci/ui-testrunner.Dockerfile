@@ -40,3 +40,5 @@ ADD https://raw.githubusercontent.com/nunit/nunit-transforms/master/nunit3-junit
 COPY scripts/nunit2junit.ps1 /usr/local/bin/nunit2junit.ps1
 COPY scripts/nunit2junit.sh /usr/local/bin/nunit2junit.sh
 COPY scripts/unity_update_deps.sh /usr/local/bin/unity_update_deps.sh
+COPY scripts/get_ui_version.sh /usr/local/bin/get_ui_version.sh
+COPY scripts/get_dll_version.sh /usr/local/bin/get_dll_version.sh
