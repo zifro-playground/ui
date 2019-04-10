@@ -32,6 +32,22 @@ jobs:
       - run:
           name: Update UPM dependencies & compile scripts
           command: unity_update_deps.sh ~/repo
+          
+      - run:
+          name: Obtaining Playground UI & Mellis version
+          command: |
+            # Get versions
+            PLAYGROUND_UI_VERSION="$(get_ui_version.sh ~/repo)"
+            echo ">>> Using Playground UI v$PLAYGROUND_UI_VERSION"
+
+            MELLIS_VERSION="$(get_dll_version.sh ~/repo/Library/PackageCache/se.zifro.mellis*/Plugins/se.zifro.mellis/Mellis.dll)"
+            MELLIS_PYTHON3_VERSION="$(get_dll_version.sh ~/repo/Library/PackageCache/se.zifro.mellis*/Plugins/se.zifro.mellis.python3/Mellis.Lang.Python3.dll)"
+            echo ">>> Using Mellis v$MELLIS_VERSION, and Python3 module v$MELLIS_PYTHON3_VERSION"
+
+            # Save to environment
+            echo "PLAYGROUND_UI_VERSION='$PLAYGROUND_UI_VERSION'" >> $BASH_ENV
+            echo "MELLIS_VERSION='$MELLIS_VERSION'" >> $BASH_ENV
+            echo "MELLIS_PYTHON3_VERSION='$MELLIS_PYTHON3_VERSION'" >> $BASH_ENV
 
       - run:
           name: Test Unity project
@@ -75,10 +91,6 @@ jobs:
           command: git_login.sh
 
       - run:
-          name: Obtaining Playground UI version
-          command: get_ui_version.sh ~/repo
-
-      - run:
           name: Checkout deployment branch (→ ~/upm)
           command: |
             : ${GITHUB_PUBLISH_BRANCH:=upm}
@@ -88,6 +100,16 @@ jobs:
             code=$?
             ls ~/upm
             exit $code
+            
+      - run:
+          name: Obtaining Playground UI version
+          command: |
+            # Get versions
+            PLAYGROUND_UI_VERSION="$(get_ui_version.sh ~/repo)"
+            echo ">>> Using Playground UI v$PLAYGROUND_UI_VERSION"
+
+            # Save to environment
+            echo "PLAYGROUND_UI_VERSION='$PLAYGROUND_UI_VERSION'" >> $BASH_ENV
 
       - run:
           name: Prepare files for deployment

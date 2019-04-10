@@ -10,6 +10,10 @@
 : ${TEST_ERRORS:=}
 : ${BUILD_STATUS:="fail"}
 
+: ${PLAYGROUND_UI_VERSION:=}
+: ${MELLIS_VERSION:=}
+: ${MELLIS_PYTHON3_VERSION:=}
+
 if [ -z "$SLACK_WEBHOOK" ]; then
     echo "NO SLACK WEBHOOK SET"
     echo "Please input your SLACK_WEBHOOK value either in the settings for this project, or as a parameter for this orb."
@@ -161,6 +165,43 @@ then
     fi
 fi
 
+if [[ "$PLAYGROUND_UI_VERSION" ]]; then
+    uiFieldText="\`\`\`$PLAYGROUND_UI_VERSION\`\`\`"
+else
+    uiFieldText="_(unknown version)_"
+fi
+if [[ "$MELLIS_VERSION" ]]; then
+    mellisFieldText="\`\`\`$MELLIS_VERSION\`\`\`"
+else
+    mellisFieldText="_(unknown version)_"
+fi
+if [[ "$MELLIS_PYTHON3_VERSION" ]]; then
+    python3FieldText="\`\`\`$MELLIS_PYTHON3_VERSION\`\`\`"
+else
+    python3FieldText="_(unknown version)_"
+fi
+fields="
+{
+    \"title\": \"Test results: $testPercent %\",
+    \"value\": \"$testResults\",
+    \"short\": true
+},
+{
+    \"title\": \"Zifro Playground UI\",
+    \"value\": \"$uiFieldText\",
+    \"short\": true
+},
+{
+    \"title\": \"Mellis\",
+    \"value\": \"$mellisFieldText\",
+    \"short\": true
+},
+{
+    \"title\": \"Python3 module\",
+    \"value\": \"$python3FieldText\",
+    \"short\": true
+}"
+
 echo
 text=""
 commitCount=$((0))
@@ -194,11 +235,7 @@ data=" {
         \"color\": \"$color\",
         \"thumb_url\": \"https://img.icons8.com/ultraviolet/100/000000/playground.png\",
         \"fields\": [
-            {
-                \"title\": \"Test results: $testPercent %\",
-                \"value\": \"$testResults\",
-                \"short\": true
-            }
+            $fields
         ],
         \"actions\": [
             {
