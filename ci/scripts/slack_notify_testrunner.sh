@@ -178,17 +178,17 @@ then
 fi
 
 if [[ "$PLAYGROUND_UI_VERSION" ]]; then
-    uiFieldText="\`\`\`$PLAYGROUND_UI_VERSION\`\`\`"
+    uiFieldText="\`\`\`$(escapeJson "$PLAYGROUND_UI_VERSION")\`\`\`"
 else
     uiFieldText="_(unknown version)_"
 fi
 if [[ "$MELLIS_VERSION" ]]; then
-    mellisFieldText="\`\`\`$MELLIS_VERSION\`\`\`"
+    mellisFieldText="\`\`\`$(escapeJson "$MELLIS_VERSION")\`\`\`"
 else
     mellisFieldText="_(unknown version)_"
 fi
 if [[ "$MELLIS_PYTHON3_VERSION" ]]; then
-    python3FieldText="\`\`\`$MELLIS_PYTHON3_VERSION\`\`\`"
+    python3FieldText="\`\`\`$(escapeJson "$MELLIS_PYTHON3_VERSION")\`\`\`"
 else
     python3FieldText="_(unknown version)_"
 fi
@@ -275,8 +275,10 @@ then
     echo "Job completed successfully. Alert sent."
 else
     echo "Something went wrong in the webhook..."
+    echo "Response: $response"
 fi
 
+echo
 echo "Payload:"
 echo
 echo "$data"

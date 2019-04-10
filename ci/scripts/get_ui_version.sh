@@ -12,7 +12,6 @@ then
 fi
 
 assemblyVersionAttribute="$(grep AssemblyVersion "$assemblyInfoPath" | tr -d '\r')"
-echo "Found attribute \`$assemblyVersionAttribute\`"
 
 if ! [[ "$assemblyVersionAttribute" ]]
 then
@@ -21,6 +20,7 @@ then
 fi
 
 regex='AssemblyVersion\("([[:digit:].]+)"\)'
+
 if ! [[ $assemblyVersionAttribute =~ $regex ]]
 then
     echo "Error: version not extracted from attribute '$assemblyVersionAttribute'"
