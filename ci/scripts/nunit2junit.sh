@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 INPUT_FOLDER=${1?Folder of input NUnit XML files}
 OUTPUT_FOLDER=${2?Folder of output JUnit XML files}
