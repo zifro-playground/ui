@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 namespace PM
 {
 	public class OverridingJsonReader<TWhatToReplace, TWhatToRead> : JsonConverter<TWhatToReplace>
-		where TWhatToRead : TWhatToReplace
+		where TWhatToRead : TWhatToReplace, new()
 	{
 		public override bool CanWrite => false;
 
@@ -15,7 +15,9 @@ namespace PM
 
 		public override TWhatToReplace ReadJson(JsonReader reader, Type objectType, TWhatToReplace existingValue, bool hasExistingValue, JsonSerializer serializer)
 		{
-			return serializer.Deserialize<TWhatToRead>(reader);
+			var value = new TWhatToRead();
+			serializer.Populate(reader, value);
+			return value;
 		}
 	}
 }

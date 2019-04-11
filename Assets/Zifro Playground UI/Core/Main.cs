@@ -386,7 +386,7 @@ namespace PM
 		/// Can later be accessed by casting the <see cref="Level"/> objects <see cref="Level.levelDefinition"/> parameter to your type.
 		/// </summary>
 		public static void RegisterLevelDefinitionContract<TLevelDefinition>()
-			where TLevelDefinition : LevelDefinition
+			where TLevelDefinition : LevelDefinition, new()
 		{
 			jsonLevelConverter = new OverridingJsonReader<LevelDefinition, TLevelDefinition>();
 		}
@@ -396,7 +396,7 @@ namespace PM
 		/// Can later be accessed by casting the <see cref="Sandbox"/> objects <see cref="Sandbox.sandboxDefinition"/> parameter to your type.
 		/// </summary>
 		public static void RegisterSandboxDefinitionContract<TSandboxDefinition>()
-			where TSandboxDefinition : SandboxDefinition
+			where TSandboxDefinition : SandboxDefinition, new()
 		{
 			jsonSandboxConverter = new OverridingJsonReader<SandboxDefinition, TSandboxDefinition>();
 		}
@@ -406,7 +406,7 @@ namespace PM
 		/// Can later be accessed by casting the <see cref="Case"/> objects <see cref="Case.caseDefinition"/> parameter to your type.
 		/// </summary>
 		public static void RegisterCaseDefinitionContract<TCaseDefinition>()
-			where TCaseDefinition : CaseDefinition
+			where TCaseDefinition : CaseDefinition, new()
 		{
 			jsonCaseConverter = new OverridingJsonReader<CaseDefinition, TCaseDefinition>();
 		}
