@@ -9,6 +9,7 @@ public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched, IPMWr
 	static TestScript()
 	{
 		Main.RegisterFunction(new CustomFunction());
+		Main.RegisterLevelDefinitionContract<CustomLevelDefinition>();
 	}
 
 	void Start()
