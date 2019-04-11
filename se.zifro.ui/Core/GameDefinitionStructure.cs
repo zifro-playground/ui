@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using PM;
 
 public class ActiveLevel
 {
@@ -41,10 +42,10 @@ public class LevelSettings
 }
 
 /// <summary>
-/// Can be used to specify custom level definitions in json. 
-/// Should be implemented as partial class in file outside of _Pythonmaskinen.
+/// Can be inherited to add custom properties and then registered with
+/// <see cref="Main"/> static method <see cref="Main.RegisterLevelDefinitionContract{TLevelDefinition}"/>
 /// </summary>
-public partial class LevelDefinition
+public class LevelDefinition
 {
 }
 
@@ -55,10 +56,10 @@ public class SandboxSettings
 }
 
 /// <summary>
-/// Can be used to specify custom sandbox definitions in json. 
-/// Should be implemented as partial class in file outside of _Pythonmaskinen.
+/// Can be inherited to add custom properties and then registered with
+/// <see cref="Main"/> static method <see cref="Main.RegisterSandboxDefinitionContract{TSandboxDefinition}"/>
 /// </summary>
-public partial class SandboxDefinition
+public class SandboxDefinition
 {
 }
 
@@ -80,10 +81,10 @@ public class CaseSettings
 }
 
 /// <summary>
-/// Can be used to specify custom case definitions in json. 
-/// Should be implemented as partial class in file outside of _Pythonmaskinen.
+/// Can be inherited to add custom properties and then registered with
+/// <see cref="Main"/> static method <see cref="Main.RegisterCaseDefinitionContract{TCaseDefinition}"/>
 /// </summary>
-public partial class CaseDefinition
+public class CaseDefinition
 {
 }
 
