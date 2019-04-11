@@ -38,7 +38,8 @@ namespace PM.Editor
 
 			if (!VersionsEquals(assemblyName.Version, newVersion))
 			{
-				versionString = assemblyName.Version.ToString(FIELD_COUNT) + " → " + newVersion.ToString(FIELD_COUNT) + " (awaiting asset refresh)";
+				versionString = assemblyName.Version.ToString(FIELD_COUNT) + " → " + newVersion.ToString(FIELD_COUNT) +
+				                " (awaiting asset refresh)";
 				enabled = false;
 			}
 			else if (compiling)
@@ -53,7 +54,7 @@ namespace PM.Editor
 
 			EditorGUILayout.Space();
 			EditorGUILayout.LabelField(assemblyName.Name, EditorStyles.boldLabel);
-			
+
 			GUI.enabled = enabled;
 
 			string input = EditorGUILayout.TextField("Assembly Version", versionString);
@@ -78,11 +79,17 @@ namespace PM.Editor
 			}
 
 			EditorGUILayout.Space();
-			EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(AssemblyInfo.updatesProjectVersion)));
+			SerializedProperty updatesProjectVersion =
+				serializedObject.FindProperty(nameof(AssemblyInfo.updatesProjectVersion));
+			EditorGUILayout.PropertyField(updatesProjectVersion);
 			serializedObject.ApplyModifiedProperties();
-			GUI.enabled = false;
-			EditorGUILayout.TextField("Project Version", Application.version);
-			GUI.enabled = true;
+
+			if (assemblyInfo.updatesProjectVersion)
+			{
+				GUI.enabled = false;
+				EditorGUILayout.TextField("Project Version", Application.version);
+				GUI.enabled = true;
+			}
 
 			EditorGUILayout.Space();
 			EditorGUILayout.HelpBox("Changing above version will recompile source.", MessageType.Warning);
