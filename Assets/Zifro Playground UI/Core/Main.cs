@@ -39,6 +39,10 @@ namespace PM
 		static readonly Dictionary<string, IEmbeddedType> REGISTERED_NAMED_FUNCTIONS =
 			new Dictionary<string, IEmbeddedType>();
 
+		static JsonConverter jsonCaseConverter = new OverridingJsonReader<CaseDefinition, CaseDefinition>();
+		static JsonConverter jsonSandboxConverter = new OverridingJsonReader<SandboxDefinition, SandboxDefinition>();
+		static JsonConverter jsonLevelConverter = new OverridingJsonReader<LevelDefinition, LevelDefinition>();
+
 		static Main()
 		{
 			RegisterFunction(new Answer());
@@ -74,9 +78,12 @@ namespace PM
 
 			string jsonString = jsonAsset.text;
 
-			GameDefinition gameDefinition = JsonConvert.DeserializeObject<GameDefinition>(jsonString);
+			GameDefinition definition = JsonConvert.DeserializeObject<GameDefinition>(
+				/* input */ jsonString,
+				/* converters */ jsonCaseConverter, jsonLevelConverter, jsonSandboxConverter
+			);
 
-			return gameDefinition;
+			return definition;
 		}
 
 		public void StartGame()
@@ -374,10 +381,39 @@ namespace PM
 			}
 		}
 
+		/// <summary>
+		/// Overrides what type will be used when reading <see cref="LevelDefinition"/> from the game definition json.
+		/// Can later be accessed by casting the <see cref="Level"/> objects <see cref="Level.levelDefinition"/> parameter to your type.
+		/// </summary>
+		public static void RegisterLevelDefinitionContract<TLevelDefinition>()
+			where TLevelDefinition : LevelDefinition, new()
+		{
+			jsonLevelConverter = new OverridingJsonReader<LevelDefinition, TLevelDefinition>();
+		}
+
+		/// <summary>
+		/// Overrides what type will be used when reading <see cref="SandboxDefinition"/> from the game definition json.
+		/// Can later be accessed by casting the <see cref="Sandbox"/> objects <see cref="Sandbox.sandboxDefinition"/> parameter to your type.
+		/// </summary>
+		public static void RegisterSandboxDefinitionContract<TSandboxDefinition>()
+			where TSandboxDefinition : SandboxDefinition, new()
+		{
+			jsonSandboxConverter = new OverridingJsonReader<SandboxDefinition, TSandboxDefinition>();
+		}
+
+		/// <summary>
+		/// Overrides what type will be used when reading <see cref="CaseDefinition"/> from the game definition json.
+		/// Can later be accessed by casting the <see cref="Case"/> objects <see cref="Case.caseDefinition"/> parameter to your type.
+		/// </summary>
+		public static void RegisterCaseDefinitionContract<TCaseDefinition>()
+			where TCaseDefinition : CaseDefinition, new()
+		{
+			jsonCaseConverter = new OverridingJsonReader<CaseDefinition, TCaseDefinition>();
+		}
+
 		public static void RegisterFunction(IEmbeddedType function)
 		{
 			REGISTERED_NAMED_FUNCTIONS[function.GetType().Name] = function;
-			//REGISTERED_NAMED_FUNCTIONS[function.FunctionName] = function;
 		}
 
 		private static List<IEmbeddedType> CreateFunctionsFromStrings(ICollection<string> functionNames)
