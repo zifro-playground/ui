@@ -206,7 +206,7 @@ dotnet_naming_rule.internal_symbols_must_be_camel_with_prefix.symbols = internal
 dotnet_naming_rule.internal_symbols_must_be_camel_with_prefix.severity = warning
 
 # Constants : UPPER_CASE
-dotnet_naming_symbols.constant_symbols.applicable_kinds = property,field,local
+dotnet_naming_symbols.constant_symbols.applicable_kinds = property,field
 dotnet_naming_symbols.constant_symbols.applicable_accessibilities = *
 dotnet_naming_symbols.constant_symbols.required_modifiers = const
 
