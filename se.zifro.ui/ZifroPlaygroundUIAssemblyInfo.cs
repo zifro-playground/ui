@@ -4,9 +4,9 @@ using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
-[assembly: AssemblyVersion("2.1.3")]
-[assembly: AssemblyFileVersion("2.1.3")]
-[assembly: AssemblyInformationalVersion("2.1.3")]
+[assembly: AssemblyVersion("2.1.4")]
+[assembly: AssemblyFileVersion("2.1.4")]
+[assembly: AssemblyInformationalVersion("2.1.4")]
 
 namespace PM
 {
