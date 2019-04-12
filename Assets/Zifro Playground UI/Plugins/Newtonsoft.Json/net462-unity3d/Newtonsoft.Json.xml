@@ -1853,77 +1853,6 @@
             </param>
             <returns>The deserialized <see cref="T:System.Xml.XmlNode"/>.</returns>
         </member>
-        <member name="M:Newtonsoft.Json.JsonConvert.SerializeXNode(System.Xml.Linq.XObject)">
-            <summary>
-            Serializes the <see cref="T:System.Xml.Linq.XNode"/> to a JSON string.
-            </summary>
-            <param name="node">The node to convert to JSON.</param>
-            <returns>A JSON string of the <see cref="T:System.Xml.Linq.XNode"/>.</returns>
-        </member>
-        <member name="M:Newtonsoft.Json.JsonConvert.SerializeXNode(System.Xml.Linq.XObject,Newtonsoft.Json.Formatting)">
-            <summary>
-            Serializes the <see cref="T:System.Xml.Linq.XNode"/> to a JSON string using formatting.
-            </summary>
-            <param name="node">The node to convert to JSON.</param>
-            <param name="formatting">Indicates how the output should be formatted.</param>
-            <returns>A JSON string of the <see cref="T:System.Xml.Linq.XNode"/>.</returns>
-        </member>
-        <member name="M:Newtonsoft.Json.JsonConvert.SerializeXNode(System.Xml.Linq.XObject,Newtonsoft.Json.Formatting,System.Boolean)">
-            <summary>
-            Serializes the <see cref="T:System.Xml.Linq.XNode"/> to a JSON string using formatting and omits the root object if <paramref name="omitRootObject"/> is <c>true</c>.
-            </summary>
-            <param name="node">The node to serialize.</param>
-            <param name="formatting">Indicates how the output should be formatted.</param>
-            <param name="omitRootObject">Omits writing the root object.</param>
-            <returns>A JSON string of the <see cref="T:System.Xml.Linq.XNode"/>.</returns>
-        </member>
-        <member name="M:Newtonsoft.Json.JsonConvert.DeserializeXNode(System.String)">
-            <summary>
-            Deserializes the <see cref="T:System.Xml.Linq.XNode"/> from a JSON string.
-            </summary>
-            <param name="value">The JSON string.</param>
-            <returns>The deserialized <see cref="T:System.Xml.Linq.XNode"/>.</returns>
-        </member>
-        <member name="M:Newtonsoft.Json.JsonConvert.DeserializeXNode(System.String,System.String)">
-            <summary>
-            Deserializes the <see cref="T:System.Xml.Linq.XNode"/> from a JSON string nested in a root element specified by <paramref name="deserializeRootElementName"/>.
-            </summary>
-            <param name="value">The JSON string.</param>
-            <param name="deserializeRootElementName">The name of the root element to append when deserializing.</param>
-            <returns>The deserialized <see cref="T:System.Xml.Linq.XNode"/>.</returns>
-        </member>
-        <member name="M:Newtonsoft.Json.JsonConvert.DeserializeXNode(System.String,System.String,System.Boolean)">
-            <summary>
-            Deserializes the <see cref="T:System.Xml.Linq.XNode"/> from a JSON string nested in a root element specified by <paramref name="deserializeRootElementName"/>
-            and writes a Json.NET array attribute for collections.
-            </summary>
-            <param name="value">The JSON string.</param>
-            <param name="deserializeRootElementName">The name of the root element to append when deserializing.</param>
-            <param name="writeArrayAttribute">
-            A value to indicate whether to write the Json.NET array attribute.
-            This attribute helps preserve arrays when converting the written XML back to JSON.
-            </param>
-            <returns>The deserialized <see cref="T:System.Xml.Linq.XNode"/>.</returns>
-        </member>
-        <member name="M:Newtonsoft.Json.JsonConvert.DeserializeXNode(System.String,System.String,System.Boolean,System.Boolean)">
-            <summary>
-            Deserializes the <see cref="T:System.Xml.Linq.XNode"/> from a JSON string nested in a root element specified by <paramref name="deserializeRootElementName"/>,
-            writes a Json.NET array attribute for collections, and encodes special characters.
-            </summary>
-            <param name="value">The JSON string.</param>
-            <param name="deserializeRootElementName">The name of the root element to append when deserializing.</param>
-            <param name="writeArrayAttribute">
-            A value to indicate whether to write the Json.NET array attribute.
-            This attribute helps preserve arrays when converting the written XML back to JSON.
-            </param>
-            <param name="encodeSpecialCharacters">
-            A value to indicate whether to encode special characters when converting JSON to XML.
-            If <c>true</c>, special characters like ':', '@', '?', '#' and '$' in JSON property names aren't used to specify
-            XML namespaces, attributes or processing directives. Instead special characters are encoded and written
-            as part of the XML element name.
-            </param>
-            <returns>The deserialized <see cref="T:System.Xml.Linq.XNode"/>.</returns>
-        </member>
         <member name="T:Newtonsoft.Json.JsonConverter">
             <summary>
             Converts an object to and from JSON.
@@ -9884,31 +9813,6 @@
             </summary>
             <param name="currentObject">The current object.</param>
             <param name="errorContext">The error context.</param>
-        </member>
-        <member name="T:Newtonsoft.Json.Serialization.ExpressionValueProvider">
-            <summary>
-            Get and set values for a <see cref="T:System.Reflection.MemberInfo"/> using dynamic methods.
-            </summary>
-        </member>
-        <member name="M:Newtonsoft.Json.Serialization.ExpressionValueProvider.#ctor(System.Reflection.MemberInfo)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Newtonsoft.Json.Serialization.ExpressionValueProvider"/> class.
-            </summary>
-            <param name="memberInfo">The member info.</param>
-        </member>
-        <member name="M:Newtonsoft.Json.Serialization.ExpressionValueProvider.SetValue(System.Object,System.Object)">
-            <summary>
-            Sets the value.
-            </summary>
-            <param name="target">The target to set the value on.</param>
-            <param name="value">The value to set on the target.</param>
-        </member>
-        <member name="M:Newtonsoft.Json.Serialization.ExpressionValueProvider.GetValue(System.Object)">
-            <summary>
-            Gets the value.
-            </summary>
-            <param name="target">The target to get the value from.</param>
-            <returns>The value.</returns>
         </member>
         <member name="T:Newtonsoft.Json.Serialization.IAttributeProvider">
             <summary>
