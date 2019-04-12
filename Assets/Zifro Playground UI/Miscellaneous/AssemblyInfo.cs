@@ -12,7 +12,14 @@ namespace PM
 
 		public AssemblyName GetAssemblyName()
 		{
-			return typeof(AssemblyInfo).Assembly.GetName();
+			return GetAssembly().GetName();
 		}
+
+		protected virtual Assembly GetAssembly()
+		{
+			return GetType().Assembly;
+		}
+
+		public virtual bool canBeEdited => false;
 	}
 }
