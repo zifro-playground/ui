@@ -1,0 +1,89 @@
+
+# Text files
+*.txt text eol=lf
+*.gitignore text eol=lf
+*.gitattributes text eol=lf
+*.md text eol=lf
+
+# Code files
+*.cs text eol=lf
+*.sh text eol=lf
+*.ps1 text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+
+*.c text eol=lf
+*.cpp text eol=lf
+*.h text eol=lf
+
+*.html text eol=lf
+*.htm text eol=lf
+*.css text eol=lf
+*.php text eol=lf
+*.cshtml text eol=lf
+
+*.xml text eol=lf
+*.sln text eol=lf
+*.csproj text eol=lf
+
+# Unity
+*.meta text eol=lf
+*.unity text eol=lf
+*.asset text eol=lf
+*.asmdef text eol=lf
+*.prefab text eol=lf
+*.mat text eol=lf
+*.shader text eol=lf
+*.anim text eol=lf
+*.controller text eol=lf
+*.overrideController text eol=lf
+
+# Binaries
+*.pdf binary
+*.zip binary
+*.7z binary
+*.rar binary
+*.dll binary
+*.pdb binary
+*.mdb binary
+*.exe binary
+
+# 3D Models
+*.fbx binary
+
+# Images
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ttf binary
+
+# Audio/Video
+*.wav binary
+*.mp3 binary
+
+*.mp4 binary
+*.m4a binary
+*.m4v binary
+*.f4v binary
+*.f4a binary
+*.m4b binary
+*.m4r binary
+*.f4b binary
+*.mov binary
+
+*.3gp binary
+*.3gp2 binary
+*.3g2 binary
+*.3gpp binary
+*.3gpp2 binary
+
+*.ogg binary
+*.oga binary
+*.ogv binary
+*.ogx binary
+
+*.wmv binary
+*.wma binary
+*.webm binary
+*.flv binary
