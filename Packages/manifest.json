@@ -34,5 +34,11 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
+  },
+  "lock": {
+    "se.zifro.mellis": {
+      "hash": "8a61a6b637735194520a896ed3bafc322f7710ce",
+      "revision": "upm"
+    }
   }
 }
