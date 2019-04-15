@@ -1,7 +1,7 @@
 {
   "name": "se.zifro.ui",
   "displayName": "Zifro Playground UI",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "unity": "2018.3.10",
   "description": "Generic UI used in all Zifro Playground games.\n\nProvides IDE-like code window with syntax highlighting and small library of shortcuts.\n\nRequires the Zifro Mellis Compiler.\nAdd as dependency to your Packages/manifest.json:\n\n\"se.zifro.mellis\": \"https://github.com/zardan/compiler.git#upm\",",
   "keywords": [
