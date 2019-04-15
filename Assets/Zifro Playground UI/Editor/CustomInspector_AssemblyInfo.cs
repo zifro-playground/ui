@@ -24,7 +24,7 @@ namespace PM.Editor
 
 		public override void OnInspectorGUI()
 		{
-			const int FIELD_COUNT = 3;
+			const int fieldCount = 3;
 
 			bool compiling = EditorApplication.isCompiling ||
 			                 EditorApplication.isUpdating;
@@ -33,23 +33,22 @@ namespace PM.Editor
 
 			string versionString;
 
-			bool inAssetsFolder = InAssetsFolder(assemblyInfo);
-			bool enabled = inAssetsFolder;
+			bool enabled = assemblyInfo.canBeEdited&& InAssetsFolder(assemblyInfo);
 
 			if (!VersionsEquals(assemblyName.Version, newVersion))
 			{
-				versionString = assemblyName.Version.ToString(FIELD_COUNT) + " → " + newVersion.ToString(FIELD_COUNT) +
+				versionString = assemblyName.Version.ToString(fieldCount) + " → " + newVersion.ToString(fieldCount) +
 				                " (awaiting asset refresh)";
 				enabled = false;
 			}
 			else if (compiling)
 			{
-				versionString = assemblyName.Version.ToString(FIELD_COUNT) + " (awaiting compilation)";
+				versionString = assemblyName.Version.ToString(fieldCount) + " (awaiting compilation)";
 				enabled = false;
 			}
 			else
 			{
-				versionString = assemblyName.Version.ToString(FIELD_COUNT);
+				versionString = assemblyName.Version.ToString(fieldCount);
 			}
 
 			EditorGUILayout.Space();
@@ -67,13 +66,13 @@ namespace PM.Editor
 
 				if (assemblyInfo.updatesProjectVersion)
 				{
-					PlayerSettings.bundleVersion = newVersion.ToString(FIELD_COUNT);
+					PlayerSettings.bundleVersion = newVersion.ToString(fieldCount);
 				}
 			}
 
 			GUI.enabled = true;
 
-			if (!inAssetsFolder)
+			if (!(assemblyInfo.canBeEdited&& InAssetsFolder(assemblyInfo)))
 			{
 				return;
 			}
