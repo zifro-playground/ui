@@ -23,8 +23,8 @@ If unsure of which variant to use, go for the HTTPS variant.
 @@ Packages/manifest.json @@
 {
   "dependencies": {
-+   "se.zifro.mellis": "ssh://git@github.com/zardan/compiler.git#upm",
-+   "se.zifro.ui": "ssh://git@github.com/zardan/ui.git#upm",
++   "se.zifro.mellis": "https://github.com/zardan/compiler.git#upm",
++   "se.zifro.ui": "https://github.com/zardan/ui.git#upm",
     "com.unity.analytics": "3.2.2",
     "com.unity.collab-proxy": "1.2.16",
     "com.unity.package-manager-ui": "2.0.7",
