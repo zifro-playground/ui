@@ -137,4 +137,4 @@ Then jump back into Unity and watch it gather the latest release.
 
 ---
 
-Zifro Mellis compiler is developed, maintained, and owned by © Zifro AB ([zifro.se](https://zifro.se/))
+Zifro Playground UI is developed, maintained, and owned by © Zifro AB ([zifro.se](https://zifro.se/))
