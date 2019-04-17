@@ -31,6 +31,27 @@ namespace PM
 		[FormerlySerializedAs("CaseHandler")]
 		public CaseHandler caseHandler;
 
+		/// <summary>
+		/// If enabled, will not activate progress class <see cref="Progress"/> to load data
+		/// from <seealso cref="PlayerPrefs"/> or server-saved progress.
+		/// <para>Note: is used at <see cref="Start"/>, so needs to be assigned before initialization.
+		/// Such as in the scene.</para>
+		/// </summary>
+		[Header("Unit testing settings")]
+		public bool ignoreLoadingGameProgress;
+
+		/// <summary>
+		/// If enabled, will not play guides. This includes ignoring the big task description <see cref="TaskDescription"/> class.
+		/// </summary>
+		[NonSerialized]
+		public bool ignorePlayingGuides;
+
+		/// <summary>
+		/// If enabled, will not automatically play through next case once one case is completed.
+		/// </summary>
+		[NonSerialized]
+		public bool ignoreNextCase;
+
 		public static Main instance;
 
 		private SceneSettings currentSceneSettings;
@@ -61,18 +82,34 @@ namespace PM
 		{
 			LoadingScreen.instance.Show();
 
-			gameDefinition = ParseJson();
+			gameDefinition = ParseJson(gameDataFileName);
 
-			Progress.instance.LoadUserGameProgress();
+			if (!ignoreLoadingGameProgress)
+			{
+				Progress.instance.LoadUserGameProgressThenStartGame();
+			}
+			else
+			{
+				Debug.Log("Ignored user game progress. Note: StartGame() is not called.", this);
+				Progress.instance.AddMissingLevelData();
+			}
 		}
 
-		private GameDefinition ParseJson()
+		void OnDestroy()
 		{
-			TextAsset jsonAsset = Resources.Load<TextAsset>(gameDataFileName);
+			if (loadedScene != null)
+			{
+				SceneManager.UnloadSceneAsync(loadedScene);
+			}
+		}
+
+		public static GameDefinition ParseJson(string fileName)
+		{
+			TextAsset jsonAsset = Resources.Load<TextAsset>(fileName);
 
 			if (jsonAsset == null)
 			{
-				throw new Exception("Could not find the file \"" + gameDataFileName +
+				throw new Exception("Could not find the file \"" + fileName +
 				                    "\" that should contain game data in json format.");
 			}
 
@@ -86,12 +123,12 @@ namespace PM
 			return definition;
 		}
 
-		public void StartGame()
+		public void StartGame(int firstLevelIndex = 0)
 		{
 			// Will create level navigation buttons
 			PMWrapper.numOfLevels = gameDefinition.activeLevels.Count;
 
-			StartLevel(0);
+			StartLevel(firstLevelIndex);
 
 			LoadingScreen.instance.Hide();
 		}
@@ -110,7 +147,7 @@ namespace PM
 			}
 		}
 
-		private void LoadScene(string sceneName)
+		void LoadScene(string sceneName)
 		{
 			if (sceneName != loadedScene)
 			{
@@ -146,7 +183,7 @@ namespace PM
 			}
 		}
 
-		private void LoadLevel(string levelId)
+		void LoadLevel(string levelId)
 		{
 			var levels = gameDefinition.scenes.First(x => x.name == loadedScene).levels.Where(x => x.id == levelId)
 				.ToList();
@@ -241,7 +278,7 @@ namespace PM
 				PMWrapper.preCode = currentLevelSettings.precode;
 			}
 
-			if (currentLevelSettings.taskDescription != null)
+			if (currentLevelSettings.taskDescription != null && !ignorePlayingGuides)
 			{
 				PMWrapper.SetTaskDescription(currentLevelSettings.taskDescription.header,
 					currentLevelSettings.taskDescription.body);
@@ -310,9 +347,9 @@ namespace PM
 			}
 		}
 
-		private static void BuildGuides(List<GuideBubble> guideBubbles)
+		private void BuildGuides(List<GuideBubble> guideBubbles)
 		{
-			if (guideBubbles != null && guideBubbles.Any())
+			if (guideBubbles != null && guideBubbles.Any() && !ignorePlayingGuides)
 			{
 				var levelGuide = new LevelGuide();
 				foreach (GuideBubble guideBubble in guideBubbles)
@@ -349,13 +386,17 @@ namespace PM
 		{
 			if (cases != null && cases.Any())
 			{
-				caseHandler = new CaseHandler(cases.Count);
+				caseHandler = new CaseHandler(cases.Count) {
+					autoContinueTest = !ignoreNextCase
+				};
 			}
 			else
 			{
 				if (levelDefinition.sandbox == null)
 				{
-					caseHandler = new CaseHandler(1);
+					caseHandler = new CaseHandler(1) {
+						autoContinueTest = !ignoreNextCase
+					};
 				}
 			}
 		}

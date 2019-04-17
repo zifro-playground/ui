@@ -12,6 +12,7 @@ namespace PM
 
 		public bool allCasesCompleted;
 		public int currentCase = 0;
+		public bool autoContinueTest = true;
 
 		public CaseHandler(int numOfCases)
 		{
@@ -101,18 +102,21 @@ namespace PM
 			UISingleton.instance.taskDescription.HideTaskFeedback();
 			LevelModeButtons.instance.SetCurrentCaseButtonState(LevelModeButtonState.Completed);
 
-			currentCase++;
-
-			if (currentCase >= numberOfCases)
+			if (autoContinueTest)
 			{
-				isCasesRunning = false;
-				allCasesCompleted = true;
-				PMWrapper.SetLevelCompleted();
-				yield break;
-			}
+				currentCase++;
 
-			SetCurrentCase(currentCase);
-			RunCase(currentCase);
+				if (currentCase >= numberOfCases)
+				{
+					isCasesRunning = false;
+					allCasesCompleted = true;
+					PMWrapper.SetLevelCompleted();
+					yield break;
+				}
+
+				SetCurrentCase(currentCase);
+				RunCase(currentCase);
+			}
 		}
 	}
 }
