@@ -121,11 +121,7 @@ namespace Tests.PlayMode.PlayThrough
 			PMWrapper.speedMultiplier = 1;
 
 			// Act
-			if (!string.IsNullOrWhiteSpace(data.levelData.levelSettings.startCode))
-			{
-				PMWrapper.mainCode = data.levelData.levelSettings.startCode;
-			}
-			else if (!string.IsNullOrWhiteSpace(data.levelData.levelSettings.exampleSolutionCode))
+			if (!string.IsNullOrWhiteSpace(data.levelData.levelSettings.exampleSolutionCode))
 			{
 				PMWrapper.mainCode = data.levelData.levelSettings.exampleSolutionCode;
 			}
@@ -150,11 +146,7 @@ namespace Tests.PlayMode.PlayThrough
 			PMWrapper.speedMultiplier = 1;
 
 			// Act
-			if (!string.IsNullOrWhiteSpace(data.levelData.levelSettings?.startCode))
-			{
-				PMWrapper.mainCode = data.levelData.levelSettings.startCode;
-			}
-			else if (!string.IsNullOrWhiteSpace(data.levelData.levelSettings?.exampleSolutionCode))
+			if (!string.IsNullOrWhiteSpace(data.levelData.levelSettings?.exampleSolutionCode))
 			{
 				PMWrapper.mainCode = data.levelData.levelSettings.exampleSolutionCode;
 			}
@@ -194,11 +186,7 @@ namespace Tests.PlayMode.PlayThrough
 			{
 				Main.instance.StartLevel(data.levelIndex);
 
-				if (!string.IsNullOrWhiteSpace(data.levelData.levelSettings?.startCode))
-				{
-					PMWrapper.mainCode = data.levelData.levelSettings.startCode;
-				}
-				else if (!string.IsNullOrWhiteSpace(data.levelData.levelSettings?.exampleSolutionCode))
+				if (!string.IsNullOrWhiteSpace(data.levelData.levelSettings?.exampleSolutionCode))
 				{
 					PMWrapper.mainCode = data.levelData.levelSettings.exampleSolutionCode;
 				}
