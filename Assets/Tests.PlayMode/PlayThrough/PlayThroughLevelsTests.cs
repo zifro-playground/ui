@@ -133,21 +133,8 @@ namespace Tests.PlayMode.PlayThrough
 			{
 				Assert.Inconclusive($"Level '{data.levelData.id}' ({data.scene.name}) has no example solution.");
 			}
-
-			PMWrapper.StartCompiler();
-			for (int i = 0; i < 20; i++)
-			{
-				yield return new WaitForSeconds(1);
-				if (!PMWrapper.isCompilerRunning)
-				{
-					break;
-				}
-			}
-
-			if (PMWrapper.isCompilerRunning)
-			{
-				Assert.Fail($"Compiler execution timeout! Compiler took too long to complete {data}.");
-			}
+			
+			yield return RunCompilerAndAssert(data);
 
 			// Asserting is done by assuming no exceptions & no error logs
 		}
@@ -180,27 +167,84 @@ namespace Tests.PlayMode.PlayThrough
 			const float limit = 60; // seconds
 			do
 			{
-				PMWrapper.StartCompiler();
-				for (int i = 0; i < 20; i++)
-				{
-					yield return new WaitForSeconds(1);
-					if (!PMWrapper.isCompilerRunning)
-					{
-						break;
-					}
-				}
-
-				if (PMWrapper.isCompilerRunning)
-				{
-					Assert.Fail(
-						$"Compiler execution timeout! Compiler took too long to complete case {PMWrapper.currentCase + 1} in {data}.");
-				}
+				yield return RunCompilerAndAssert(data);
 
 				Assert.IsTrue(Time.time - start < limit,
 					$"Compiler execution timeout! Compiler took too long to complete ALL cases in {data}.");
 			} while (!Main.instance.caseHandler.allCasesCompleted);
 
 			// Asserting is done by assuming no exceptions & no error logs
+		}
+
+		[UnityTest]
+		public IEnumerator PlayThroughGame()
+		{
+			// Arrange
+			LevelTestData[] levels = GetActiveLevels();
+
+			Main.instance.ignorePlayingGuides = true;
+			Main.instance.StartGame();
+			yield return null;
+
+			PMWrapper.speedMultiplier = 1;
+
+			// Act
+			var inconclusive = new List<string>();
+			foreach (LevelTestData data in levels)
+			{
+				Main.instance.StartLevel(data.levelIndex);
+
+				if (!string.IsNullOrWhiteSpace(data.levelData.levelSettings?.startCode))
+				{
+					PMWrapper.mainCode = data.levelData.levelSettings.startCode;
+				}
+				else if (!string.IsNullOrWhiteSpace(data.levelData.levelSettings?.exampleSolutionCode))
+				{
+					PMWrapper.mainCode = data.levelData.levelSettings.exampleSolutionCode;
+				}
+				else
+				{
+					Debug.LogWarning($"Level {data.levelData.id} has no example solution");
+					inconclusive.Add($"Level '{data.levelData.id}' ({data.scene.name}) has no example solution.");
+				}
+
+				float start = Time.time;
+				const float limit = 60; // seconds
+				do
+				{
+					yield return RunCompilerAndAssert(data);
+
+					Assert.IsTrue(Time.time - start < limit,
+						$"Compiler execution timeout! Compiler took too long to complete ALL cases in {data}.");
+
+				} while (!Main.instance.caseHandler.allCasesCompleted);
+			}
+
+			// Assert
+			if (inconclusive.Count > 0)
+			{
+				Assert.Inconclusive(string.Join("\n", inconclusive));
+			}
+			// Asserting is done by assuming no exceptions & no error logs
+		}
+		
+		private static IEnumerator RunCompilerAndAssert(LevelTestData data)
+		{
+			PMWrapper.StartCompiler();
+			for (int i = 0; i < 20; i++)
+			{
+				yield return new WaitForSeconds(1);
+				if (!PMWrapper.isCompilerRunning)
+				{
+					break;
+				}
+			}
+
+			if (PMWrapper.isCompilerRunning)
+			{
+				Assert.Fail(
+					$"Compiler execution timeout! Compiler took too long to complete case {PMWrapper.currentCase + 1} in {data}.");
+			}
 		}
 
 		public class LevelTestData
@@ -268,18 +312,13 @@ namespace Tests.PlayMode.PlayThrough
 					continue;
 				}
 
-				for (int index = 0; index < data.levelData.cases.Count; index++)
-				{
-					Case caseData = data.levelData.cases[index];
-
-					list.Add(new CaseTestData {
-						levelData = data.levelData,
-						levelIndex = data.levelIndex,
-						scene = data.scene,
-						caseData = caseData,
-						caseIndex = index
-					});
-				}
+				list.AddRange(data.levelData.cases.Select((caseData, index) => new CaseTestData {
+					levelData = data.levelData,
+					levelIndex = data.levelIndex,
+					scene = data.scene,
+					caseData = caseData,
+					caseIndex = index
+				}));
 			}
 
 			return list.ToArray();
