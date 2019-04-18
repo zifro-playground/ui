@@ -32,18 +32,18 @@ namespace PM
 			}
 		}
 
-		public void LoadUserGameProgress()
+		public void LoadUserGameProgressThenStartGame()
 		{
 			var request = new Request {
 				method = HttpMethod.GET,
 				endpoint = "/levels/load?gameId=" + Main.instance.gameDefinition.gameId,
 				okResponsCallback = HandleOkGetResponse,
-				errorResponsCallback = HandleErrorGetResponse
+				errorResponsCallback = delegate { HandleErrorGetResponse(); }
 			};
 			ApiHandler.instance.AddRequestToQueue(request);
 		}
 
-		public void HandleOkGetResponse(string response)
+		void HandleOkGetResponse(string response)
 		{
 			GameProgress gameProgress = JsonConvert.DeserializeObject<GameProgress>(response);
 
@@ -56,13 +56,13 @@ namespace PM
 			Main.instance.StartGame();
 		}
 
-		public void HandleErrorGetResponse(string response)
+		void HandleErrorGetResponse()
 		{
 			AddMissingLevelData();
 			Main.instance.StartGame();
 		}
 
-		private void AddMissingLevelData()
+		public void AddMissingLevelData()
 		{
 			foreach (ActiveLevel level in Main.instance.gameDefinition.activeLevels)
 			{

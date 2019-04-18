@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Mellis.Core.Interfaces;
@@ -31,6 +32,27 @@ namespace PM
 		[FormerlySerializedAs("CaseHandler")]
 		public CaseHandler caseHandler;
 
+		/// <summary>
+		/// If enabled, will not activate progress class <see cref="Progress"/> to load data
+		/// from <seealso cref="PlayerPrefs"/> or server-saved progress.
+		/// <para>Note: is used at <see cref="Start"/>, so needs to be assigned before initialization.
+		/// Such as in the scene.</para>
+		/// </summary>
+		[Header("Unit testing settings")]
+		public bool ignoreLoadingGameProgress;
+
+		/// <summary>
+		/// If enabled, will not play guides. This includes ignoring the big task description <see cref="TaskDescription"/> class.
+		/// </summary>
+		[NonSerialized]
+		public bool ignorePlayingGuides;
+
+		/// <summary>
+		/// If enabled, will not automatically play through next case once one case is completed.
+		/// </summary>
+		[NonSerialized]
+		public bool ignoreNextCase;
+
 		public static Main instance;
 
 		private SceneSettings currentSceneSettings;
@@ -61,19 +83,35 @@ namespace PM
 		{
 			LoadingScreen.instance.Show();
 
-			gameDefinition = ParseJson();
+			gameDefinition = ParseJson(gameDataFileName);
 
-			Progress.instance.LoadUserGameProgress();
+			if (!ignoreLoadingGameProgress)
+			{
+				Progress.instance.LoadUserGameProgressThenStartGame();
+			}
+			else
+			{
+				Debug.Log("Ignored user game progress. Note: StartGame() is not called.", this);
+				Progress.instance.AddMissingLevelData();
+			}
 		}
 
-		private GameDefinition ParseJson()
+		void OnDestroy()
 		{
-			TextAsset jsonAsset = Resources.Load<TextAsset>(gameDataFileName);
+			if (loadedScene != null)
+			{
+				SceneManager.UnloadSceneAsync(loadedScene);
+			}
+		}
+
+		public static GameDefinition ParseJson(string fileName)
+		{
+			TextAsset jsonAsset = Resources.Load<TextAsset>(fileName);
 
 			if (jsonAsset == null)
 			{
-				throw new Exception("Could not find the file \"" + gameDataFileName +
-				                    "\" that should contain game data in json format.");
+				throw new FileNotFoundException("Could not find the file \"" + fileName +
+				                    "\" that should contain game data in json format.", fileName);
 			}
 
 			string jsonString = jsonAsset.text;
@@ -86,12 +124,12 @@ namespace PM
 			return definition;
 		}
 
-		public void StartGame()
+		public void StartGame(int firstLevelIndex = 0)
 		{
 			// Will create level navigation buttons
 			PMWrapper.numOfLevels = gameDefinition.activeLevels.Count;
 
-			StartLevel(0);
+			StartLevel(firstLevelIndex);
 
 			LoadingScreen.instance.Hide();
 		}
@@ -110,7 +148,7 @@ namespace PM
 			}
 		}
 
-		private void LoadScene(string sceneName)
+		void LoadScene(string sceneName)
 		{
 			if (sceneName != loadedScene)
 			{
@@ -118,12 +156,12 @@ namespace PM
 
 				if (scenes.Count > 1)
 				{
-					throw new Exception("There are more than one scene with name " + sceneName);
+					throw new InvalidOperationException("There are more than one scene with name " + sceneName);
 				}
 
 				if (!scenes.Any())
 				{
-					throw new Exception("There is no scene with name " + sceneName);
+					throw new InvalidOperationException("There is no scene with name " + sceneName);
 				}
 
 				Scene scene = scenes.First();
@@ -138,7 +176,7 @@ namespace PM
 				int sceneIndex = SceneUtility.GetBuildIndexByScenePath(scene.name);
 				if (sceneIndex < 0)
 				{
-					throw new Exception("Scene with name " + scene.name + " exists but is not added to build settings");
+					throw new InvalidOperationException("Scene with name " + scene.name + " exists but is not added to build settings");
 				}
 
 				SceneManager.LoadScene(sceneIndex, LoadSceneMode.Additive);
@@ -146,19 +184,19 @@ namespace PM
 			}
 		}
 
-		private void LoadLevel(string levelId)
+		void LoadLevel(string levelId)
 		{
 			var levels = gameDefinition.scenes.First(x => x.name == loadedScene).levels.Where(x => x.id == levelId)
 				.ToList();
 
 			if (levels.Count > 1)
 			{
-				throw new Exception("There are more than one level with id " + levelId);
+				throw new InvalidOperationException("There are more than one level with id " + levelId);
 			}
 
 			if (!levels.Any())
 			{
-				throw new Exception("There is no level with id " + levelId);
+				throw new InvalidOperationException("There is no level with id " + levelId);
 			}
 
 			levelDefinition = levels.First();
@@ -241,7 +279,7 @@ namespace PM
 				PMWrapper.preCode = currentLevelSettings.precode;
 			}
 
-			if (currentLevelSettings.taskDescription != null)
+			if (currentLevelSettings.taskDescription != null && !ignorePlayingGuides)
 			{
 				PMWrapper.SetTaskDescription(currentLevelSettings.taskDescription.header,
 					currentLevelSettings.taskDescription.body);
@@ -310,17 +348,17 @@ namespace PM
 			}
 		}
 
-		private static void BuildGuides(List<GuideBubble> guideBubbles)
+		private void BuildGuides(List<GuideBubble> guideBubbles)
 		{
-			if (guideBubbles != null && guideBubbles.Any())
+			if (guideBubbles != null && guideBubbles.Any() && !ignorePlayingGuides)
 			{
 				var levelGuide = new LevelGuide();
 				foreach (GuideBubble guideBubble in guideBubbles)
 				{
 					if (guideBubble.target == null || string.IsNullOrEmpty(guideBubble.text))
 					{
-						throw new Exception("A guide bubble for level with index " + PMWrapper.currentLevelIndex +
-						                    " is missing target or text");
+						throw new InvalidOperationException("A guide bubble for level with index " + PMWrapper.currentLevelIndex +
+						                                    " is missing target or text");
 					}
 
 					// Check if target is a number
@@ -349,13 +387,17 @@ namespace PM
 		{
 			if (cases != null && cases.Any())
 			{
-				caseHandler = new CaseHandler(cases.Count);
+				caseHandler = new CaseHandler(cases.Count) {
+					autoContinueTest = !ignoreNextCase
+				};
 			}
 			else
 			{
 				if (levelDefinition.sandbox == null)
 				{
-					caseHandler = new CaseHandler(1);
+					caseHandler = new CaseHandler(1) {
+						autoContinueTest = !ignoreNextCase
+					};
 				}
 			}
 		}
@@ -424,7 +466,7 @@ namespace PM
 			{
 				if (!REGISTERED_NAMED_FUNCTIONS.TryGetValue(functionName, out IEmbeddedType function))
 				{
-					throw new Exception(
+					throw new InvalidOperationException(
 						$"Unable to find function: \"{functionName}\". " +
 						$"Perhaps you forgot to register it via {nameof(Main)}.{nameof(RegisterFunction)}()?");
 				}

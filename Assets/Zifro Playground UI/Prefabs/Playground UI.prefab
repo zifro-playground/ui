@@ -10095,6 +10095,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameDataFileName: game
+  ignoreLoadingGameProgress: 0
 --- !u!114 &3956609079697669563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10530,12 +10531,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20713417f177d0543b58276ca567176e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sandboxButton: {fileID: 1896826070909985229}
+  sandboxButton: {fileID: 1999967554642491619}
   caseButtons:
-  - {fileID: 1896821182026367031}
-  - {fileID: 1896464644696810355}
-  - {fileID: 1897206020644960269}
-  - {fileID: 1896943013083598729}
+  - {fileID: 1999700030721278727}
+  - {fileID: 2000147361758613659}
+  - {fileID: 2000287294608597079}
+  - {fileID: 2003984106578217407}
 --- !u!114 &2004028979269814873
 MonoBehaviour:
   m_ObjectHideFlags: 0

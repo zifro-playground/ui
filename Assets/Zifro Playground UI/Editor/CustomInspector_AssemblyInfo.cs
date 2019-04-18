@@ -117,12 +117,12 @@ namespace PM.Editor
 			string normalizedDirectory = NormalizePath(directory) + Path.DirectorySeparatorChar;
 
 #if UNITY_EDITOR_WIN
-			const StringComparison COMPARISON = StringComparison.OrdinalIgnoreCase;
+			const StringComparison comparison = StringComparison.OrdinalIgnoreCase;
 #else
-			const StringComparison COMPARISON = StringComparison.Ordinal;
+			const StringComparison comparison = StringComparison.Ordinal;
 #endif
 
-			return normalizedFile.StartsWith(normalizedDirectory, COMPARISON);
+			return normalizedFile.StartsWith(normalizedDirectory, comparison);
 		}
 
 		static string NormalizePath(string path)

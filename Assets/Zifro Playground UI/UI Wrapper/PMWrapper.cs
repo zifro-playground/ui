@@ -441,9 +441,21 @@ public static class PMWrapper
 	}
 
 	/// <summary>
-	/// Returns the index of the current case. Index starts from 0.
+	/// Gets the index of the current case. Index starts from 0.
 	/// </summary>
 	public static int currentCase => Main.instance.caseHandler.currentCase;
+
+	/// <summary>
+	/// Gets the state of the current case.
+	/// </summary>
+	public static LevelCaseState currentCaseState => LevelModeButtons.instance.caseButtons[currentCase].currentState;
+
+	/// <summary>
+	/// Gets the states of the available cases.
+	/// </summary>
+	public static IReadOnlyList<LevelCaseState> caseStates => LevelModeButtons.instance.caseButtons
+		.Take(currentLevel.cases?.Count ?? 1)
+		.Select(o => o.currentState).ToArray();
 
 	/// <summary>
 	/// Stops the compiler, shows the "Level complete!" popup, marks the current level as complete and unlocks the next level.

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -108,7 +109,7 @@ namespace PM
 		{
 			if (Camera.main == null)
 			{
-				throw new System.Exception(
+				throw new InvalidOperationException(
 					"The game camera must be marked with the \"Main Camera\" tag for world positioned errors to work.\n");
 			}
 
