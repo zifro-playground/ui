@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Mellis.Core.Interfaces;
@@ -109,8 +110,8 @@ namespace PM
 
 			if (jsonAsset == null)
 			{
-				throw new Exception("Could not find the file \"" + fileName +
-				                    "\" that should contain game data in json format.");
+				throw new FileNotFoundException("Could not find the file \"" + fileName +
+				                    "\" that should contain game data in json format.", fileName);
 			}
 
 			string jsonString = jsonAsset.text;
@@ -155,12 +156,12 @@ namespace PM
 
 				if (scenes.Count > 1)
 				{
-					throw new Exception("There are more than one scene with name " + sceneName);
+					throw new InvalidOperationException("There are more than one scene with name " + sceneName);
 				}
 
 				if (!scenes.Any())
 				{
-					throw new Exception("There is no scene with name " + sceneName);
+					throw new InvalidOperationException("There is no scene with name " + sceneName);
 				}
 
 				Scene scene = scenes.First();
@@ -175,7 +176,7 @@ namespace PM
 				int sceneIndex = SceneUtility.GetBuildIndexByScenePath(scene.name);
 				if (sceneIndex < 0)
 				{
-					throw new Exception("Scene with name " + scene.name + " exists but is not added to build settings");
+					throw new InvalidOperationException("Scene with name " + scene.name + " exists but is not added to build settings");
 				}
 
 				SceneManager.LoadScene(sceneIndex, LoadSceneMode.Additive);
@@ -190,12 +191,12 @@ namespace PM
 
 			if (levels.Count > 1)
 			{
-				throw new Exception("There are more than one level with id " + levelId);
+				throw new InvalidOperationException("There are more than one level with id " + levelId);
 			}
 
 			if (!levels.Any())
 			{
-				throw new Exception("There is no level with id " + levelId);
+				throw new InvalidOperationException("There is no level with id " + levelId);
 			}
 
 			levelDefinition = levels.First();
@@ -356,8 +357,8 @@ namespace PM
 				{
 					if (guideBubble.target == null || string.IsNullOrEmpty(guideBubble.text))
 					{
-						throw new Exception("A guide bubble for level with index " + PMWrapper.currentLevelIndex +
-						                    " is missing target or text");
+						throw new InvalidOperationException("A guide bubble for level with index " + PMWrapper.currentLevelIndex +
+						                                    " is missing target or text");
 					}
 
 					// Check if target is a number
@@ -465,7 +466,7 @@ namespace PM
 			{
 				if (!REGISTERED_NAMED_FUNCTIONS.TryGetValue(functionName, out IEmbeddedType function))
 				{
-					throw new Exception(
+					throw new InvalidOperationException(
 						$"Unable to find function: \"{functionName}\". " +
 						$"Perhaps you forgot to register it via {nameof(Main)}.{nameof(RegisterFunction)}()?");
 				}

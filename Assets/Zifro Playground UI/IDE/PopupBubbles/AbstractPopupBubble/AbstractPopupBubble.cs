@@ -106,7 +106,7 @@ namespace PM
 		{
 			if (Camera.main == null)
 			{
-				throw new Exception(
+				throw new InvalidOperationException(
 					"The game camera must be marked with the \"Main Camera\" tag for world positioned errors to work.\n");
 			}
 
