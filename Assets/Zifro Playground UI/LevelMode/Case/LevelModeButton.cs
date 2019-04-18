@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using PM;
 using UnityEngine;
@@ -23,23 +24,30 @@ public class LevelModeButton : MonoBehaviour
 	[FormerlySerializedAs("Image")]
 	public Image image;
 
+	[NonSerialized]
+	public LevelModeButtonState currentState = LevelModeButtonState.Default;
+
 	public void SetButtonDefault()
 	{
+		currentState = LevelModeButtonState.Default;
 		image.sprite = fallback;
 	}
 
 	public void SetButtonActive()
 	{
+		currentState = LevelModeButtonState.Active;
 		image.sprite = active;
 	}
 
 	public void SetButtonCompleted()
 	{
+		currentState = LevelModeButtonState.Completed;
 		image.sprite = completed;
 	}
 
 	public void SetButtonFailed()
 	{
+		currentState = LevelModeButtonState.Failed;
 		image.sprite = failed;
 	}
 
