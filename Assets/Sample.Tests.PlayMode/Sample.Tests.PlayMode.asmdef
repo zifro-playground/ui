@@ -2,8 +2,7 @@
     "name": "Sample.Tests",
     "references": [
         "ZifroPlayground.UI",
-        "ZifroPlayground.UI.Tests",
-        "ZifroPlayground.UI.Tests.PlayMode"
+        "ZifroPlayground.UI.Tests"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"
