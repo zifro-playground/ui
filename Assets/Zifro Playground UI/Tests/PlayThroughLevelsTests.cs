@@ -57,7 +57,8 @@ namespace ZifroPlaygroundTests.PlayMode
 		/// <para>Note: Needs attribute <see cref="UnityTestAttribute"/> to be applied on the overridden method
 		/// in your derived class for Unity Test Runner to find the method.</para>
 		/// </summary>
-		/// <param name="data">The level data. Use <see cref="PlaygroundTestHelper.GetActiveLevels"/> from <see cref="PlaygroundTestHelper"/> to feed automatically.</param>
+		/// <param name="data">The level data. Use <see cref="PlaygroundTestHelper.GetActiveLevels"/>
+		/// from <see cref="PlaygroundTestHelper"/> to feed automatically.</param>
 		public virtual IEnumerator TestPlayGuidesInLevel(LevelTestData data)
 		{
 			// Arrange
@@ -115,7 +116,8 @@ namespace ZifroPlaygroundTests.PlayMode
 		/// <para>Note: Needs attribute <see cref="UnityTestAttribute"/> to be applied on the overridden method
 		/// in your derived class for Unity Test Runner to find the method.</para>
 		/// </summary>
-		/// <param name="data">The level data. Use <see cref="PlaygroundTestHelper.GetActiveCases"/> from <see cref="PlaygroundTestHelper"/> to feed automatically using <see cref="ValueSourceAttribute"/>.</param>
+		/// <param name="data">The level data. Use <see cref="PlaygroundTestHelper.GetActiveCases"/>
+		/// from <see cref="PlaygroundTestHelper"/> to feed automatically using <see cref="ValueSourceAttribute"/>.</param>
 		public virtual IEnumerator TestPlayCase(CaseTestData data)
 		{
 			if (data.caseData == null)
@@ -161,7 +163,8 @@ namespace ZifroPlaygroundTests.PlayMode
 		/// <para>Note: Needs attribute <see cref="UnityTestAttribute"/> to be applied on the overridden method
 		/// in your derived class for Unity Test Runner to find the method.</para>
 		/// </summary>
-		/// <param name="data">The level data. Use <see cref="PlaygroundTestHelper.GetActiveLevels"/> from <see cref="PlaygroundTestHelper"/> to feed automatically.</param>
+		/// <param name="data">The level data. Use <see cref="PlaygroundTestHelper.GetActiveLevels"/>
+		/// from <see cref="PlaygroundTestHelper"/> to feed automatically.</param>
 		[Timeout(60_000)] // ms to complete ALL cases for level
 		public virtual IEnumerator TestPlayLevel(LevelTestData data)
 		{
@@ -205,11 +208,13 @@ namespace ZifroPlaygroundTests.PlayMode
 		/// <summary>
 		/// Opens the scene and runs all levels and their cases in order using the same scene instance.
 		/// Useful to try catch bugs of unexpected state carry-over.
-		/// <para>Argument <paramref name="game"/> can be fed using <see cref="PlaygroundTestHelper.GetActiveLevels"/> from <see cref="PlaygroundTestHelper"/>.</para>
+		/// <para>Argument <paramref name="game"/> can be fed using <see cref="PlaygroundTestHelper.GetActiveLevels"/>
+		/// from <see cref="PlaygroundTestHelper"/>.</para>
 		/// <para>Note: Needs attribute <see cref="UnityTestAttribute"/> to be applied on the overridden method
 		/// in your derived class for Unity Test Runner to find the method.</para>
 		/// </summary>
-		/// <param name="game">The level data. Use <see cref="PlaygroundTestHelper.GetActiveLevels"/> from <see cref="PlaygroundTestHelper"/> to feed automatically.</param>
+		/// <param name="game">The level data. Use <see cref="PlaygroundTestHelper.GetActiveLevels"/>
+		/// from <see cref="PlaygroundTestHelper"/> to feed automatically.</param>
 		[Timeout(120_000)] // ms to complete whole game
 		public IEnumerator TestPlayWholeGame(LevelTestData[] game)
 		{

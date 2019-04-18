@@ -38,7 +38,7 @@ namespace PM
 				method = HttpMethod.GET,
 				endpoint = "/levels/load?gameId=" + Main.instance.gameDefinition.gameId,
 				okResponsCallback = HandleOkGetResponse,
-				errorResponsCallback = HandleErrorGetResponse
+				errorResponsCallback = delegate { HandleErrorGetResponse(); }
 			};
 			ApiHandler.instance.AddRequestToQueue(request);
 		}
@@ -56,7 +56,7 @@ namespace PM
 			Main.instance.StartGame();
 		}
 
-		void HandleErrorGetResponse(string response)
+		void HandleErrorGetResponse()
 		{
 			AddMissingLevelData();
 			Main.instance.StartGame();
