@@ -1,34 +1,30 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json;
 using NUnit.Framework;
 using PM;
-using PM.Guide;
-using UnityEditor;
-using UnityEditor.Build;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityScene = UnityEngine.SceneManagement.Scene;
-using Object = UnityEngine.Object;
 
-namespace Tests.PlayMode.PlayThrough
+namespace ZifroPlaygroundTests.PlayMode
 {
 	[TestFixture]
 	[Parallelizable(ParallelScope.None)]
-	public class PlayThroughLevelsTests
+	public abstract class PlayThroughLevelsTests
 	{
-		const string MAIN_SCENE_PATH = "Assets/Tests.PlayMode/PlayThrough/MainSceneForTesting.unity";
-		UnityScene loadedScene;
+		protected UnityScene loadedScene;
+
+		protected abstract string testingScenePath { get; }
 
 		[UnitySetUp]
-		public IEnumerator SetUp()
+		public virtual IEnumerator UnitySetUp()
 		{
-			FileAssert.Exists(MAIN_SCENE_PATH);
-			loadedScene = EditorSceneManager.LoadSceneInPlayMode(MAIN_SCENE_PATH,
+			string mainScenePath = testingScenePath;
+
+			FileAssert.Exists(mainScenePath);
+			loadedScene = EditorSceneManager.LoadSceneInPlayMode(mainScenePath,
 				new LoadSceneParameters(LoadSceneMode.Additive, LocalPhysicsMode.Physics3D));
 			Assert.True(loadedScene.IsValid());
 			yield return null;
@@ -42,19 +38,27 @@ namespace Tests.PlayMode.PlayThrough
 			{
 				Assert.Fail(
 					$"Class {nameof(Main)}.cs loaded game progress. This should not be enabled during testing.\n" +
-					$"Fix this by setting '{nameof(Main.ignoreLoadingGameProgress)}' to 'true' in {MAIN_SCENE_PATH}");
+					$"Fix this by setting '{nameof(Main.ignoreLoadingGameProgress)}' to 'true' in {mainScenePath}");
 			}
 		}
 
 		[UnityTearDown]
-		public IEnumerator TearDown()
+		public virtual IEnumerator UnityTearDown()
 		{
 			yield return SceneManager.UnloadSceneAsync(loadedScene);
 			loadedScene = default;
 		}
 
-		[UnityTest]
-		public IEnumerator PlayThroughGuides([ValueSource(nameof(GetActiveLevels))] LevelTestData data)
+		/// <summary>
+		/// Loads the scene, loads the level, and then tries to walk through all the guides.
+		/// Useful for catching guides with invalid targets.
+		/// <para>Argument <paramref name="data"/> can be fed using the <see cref="ValueSourceAttribute"/> in combination
+		/// with using <see cref="PlaygroundTestHelper.GetActiveLevels"/> from <see cref="PlaygroundTestHelper"/>.</para>
+		/// <para>Note: Needs attribute <see cref="UnityTestAttribute"/> to be applied on the overridden method
+		/// in your derived class for Unity Test Runner to find the method.</para>
+		/// </summary>
+		/// <param name="data">The level data. Use <see cref="PlaygroundTestHelper.GetActiveLevels"/> from <see cref="PlaygroundTestHelper"/> to feed automatically.</param>
+		public virtual IEnumerator TestPlayGuidesInLevel(LevelTestData data)
 		{
 			// Arrange
 			Main.instance.StartGame(data.levelIndex);
@@ -102,8 +106,17 @@ namespace Tests.PlayMode.PlayThrough
 			// Asserting is done by assuming no exceptions & no error logs
 		}
 
-		[UnityTest]
-		public IEnumerator PlayThroughCase([ValueSource(nameof(GetActiveCases))] CaseTestData data)
+		/// <summary>
+		/// Loads the scene, opens the level, sets case, runs the case, then unloads the scene.
+		/// Guarantees a fresh game instance between each case.
+		/// Useful to try catch unwanted state between cases.
+		/// <para>Argument <paramref name="data"/> can be fed using the <see cref="ValueSourceAttribute"/> in combination
+		/// with using <see cref="PlaygroundTestHelper.GetActiveCases"/> from <see cref="PlaygroundTestHelper"/>.</para>
+		/// <para>Note: Needs attribute <see cref="UnityTestAttribute"/> to be applied on the overridden method
+		/// in your derived class for Unity Test Runner to find the method.</para>
+		/// </summary>
+		/// <param name="data">The level data. Use <see cref="PlaygroundTestHelper.GetActiveCases"/> from <see cref="PlaygroundTestHelper"/> to feed automatically using <see cref="ValueSourceAttribute"/>.</param>
+		public virtual IEnumerator TestPlayCase(CaseTestData data)
 		{
 			if (data.caseData == null)
 			{
@@ -130,7 +143,7 @@ namespace Tests.PlayMode.PlayThrough
 				Assert.Inconclusive($"Level '{data.levelData.id}' ({data.scene.name}) has no example solution.");
 			}
 
-			IEnumerator coroutine = RunCaseAndAssert(data);
+			IEnumerator coroutine = PlaygroundTestHelper.RunCaseAndAssert(data);
 			while (coroutine.MoveNext())
 			{
 				yield return coroutine.Current;
@@ -139,9 +152,18 @@ namespace Tests.PlayMode.PlayThrough
 			// Asserting is done by assuming no exceptions & no error logs
 		}
 
-		[UnityTest]
+		/// <summary>
+		/// Opens the level and runs all cases in order using the same scene instance.
+		/// Guarantees a fresh scene instance between each level.
+		/// Useful to try catch unwanted state between levels.
+		/// <para>Argument <paramref name="data"/> can be fed using the <see cref="ValueSourceAttribute"/> in combination
+		/// with using <see cref="PlaygroundTestHelper.GetActiveLevels"/> from <see cref="PlaygroundTestHelper"/>.</para>
+		/// <para>Note: Needs attribute <see cref="UnityTestAttribute"/> to be applied on the overridden method
+		/// in your derived class for Unity Test Runner to find the method.</para>
+		/// </summary>
+		/// <param name="data">The level data. Use <see cref="PlaygroundTestHelper.GetActiveLevels"/> from <see cref="PlaygroundTestHelper"/> to feed automatically.</param>
 		[Timeout(60_000)] // ms to complete ALL cases for level
-		public IEnumerator PlayThroughLevel([ValueSource(nameof(GetActiveLevels))] LevelTestData data)
+		public virtual IEnumerator TestPlayLevel(LevelTestData data)
 		{
 			// Arrange
 			const float caseTimeLimit = 10; // seconds
@@ -164,7 +186,7 @@ namespace Tests.PlayMode.PlayThrough
 			float start = Time.time;
 			do
 			{
-				IEnumerator coroutine = RunCaseAndAssert(data);
+				IEnumerator coroutine = PlaygroundTestHelper.RunCaseAndAssert(data);
 				while (coroutine.MoveNext())
 				{
 					yield return coroutine.Current;
@@ -177,13 +199,19 @@ namespace Tests.PlayMode.PlayThrough
 			// Asserting is done by assuming no exceptions & no error logs
 		}
 
-		[UnityTest]
+		/// <summary>
+		/// Opens the scene and runs all levels and their cases in order using the same scene instance.
+		/// Useful to try catch bugs of unexpected state carry-over.
+		/// <para>Argument <paramref name="game"/> can be fed using <see cref="PlaygroundTestHelper.GetActiveLevels"/> from <see cref="PlaygroundTestHelper"/>.</para>
+		/// <para>Note: Needs attribute <see cref="UnityTestAttribute"/> to be applied on the overridden method
+		/// in your derived class for Unity Test Runner to find the method.</para>
+		/// </summary>
+		/// <param name="game">The level data. Use <see cref="PlaygroundTestHelper.GetActiveLevels"/> from <see cref="PlaygroundTestHelper"/> to feed automatically.</param>
 		[Timeout(120_000)] // ms to complete whole game
-		public IEnumerator PlayThroughGame()
+		public IEnumerator PlayThroughGame(LevelTestData[] game)
 		{
 			// Arrange
 			const float caseTimeLimit = 10; // seconds
-			LevelTestData[] levels = GetActiveLevels();
 
 			Main.instance.ignorePlayingGuides = true;
 			Main.instance.StartGame();
@@ -193,7 +221,7 @@ namespace Tests.PlayMode.PlayThrough
 
 			// Act
 			var inconclusive = new List<string>();
-			foreach (LevelTestData data in levels)
+			foreach (LevelTestData data in game)
 			{
 				Main.instance.StartLevel(data.levelIndex);
 
@@ -210,7 +238,7 @@ namespace Tests.PlayMode.PlayThrough
 				float start = Time.time;
 				do
 				{
-					IEnumerator coroutine = RunCaseAndAssert(data);
+					IEnumerator coroutine = PlaygroundTestHelper.RunCaseAndAssert(data);
 					while (coroutine.MoveNext())
 					{
 						yield return coroutine.Current;
@@ -218,7 +246,6 @@ namespace Tests.PlayMode.PlayThrough
 
 					Assert.IsTrue(Time.time - start < caseTimeLimit,
 						"Compiler execution timeout! Compiler took too long to complete ALL cases in {0}.", data);
-
 				} while (!Main.instance.caseHandler.allCasesCompleted);
 			}
 
@@ -227,111 +254,9 @@ namespace Tests.PlayMode.PlayThrough
 			{
 				Assert.Inconclusive(string.Join("\n", inconclusive));
 			}
+
 			// Asserting is done by assuming no exceptions & no error logs
 		}
-		
-		private static IEnumerator RunCaseAndAssert(LevelTestData data)
-		{
-			int caseIndex = PMWrapper.currentCase;
-			Assert.AreEqual(LevelCaseState.Active, PMWrapper.caseStates[caseIndex],
-				"Case was not marked as Active in {0}", data);
-			
-			PMWrapper.StartCompiler();
-			for (int i = 0; i < 20; i++)
-			{
-				yield return new WaitForSeconds(1);
-				if (!PMWrapper.isCompilerRunning)
-				{
-					break;
-				}
-			}
 
-			if (PMWrapper.isCompilerRunning)
-			{
-				Assert.Fail("Compiler execution timeout! Compiler took too long to complete case {0} in {1}.",
-					PMWrapper.currentCase + 1, data);
-			}
-
-			Assert.AreEqual(LevelCaseState.Completed, PMWrapper.caseStates[caseIndex],
-				"Case did not get marked Completed in {0}", data);
-			yield return null;
-		}
-
-		public class LevelTestData
-		{
-			public int levelIndex;
-			public Level levelData;
-			public Scene scene;
-
-			public override string ToString()
-			{
-				return $"level '{levelData?.id}' (scene {scene?.name}, index {levelIndex}))";
-			}
-		}
-
-		public class CaseTestData : LevelTestData
-		{
-			public int caseIndex;
-			public Case caseData;
-
-			public override string ToString()
-			{
-				return
-					$"case {(caseData is null ? "<?>" : (caseIndex + 1).ToString())}, level '{levelData?.id}' (scene {scene?.name}, index {levelIndex})";
-			}
-		}
-
-		static LevelTestData[] GetActiveLevels()
-		{
-			GameDefinition definition = Main.ParseJson("game");
-			var list = new List<LevelTestData>();
-
-			foreach (Scene scene in definition.scenes)
-			{
-				IEnumerable<Level> activeLevels = scene.levels
-					.Where(s => definition.activeLevels
-						.Select(a => a.levelId)
-						.Contains(s.id));
-
-				list.AddRange(activeLevels.Select((level, index) => new LevelTestData {
-					levelData = level,
-					levelIndex = index,
-					scene = scene
-				}));
-			}
-
-			return list.ToArray();
-		}
-
-		static CaseTestData[] GetActiveCases()
-		{
-			LevelTestData[] levels = GetActiveLevels();
-			var list = new List<CaseTestData>();
-
-			foreach (LevelTestData data in levels)
-			{
-				if (data.levelData?.cases == null)
-				{
-					list.Add(new CaseTestData {
-						levelData = data.levelData,
-						levelIndex = data.levelIndex,
-						scene = data.scene,
-						caseData = null,
-						caseIndex = -1
-					});
-					continue;
-				}
-
-				list.AddRange(data.levelData.cases.Select((caseData, index) => new CaseTestData {
-					levelData = data.levelData,
-					levelIndex = data.levelIndex,
-					scene = data.scene,
-					caseData = caseData,
-					caseIndex = index
-				}));
-			}
-
-			return list.ToArray();
-		}
 	}
 }
