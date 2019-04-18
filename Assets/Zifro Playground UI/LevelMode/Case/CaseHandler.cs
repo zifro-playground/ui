@@ -43,7 +43,7 @@ namespace PM
 			}
 
 			// currentCaseButtonPressed
-			LevelModeButtons.instance.SetCurrentCaseButtonState(LevelModeButtonState.Active);
+			LevelModeButtons.instance.SetCurrentCaseButtonState(LevelCaseState.Active);
 
 			LevelModeController.instance.SwitchToCaseMode();
 
@@ -79,7 +79,7 @@ namespace PM
 		public void CaseFailed()
 		{
 			isCasesRunning = false;
-			LevelModeButtons.instance.SetCurrentCaseButtonState(LevelModeButtonState.Failed);
+			LevelModeButtons.instance.SetCurrentCaseButtonState(LevelCaseState.Failed);
 		}
 
 		private IEnumerator ShowFeedbackAndRunNextCase()
@@ -100,7 +100,7 @@ namespace PM
 
 			UISingleton.instance.answerBubble.HideMessage();
 			UISingleton.instance.taskDescription.HideTaskFeedback();
-			LevelModeButtons.instance.SetCurrentCaseButtonState(LevelModeButtonState.Completed);
+			LevelModeButtons.instance.SetCurrentCaseButtonState(LevelCaseState.Completed);
 
 			if (autoContinueTest)
 			{

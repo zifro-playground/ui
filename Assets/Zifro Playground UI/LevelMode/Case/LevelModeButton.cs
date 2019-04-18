@@ -25,29 +25,29 @@ public class LevelModeButton : MonoBehaviour
 	public Image image;
 
 	[NonSerialized]
-	public LevelModeButtonState currentState = LevelModeButtonState.Default;
+	public LevelCaseState currentState = LevelCaseState.Default;
 
 	public void SetButtonDefault()
 	{
-		currentState = LevelModeButtonState.Default;
+		currentState = LevelCaseState.Default;
 		image.sprite = fallback;
 	}
 
 	public void SetButtonActive()
 	{
-		currentState = LevelModeButtonState.Active;
+		currentState = LevelCaseState.Active;
 		image.sprite = active;
 	}
 
 	public void SetButtonCompleted()
 	{
-		currentState = LevelModeButtonState.Completed;
+		currentState = LevelCaseState.Completed;
 		image.sprite = completed;
 	}
 
 	public void SetButtonFailed()
 	{
-		currentState = LevelModeButtonState.Failed;
+		currentState = LevelCaseState.Failed;
 		image.sprite = failed;
 	}
 

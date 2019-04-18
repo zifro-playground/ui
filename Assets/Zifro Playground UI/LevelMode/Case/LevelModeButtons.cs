@@ -38,23 +38,23 @@ namespace PM
 			SetCaseButtonsToDefault();
 		}
 
-		public void SetCurrentCaseButtonState(LevelModeButtonState state)
+		public void SetCurrentCaseButtonState(LevelCaseState state)
 		{
 			int caseNumber = Main.instance.caseHandler.currentCase;
 
-			if (state == LevelModeButtonState.Default)
+			if (state == LevelCaseState.Default)
 			{
 				caseButtons[caseNumber].SetButtonDefault();
 			}
-			else if (state == LevelModeButtonState.Active)
+			else if (state == LevelCaseState.Active)
 			{
 				caseButtons[caseNumber].SetButtonActive();
 			}
-			else if (state == LevelModeButtonState.Completed)
+			else if (state == LevelCaseState.Completed)
 			{
 				caseButtons[caseNumber].SetButtonCompleted();
 			}
-			else if (state == LevelModeButtonState.Failed)
+			else if (state == LevelCaseState.Failed)
 			{
 				caseButtons[caseNumber].SetButtonFailed();
 			}
@@ -95,28 +95,28 @@ namespace PM
 			sandboxButton.SetButtonDefault();
 		}
 
-		public void SetSandboxButtonState(LevelModeButtonState state)
+		public void SetSandboxButtonState(LevelCaseState state)
 		{
-			if (state == LevelModeButtonState.Default)
+			if (state == LevelCaseState.Default)
 			{
 				sandboxButton.SetButtonDefault();
 			}
-			else if (state == LevelModeButtonState.Active)
+			else if (state == LevelCaseState.Active)
 			{
 				sandboxButton.SetButtonActive();
 			}
-			else if (state == LevelModeButtonState.Completed)
+			else if (state == LevelCaseState.Completed)
 			{
 				sandboxButton.SetButtonCompleted();
 			}
-			else if (state == LevelModeButtonState.Failed)
+			else if (state == LevelCaseState.Failed)
 			{
 				sandboxButton.SetButtonFailed();
 			}
 		}
 	}
 
-	public enum LevelModeButtonState
+	public enum LevelCaseState
 	{
 		Default,
 		Active,
