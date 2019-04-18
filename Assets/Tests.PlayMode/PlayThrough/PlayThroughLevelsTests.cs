@@ -232,7 +232,9 @@ namespace Tests.PlayMode.PlayThrough
 		
 		private static IEnumerator RunCaseAndAssert(LevelTestData data)
 		{
-			int caseIndex = PMWrapper.currentCase;
+			Assert.AreEqual(LevelCaseState.Active, PMWrapper.currentCaseState,
+				"Case was not marked as Active in {0}", data);
+			
 			PMWrapper.StartCompiler();
 			for (int i = 0; i < 20; i++)
 			{
@@ -249,11 +251,9 @@ namespace Tests.PlayMode.PlayThrough
 					PMWrapper.currentCase + 1, data);
 			}
 
-			EditorApplication.isPaused = true;
+			Assert.AreEqual(LevelCaseState.Completed, PMWrapper.currentCaseState,
+				"Case did not get marked Completed in {0}", data);
 			yield return null;
-
-			Assert.AreNotEqual(caseIndex, PMWrapper.currentCase,
-				"Failed to complete case {0} in {1}", caseIndex+1, data);
 		}
 
 		public class LevelTestData
