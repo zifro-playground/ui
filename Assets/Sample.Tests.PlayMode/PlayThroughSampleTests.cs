@@ -21,6 +21,12 @@ namespace Sample.Tests.PlayMode
 		protected override string testingScenePath => "Assets/Sample.Tests.PlayMode/MainSceneForTesting.unity";
 
 		[UnityTest]
+		public override IEnumerator TestPlayWholeGame()
+		{
+			return TestPlayWholeGame(GetActiveLevels());
+		}
+
+		[UnityTest]
 		public override IEnumerator TestPlayGuidesInLevel([ValueSource(nameof(GetActiveLevels))] LevelTestData data)
 		{
 			return base.TestPlayGuidesInLevel(data);

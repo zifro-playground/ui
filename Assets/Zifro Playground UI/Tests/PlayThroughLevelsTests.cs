@@ -199,6 +199,9 @@ namespace ZifroPlaygroundTests.PlayMode
 			// Asserting is done by assuming no exceptions & no error logs
 		}
 
+		[Timeout(120_000)] // ms to complete whole game
+		public abstract IEnumerator TestPlayWholeGame();
+
 		/// <summary>
 		/// Opens the scene and runs all levels and their cases in order using the same scene instance.
 		/// Useful to try catch bugs of unexpected state carry-over.
@@ -208,7 +211,7 @@ namespace ZifroPlaygroundTests.PlayMode
 		/// </summary>
 		/// <param name="game">The level data. Use <see cref="PlaygroundTestHelper.GetActiveLevels"/> from <see cref="PlaygroundTestHelper"/> to feed automatically.</param>
 		[Timeout(120_000)] // ms to complete whole game
-		public IEnumerator PlayThroughGame(LevelTestData[] game)
+		public IEnumerator TestPlayWholeGame(LevelTestData[] game)
 		{
 			// Arrange
 			const float caseTimeLimit = 10; // seconds
