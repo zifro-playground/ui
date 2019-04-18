@@ -129,16 +129,22 @@ namespace Tests.PlayMode.PlayThrough
 			{
 				Assert.Inconclusive($"Level '{data.levelData.id}' ({data.scene.name}) has no example solution.");
 			}
-			
-			yield return RunCompilerAndAssert(data);
+
+			IEnumerator coroutine = RunCaseAndAssert(data);
+			while (coroutine.MoveNext())
+			{
+				yield return coroutine.Current;
+			}
 
 			// Asserting is done by assuming no exceptions & no error logs
 		}
 
 		[UnityTest]
+		[Timeout(60_000)] // ms to complete ALL cases for level
 		public IEnumerator PlayThroughLevel([ValueSource(nameof(GetActiveLevels))] LevelTestData data)
 		{
 			// Arrange
+			const float caseTimeLimit = 10; // seconds
 			Main.instance.ignorePlayingGuides = true;
 			Main.instance.StartGame(data.levelIndex);
 			yield return null;
@@ -156,22 +162,27 @@ namespace Tests.PlayMode.PlayThrough
 			}
 
 			float start = Time.time;
-			const float limit = 60; // seconds
 			do
 			{
-				yield return RunCompilerAndAssert(data);
+				IEnumerator coroutine = RunCaseAndAssert(data);
+				while (coroutine.MoveNext())
+				{
+					yield return coroutine.Current;
+				}
 
-				Assert.IsTrue(Time.time - start < limit,
-					$"Compiler execution timeout! Compiler took too long to complete ALL cases in {data}.");
+				Assert.IsTrue(Time.time - start < caseTimeLimit,
+					$"Compiler execution timeout! Compiler took too long to complete ALL cases in {data}. Waited {caseTimeLimit} seconds.");
 			} while (!Main.instance.caseHandler.allCasesCompleted);
 
 			// Asserting is done by assuming no exceptions & no error logs
 		}
 
 		[UnityTest]
+		[Timeout(120_000)] // ms to complete whole game
 		public IEnumerator PlayThroughGame()
 		{
 			// Arrange
+			const float caseTimeLimit = 10; // seconds
 			LevelTestData[] levels = GetActiveLevels();
 
 			Main.instance.ignorePlayingGuides = true;
@@ -197,13 +208,16 @@ namespace Tests.PlayMode.PlayThrough
 				}
 
 				float start = Time.time;
-				const float limit = 60; // seconds
 				do
 				{
-					yield return RunCompilerAndAssert(data);
+					IEnumerator coroutine = RunCaseAndAssert(data);
+					while (coroutine.MoveNext())
+					{
+						yield return coroutine.Current;
+					}
 
-					Assert.IsTrue(Time.time - start < limit,
-						$"Compiler execution timeout! Compiler took too long to complete ALL cases in {data}.");
+					Assert.IsTrue(Time.time - start < caseTimeLimit,
+						"Compiler execution timeout! Compiler took too long to complete ALL cases in {0}.", data);
 
 				} while (!Main.instance.caseHandler.allCasesCompleted);
 			}
@@ -216,8 +230,9 @@ namespace Tests.PlayMode.PlayThrough
 			// Asserting is done by assuming no exceptions & no error logs
 		}
 		
-		private static IEnumerator RunCompilerAndAssert(LevelTestData data)
+		private static IEnumerator RunCaseAndAssert(LevelTestData data)
 		{
+			int caseIndex = PMWrapper.currentCase;
 			PMWrapper.StartCompiler();
 			for (int i = 0; i < 20; i++)
 			{
@@ -230,9 +245,15 @@ namespace Tests.PlayMode.PlayThrough
 
 			if (PMWrapper.isCompilerRunning)
 			{
-				Assert.Fail(
-					$"Compiler execution timeout! Compiler took too long to complete case {PMWrapper.currentCase + 1} in {data}.");
+				Assert.Fail("Compiler execution timeout! Compiler took too long to complete case {0} in {1}.",
+					PMWrapper.currentCase + 1, data);
 			}
+
+			EditorApplication.isPaused = true;
+			yield return null;
+
+			Assert.AreNotEqual(caseIndex, PMWrapper.currentCase,
+				"Failed to complete case {0} in {1}", caseIndex+1, data);
 		}
 
 		public class LevelTestData
