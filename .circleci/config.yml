@@ -31,7 +31,7 @@ jobs:
 
       - run:
           name: Enable permissions on scripts
-          command: chmod +x $SCRIPTS/**.sh
+          command: chmod +x $SCRIPTS/**.sh -v
 
       - run:
           name: Setup Unity license
@@ -99,7 +99,7 @@ jobs:
 
       - run:
           name: Enable permissions on scripts
-          command: chmod +x $SCRIPTS/**.sh
+          command: chmod +x $SCRIPTS/**.sh -v
 
       - run:
           name: Add GPG login to git
