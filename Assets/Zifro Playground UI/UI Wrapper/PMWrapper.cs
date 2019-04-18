@@ -451,6 +451,13 @@ public static class PMWrapper
 	public static LevelCaseState currentCaseState => LevelModeButtons.instance.caseButtons[currentCase].currentState;
 
 	/// <summary>
+	/// Gets the states of the available cases.
+	/// </summary>
+	public static IReadOnlyList<LevelCaseState> caseStates => LevelModeButtons.instance.caseButtons
+		.Take(currentLevel.cases?.Count ?? 1)
+		.Select(o => o.currentState).ToArray();
+
+	/// <summary>
 	/// Stops the compiler, shows the "Level complete!" popup, marks the current level as complete and unlocks the next level.
 	/// </summary>
 	public static void SetLevelCompleted()

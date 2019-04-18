@@ -81,12 +81,12 @@ namespace Tests.PlayMode.PlayThrough
 					data);
 			}
 
-			yield return new WaitForSeconds(0.5f);
+			yield return new WaitForSeconds(0.1f);
 
 			while (UISingleton.instance.guidePlayer.currentGuide?.hasNext == true ||
 			       UISingleton.instance.guideBubble.isShowing)
 			{
-				yield return new WaitForSeconds(0.5f);
+				yield return new WaitForSeconds(0.1f);
 				if (UISingleton.instance.guideBubble.isShowing)
 				{
 					UISingleton.instance.guideBubble.HideMessage();
@@ -232,7 +232,8 @@ namespace Tests.PlayMode.PlayThrough
 		
 		private static IEnumerator RunCaseAndAssert(LevelTestData data)
 		{
-			Assert.AreEqual(LevelCaseState.Active, PMWrapper.currentCaseState,
+			int caseIndex = PMWrapper.currentCase;
+			Assert.AreEqual(LevelCaseState.Active, PMWrapper.caseStates[caseIndex],
 				"Case was not marked as Active in {0}", data);
 			
 			PMWrapper.StartCompiler();
@@ -251,7 +252,7 @@ namespace Tests.PlayMode.PlayThrough
 					PMWrapper.currentCase + 1, data);
 			}
 
-			Assert.AreEqual(LevelCaseState.Completed, PMWrapper.currentCaseState,
+			Assert.AreEqual(LevelCaseState.Completed, PMWrapper.caseStates[caseIndex],
 				"Case did not get marked Completed in {0}", data);
 			yield return null;
 		}
