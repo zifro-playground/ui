@@ -9,7 +9,8 @@
 : ${TEST_PASSED:=0}
 : ${TEST_FAILED:=0}
 : ${TEST_SKIPPED:=0}
-: ${TEST_TOTAL:=0}
+: ${TEST_INCONCLUSIVE:=0}
+TEST_TOTAL=$((TEST_PASSED+TEST_FAILED+TEST_SKIPPED+TEST_INCONCLUSIVE))
 
 : ${TEST_ERRORS:=}
 : ${BUILD_STATUS:="fail"}
@@ -93,17 +94,22 @@ if [[ "$TEST_FAILED" == "0" ]]; then
 else
     testFailed="Failed: $TEST_FAILED :exclamation:"
 fi
+if [[ "$TEST_INCONCLUSIVE" == "0" ]]; then
+    testInconclusive="Inconclusive: $TEST_INCONCLUSIVE"
+else
+    testInconclusive="Inconclusive: $TEST_INCONCLUSIVE :exclamation:"
+fi
 if [[ "$TEST_SKIPPED" == "0" ]]; then
     testSkipped="Skipped: $TEST_SKIPPED"
 else
     testSkipped="Skipped: $TEST_SKIPPED :exclamation:"
 fi
-if [[ "$TEST_FAILED" == "0" ]] && [[ "$TEST_SKIPPED" == "0" ]]; then
+if [[ "$TEST_PASSED" == "$TEST_TOTAL" ]] && [[ $TEST_PASSED > 0 ]]; then
     testPassed="Passed: $TEST_PASSED :heavy_check_mark:"
 else
     testPassed="Passed: $TEST_PASSED"
 fi
-testResults="$testPassed\\n$testFailed\\n$testSkipped"
+testResults="$testPassed\\n$testFailed\\n$testInconclusive\\n$testSkipped"
 echo
 
 : ${errorsField:=}
@@ -192,20 +198,21 @@ then
 fi
 
 if [[ "$PLAYGROUND_UI_VERSION" ]]; then
-    uiFieldText="\`\`\`$(escapeJson "$PLAYGROUND_UI_VERSION")\`\`\`"
+    uiFieldText="*$(escapeJson "$PLAYGROUND_UI_VERSION")*"
 else
     uiFieldText="_(unknown version)_"
 fi
 if [[ "$MELLIS_VERSION" ]]; then
-    mellisFieldText="\`\`\`$(escapeJson "$MELLIS_VERSION")\`\`\`"
+    mellisFieldText="*$(escapeJson "$MELLIS_VERSION")*"
 else
     mellisFieldText="_(unknown version)_"
 fi
 if [[ "$MELLIS_PYTHON3_VERSION" ]]; then
-    python3FieldText="\`\`\`$(escapeJson "$MELLIS_PYTHON3_VERSION")\`\`\`"
+    python3FieldText="*$(escapeJson "$MELLIS_PYTHON3_VERSION")*"
 else
     python3FieldText="_(unknown version)_"
 fi
+testPercent=$((100*TEST_PASSED/TEST_TOTAL))
 fields="
 {
     \"title\": \"Test results: $testPercent %\",
@@ -213,18 +220,8 @@ fields="
     \"short\": true
 },
 {
-    \"title\": \"Zifro Playground UI\",
-    \"value\": \"$uiFieldText\",
-    \"short\": true
-},
-{
-    \"title\": \"Mellis\",
-    \"value\": \"$mellisFieldText\",
-    \"short\": true
-},
-{
-    \"title\": \"Python3 module\",
-    \"value\": \"$python3FieldText\",
+    \"title\": \"Versions\",
+    \"value\": \"Zifro Playground UI: $uiFieldText\\nMellis: $mellisFieldText\\nPython3 module: $python3FieldText\",
     \"short\": true
 }"
 
@@ -256,7 +253,6 @@ else
     echo "Using git diff as footer: '$footer'"
 fi
 
-testPercent=$((100*TEST_PASSED/TEST_TOTAL))
 data=" {
 \"attachments\": [
     {
