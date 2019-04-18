@@ -15,7 +15,7 @@ jobs:
     working_directory: ~/repo
     
     environment:
-      SCRIPTS: ~/repo/ci/scripts/
+      SCRIPTS: /root/repo/ci/scripts/
 
     docker:
       - image: zifrose/ui-testrunner
@@ -84,7 +84,7 @@ jobs:
     working_directory: ~/repo
     
     environment:
-      SCRIPTS: ~/repo/ci/scripts/
+      SCRIPTS: /root/repo/ci/scripts/
 
     docker:
       - image: zifrose/ui-upm
