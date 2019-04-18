@@ -30,6 +30,10 @@ jobs:
       - checkout
 
       - run:
+          name: Enable permissions on scripts
+          command: chmod +x $SCRIPTS/**.sh
+
+      - run:
           name: Setup Unity license
           command: $SCRIPTS/unity_login.sh
       
@@ -92,6 +96,10 @@ jobs:
     steps:
       # Checkout repo -> ~/repo
       - checkout
+
+      - run:
+          name: Enable permissions on scripts
+          command: chmod +x $SCRIPTS/**.sh
 
       - run:
           name: Add GPG login to git
