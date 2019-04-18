@@ -74,7 +74,7 @@ function tag {
         echo "Tag \"$TAG\" already existed. Continuing without tag"
         return 2
     else
-        git tag "$TAG" -m "$MESSAGE"
+        git tag -s "$TAG" -m "$MESSAGE"
         local TAG_STATUS=$?
         if [ $TAG_STATUS -ne 0 ]
         then
