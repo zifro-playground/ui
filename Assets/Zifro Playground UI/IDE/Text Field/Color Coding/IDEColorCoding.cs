@@ -414,19 +414,27 @@ namespace PM
                         string EXPONENT()
                         {
                             // exponent      ::=  ("e" | "E") ["+" | "-"] digit+
-                            if (index + 1 >= text.Length ||
+                            if (index >= text.Length ||
                                 (text[index] != 'e' && text[index] != 'E'))
                             {
                                 return null;
                             }
 
+							// Allow partial exponent (only `e`)
+							if (index + 1 >= text.Length)
+							{
+								return text[index++].ToString();
+							}
+
                             int startIndex = index;
                             int digitIndex = index + 1;
                             if (text[digitIndex] == '-' || text[digitIndex] == '+')
                             {
+								// Allow partial exponent (only `e-` or `e+`)
                                 if (index + 2 >= text.Length)
                                 {
-                                    return null;
+									index += 2;
+                                    return text.Substring(startIndex, index - startIndex);
                                 }
 
                                 digitIndex++;
@@ -436,8 +444,8 @@ namespace PM
                             string digits = INT_PART();
                             if (digits == null)
                             {
-                                index = startIndex;
-                                return null;
+								// Allow partial exponent (only `e`, `e-` or `e+`)
+                                return text.Substring(startIndex, digitIndex - startIndex);
                             }
 
                             return text.Substring(startIndex, digitIndex - startIndex) + digits;
@@ -535,16 +543,22 @@ namespace PM
                     string OCT_INTEGER()
                     {
                         // oct integer     ::=  "0" ("o" | "O") oct-digit+
-                        if (index + 2 >= text.Length ||
+                        if (index + 1 >= text.Length ||
                             text[index] != '0' ||
-                            char.ToLowerInvariant(text[index + 1]) != 'o' ||
-                            text[index + 2] < '0' || text[index + 2] > '7')
+                            char.ToLowerInvariant(text[index + 1]) != 'o')
                         {
                             return null;
                         }
 
                         int startIndex = index;
                         index += 2;
+
+						// Allow partial octal (only `0o`)
+						if (index >= text.Length ||
+							text[index] < '0' || text[index] > '7')
+						{
+							return text.Substring(startIndex, index - startIndex);
+						}
 
                         while (index < text.Length)
                         {
@@ -563,16 +577,22 @@ namespace PM
                     string HEX_INTEGER()
                     {
                         // hex integer     ::=  "0" ("x" | "X") hex-digit+
-                        if (index + 2 >= text.Length ||
+                        if (index + 1 >= text.Length ||
                             text[index] != '0' ||
-                            char.ToLowerInvariant(text[index + 1]) != 'x' ||
-                            !IsHexadecimal(text[index + 2]))
+                            char.ToLowerInvariant(text[index + 1]) != 'x')
                         {
                             return null;
                         }
 
                         int startIndex = index;
                         index += 2;
+
+						// Allow partial hexadecimal (only `0x`)
+						if (index >= text.Length ||
+							!IsHexadecimal(text[index]))
+						{
+							return text.Substring(startIndex, index - startIndex);
+						}
 
                         while (index < text.Length)
                         {
@@ -598,16 +618,22 @@ namespace PM
                     string BIN_INTEGER()
                     {
                         // bin integer     ::=  "0" ("b" | "B") bin-digit+
-                        if (index + 2 >= text.Length ||
+                        if (index + 1 >= text.Length ||
                             text[index] != '0' ||
-                            char.ToLowerInvariant(text[index + 1]) != 'b' ||
-                            (text[index + 2] != '0' && text[index + 2] != '1'))
+                            char.ToLowerInvariant(text[index + 1]) != 'b')
                         {
                             return null;
                         }
 
                         int startIndex = index;
                         index += 2;
+
+						// Allow partial binary (only `0b`)
+						if (index >= text.Length ||
+							(text[index] != '0' && text[index] != '1'))
+						{
+							return text.Substring(startIndex, index - startIndex);
+						}
 
                         while (index < text.Length)
                         {
