@@ -13,6 +13,9 @@ jobs:
   # Job named 'build' is used on API triggered builds
   build-test:
     working_directory: ~/repo
+    
+    environment:
+      SCRIPTS: /root/repo/ci/scripts/
 
     docker:
       - image: zifrose/ui-testrunner
@@ -27,22 +30,26 @@ jobs:
       - checkout
 
       - run:
+          name: Enable permissions on scripts
+          command: chmod +x $SCRIPTS/**.sh -v
+
+      - run:
           name: Setup Unity license
-          command: unity_login.sh
+          command: $SCRIPTS/unity_login.sh
       
       - run:
           name: Update UPM dependencies & compile scripts
-          command: unity_update_deps.sh ~/repo
+          command: $SCRIPTS/unity_update_deps.sh ~/repo
           
       - run:
           name: Obtaining Playground UI & Mellis version
           command: |
             # Get versions
-            PLAYGROUND_UI_VERSION="$(get_ui_version.sh ~/repo)"
+            PLAYGROUND_UI_VERSION="$($SCRIPTS/get_ui_version.sh ~/repo)"
             echo ">>> Using Playground UI v$PLAYGROUND_UI_VERSION"
 
-            MELLIS_VERSION="$(get_dll_version.sh ~/repo/Library/PackageCache/se.zifro.mellis*/Plugins/se.zifro.mellis/Mellis.dll)"
-            MELLIS_PYTHON3_VERSION="$(get_dll_version.sh ~/repo/Library/PackageCache/se.zifro.mellis*/Plugins/se.zifro.mellis.python3/Mellis.Lang.Python3.dll)"
+            MELLIS_VERSION="$($SCRIPTS/get_dll_version.sh ~/repo/Library/PackageCache/se.zifro.mellis*/Plugins/se.zifro.mellis/Mellis.dll)"
+            MELLIS_PYTHON3_VERSION="$($SCRIPTS/get_dll_version.sh ~/repo/Library/PackageCache/se.zifro.mellis*/Plugins/se.zifro.mellis.python3/Mellis.Lang.Python3.dll)"
             echo ">>> Using Mellis v$MELLIS_VERSION, and Python3 module v$MELLIS_PYTHON3_VERSION"
 
             # Save to environment
@@ -52,12 +59,12 @@ jobs:
 
       - run:
           name: Test Unity project
-          command: unity_test.sh ~/repo ~/tests/nunit/
+          command: $SCRIPTS/unity_test.sh ~/repo ~/tests/nunit/
 
       - run:
           name: Convert NUnit to JUnit xml
           when: always
-          command: nunit2junit.sh ~/tests/nunit/ ~/tests/junit/
+          command: $SCRIPTS/nunit2junit.sh ~/tests/nunit/ ~/tests/junit/
 
       - store_test_results:
           name: store test results -> ~/tests/junit
@@ -75,10 +82,13 @@ jobs:
       - run:
           name: Send Slack notification
           when: always
-          command: slack_notify_testrunner.sh
+          command: $SCRIPTS/slack_notify_testrunner.sh
 
   deploy-github:
     working_directory: ~/repo
+    
+    environment:
+      SCRIPTS: /root/repo/ci/scripts/
 
     docker:
       - image: zifrose/ui-upm
@@ -88,8 +98,12 @@ jobs:
       - checkout
 
       - run:
+          name: Enable permissions on scripts
+          command: chmod +x $SCRIPTS/**.sh -v
+
+      - run:
           name: Add GPG login to git
-          command: git_login.sh
+          command: $SCRIPTS/git_login.sh
 
       - run:
           name: Checkout deployment branch (→ ~/upm)
@@ -106,7 +120,7 @@ jobs:
           name: Obtaining Playground UI version
           command: |
             # Get versions
-            PLAYGROUND_UI_VERSION="$(get_ui_version.sh ~/repo)"
+            PLAYGROUND_UI_VERSION="$($SCRIPTS/get_ui_version.sh ~/repo)"
             echo ">>> Using Playground UI v$PLAYGROUND_UI_VERSION"
 
             # Save to environment
@@ -121,12 +135,12 @@ jobs:
             echo "$(jq ".version=\"$PLAYGROUND_UI_VERSION\"" ~/upm/package.json)" > ~/upm/package.json
             echo
 
-            move_upm_files.sh ~/repo ~/upm
-            generate_metafiles.sh ~/upm
+            $SCRIPTS/move_upm_files.sh ~/repo ~/upm
+            $SCRIPTS/generate_metafiles.sh ~/upm
 
       - run:
           name: Deploy to UPM branch
-          command: deploy_upm.sh ~/repo ~/upm
+          command: $SCRIPTS/deploy_upm.sh ~/repo ~/upm
 
       - run:
           name: Setting Failure Condition
@@ -140,7 +154,7 @@ jobs:
       - run:
           name: Send Slack notification
           when: always
-          command: slack_notify_github_deploy.sh
+          command: $SCRIPTS/slack_notify_github_deploy.sh
 
 workflows:
   version: 2.1

@@ -33,7 +33,7 @@ then
         color="#1CBF43" # green
         visitJobActionStyle="primary" # green
         title=":tada: DEPLOYED TO GITHUB"
-        fallback="Deployed to GitHub successfully, new tag: $DEPLOY_TAG_COMBINED"
+        fallback="Deployed to GitHub successfully, new tag: $DEPLOY_TAG_PLAYGROUND_UI"
         actions=",
             {
                 \"type\": \"button\",

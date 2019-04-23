@@ -1,8 +1,6 @@
 
 # Text files
 *.txt text eol=lf
-*.gitignore text eol=lf
-*.gitattributes text eol=lf
 *.md text eol=lf
 
 # Code files
@@ -10,7 +8,6 @@
 *.sh text eol=lf
 *.ps1 text eol=lf
 *.js text eol=lf
-*.json text eol=lf
 
 *.c text eol=lf
 *.cpp text eol=lf
@@ -22,6 +19,14 @@
 *.php text eol=lf
 *.cshtml text eol=lf
 
+# Config files
+*.gitignore text eol=lf
+*.gitattributes text eol=lf
+*.editorconfig text eol=lf
+
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
 *.xml text eol=lf
 *.sln text eol=lf
 *.csproj text eol=lf

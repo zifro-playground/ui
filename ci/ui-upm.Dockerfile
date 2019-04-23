@@ -18,10 +18,3 @@ RUN apt-get update && \
     # Cleanup
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
-
-COPY scripts/git_login.sh /usr/local/bin/git_login.sh
-COPY scripts/generate_metafiles.sh /usr/local/bin/generate_metafiles.sh
-COPY scripts/get_ui_version.sh /usr/local/bin/get_ui_version.sh
-COPY scripts/slack_notify_github_deploy.sh /usr/local/bin/slack_notify_github_deploy.sh
-COPY scripts/deploy_upm.sh /usr/local/bin/deploy_upm.sh
-COPY scripts/move_upm_files.sh /usr/local/bin/move_upm_files.sh

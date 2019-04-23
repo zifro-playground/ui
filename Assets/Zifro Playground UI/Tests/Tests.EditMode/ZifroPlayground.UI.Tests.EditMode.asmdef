@@ -1,7 +1,8 @@
 {
     "name": "ZifroPlayground.UI.Tests.EditMode",
     "references": [
-        "ZifroPlayground.UI"
+        "ZifroPlayground.UI",
+        "ZifroPlayground.UI.Tests"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"

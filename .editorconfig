@@ -11,16 +11,14 @@ guidelines = 80
 indent_style = space
 indent_size = 4
 
-# === YML config files ===
-[*.yml]
+end_of_line = lf
+insert_final_newline = true
+
+# === YML & JSON config files ===
+[*.{yml,json}]
 
 indent_style = space
 indent_size = 2
-
-# === Bash script files ===
-[*.sh]
-
-end_of_line = lf
 
 # === C# files ===
 [*.cs]
@@ -260,7 +258,7 @@ dotnet_naming_symbols.pm_event_naming_symbols.applicable_kinds = method
 
 # === Test projects ===
 
-[**.Tests/**.cs]
+[**{.Tests,.Tests.EditMode,.Tests.PlayMode}/**.cs]
 
 # Implicit and explicit types
 # Allow `var` anywhere
