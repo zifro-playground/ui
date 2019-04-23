@@ -49,8 +49,8 @@ then
     # Nothing to commit.
     echo "<<< Nothing to commit."
     echo ">>> Changeset"
-    changeset=" 0 files changed, 0 insertions(+), 0 deletions(-)"
-    echo "$changeset"
+    changeset=""
+    echo "/nothing/"
 elif [ $COMMIT_STATUS -ne 0 ]
 then
     echo "<<< Unexpected error during commit. Aborting."
