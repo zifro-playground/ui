@@ -49,8 +49,8 @@ then
     # Nothing to commit.
     echo "<<< Nothing to commit."
     echo ">>> Changeset"
-    changeset=" 0 files changed, 0 insertions(+), 0 deletions(-)"
-    echo "$changeset"
+    changeset=""
+    echo "/nothing/"
 elif [ $COMMIT_STATUS -ne 0 ]
 then
     echo "<<< Unexpected error during commit. Aborting."
@@ -74,7 +74,7 @@ function tag {
         echo "Tag \"$TAG\" already existed. Continuing without tag"
         return 2
     else
-        git tag "$TAG" -m "$MESSAGE"
+        git tag -s "$TAG" -m "$MESSAGE"
         local TAG_STATUS=$?
         if [ $TAG_STATUS -ne 0 ]
         then
