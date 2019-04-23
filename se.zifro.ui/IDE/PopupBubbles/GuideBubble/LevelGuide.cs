@@ -27,7 +27,7 @@ namespace PM.Guide
 					int index = UISingleton.instance.guidePlayer.guideTargets.FindIndex(s => s.names.Contains(target));
 					if (index < 0)
 					{
-						throw new Exception("No selectable with name \"" + target + "\"!");
+						throw new InvalidOperationException("No selectable with name \"" + target + "\"!");
 					}
 
 					UISingleton.instance.guideBubble.ShowMessage(UISingleton.instance.guidePlayer.guideTargets[index]

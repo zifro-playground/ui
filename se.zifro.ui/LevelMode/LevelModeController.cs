@@ -39,7 +39,7 @@ namespace PM
 		public void InitSandboxMode()
 		{
 			levelMode = LevelMode.Sandbox;
-			LevelModeButtons.instance.SetSandboxButtonState(LevelModeButtonState.Active);
+			LevelModeButtons.instance.SetSandboxButtonState(LevelCaseState.Active);
 			LevelModeButtons.instance.SetCaseButtonsToDefault();
 
 			Main.instance.SetSettings();

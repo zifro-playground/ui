@@ -9,10 +9,10 @@ namespace PM
 	public class LevelModeButtons : MonoBehaviour
 	{
 		[FormerlySerializedAs("SandboxButton")]
-		public GameObject sandboxButton;
+		public LevelModeButton sandboxButton;
 
 		[FormerlySerializedAs("CaseButtons")]
-		public List<GameObject> caseButtons;
+		public List<LevelModeButton> caseButtons;
 
 		public static LevelModeButtons instance;
 
@@ -28,35 +28,35 @@ namespace PM
 		{
 			if (Main.instance.levelDefinition.sandbox != null)
 			{
-				sandboxButton.SetActive(true);
+				sandboxButton.gameObject.SetActive(true);
 			}
 			else
 			{
-				sandboxButton.SetActive(false);
+				sandboxButton.gameObject.SetActive(false);
 			}
 
 			SetCaseButtonsToDefault();
 		}
 
-		public void SetCurrentCaseButtonState(LevelModeButtonState state)
+		public void SetCurrentCaseButtonState(LevelCaseState state)
 		{
 			int caseNumber = Main.instance.caseHandler.currentCase;
 
-			if (state == LevelModeButtonState.Default)
+			if (state == LevelCaseState.Default)
 			{
-				caseButtons[caseNumber].GetComponent<LevelModeButton>().SetButtonDefault();
+				caseButtons[caseNumber].SetButtonDefault();
 			}
-			else if (state == LevelModeButtonState.Active)
+			else if (state == LevelCaseState.Active)
 			{
-				caseButtons[caseNumber].GetComponent<LevelModeButton>().SetButtonActive();
+				caseButtons[caseNumber].SetButtonActive();
 			}
-			else if (state == LevelModeButtonState.Completed)
+			else if (state == LevelCaseState.Completed)
 			{
-				caseButtons[caseNumber].GetComponent<LevelModeButton>().SetButtonCompleted();
+				caseButtons[caseNumber].SetButtonCompleted();
 			}
-			else if (state == LevelModeButtonState.Failed)
+			else if (state == LevelCaseState.Failed)
 			{
-				caseButtons[caseNumber].GetComponent<LevelModeButton>().SetButtonFailed();
+				caseButtons[caseNumber].SetButtonFailed();
 			}
 		}
 
@@ -78,45 +78,45 @@ namespace PM
 			for (int i = 0; i < caseButtons.Count; i++)
 			{
 				// Don't show buttons if there is only one case except if there is a sandbox before
-				if (i < numberOfCases && (numberOfCases > 1 || sandboxButton.activeInHierarchy))
+				if (i < numberOfCases && (numberOfCases > 1 || sandboxButton.gameObject.activeSelf))
 				{
-					caseButtons[i].SetActive(true);
-					caseButtons[i].GetComponent<LevelModeButton>().SetButtonDefault();
+					caseButtons[i].gameObject.SetActive(true);
+					caseButtons[i].SetButtonDefault();
 				}
 				else
 				{
-					caseButtons[i].SetActive(false);
+					caseButtons[i].gameObject.SetActive(false);
 				}
 			}
 		}
 
 		public void SetSandboxButtonToDefault()
 		{
-			sandboxButton.GetComponent<LevelModeButton>().SetButtonDefault();
+			sandboxButton.SetButtonDefault();
 		}
 
-		public void SetSandboxButtonState(LevelModeButtonState state)
+		public void SetSandboxButtonState(LevelCaseState state)
 		{
-			if (state == LevelModeButtonState.Default)
+			if (state == LevelCaseState.Default)
 			{
-				sandboxButton.GetComponent<LevelModeButton>().SetButtonDefault();
+				sandboxButton.SetButtonDefault();
 			}
-			else if (state == LevelModeButtonState.Active)
+			else if (state == LevelCaseState.Active)
 			{
-				sandboxButton.GetComponent<LevelModeButton>().SetButtonActive();
+				sandboxButton.SetButtonActive();
 			}
-			else if (state == LevelModeButtonState.Completed)
+			else if (state == LevelCaseState.Completed)
 			{
-				sandboxButton.GetComponent<LevelModeButton>().SetButtonCompleted();
+				sandboxButton.SetButtonCompleted();
 			}
-			else if (state == LevelModeButtonState.Failed)
+			else if (state == LevelCaseState.Failed)
 			{
-				sandboxButton.GetComponent<LevelModeButton>().SetButtonFailed();
+				sandboxButton.SetButtonFailed();
 			}
 		}
 	}
 
-	public enum LevelModeButtonState
+	public enum LevelCaseState
 	{
 		Default,
 		Active,

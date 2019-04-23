@@ -32,7 +32,7 @@ public class LevelSettings
 	public string startCode { get; set; }
 
 	/// <summary>
-	/// Example of sultion code for current level. Precode is excluded.
+	/// Example of solution code for current level. Precode is excluded.
 	/// </summary>
 	public string exampleSolutionCode { get; set; }
 

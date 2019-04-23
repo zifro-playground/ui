@@ -12,6 +12,7 @@ namespace PM
 
 		public bool allCasesCompleted;
 		public int currentCase = 0;
+		public bool autoContinueTest = true;
 
 		public CaseHandler(int numOfCases)
 		{
@@ -42,7 +43,7 @@ namespace PM
 			}
 
 			// currentCaseButtonPressed
-			LevelModeButtons.instance.SetCurrentCaseButtonState(LevelModeButtonState.Active);
+			LevelModeButtons.instance.SetCurrentCaseButtonState(LevelCaseState.Active);
 
 			LevelModeController.instance.SwitchToCaseMode();
 
@@ -78,7 +79,7 @@ namespace PM
 		public void CaseFailed()
 		{
 			isCasesRunning = false;
-			LevelModeButtons.instance.SetCurrentCaseButtonState(LevelModeButtonState.Failed);
+			LevelModeButtons.instance.SetCurrentCaseButtonState(LevelCaseState.Failed);
 		}
 
 		private IEnumerator ShowFeedbackAndRunNextCase()
@@ -99,20 +100,23 @@ namespace PM
 
 			UISingleton.instance.answerBubble.HideMessage();
 			UISingleton.instance.taskDescription.HideTaskFeedback();
-			LevelModeButtons.instance.SetCurrentCaseButtonState(LevelModeButtonState.Completed);
+			LevelModeButtons.instance.SetCurrentCaseButtonState(LevelCaseState.Completed);
 
-			currentCase++;
-
-			if (currentCase >= numberOfCases)
+			if (autoContinueTest)
 			{
-				isCasesRunning = false;
-				allCasesCompleted = true;
-				PMWrapper.SetLevelCompleted();
-				yield break;
-			}
+				currentCase++;
 
-			SetCurrentCase(currentCase);
-			RunCase(currentCase);
+				if (currentCase >= numberOfCases)
+				{
+					isCasesRunning = false;
+					allCasesCompleted = true;
+					PMWrapper.SetLevelCompleted();
+					yield break;
+				}
+
+				SetCurrentCase(currentCase);
+				RunCase(currentCase);
+			}
 		}
 	}
 }
