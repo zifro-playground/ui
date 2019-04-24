@@ -28,6 +28,7 @@ namespace ZifroPlaygroundTests.PlayMode
 				new LoadSceneParameters(LoadSceneMode.Additive, LocalPhysicsMode.Physics3D));
 			Assert.True(loadedScene.IsValid());
 			yield return null;
+			Assert.True(SceneManager.SetActiveScene(loadedScene));
 
 			if (Main.instance == null)
 			{
