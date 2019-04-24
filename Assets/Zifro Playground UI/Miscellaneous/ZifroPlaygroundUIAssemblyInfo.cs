@@ -1,7 +1,6 @@
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using UnityEditor;
 using UnityEngine;
 
 [assembly: AssemblyVersion("2.3.2")]
