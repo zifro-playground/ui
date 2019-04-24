@@ -84,7 +84,7 @@ jobs:
           when: always
           command: $SCRIPTS/slack_notify_testrunner.sh
 
-  deploy-github:
+  deploy-github-upm:
     working_directory: ~/repo
     
     environment:
@@ -173,7 +173,7 @@ workflows:
             branches:
               <<: *WORKFLOW_BUILD_TEST_DEPLOY_FILTER
 
-      - deploy-github:
+      - deploy-github-upm:
           requires:
             - build-test
             
