@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using UnityEditor.AnimatedValues;
 
 namespace PM.Editor
 {
@@ -15,11 +16,17 @@ namespace PM.Editor
 	{
 		System.Version newVersion;
 		AssemblyInfo assemblyInfo;
+		AnimBool animBoolExtraAssembliesProperty;
+		AnimBool animBoolEditProjectSettings;
 
 		void OnEnable()
 		{
 			assemblyInfo = (AssemblyInfo)target;
 			newVersion = assemblyInfo.GetAssemblyName().Version;
+			animBoolExtraAssembliesProperty = new AnimBool(assemblyInfo.canEditMultipleScriptFiles);
+			animBoolExtraAssembliesProperty.valueChanged.AddListener(Repaint);
+			animBoolEditProjectSettings = new AnimBool(assemblyInfo.updatesProjectVersion);
+			animBoolEditProjectSettings.valueChanged.AddListener(Repaint);
 		}
 
 		public override void OnInspectorGUI()
@@ -62,6 +69,15 @@ namespace PM.Editor
 			    !VersionsEquals(version, assemblyName.Version))
 			{
 				OverwriteAssemblyVersion(assemblyInfo, version);
+				if (assemblyInfo.canEditMultipleScriptFiles &&
+				    assemblyInfo.alsoEditsAssemblyInfos != null)
+				{
+					foreach (MonoScript otherAssemblyInfo in assemblyInfo.alsoEditsAssemblyInfos)
+					{
+						OverwriteAssemblyVersion(otherAssemblyInfo, version);
+					}
+				}
+
 				newVersion = version;
 
 				if (assemblyInfo.updatesProjectVersion)
@@ -78,20 +94,39 @@ namespace PM.Editor
 			}
 
 			EditorGUILayout.Space();
+			EditorGUILayout.HelpBox("Changing above version will recompile source.", MessageType.Warning);
+
+			EditorGUILayout.Space();
+
 			SerializedProperty updatesProjectVersion =
 				serializedObject.FindProperty(nameof(AssemblyInfo.updatesProjectVersion));
-			EditorGUILayout.PropertyField(updatesProjectVersion);
-			serializedObject.ApplyModifiedProperties();
+			EditorGUILayout.PropertyField(updatesProjectVersion, true);
 
-			if (assemblyInfo.updatesProjectVersion)
+			animBoolEditProjectSettings.target = updatesProjectVersion.boolValue;
+			if (EditorGUILayout.BeginFadeGroup(animBoolEditProjectSettings.faded))
 			{
 				GUI.enabled = false;
 				EditorGUILayout.TextField("Project Version", Application.version);
 				GUI.enabled = true;
 			}
+			EditorGUILayout.EndFadeGroup();
 
 			EditorGUILayout.Space();
-			EditorGUILayout.HelpBox("Changing above version will recompile source.", MessageType.Warning);
+
+			SerializedProperty editsOtherScripts =
+				serializedObject.FindProperty(nameof(AssemblyInfo.canEditMultipleScriptFiles));
+			EditorGUILayout.PropertyField(editsOtherScripts, true);
+
+			animBoolExtraAssembliesProperty.target = editsOtherScripts.boolValue;
+			if (EditorGUILayout.BeginFadeGroup(animBoolExtraAssembliesProperty.faded))
+			{
+				SerializedProperty otherScripts =
+					serializedObject.FindProperty(nameof(AssemblyInfo.alsoEditsAssemblyInfos));
+				EditorGUILayout.PropertyField(otherScripts, true);
+			}
+			EditorGUILayout.EndFadeGroup();
+
+			serializedObject.ApplyModifiedProperties();
 		}
 
 		static bool VersionsEquals(System.Version a, System.Version b, int fieldCount = 3)
@@ -142,6 +177,11 @@ namespace PM.Editor
 		static void OverwriteAssemblyVersion(MonoBehaviour assemblyInfo, System.Version newVersion)
 		{
 			var monoScript = MonoScript.FromMonoBehaviour(assemblyInfo);
+			OverwriteAssemblyVersion(monoScript, newVersion);
+		}
+
+		static void OverwriteAssemblyVersion(MonoScript monoScript, System.Version newVersion)
+		{
 			string path = AssetDatabase.GetAssetPath(monoScript);
 
 			string script = File.ReadAllText(path);

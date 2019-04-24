@@ -330,8 +330,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1999849705605689993}
   m_HandleRect: {fileID: 1822030126471635413}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.99999976
+  m_Value: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1819,7 +1819,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1821918490404163293}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.9999998
+  m_Size: 0.9999996
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1933,7 +1933,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: 0.000091552734}
+  m_AnchoredPosition: {x: 0.000061035156, y: -0.0001373291}
   m_SizeDelta: {x: -9.999908, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1896432302460470067
@@ -7522,7 +7522,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -5, y: 0.000091552734}
+  m_AnchoredPosition: {x: -5, y: -0.00016784668}
   m_SizeDelta: {x: -30, y: 75}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2004078401995666691
@@ -10064,6 +10064,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   updatesProjectVersion: 1
+  canEditMultipleScriptFiles: 1
+  alsoEditsAssemblyInfos:
+  - {fileID: 11500000, guid: 19f621796737b734ca243a04a99cd6bf, type: 3}
+  - {fileID: 11500000, guid: 60e55ccde1aa9f14fac0ef67a8475bd0, type: 3}
+  - {fileID: 11500000, guid: 82d0840ceb06d5b45b718a4b700ae389, type: 3}
 --- !u!114 &3132615145950259586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10077,6 +10082,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   updatesProjectVersion: 0
+  canEditMultipleScriptFiles: 0
+  alsoEditsAssemblyInfos: []
 --- !u!114 &6367397330140364595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10090,6 +10097,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   updatesProjectVersion: 0
+  canEditMultipleScriptFiles: 0
+  alsoEditsAssemblyInfos: []
 --- !u!1 &1897138737693992323
 GameObject:
   m_ObjectHideFlags: 0
@@ -11210,7 +11219,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1822645811198341291}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.99999994
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

@@ -9,6 +9,7 @@ namespace PM
 	public abstract class AssemblyInfo : MonoBehaviour
 	{
 		public bool updatesProjectVersion;
+		public bool canEditMultipleScriptFiles;
 
 		public AssemblyName GetAssemblyName()
 		{
@@ -21,5 +22,7 @@ namespace PM
 		}
 
 		public virtual bool canBeEdited => false;
+
+		public MonoScript[] alsoEditsAssemblyInfos;
 	}
 }
