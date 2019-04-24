@@ -1,7 +1,9 @@
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace PM
@@ -23,6 +25,8 @@ namespace PM
 
 		public virtual bool canBeEdited => false;
 
+#if UNITY_EDITOR
 		public MonoScript[] alsoEditsAssemblyInfos;
+#endif
 	}
 }
