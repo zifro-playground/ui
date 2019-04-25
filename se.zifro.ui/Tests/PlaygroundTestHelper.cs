@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using NUnit.Framework;
 using PM;
@@ -22,30 +23,29 @@ namespace ZifroPlaygroundTests
 		/// }
 		/// </example>
 		/// </summary>
-		public static IEnumerator RunCaseAndAssert(LevelTestData data)
+		public static IEnumerator RunCaseAndAssert(LevelTestData data, int timeoutMilliseconds = 20_000)
 		{
 			int caseIndex = PMWrapper.currentCase;
 			Assert.AreEqual(LevelCaseState.Active, PMWrapper.caseStates[caseIndex],
-				"Case was not marked as Active in {0}", data);
+				"Case {0} was not marked as Active in {1}", caseIndex + 1, data);
 
 			PMWrapper.StartCompiler();
-			for (int i = 0; i < 20; i++)
-			{
-				yield return new WaitForSeconds(1);
-				if (!PMWrapper.isCompilerRunning)
-				{
-					break;
-				}
-			}
+			
+			var watch = Stopwatch.StartNew();
 
-			if (PMWrapper.isCompilerRunning)
+			while (PMWrapper.isCompilerRunning)
 			{
-				Assert.Fail("Compiler execution timeout! Compiler took too long to complete case {0} in {1}.",
-					PMWrapper.currentCase + 1, data);
+				if (watch.ElapsedMilliseconds > timeoutMilliseconds)
+				{
+					Assert.Fail("Compiler execution timeout! Compiler took too long to complete case {0} in {1}.",
+						PMWrapper.currentCase + 1, data);
+				}
+
+				yield return null;
 			}
 
 			Assert.AreEqual(LevelCaseState.Completed, PMWrapper.caseStates[caseIndex],
-				"Case did not get marked Completed in {0}", data);
+				"Case {0} did not get marked Completed in {1}", caseIndex + 1, data);
 			yield return null;
 		}
 

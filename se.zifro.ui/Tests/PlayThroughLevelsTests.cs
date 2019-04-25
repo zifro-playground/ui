@@ -133,8 +133,14 @@ namespace ZifroPlaygroundTests.PlayMode
 			yield return null;
 			PMWrapper.SwitchCase(data.caseIndex);
 			yield return null;
+			var postSceneLoad = PostSceneLoad();
+			while (postSceneLoad != null && postSceneLoad.MoveNext())
+			{
+				yield return postSceneLoad.Current;
+			}
+			yield return null;
 
-			PMWrapper.speedMultiplier = 1;
+            PMWrapper.speedMultiplier = 1;
 
 			// Act
 			if (!string.IsNullOrWhiteSpace(data.levelData.levelSettings.exampleSolutionCode))
@@ -174,8 +180,15 @@ namespace ZifroPlaygroundTests.PlayMode
 			Main.instance.ignorePlayingGuides = true;
 			Main.instance.StartGame(data.levelIndex);
 			yield return null;
+            PMWrapper.speedMultiplier = 1;
 
-			PMWrapper.speedMultiplier = 1;
+			var postSceneLoad = PostSceneLoad();
+			while (postSceneLoad != null && postSceneLoad.MoveNext())
+			{
+				yield return postSceneLoad.Current;
+			}
+			yield return null;
+
 
 			// Act
 			if (!string.IsNullOrWhiteSpace(data.levelData.levelSettings?.exampleSolutionCode))
@@ -233,6 +246,15 @@ namespace ZifroPlaygroundTests.PlayMode
 			foreach (LevelTestData data in game)
 			{
 				Main.instance.StartLevel(data.levelIndex);
+				PMWrapper.currentLevelIndex = data.levelIndex;
+
+				yield return null;
+				var postSceneLoad = PostSceneLoad();
+				while (postSceneLoad != null && postSceneLoad.MoveNext())
+				{
+					yield return postSceneLoad.Current;
+				}
+				yield return null;
 
 				if (!string.IsNullOrWhiteSpace(data.levelData.levelSettings?.exampleSolutionCode))
 				{
@@ -265,6 +287,15 @@ namespace ZifroPlaygroundTests.PlayMode
 			}
 
 			// Asserting is done by assuming no exceptions & no error logs
+		}
+
+		/// <summary>
+        /// Is called just after each scene is loaded in each test among
+        /// <see cref="TestPlayCase"/>, <see cref="TestPlayLevel"/>, <see cref="TestPlayGuidesInLevel"/>, and <see cref="TestPlayWholeGame()"/>
+        /// </summary>
+		protected virtual IEnumerator PostSceneLoad()
+		{
+			return null;
 		}
 
 	}
