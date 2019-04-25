@@ -219,6 +219,11 @@ namespace PM
 
 				compiledCode.WalkLine();
 
+				if (compiledCode == null)
+				{
+					return;
+				}
+
 				if (!compiledCode.CurrentSource.IsFromClr)
 				{
 					lastLineNumber = compiledCode.CurrentSource.FromRow;
@@ -237,7 +242,9 @@ namespace PM
 			}
 			catch (Exception e)
 			{
-				if (!compiledCode.CurrentSource.IsFromClr)
+				Debug.LogException(e);
+
+				if (compiledCode != null && !compiledCode.CurrentSource.IsFromClr)
 				{
 					lastLineNumber = compiledCode.CurrentSource.FromRow;
 					IDELineMarker.SetWalkerPosition(currentLineNumber);
