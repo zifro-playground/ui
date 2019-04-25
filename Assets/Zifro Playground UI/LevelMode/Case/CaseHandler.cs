@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections;
-using System.Linq;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace PM
 {
 	public class CaseHandler
 	{
-		public bool isCasesRunning;
-		public int numberOfCases = 1;
+		public readonly int numberOfCases;
 
 		public bool allCasesCompleted;
-		public int currentCase = 0;
 		public bool autoContinueTest = true;
+		public int currentCase;
+		public bool isCasesRunning;
 
 		public CaseHandler(int numOfCases)
 		{
@@ -74,6 +72,7 @@ namespace PM
 			PMWrapper.StopCompiler();
 
 			Main.instance.StartCoroutine(ShowFeedbackAndRunNextCase());
+			LevelModeButtons.instance.SetCurrentCaseButtonState(LevelCaseState.Completed);
 		}
 
 		public void CaseFailed()
@@ -82,7 +81,7 @@ namespace PM
 			LevelModeButtons.instance.SetCurrentCaseButtonState(LevelCaseState.Failed);
 		}
 
-		private IEnumerator ShowFeedbackAndRunNextCase()
+		IEnumerator ShowFeedbackAndRunNextCase()
 		{
 			string positiveMassage;
 			if (numberOfCases == 1)
@@ -100,7 +99,6 @@ namespace PM
 
 			UISingleton.instance.answerBubble.HideMessage();
 			UISingleton.instance.taskDescription.HideTaskFeedback();
-			LevelModeButtons.instance.SetCurrentCaseButtonState(LevelCaseState.Completed);
 
 			if (autoContinueTest)
 			{
