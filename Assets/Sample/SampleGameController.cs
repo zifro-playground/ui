@@ -3,18 +3,13 @@ using UnityEngine;
 
 namespace Sample
 {
-	public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched, IPMWrongAnswer, IPMCorrectAnswer,
+	public class SampleGameController : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched, IPMWrongAnswer, IPMCorrectAnswer,
 		IPMTimeToCorrectCase
 	{
-		static TestScript()
+		void OnEnable()
 		{
 			Main.RegisterFunction(new CustomFunction());
 			Main.RegisterLevelDefinitionContract<CustomLevelDefinition>();
-		}
-
-		void Start()
-		{
-			PMWrapper.SetCaseAnswer(1);
 		}
 
 		void Update()
@@ -31,8 +26,8 @@ namespace Sample
 
 		public void OnPMCaseSwitched(int caseNumber)
 		{
-			//if (caseNumber == 0)
-			//	PMWrapper.SetCaseAnswer(1);
+			PMWrapper.preCode = $"case = {caseNumber + 1}";
+			PMWrapper.SetCaseAnswer(caseNumber + 1);
 		}
 
 		public void OnPMWrongAnswer(string answer)

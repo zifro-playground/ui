@@ -6,8 +6,7 @@ namespace Sample
 {
 	public class CustomFunction : ClrFunction
 	{
-		public CustomFunction()
-			: base("AnpassadFunktion")
+		public CustomFunction() : base("AnpassadFunktion")
 		{
 		}
 
@@ -15,7 +14,7 @@ namespace Sample
 		{
 			Debug.Log("Hej! Nu kör jag den anpassade funktionen.");
 
-			return Processor.Factory.Null;
+			return Processor.Factory.Create(Random.value);
 		}
 	}
 }
