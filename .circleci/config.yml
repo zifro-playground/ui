@@ -34,6 +34,10 @@ jobs:
           command: chmod +x $SCRIPTS/**.sh -v
 
       - run:
+          name: Get commit range
+          command: $SCRIPTS/get_commit_range.sh
+
+      - run:
           name: Setup Unity license
           command: $SCRIPTS/unity_login.sh
       
@@ -102,6 +106,10 @@ jobs:
           command: chmod +x $SCRIPTS/**.sh -v
 
       - run:
+          name: Get commit range
+          command: $SCRIPTS/get_commit_range.sh
+
+      - run:
           name: Add GPG login to git
           command: $SCRIPTS/git_login.sh
 
@@ -125,6 +133,38 @@ jobs:
 
             # Save to environment
             echo "PLAYGROUND_UI_VERSION='$PLAYGROUND_UI_VERSION'" >> $BASH_ENV
+            
+      - run:
+          name: Cancel if tag already exists
+          command: |
+            PROJECT_VERSION="${PLAYGROUND_UI_VERSION?}"
+
+            if ! [ "$PROJECT_VERSION" ]
+            then
+                echo "No project version. Aborting."
+                exit 1
+            fi
+
+            TAG="v$PROJECT_VERSION"
+
+            if [ "$(git tag -l "$TAG")" ]
+            then
+                echo "Tag \"$TAG\" already exists. Aborting."
+
+                : ${CIRCLE_BUILD_NUM?}
+                : ${CIRCLE_API_KEY?}
+                : ${CIRCLE_BUILD_URL?}
+                : ${CIRCLE_PROJECT_USERNAME?}
+                : ${CIRCLE_PROJECT_REPONAME?}
+
+                $SCRIPTS/slack_deploy_no_new_tag.sh
+                curl -X POST -u "$CIRCLE_API_KEY:" https://circleci.com/api/v1.1/project/github/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM/cancel
+
+                # Sleep to await the cancel
+                sleep 10s
+            else
+                echo "Tag \"$TAG\" does not exist. Free to go!"
+            fi
 
       - run:
           name: Prepare files for deployment

@@ -11,6 +11,38 @@ namespace ZifroPlaygroundTests
 	public static class PlaygroundTestHelper
 	{
 		/// <summary>
+		/// Runs the code in the code window and asserts that the compiler does not take too long.
+		/// <para>Note: Do not yield the direct return value of this method.
+		/// Save it to a variable and iterate it manually and yield the current value <see cref="IEnumerator.Current"/>
+		/// on the <see cref="IEnumerator"/></para>
+		/// <example>
+		/// IEnumerator coroutine = PlaygroundTestHelper.RunCaseAndAssert(data);
+		///	while (coroutine.MoveNext())
+		/// {
+		///		yield return coroutine.Current;
+		/// }
+		/// </example>
+		/// </summary>
+		public static IEnumerator RunCompilerWithTimeout(int timeoutMilliseconds, string messageFormat = null, params object[] args)
+		{
+			PMWrapper.StartCompiler();
+
+			var watch = Stopwatch.StartNew();
+
+			while (PMWrapper.isCompilerRunning)
+			{
+				if (watch.ElapsedMilliseconds > timeoutMilliseconds)
+				{
+					Assert.Fail(messageFormat != null
+						? "Compiler execution timeout! " + messageFormat
+						: "Compiler execution timeout!", args);
+				}
+
+				yield return null;
+			}
+		}
+
+		/// <summary>
 		/// Runs the code in the code window and asserts a successful outcome for the case.
 		/// <para>Note: Do not yield the direct return value of this method.
 		/// Save it to a variable and iterate it manually and yield the current value <see cref="IEnumerator.Current"/>
@@ -29,19 +61,12 @@ namespace ZifroPlaygroundTests
 			Assert.AreEqual(LevelCaseState.Active, PMWrapper.caseStates[caseIndex],
 				"Case {0} was not marked as Active in {1}", caseIndex + 1, data);
 
-			PMWrapper.StartCompiler();
-			
-			var watch = Stopwatch.StartNew();
+			IEnumerator coroutine = RunCompilerWithTimeout(timeoutMilliseconds, "Compiler took too long to complete case {0} in {1}.",
+				PMWrapper.currentCase + 1, data);
 
-			while (PMWrapper.isCompilerRunning)
+			while (coroutine.MoveNext())
 			{
-				if (watch.ElapsedMilliseconds > timeoutMilliseconds)
-				{
-					Assert.Fail("Compiler execution timeout! Compiler took too long to complete case {0} in {1}.",
-						PMWrapper.currentCase + 1, data);
-				}
-
-				yield return null;
+				yield return coroutine.Current;
 			}
 
 			Assert.AreEqual(LevelCaseState.Completed, PMWrapper.caseStates[caseIndex],

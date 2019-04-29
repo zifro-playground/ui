@@ -1,0 +1,15 @@
+{
+    "name": "SampleNoLevels",
+    "references": [
+        "ZifroPlayground.UI",
+        "Sample"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

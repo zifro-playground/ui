@@ -27,9 +27,13 @@ namespace PM
 			{
 				UISingleton.instance.walker.SetWalkerUserPaused(!PMWrapper.isCompilerUserPaused);
 			}
+			else if (LevelModeController.instance)
+			{
+				LevelModeController.instance.RunAllCasesOrSandbox();
+			}
 			else
 			{
-				PMWrapper.RunCode();
+				PMWrapper.StartCompiler();
 			}
 		}
 

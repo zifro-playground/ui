@@ -162,14 +162,6 @@ public static class PMWrapper
 	}
 
 	/// <summary>
-	/// Starts case 0 and starts compiler. Will run all test cases if possible
-	/// </summary>
-	public static void RunCode()
-	{
-		LevelModeController.instance.RunProgram();
-	}
-
-	/// <summary>
 	/// Stops the compiler if it's currently running. Static wrapper for <see cref="HelloCompiler.StopCompiler(StopStatus)"/> with the argument <seealso cref="StopStatus.CodeForced"/>
 	/// </summary>
 	public static void StopCompiler()
