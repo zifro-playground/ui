@@ -63,7 +63,7 @@ namespace PM.Editor
 
 			GUI.enabled = enabled;
 
-			string input = EditorGUILayout.TextField("Assembly Version", versionString);
+			string input = EditorGUILayout.DelayedTextField("Assembly Version", versionString);
 
 			if (System.Version.TryParse(input, out System.Version version) &&
 			    !VersionsEquals(version, assemblyName.Version))

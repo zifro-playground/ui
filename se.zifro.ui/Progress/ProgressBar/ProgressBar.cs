@@ -52,6 +52,12 @@ namespace PM
 		private void Awake()
 		{
 			current = -1;
+
+			// Remove all samples at start
+			foreach (Button child in GetComponentsInChildren<Button>().Except(levels))
+			{
+				Destroy(child.gameObject);
+			}
 		}
 
 		public void RecreateButtons(int numOfLevels, int current = 0, int unlocked = 0)
