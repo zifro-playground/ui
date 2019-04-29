@@ -22,6 +22,7 @@ namespace Sample
 
 		public void OnPMLevelChanged()
 		{
+			Debug.Log("Hej värld!");
 		}
 
 		public void OnPMCaseSwitched(int caseNumber)
