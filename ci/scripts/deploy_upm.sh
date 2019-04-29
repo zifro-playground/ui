@@ -13,11 +13,19 @@ deploy=${2?Local deployment folder required.}
 : ${CIRCLE_PROJECT_USERNAME?}
 : ${CIRCLE_PROJECT_REPONAME?}
 : ${CIRCLE_SHA1?}
+: ${COMMIT_RANGE:=$CIRCLE_SHA1}
 
-# Reading most recent commit
+# Reading changelogs
 cd $repo
-echo "Fetching latest commit message from '$repo'"
-latestCommit="$(git --no-pager log --pretty='%h %B' -n 1)"
+echo "Fetching changelog from '$repo'"
+echo "Referencing range '$COMMIT_RANGE'"
+
+changeset="$(git diff --shortstat $COMMIT_RANGE)"
+echo "Changeset: $changeset"
+# using tac to get youngest commit first
+changelog="$(git --no-pager log --oneline $COMMIT_RANGE | tac)"
+echo "Changelog:"
+echo "$changelog"
 echo
 
 # Commit
@@ -36,8 +44,8 @@ set +e
 git commit -m ":heavy_check_mark: [CircleCI] Playground UI v$PLAYGROUND_UI_VERSION
 This commit was created autonomously by a script in the CircleCI workflow.
 
-Latest commit:
-$latestCommit
+Changelog:
+$changelog
 
 :shipit: $CIRCLE_BUILD_URL
 :octocat: https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$CIRCLE_SHA1"
@@ -96,8 +104,8 @@ TAG_COUNT=$((0))
 tagMessage="Playground UI v$PLAYGROUND_UI_VERSION
 This tag was created autonomously by a script in the CircleCI workflow.
 
-Latest commit:
-$latestCommit
+Changelog:
+$changelog
 
 :shipit: $CIRCLE_BUILD_URL
 :octocat: https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$CIRCLE_SHA1"
