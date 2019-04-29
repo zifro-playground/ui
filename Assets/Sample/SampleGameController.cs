@@ -27,8 +27,7 @@ namespace Sample
 
 		public void OnPMCaseSwitched(int caseNumber)
 		{
-			PMWrapper.preCode = $"case = {caseNumber + 1}";
-			PMWrapper.SetCaseAnswer(caseNumber + 1);
+			PMWrapper.SetCaseAnswer(1);
 		}
 
 		public void OnPMWrongAnswer(string answer)
