@@ -70,6 +70,7 @@ namespace SampleNoLevels.Tests
 
 			// Assert
 			LogAssert.Expect(LogType.Exception, new Regex(".*RuntimeVariableNotDefinedException.*"));
+			LogAssert.Expect(LogType.Exception, new Regex(".*PMRuntimeException.*"));
 		}
 	}
 }
