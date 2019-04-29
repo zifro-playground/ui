@@ -1,52 +1,53 @@
-﻿using System;
-using System.Globalization;
-using PM;
+﻿using PM;
 using UnityEngine;
 
-public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched, IPMWrongAnswer, IPMCorrectAnswer,
-	IPMTimeToCorrectCase
+namespace Sample
 {
-	static TestScript()
+	public class TestScript : MonoBehaviour, IPMLevelChanged, IPMCaseSwitched, IPMWrongAnswer, IPMCorrectAnswer,
+		IPMTimeToCorrectCase
 	{
-		Main.RegisterFunction(new CustomFunction());
-		Main.RegisterLevelDefinitionContract<CustomLevelDefinition>();
-	}
-
-	void Start()
-	{
-		PMWrapper.SetCaseAnswer(1);
-	}
-
-	void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.U))
+		static TestScript()
 		{
-			PMWrapper.RaiseTaskError("Nu glömde du att göra något...");
+			Main.RegisterFunction(new CustomFunction());
+			Main.RegisterLevelDefinitionContract<CustomLevelDefinition>();
 		}
-	}
 
-	public void OnPMLevelChanged()
-	{
-	}
+		void Start()
+		{
+			PMWrapper.SetCaseAnswer(1);
+		}
 
-	public void OnPMCaseSwitched(int caseNumber)
-	{
-		//if (caseNumber == 0)
-		//	PMWrapper.SetCaseAnswer(1);
-	}
+		void Update()
+		{
+			if (Input.GetKeyDown(KeyCode.U))
+			{
+				PMWrapper.RaiseTaskError("Nu glömde du att göra något...");
+			}
+		}
 
-	public void OnPMWrongAnswer(string answer)
-	{
-		PMWrapper.RaiseTaskError("\"" + answer + "\" är inte rätt svar");
-	}
+		public void OnPMLevelChanged()
+		{
+		}
 
-	public void OnPMCorrectAnswer(string answer)
-	{
-		PMWrapper.SetCaseCompleted();
-	}
+		public void OnPMCaseSwitched(int caseNumber)
+		{
+			//if (caseNumber == 0)
+			//	PMWrapper.SetCaseAnswer(1);
+		}
 
-	public void OnPMTimeToCorrectCase()
-	{
-		PMWrapper.SetCaseCompleted();
+		public void OnPMWrongAnswer(string answer)
+		{
+			PMWrapper.RaiseTaskError("\"" + answer + "\" är inte rätt svar");
+		}
+
+		public void OnPMCorrectAnswer(string answer)
+		{
+			PMWrapper.SetCaseCompleted();
+		}
+
+		public void OnPMTimeToCorrectCase()
+		{
+			PMWrapper.SetCaseCompleted();
+		}
 	}
 }
