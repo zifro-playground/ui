@@ -24,14 +24,15 @@ namespace PM.Guide
 				}
 				else
 				{
-					int index = UISingleton.instance.guidePlayer.guideTargets.FindIndex(s => s.names.Contains(target));
+					List<GuidePlayer.GuideTargets> guideTargets = UISingleton.instance.guidePlayer.guideTargets;
+
+					int index = guideTargets.FindIndex(s => s.names.Contains(target));
 					if (index < 0)
 					{
 						throw new InvalidOperationException("No selectable with name \"" + target + "\"!");
 					}
 
-					UISingleton.instance.guideBubble.ShowMessage(UISingleton.instance.guidePlayer.guideTargets[index]
-						.guideTargets);
+					UISingleton.instance.guideBubble.ShowMessage(guideTargets[index].guideTargets);
 				}
 
 				UISingleton.instance.guideBubble.SetGuideMessage(guides[currentGuideIndex].message, currentGuideIndex,

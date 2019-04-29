@@ -215,7 +215,10 @@ namespace PM
 
 		private void OnDestroy()
 		{
-			Destroy(tooltipRect.gameObject);
+			if (tooltipRect)
+			{
+				Destroy(tooltipRect.gameObject);
+			}
 			StopAllCoroutines();
 		}
 	}
