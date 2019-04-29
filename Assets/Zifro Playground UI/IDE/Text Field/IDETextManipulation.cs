@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace PM
 {
@@ -32,19 +30,10 @@ namespace PM
 			return c;
 		}
 
-		public static int CountCodeLines(List<string> textLines)
+		public static int CountCodeLines(IEnumerable<string> textLines)
 		{
-			int count = 0;
-			foreach (string line in textLines)
-			{
-				if (!string.IsNullOrWhiteSpace(line)
-				    && line.TrimStart()[0] != '#')
-				{
-					count++;
-				}
-			}
-
-			return count;
+			return textLines.Count(line => !string.IsNullOrWhiteSpace(line) &&
+			                               line.TrimStart()[0] != '#');
 		}
 
 		public static bool ValidateText(string fullText, int maxLines, int maxPerLine)
@@ -76,7 +65,7 @@ namespace PM
 			return true;
 		}
 
-		private static int LineSize(string lineText)
+		static int LineSize(string lineText)
 		{
 			int sizeCounter = 0;
 
@@ -96,8 +85,8 @@ namespace PM
 	public sealed class IndentLevel
 	{
 		public readonly int caretPos;
-		public readonly string indentText;
 		public readonly int indentLevel;
+		public readonly string indentText;
 
 		public IndentLevel(int caretPos, int indentLevel)
 		{
