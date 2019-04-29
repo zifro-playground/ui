@@ -35,14 +35,10 @@ namespace PM
 		public static int CountCodeLines(List<string> textLines)
 		{
 			int count = 0;
-			var regex = new Regex(@"^#|^\s*$|^\s*#");
 			foreach (string line in textLines)
 			{
-				line.Trim();
-				if (regex.Match(line).Success || line == "")
-				{
-				}
-				else
+				if (!string.IsNullOrWhiteSpace(line)
+				    && line.TrimStart()[0] != '#')
 				{
 					count++;
 				}
