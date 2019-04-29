@@ -4,7 +4,7 @@ using UnityEngine.TestTools;
 using ZifroPlaygroundTests;
 using ZifroPlaygroundTests.PlayMode;
 
-namespace Sample.Tests.PlayMode
+namespace Sample.Tests
 {
 	public class PlayThroughSample : PlayThroughLevelsTests
 	{
@@ -18,7 +18,7 @@ namespace Sample.Tests.PlayMode
 			return PlaygroundTestHelper.GetActiveLevels("game");
 		}
 
-		protected override string testingScenePath => "Assets/Sample.Tests.PlayMode/MainSceneForTesting.unity";
+		protected override string testingScenePath => "Assets/Sample.Tests/MainSceneForTesting.unity";
 
 		[UnityTest]
 		public override IEnumerator TestPlayWholeGame()

@@ -23,7 +23,7 @@ namespace PM
 			}
 		}
 
-		public void RunProgram()
+		public void RunAllCasesOrSandbox()
 		{
 			if (Main.instance.levelDefinition.sandbox != null)
 			{

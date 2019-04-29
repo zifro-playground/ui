@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace PM
 {
@@ -32,23 +30,10 @@ namespace PM
 			return c;
 		}
 
-		public static int CountCodeLines(List<string> textLines)
+		public static int CountCodeLines(IEnumerable<string> textLines)
 		{
-			int count = 0;
-			var regex = new Regex(@"^#|^\s*$|^\s*#");
-			foreach (string line in textLines)
-			{
-				line.Trim();
-				if (regex.Match(line).Success || line == "")
-				{
-				}
-				else
-				{
-					count++;
-				}
-			}
-
-			return count;
+			return textLines.Count(line => !string.IsNullOrWhiteSpace(line) &&
+			                               line.TrimStart()[0] != '#');
 		}
 
 		public static bool ValidateText(string fullText, int maxLines, int maxPerLine)
@@ -59,7 +44,10 @@ namespace PM
 			List<string> mainCodeTextLines = IDEParser.ParseIntoLines(fullText);
 			int mainCodeLineCount = CountCodeLines(mainCodeTextLines);
 
-			Progress.instance.levelData[PMWrapper.currentLevel.id].codeLineCount = mainCodeLineCount + preCodeLineCount;
+			if (Progress.instance)
+			{
+				Progress.instance.levelData[PMWrapper.currentLevel.id].codeLineCount = mainCodeLineCount + preCodeLineCount;
+			}
 			UISingleton.instance.rowsLimit.UpdateRowsLeft(mainCodeLineCount, maxLines);
 
 			if (mainCodeLineCount > maxLines)
@@ -80,7 +68,7 @@ namespace PM
 			return true;
 		}
 
-		private static int LineSize(string lineText)
+		static int LineSize(string lineText)
 		{
 			int sizeCounter = 0;
 
@@ -100,8 +88,8 @@ namespace PM
 	public sealed class IndentLevel
 	{
 		public readonly int caretPos;
-		public readonly string indentText;
 		public readonly int indentLevel;
+		public readonly string indentText;
 
 		public IndentLevel(int caretPos, int indentLevel)
 		{

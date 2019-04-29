@@ -90,7 +90,7 @@ namespace ZifroPlaygroundTests.PlayMode
 			yield return new WaitForSeconds(0.1f);
 
 			while (UISingleton.instance.guidePlayer.currentGuide?.hasNext == true ||
-			       UISingleton.instance.guideBubble.isShowing)
+				   UISingleton.instance.guideBubble.isShowing)
 			{
 				yield return new WaitForSeconds(0.1f);
 				if (UISingleton.instance.guideBubble.isShowing)
@@ -140,7 +140,7 @@ namespace ZifroPlaygroundTests.PlayMode
 			}
 			yield return null;
 
-            PMWrapper.speedMultiplier = 1;
+			PMWrapper.speedMultiplier = 1;
 
 			// Act
 			if (!string.IsNullOrWhiteSpace(data.levelData.levelSettings.exampleSolutionCode))
@@ -180,7 +180,7 @@ namespace ZifroPlaygroundTests.PlayMode
 			Main.instance.ignorePlayingGuides = true;
 			Main.instance.StartGame(data.levelIndex);
 			yield return null;
-            PMWrapper.speedMultiplier = 1;
+			PMWrapper.speedMultiplier = 1;
 
 			var postSceneLoad = PostSceneLoad();
 			while (postSceneLoad != null && postSceneLoad.MoveNext())
@@ -290,9 +290,9 @@ namespace ZifroPlaygroundTests.PlayMode
 		}
 
 		/// <summary>
-        /// Is called just after each scene is loaded in each test among
-        /// <see cref="TestPlayCase"/>, <see cref="TestPlayLevel"/>, <see cref="TestPlayGuidesInLevel"/>, and <see cref="TestPlayWholeGame()"/>
-        /// </summary>
+		/// Is called just after each scene is loaded in each test among
+		/// <see cref="TestPlayCase"/>, <see cref="TestPlayLevel"/>, <see cref="TestPlayGuidesInLevel"/>, and <see cref="TestPlayWholeGame()"/>
+		/// </summary>
 		protected virtual IEnumerator PostSceneLoad()
 		{
 			return null;
