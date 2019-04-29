@@ -44,7 +44,10 @@ namespace PM
 			List<string> mainCodeTextLines = IDEParser.ParseIntoLines(fullText);
 			int mainCodeLineCount = CountCodeLines(mainCodeTextLines);
 
-			Progress.instance.levelData[PMWrapper.currentLevel.id].codeLineCount = mainCodeLineCount + preCodeLineCount;
+			if (Progress.instance)
+			{
+				Progress.instance.levelData[PMWrapper.currentLevel.id].codeLineCount = mainCodeLineCount + preCodeLineCount;
+			}
 			UISingleton.instance.rowsLimit.UpdateRowsLeft(mainCodeLineCount, maxLines);
 
 			if (mainCodeLineCount > maxLines)

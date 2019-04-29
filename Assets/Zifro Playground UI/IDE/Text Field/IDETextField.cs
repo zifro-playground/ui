@@ -254,9 +254,12 @@ namespace PM
 			toAddLevels.Clear();
 		}
 
-		//Cheks if the current input will fit into the speciefied borders!
-		//Restricted by amount of rows in Y
-		//and by maxChars in X
+
+		/// <summary>
+		/// Checks if the current input will fit into the specified borders!
+		/// Restricted by amount of rows in Y
+		/// and by maxChars in X
+		/// </summary>
 		private void DoValidateInput()
 		{
 			if (IDETextManipulation.ValidateText(theInputField.text, codeRowsLimit, MAX_CHARS))
@@ -271,7 +274,10 @@ namespace PM
 				theInputField.caretPosition = lastCharInsertIndex;
 			}
 
-			Progress.instance.levelData[PMWrapper.currentLevel.id].mainCode = PMWrapper.mainCode;
+			if (Progress.instance)
+			{
+				Progress.instance.levelData[PMWrapper.currentLevel.id].mainCode = PMWrapper.mainCode;
+			}
 			FocusCursor();
 			theLineMarker.RemoveErrorMessage();
 		}
