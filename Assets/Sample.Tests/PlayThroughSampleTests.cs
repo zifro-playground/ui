@@ -4,7 +4,7 @@ using UnityEngine.TestTools;
 using ZifroPlaygroundTests;
 using ZifroPlaygroundTests.PlayMode;
 
-namespace Sample.Tests.PlayMode
+namespace Sample.Tests
 {
 	public class PlayThroughSample : PlayThroughLevelsTests
 	{
