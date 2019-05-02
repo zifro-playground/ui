@@ -45,12 +45,20 @@ steps:
 Gableroux on GitLab has a good tutorial. Follow it here to obtain a `.ulf` license file.  
 You can follow the instructions on here: <https://gitlab.com/gableroux/unity3d-gitlab-ci-example/tree/master#how-to-activate>
 
-With the `.ulf` downloaded, convert it to base64 and add it to the `UNITY_LICENSE_CONTENT_B64` environment key in the [env settings on CircleCI](https://circleci.com/gh/zardan/ui/edit#env-vars).
+With the `.ulf` downloaded, convert it to base64 and add it to the environment key in the [env settings on CircleCI](https://circleci.com/gh/zardan/ui/edit#env-vars). Useful bash command:
 
 ```sh
 $ base64 $UNITY_ULF_KEY_PATH | clip
-# paste into UNITY_LICENSE_CONTENT_B64 env var in circleci
+# paste into env var in circleci
 ```
+
+Follow these steps on the following docker images and add to the specified environment variables:
+
+| Docker image              | Environment key in CircleCI |
+| `zifrose/unity3d`         | `UNITY_LICENSE_B64` |
+
+:exclamation: **Note:** Unity license is bound to the machine ID.
+Make sure to add one for each docker image using Unity for every different image that are used in this repos.
 
 ## Add Slack webhook for notifications
 
