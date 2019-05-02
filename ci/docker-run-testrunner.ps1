@@ -23,8 +23,7 @@ param(
 
     # Docker image
     [string]
-    #$DockerImage = "applejag/ui-testrunner"
-    $DockerImage = "gableroux/unity3d:2018.3.11f1-unity"
+    $DockerImage = "zifrose/unity3d"
 )
 
 Write-Output "Using Unity license $UnityLicenseULF"
@@ -32,7 +31,7 @@ Write-Output "Using Docker image $DockerImage"
 Write-Output ""
 
 $UnityLicenseContent = Get-Content -Path $UnityLicenseULF -Raw
-$UnityLicenseBytes = [System.Text.Encoding]::Unicode.GetBytes($UnityLicenseContent)
+$UnityLicenseBytes = [System.Text.Encoding]::UTF8.GetBytes($UnityLicenseContent)
 $UnityLicenseB64 = [Convert]::ToBase64String($UnityLicenseBytes)
 
 $UnityID = Get-Credential -Message "Enter UnityID login"
@@ -42,8 +41,8 @@ docker run -it --rm `
     -e "UNITY_PASSWORD=$($UnityID.GetNetworkCredential().Password)" `
     -e "UNITY_LICENSE_CONTENT_B64=$UnityLicenseB64" `
     -e "TEST_PLATFORM=linux" `
-    -e "WORKDIR=/root/project" `
-    -v "$(Get-Location):/root/project"`
+    -e "WORKDIR=/root/repo" `
+    -v "$(Get-Location):/root/repo" `
     $DockerImage `
     '/bin/bash'
 

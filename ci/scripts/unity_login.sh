@@ -25,6 +25,6 @@ fi
 #     -username "$UNITY_USERNAME" \
 #     -password "$UNITY_PASSWORD" \
 #     -quit \
-#     -logfile
+#     -logfile ${LOG_FILE:-}
 
 exit

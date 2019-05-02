@@ -18,7 +18,7 @@ jobs:
       SCRIPTS: /root/repo/ci/scripts/
 
     docker:
-      - image: zifrose/ui-testrunner
+      - image: zifrose/unity3d:2019.1.0f2
         
     steps:
       - add_ssh_keys:
@@ -39,7 +39,7 @@ jobs:
 
       - run:
           name: Setup Unity license
-          command: $SCRIPTS/unity_login.sh
+          command: UNITY_LICENSE_CONTENT_B64="$UNITY_LICENSE_B64" $SCRIPTS/unity_login.sh
       
       - run:
           name: Update UPM dependencies & compile scripts
