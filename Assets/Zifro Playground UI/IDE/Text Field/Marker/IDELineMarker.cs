@@ -56,11 +56,12 @@ namespace PM
 		{
 			if (lineNumber < 0)
 			{
-				theMarkerRect.anchoredPosition = new Vector2(0, -5000);
+				theMarkerRect.gameObject.SetActive(false);
 			}
-			else //+20 on x to fix offset. Should possibly be changed in UI instead
+			else
 			{
-				theMarkerRect.anchoredPosition = new Vector2(20, theTextField.DetermineYOffset(lineNumber));
+				theMarkerRect.gameObject.SetActive(true);
+				theMarkerRect.anchoredPosition = new Vector2(0, theTextField.DetermineYOffset(lineNumber));
 			}
 		}
 
@@ -73,7 +74,6 @@ namespace PM
 			SetState(State.Error);
 
 			theErrorBubble.SetErrorMessage(message);
-			//UISingleton.instance.exceptionHandler.sendErrorToAnalytics (message);
 			throw new PMRuntimeException(message);
 		}
 
