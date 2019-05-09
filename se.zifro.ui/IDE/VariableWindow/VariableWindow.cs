@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using Mellis;
 using Mellis.Core.Interfaces;
-using Mellis.Lang.Base.Entities;
 
 namespace PM
 {
@@ -42,18 +42,18 @@ namespace PM
 
 			currentVariables.Clear();
 
-			foreach (IScriptType variable in processor.CurrentScope.Variables.Values)
+			foreach (KeyValuePair<string, IScriptType> variable in processor.CurrentScope.Variables)
 			{
 				VariableInWindow clone = Instantiate(variablePrefab, contentRect.transform, false);
 
-				string valueString = variable.ToString();
+				string valueString = variable.Value.ToString();
 
-				float width = CalcVariableWidth(Mathf.Max(variable.Name.Length, valueString.Length));
+				float width = CalcVariableWidth(Mathf.Max(variable.Key.Length, valueString.Length));
 				int maxChars = CalcNoCharacters(width);
 				clone.SetWidth(width);
 
-				ToStringAndCompressVariable(variable, valueString, maxChars, out valueString, out Color valueColor);
-				clone.InitVariable(variable.Name, nameTextColor, valueString, valueColor);
+				ToStringAndCompressVariable(variable.Value, valueString, maxChars, out valueString, out Color valueColor);
+				clone.InitVariable(variable.Key, nameTextColor, valueString, valueColor);
 
 				currentVariables.Add(clone);
 			}
@@ -99,23 +99,23 @@ namespace PM
 		{
 			switch (variable)
 			{
-			case BooleanBase _:
+			case IScriptBoolean _:
 				color = boolText;
 				text = CompressString(s, maxChars);
 				break;
 
-			case IntegerBase _:
-			case DoubleBase _:
+			case IScriptInteger _:
+			case IScriptDouble _:
 				color = numberText;
 				text = CompressString(s, maxChars, isNumberValue: true);
 				break;
 
-			case StringBase _:
+			case IScriptString _:
 				color = stringText;
 				text = CompressString(s, maxChars, isStringValue: true);
 				break;
 
-			case NullBase _:
+			case ScriptNull _:
 				color = nullText;
 				text = variable.ToString();
 				break;
