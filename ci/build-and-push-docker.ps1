@@ -22,7 +22,7 @@ param(
 
     # Unity version, also used as Docker image tag
     [string]
-    $UnityVersion = "2018.3.11f1"
+    $UnityVersion = "2019.1.1f1"
 )
 
 function GetBaseImage ([string] $Image, [string] $Version) {
