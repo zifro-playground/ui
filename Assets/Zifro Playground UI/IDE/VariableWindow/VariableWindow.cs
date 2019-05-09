@@ -46,7 +46,7 @@ namespace PM
 			{
 				VariableInWindow clone = Instantiate(variablePrefab, contentRect.transform, false);
 
-				string valueString = variable.ToString();
+				string valueString = variable.Value.ToString();
 
 				float width = CalcVariableWidth(Mathf.Max(variable.Key.Length, valueString.Length));
 				int maxChars = CalcNoCharacters(width);
