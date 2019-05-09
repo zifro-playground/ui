@@ -18,7 +18,7 @@ jobs:
       SCRIPTS: /root/repo/ci/scripts/
 
     docker:
-      - image: zifrose/unity3d:2019.1.1f2
+      - image: zifrose/unity3d:2019.1.1f1
         
     steps:
       - add_ssh_keys:
