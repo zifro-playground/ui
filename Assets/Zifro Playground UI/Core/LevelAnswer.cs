@@ -1,15 +1,15 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using Mellis.Core.Interfaces;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace PM
 {
 	public abstract class LevelAnswer
 	{
 		public bool compilerHasBeenStopped;
+
+		public abstract void CheckAnswer(IScriptType[] inputParams);
 
 		protected IEnumerator ShowAnswerBubble(string answer, bool correct)
 		{
@@ -47,22 +47,20 @@ namespace PM
 			}
 		}
 
-		private void AbortCase()
+		void AbortCase()
 		{
 			UISingleton.instance.answerBubble.HideMessage();
 			Main.instance.caseHandler.ResetHandlerAndButtons();
 		}
-
-		public abstract void CheckAnswer(IScriptType[] inputParams);
 	}
 
 	public class LevelAnswer<T> : LevelAnswer
 	{
-		private readonly T[] expectedInputs;
+		readonly T[] expectedInputs;
 
 		public LevelAnswer(params T[] expectedInputs)
 		{
-			Debug.LogFormat("Expecting answers: {0}", string.Join(", ", expectedInputs));
+			Debug.LogFormat("Expecting answers ({0}): {1}", typeof(T).Name, string.Join(", ", expectedInputs));
 			this.expectedInputs = expectedInputs;
 		}
 
@@ -94,38 +92,63 @@ namespace PM
 				IScriptType input = inputParams[i];
 				T expected = expectedInputs[i];
 
-				if (!input.TryConvert(out T actual))
+				if (typeof(T) == typeof(string))
 				{
-					if (typeof(T) == typeof(bool))
+					if (!(input is IScriptString actual))
 					{
 						PMWrapper.RaiseError($"Fel typ, svar nr {i + 1} ska vara True eller False.");
 					}
-					else if (typeof(T) == typeof(int))
+					else if (!expected.Equals(actual.Value))
+					{
+						correctAnswer = false;
+						break;
+					}
+				}
+				else if (typeof(T) == typeof(int))
+				{
+					if (!(input is IScriptInteger actual))
 					{
 						PMWrapper.RaiseError($"Fel typ, svar nr {i + 1} ska vara ett heltal.");
 					}
-					else if (typeof(T) == typeof(double))
+					else if (!expected.Equals(actual.Value))
+					{
+						correctAnswer = false;
+						break;
+					}
+				}
+				else if (typeof(T) == typeof(double))
+				{
+					if (!(input is IScriptDouble actual))
 					{
 						PMWrapper.RaiseError($"Fel typ, svar nr {i + 1} ska vara ett tal.");
 					}
-					else if (typeof(T) == typeof(string))
+					else if (!expected.Equals(actual.Value))
+					{
+						correctAnswer = false;
+						break;
+					}
+				}
+				else if (typeof(T) == typeof(bool))
+				{
+					if (!(input is IScriptBoolean actual))
 					{
 						PMWrapper.RaiseError($"Fel typ, svar nr {i + 1} ska vara en textsträng.");
 					}
-					else
+					else if (!expected.Equals(actual.Value))
 					{
-						PMWrapper.RaiseError($"Fel typ på svar nr {i + 1}.");
+						correctAnswer = false;
+						break;
 					}
 				}
-
-				if (!expected.Equals(actual))
+				else
 				{
-					correctAnswer = false;
-					break;
+					PMWrapper.RaiseError($"Fel typ på svar nr {i + 1}.");
 				}
 			}
 
 			string joined = string.Join(", ", inputParams.Select(o => o.ToString()));
+
+			Debug.LogFormat("Received answers: {0}\nCorrect? {1}", string.Join(", ", inputParams.Select(o => $"{o} ({o.GetTypeName()})")), correctAnswer);
 
 			Main.instance.StartCoroutine(ShowAnswerBubble(joined, correctAnswer));
 		}

@@ -1,5 +1,5 @@
 
-ARG UNITY_VERSION=2018.3.11f1-unity
+ARG UNITY_VERSION=2019.1.1f1-unity
 FROM gableroux/unity3d:${UNITY_VERSION}
 
 # Add trusted sources

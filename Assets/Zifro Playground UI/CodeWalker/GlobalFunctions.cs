@@ -17,9 +17,9 @@ namespace PM.GlobalFunctions
 		{
 			IScriptType v = arguments[0];
 
-			if (v.TryConvert(out string s))
+			if (v is IScriptString s)
 			{
-				return Processor.Factory.Create(s.Length);
+				return Processor.Factory.Create(s.Value.Length);
 			}
 
 			PMWrapper.RaiseError($"Kan inte beräkna längden på värde av typen '{v.GetTypeName()}'.");
@@ -37,23 +37,16 @@ namespace PM.GlobalFunctions
 		{
 			IScriptType v = arguments[0];
 
-			if (v.TryConvert(out int i))
+			switch (v)
 			{
-				return Processor.Factory.Create(i < 0 ? -i : i);
+			case IScriptInteger i:
+				return Processor.Factory.Create(i.Value < 0 ? -i.Value : i.Value);
+			case IScriptDouble d:
+				return Processor.Factory.Create(d.Value < 0 ? -d.Value : d.Value);
+			default:
+				PMWrapper.RaiseError($"Kan inte beräkna absoluta värdet av typen '{v.GetTypeName()}'.");
+				return Processor.Factory.Null;
 			}
-
-			if (v.TryConvert(out double d))
-			{
-				return Processor.Factory.Create(d < 0 ? -d : d);
-			}
-
-			if (v.TryConvert(out bool b))
-			{
-				return Processor.Factory.Create(b ? 1 : 0);
-			}
-
-			PMWrapper.RaiseError($"Kan inte beräkna absoluta värdet av typen '{v.GetTypeName()}'.");
-			return Processor.Factory.Null;
 		}
 	}
 
@@ -67,23 +60,16 @@ namespace PM.GlobalFunctions
 		{
 			IScriptType v = arguments[0];
 
-			if (v.TryConvert(out int i))
+			switch (v)
 			{
-				return Processor.Factory.Create(i);
+			case IScriptInteger i:
+				return Processor.Factory.Create(i.Value);
+			case IScriptDouble d:
+				return Processor.Factory.Create(Math.Round(d.Value));
+			default:
+				PMWrapper.RaiseError($"Kan inte avrunda värde av typen '{v.GetTypeName()}'.");
+				return Processor.Factory.Null;
 			}
-
-			if (v.TryConvert(out double d))
-			{
-				return Processor.Factory.Create(Math.Round(d));
-			}
-
-			if (v.TryConvert(out bool b))
-			{
-				return Processor.Factory.Create(b ? 1 : 0);
-			}
-
-			PMWrapper.RaiseError($"Kan inte avrunda värde av typen '{v.GetTypeName()}'.");
-			return Processor.Factory.Null;
 		}
 	}
 
@@ -97,21 +83,14 @@ namespace PM.GlobalFunctions
 		{
 			IScriptType v = arguments[0];
 
-			if (v.TryConvert(out int i))
+			if (v is IScriptInteger i)
 			{
-				if (i < 0)
+				if (i.Value < 0)
 				{
-					return Processor.Factory.Create("-0b" + Convert.ToString(-i, 2));
+					return Processor.Factory.Create("-0b" + Convert.ToString(-i.Value, 2));
 				}
 
-				return Processor.Factory.Create("0b" + Convert.ToString(i, 2));
-			}
-
-			if (v.TryConvert(out bool b))
-			{
-				return b
-					? Processor.Factory.Create("0b1")
-					: Processor.Factory.Create("0b0");
+				return Processor.Factory.Create("0b" + Convert.ToString(i.Value, 2));
 			}
 
 			PMWrapper.RaiseError($"Kan inte konvertera typen '{v.GetTypeName()}' till binärt!");
@@ -130,21 +109,14 @@ namespace PM.GlobalFunctions
 		{
 			IScriptType v = arguments[0];
 
-			if (v.TryConvert(out int i))
+			if (v is IScriptInteger i)
 			{
-				if (i < 0)
+				if (i.Value < 0)
 				{
-					return Processor.Factory.Create("-0x" + Convert.ToString(-i, 16));
+					return Processor.Factory.Create("-0x" + Convert.ToString(-i.Value, 16));
 				}
 
-				return Processor.Factory.Create("0x" + Convert.ToString(i, 16));
-			}
-
-			if (v.TryConvert(out bool b))
-			{
-				return b
-					? Processor.Factory.Create("0x1")
-					: Processor.Factory.Create("0x0");
+				return Processor.Factory.Create("0x" + Convert.ToString(i.Value, 16));
 			}
 
 			PMWrapper.RaiseError($"Kan inte konvertera typen '{v.GetTypeName()}' till hexadecimalt!");
@@ -163,21 +135,14 @@ namespace PM.GlobalFunctions
 		{
 			IScriptType v = arguments[0];
 
-			if (v.TryConvert(out int i))
+			if (v is IScriptInteger i)
 			{
-				if (i < 0)
+				if (i.Value < 0)
 				{
-					return Processor.Factory.Create("-0o" + Convert.ToString(-i, 8));
+					return Processor.Factory.Create("-0o" + Convert.ToString(-i.Value, 8));
 				}
 
-				return Processor.Factory.Create("0o" + Convert.ToString(i, 8));
-			}
-
-			if (v.TryConvert(out bool b))
-			{
-				return b
-					? Processor.Factory.Create("0o1")
-					: Processor.Factory.Create("0o0");
+				return Processor.Factory.Create("0o" + Convert.ToString(i.Value, 8));
 			}
 
 			PMWrapper.RaiseError($"Kan inte konvertera typen '{v.GetTypeName()}' till octaler!");
@@ -194,76 +159,34 @@ namespace PM.GlobalFunctions
 
 		public override IScriptType Invoke(params IScriptType[] arguments)
 		{
-			object max = null;
+			if (arguments.Length == 0)
+			{
+				PMWrapper.RaiseError("Kräver minst 1 värde till min().");
+			}
+
+			IScriptType min = null;
 
 			foreach (IScriptType v in arguments)
 			{
-				if (v.TryConvert(out int i))
+				if (min == null)
 				{
-					switch (max)
-					{
-					case null:
-					case double md when i < md:
-					case int mi when i < mi:
-					case bool mb when i < (mb ? 1 : 0):
-						max = i;
-						break;
-					}
+					min = v;
+					continue;
 				}
-				else if (v.TryConvert(out double d))
-				{
-					switch (max)
-					{
-					case null:
-					case double md when d < md:
-					case int mi when d < mi:
-					case bool mb when d < (mb ? 1 : 0):
-						max = d;
-						break;
-					}
-				}
-				else if (v.TryConvert(out string s))
-				{
-					switch (max)
-					{
-					case null:
-					case string m when string.Compare(s, m, StringComparison.Ordinal) < 0:
-						max = s;
-						break;
-					}
-				}
-				else if (v.TryConvert(out bool b))
-				{
-					switch (max)
-					{
-					case null:
-					case bool mb when mb && b:
-					case double md when (b ? 1 : 0) < md:
-					case int mi when (b ? 1 : 0) < mi:
-						max = b;
-						break;
-					}
-				}
-				else
+
+				IScriptType result = v.CompareLessThan(min);
+
+				if (result == null)
 				{
 					PMWrapper.RaiseError($"Kan inte jämföra datatypen '{v.GetTypeName()}'.");
 				}
+				else if (result.IsTruthy())
+				{
+					min = v;
+				}
 			}
 
-			switch (max)
-			{
-			case string s:
-				return Processor.Factory.Create(s);
-			case double d:
-				return Processor.Factory.Create(d);
-			case int i:
-				return Processor.Factory.Create(i);
-			case bool b:
-				return Processor.Factory.Create(b);
-			default:
-				PMWrapper.RaiseError("Kräver minst 1 värde till min().");
-				return Processor.Factory.Null;
-			}
+			return min;
 		}
 	}
 
@@ -276,76 +199,34 @@ namespace PM.GlobalFunctions
 
 		public override IScriptType Invoke(params IScriptType[] arguments)
 		{
-			object max = null;
+			if (arguments.Length == 0)
+			{
+				PMWrapper.RaiseError("Kräver minst 1 värde till max().");
+			}
+
+			IScriptType max = null;
 
 			foreach (IScriptType v in arguments)
 			{
-				if (v.TryConvert(out int i))
+				if (max == null)
 				{
-					switch (max)
-					{
-					case null:
-					case double md when i > md:
-					case int mi when i > mi:
-					case bool mb when i > (mb ? 1 : 0):
-						max = i;
-						break;
-					}
+					max = v;
+					continue;
 				}
-				else if (v.TryConvert(out double d))
-				{
-					switch (max)
-					{
-					case null:
-					case double md when d > md:
-					case int mi when d > mi:
-					case bool mb when d > (mb ? 1 : 0):
-						max = d;
-						break;
-					}
-				}
-				else if (v.TryConvert(out string s))
-				{
-					switch (max)
-					{
-					case null:
-					case string m when string.Compare(s, m, StringComparison.Ordinal) < 0:
-						max = s;
-						break;
-					}
-				}
-				else if (v.TryConvert(out bool b))
-				{
-					switch (max)
-					{
-					case null:
-					case bool mb when mb || b:
-					case double md when (b ? 1 : 0) > md:
-					case int mi when (b ? 1 : 0) > mi:
-						max = b;
-						break;
-					}
-				}
-				else
+
+				IScriptType result = v.CompareGreaterThan(max);
+
+				if (result == null)
 				{
 					PMWrapper.RaiseError($"Kan inte jämföra datatypen '{v.GetTypeName()}'.");
 				}
+				else if (result.IsTruthy())
+				{
+					max = v;
+				}
 			}
 
-			switch (max)
-			{
-			case string s:
-				return Processor.Factory.Create(s);
-			case double d:
-				return Processor.Factory.Create(d);
-			case int i:
-				return Processor.Factory.Create(i);
-			case bool b:
-				return Processor.Factory.Create(b);
-			default:
-				PMWrapper.RaiseError("Kräver minst 1 värde till max().");
-				return Processor.Factory.Null;
-			}
+			return max;
 		}
 	}
 
