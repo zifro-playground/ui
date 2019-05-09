@@ -60,7 +60,7 @@ namespace PM
 
 		public LevelAnswer(params T[] expectedInputs)
 		{
-			Debug.LogFormat("Expecting answers: {0}", string.Join(", ", expectedInputs));
+			Debug.LogFormat("Expecting answers ({0}): {1}", typeof(T).Name, string.Join(", ", expectedInputs));
 			this.expectedInputs = expectedInputs;
 		}
 
@@ -98,7 +98,7 @@ namespace PM
 					{
 						PMWrapper.RaiseError($"Fel typ, svar nr {i + 1} ska vara True eller False.");
 					}
-					else if (expected.Equals(actual.Value))
+					else if (!expected.Equals(actual.Value))
 					{
 						correctAnswer = false;
 						break;
@@ -110,7 +110,7 @@ namespace PM
 					{
 						PMWrapper.RaiseError($"Fel typ, svar nr {i + 1} ska vara ett heltal.");
 					}
-					else if (expected.Equals(actual.Value))
+					else if (!expected.Equals(actual.Value))
 					{
 						correctAnswer = false;
 						break;
@@ -122,7 +122,7 @@ namespace PM
 					{
 						PMWrapper.RaiseError($"Fel typ, svar nr {i + 1} ska vara ett tal.");
 					}
-					else if (expected.Equals(actual.Value))
+					else if (!expected.Equals(actual.Value))
 					{
 						correctAnswer = false;
 						break;
@@ -134,7 +134,7 @@ namespace PM
 					{
 						PMWrapper.RaiseError($"Fel typ, svar nr {i + 1} ska vara en textsträng.");
 					}
-					else if (expected.Equals(actual.Value))
+					else if (!expected.Equals(actual.Value))
 					{
 						correctAnswer = false;
 						break;
@@ -147,6 +147,8 @@ namespace PM
 			}
 
 			string joined = string.Join(", ", inputParams.Select(o => o.ToString()));
+
+			Debug.LogFormat("Received answers: {0}\nCorrect? {1}", string.Join(", ", inputParams.Select(o => $"{o} ({o.GetTypeName()})")), correctAnswer);
 
 			Main.instance.StartCoroutine(ShowAnswerBubble(joined, correctAnswer));
 		}
