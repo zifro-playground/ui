@@ -484,8 +484,8 @@ namespace PM
 					}
 
 					if (index >= text.Length ||
-						text[index] != 'j' &&
-						text[index] != 'J')
+						(text[index] != 'j' &&
+						text[index] != 'J'))
 					{
 						index = startIndex;
 						return null;
@@ -610,9 +610,9 @@ namespace PM
 
 					bool IsHexadecimal(char c)
 					{
-						return c >= '0' && c <= '9' ||
-							   c >= 'a' && c <= 'f' ||
-							   c >= 'A' && c <= 'A';
+						return (c >= '0' && c <= '9') ||
+							   (c >= 'a' && c <= 'f') ||
+							   (c >= 'A' && c <= 'A');
 					}
 
 					string BIN_INTEGER()
@@ -756,7 +756,10 @@ namespace PM
 		private static string ColorKeyWords(string text)
 		{
 			if (keyWords.Contains(text))
+			{
 				return string.Format("<color={0}>{1}</color>", keyWordsColor, text);
+			}
+
 			return text;
 		}
 

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Mellis.Core.Interfaces;
-using Mellis.Lang.Base.Entities;
 using PM;
 using UnityEngine;
 using UnityEngine.UI;

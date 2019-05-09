@@ -16,6 +16,7 @@ namespace PM
 			new AbsoluteValue(),
 			new ConvertToBinary(),
 			new ConvertToHexadecimal(),
+			new ConvertToOctal(),
 			new LengthOf(),
 			new RoundedValue(),
 			new MinimumValue(),
