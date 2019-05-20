@@ -1,4 +1,4 @@
-# _ZIFRO_ Playground UI
+# ZIFRO PLAYGROUND [UI]
 
 [![CircleCI branch: master](https://img.shields.io/circleci/token/379c54331c6f0cf87edd79aadad56a53b8775f96/project/github/zardan/ui/master.svg?label=%2Fmaster&logo=circleci)](https://circleci.com/gh/zardan/ui)
 [![CircleCI branch: develop](https://img.shields.io/circleci/token/379c54331c6f0cf87edd79aadad56a53b8775f96/project/github/zardan/ui/develop.svg?label=%2Fdevelop&logo=circleci)](https://circleci.com/gh/zardan/ui)
