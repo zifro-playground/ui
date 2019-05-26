@@ -1,5 +1,7 @@
 # Zifro Playground UI
 
+![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/zifro-playground/ui/upm.svg)
+
 ## For _Unity Package Manager_
 
 This is a release meant for be used via UPM (Unity Package Manager).
